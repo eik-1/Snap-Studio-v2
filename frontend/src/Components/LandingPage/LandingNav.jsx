@@ -33,9 +33,13 @@ function LandingNav() {
     }
 
     return (
-        <nav className="flex items-center justify-between py-4 w-full border-2 border-red-500">
-            <div className="flex items-center">
-                <span className="text-2xl font-bold text-primary">
+        <nav className="flex items-center justify-between p-4 lg:px-8">
+            <div className="flex items-center space-x-2">
+                <span
+                    className="text-2xl font-bold text-primary cursor-pointer"
+                    onClick={() => navigate("/")}
+                >
+
                     SnapSTUDIO
                 </span>
             </div>

@@ -6,6 +6,7 @@ import { ImageProvider } from "./contexts/ImageContext"
 import { useUser } from "./contexts/UserContext"
 import Home from "./Pages/Home"
 import LandingPage from "./Pages/LandingPage"
+import LandingRootLayout from "./Pages/LandingRootLayout"
 import Login from "./Pages/Login"
 import Pricing from "./Pages/Pricing"
 import RootLayout from "./Pages/RootLayout"
@@ -22,18 +23,21 @@ function App() {
     const router = createBrowserRouter([
         {
             path: "/",
-            element: <LandingPage />,
+            element: <LandingRootLayout />,
             errorElement: <Error />,
-        },
-        {
-            path: "/login",
-            element: <Login />,
-            errorElement: <Error />,
-        },
-        {
-            path: "/pricing",
-            element: <Pricing />,
-            errorElement: <Error />,
+            children: [
+                { index: true, element: <LandingPage /> },
+                {
+                    path: "/login",
+                    element: <Login />,
+                    errorElement: <Error />,
+                },
+                {
+                    path: "/pricing",
+                    element: <Pricing />,
+                    errorElement: <Error />,
+                },
+            ],
         },
         {
             path: "/home",

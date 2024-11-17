@@ -2,7 +2,7 @@
 const config = {
     content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
     daisyui: {
-        themes: ["bumblebee", "dark", "cmyk", "cupcake"],
+        themes: ["bumblebee", "dark"],
         base: true,
         styled: true,
         utils: true,
