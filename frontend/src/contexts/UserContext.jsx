@@ -1,5 +1,4 @@
-import { client } from "@/configs/ClientConfig"
-import { Account } from "appwrite"
+import supabase from "@/configs/supabase"
 import { createContext, useContext, useEffect, useMemo, useState } from "react"
 
 const UserContext = createContext()
@@ -13,37 +12,22 @@ function UserProvider({ children }) {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
 
-    const account = useMemo(() => new Account(client), [])
-
-    /* useEffect(() => {
-        async function fetchUser() {
-            try {
-                const response = await account.get()
-                console.log("response from get user", response)
-                setUser(response)
-            } catch (error) {
-                setError(error)
-            } finally {
-                setLoading(false)
-            }
-        }
-        fetchUser()
-    },[account])*/
-
     async function login(email, password) {
         try {
             setLoading(true)
-            await account.createEmailPasswordSession(email, password)
-            const response = await account.get()
+            await supabase.auth.signInWithPassword({ email, password })
+            const { data } = await supabase.auth.getUser()
+            if (!data.user) {
+                throw new Error("Incorrect Email or Password")
+            }
             const userData = {
-                email: response.email,
-                name: response.name,
-                $id: response.$id,
+                email: data.user.email,
+                name: data.user.user_metadata.name,
+                $id: data.user.id,
             }
             localStorage.setItem("userData", JSON.stringify(userData))
-            console.log("response from login after account get", response)
             setUser(userData)
-            return response
+            return data.user
         } catch (err) {
             setError(err)
             throw err
@@ -55,7 +39,7 @@ function UserProvider({ children }) {
     async function logout() {
         try {
             localStorage.removeItem("userData")
-            await account.deleteSessions()
+            await supabase.auth.signOut()
             setUser(null)
         } catch (err) {
             setError(err)

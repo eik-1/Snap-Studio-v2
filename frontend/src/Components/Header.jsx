@@ -12,7 +12,6 @@ function Header() {
     const navigate = useNavigate()
     const { user, logout } = useUser()
     const { toast } = useToast()
-    console.log("user from header", user)
 
     function handleLogin() {
         navigate("/")
