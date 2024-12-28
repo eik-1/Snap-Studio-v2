@@ -1,10 +1,10 @@
-import { Account, Client } from "appwrite"
 import { motion } from "framer-motion"
 import { AlertCircle, Lock, Mail } from "lucide-react"
 import React, { useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 
 import { Alert, AlertDescription } from "@/Components/UI/alert"
+import supabase from "@/configs/supabase"
 import { useUser } from "@/contexts/UserContext"
 import { useToast } from "@/hooks/use-toast"
 
@@ -30,19 +30,16 @@ function Login() {
     const navigate = useNavigate()
 
     async function createUser() {
-        const client = new Client()
-        const account = new Account(client)
-        client
-            .setEndpoint(import.meta.env.VITE_APPWRITE_ENDPOINT)
-            .setProject(import.meta.env.VITE_APPWRITE_PROJECTID)
-
         try {
-            const response = await account.create(
-                "unique()",
+            await supabase.auth.signUp({
                 email,
                 password,
-                username,
-            )
+                options: {
+                    data: {
+                        name: username,
+                    },
+                },
+            })
             setPassword("")
             setIsSignup(false)
             toast({
@@ -106,6 +103,7 @@ function Login() {
             }
         }
     }
+
     return (
         <motion.div
             className="w-full h-screen p-12 flex flex-col justify-center items-center"
@@ -169,7 +167,6 @@ function Login() {
                             )}
                         </div>
                     )}
-
                     <div>
                         <label className="block text-sm font-medium text-base-content mb-2">
                             Email
@@ -220,6 +217,7 @@ function Login() {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
+
                         {errors.password && (
                             <Alert variant="destructive" className="mt-2">
                                 <AlertCircle className="h-4 w-4" />
@@ -229,18 +227,17 @@ function Login() {
                             </Alert>
                         )}
                     </div>
-
                     {errorMessage && (
                         <Alert variant="destructive" className="mt-2">
                             <AlertCircle className="h-4 w-4" />
                             <AlertDescription>{errorMessage}</AlertDescription>
                         </Alert>
                     )}
-
                     <button
                         type="submit"
                         className="w-full py-3 bg-neutral text-base-100 rounded-lg hover:bg-neutral/90 transition-colors duration-200"
                         disabled={loading}
+                        onClick={handleSubmit}
                     >
                         {isSignup ? "Sign Up" : "Login"}
                     </button>
@@ -257,7 +254,7 @@ function Login() {
             </div>
 
             <div className="mt-8 text-center text-sm text-gray-400">
-                © 2024 ALL RIGHTS RESERVED
+                © 2025 ALL RIGHTS RESERVED
             </div>
         </motion.div>
     )
