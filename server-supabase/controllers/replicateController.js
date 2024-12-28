@@ -43,9 +43,9 @@ export async function trainOstrisModel(req, res) {
     const training = await replicate.trainings.create(
       "ostris",
       "flux-dev-lora-trainer",
-      "29337367d801d93e9193dafd8fcfb5653eeacd841fe85db9118023fbb10ebed0",
+      "e440909d3512c31646ee2e0c7d6f6f4923224863a6a10c494606e79fb5844497",
       {
-        destination: `eik-1/snapshot`,
+        destination: `snapxstudio/snapstudio`,
         input: {
           steps: 1000,
           lora_rank: 16,
@@ -161,8 +161,7 @@ export async function runUserModel(req, res) {
   console.log(userId, prompt, numberOfImages);
   try {
     const model = await getModel(userId);
-    const modelVersion = model.documents[0].model_version;
-    console.log("Generating images...");
+    const modelVersion = model[0].model_version;
     const output = await replicate.run(`${modelVersion}`, {
       input: {
         model: "dev",

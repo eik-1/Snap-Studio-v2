@@ -1,8 +1,4 @@
 import dotenv from "dotenv";
-import fs from "fs";
-import { File } from "node-fetch-native-with-agent";
-import path from "path";
-import { pipeline } from "stream/promises";
 dotenv.config();
 
 import supabase from "../configs/supabase.js";
@@ -79,55 +75,34 @@ export async function deleteModel(modelId) {
   }
 }
 
-const InputFile = {
-  fromBuffer: (parts, name) => {
-    return new File([parts], name);
-  },
-  fromPath: (path) => {
-    const realPath = fs.realpathSync(path);
-    const contents = fs.readFileSync(realPath);
-    return new File([contents], path.split("/").pop());
-  },
-};
-
 export async function saveImage(req, res) {
   const { userId, fileUrl } = req.body;
-  const endpoint = process.env.APPWRITE_ENDPOINT;
-  const storageId = process.env.APPWRITE_STORAGE_ID;
-  const projectId = process.env.APPWRITE_PROJECTID;
-
   try {
-    const tempFilePath = path.join(process.cwd(), Date.now() + ".webp");
+    const blob = await fetch(fileUrl).then((r) => r.blob());
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const fileName = `ai-image-${Date.now()}.jpg`;
 
-    const responseFile = await fetch(fileUrl);
-    const fileStream = fs.createWriteStream(tempFilePath);
-    await pipeline(responseFile.body, fileStream);
+    const { error } = await supabase.storage
+      .from("images")
+      .upload(fileName, blob);
 
-    const file = InputFile.fromPath(tempFilePath);
+    if (error) {
+      throw error;
+    }
 
-    const image = await storage.createFile(
-      process.env.APPWRITE_STORAGE_ID,
-      ID.unique(),
-      file
-    );
-
-    // Clean up the temporary file
-    fs.unlinkSync(tempFilePath);
-    console.log("Image created: ", image.$id);
-
-    /* Get file url from storage */
-    const imageUrl = `${endpoint}/storage/buckets/${storageId}/files/${image.$id}/view?project=${projectId}`;
+    const imageUrl = `${supabaseUrl}/storage/v1/object/public/images/${fileName}`;
 
     /* Create image document in database */
-    const response = await databases.createDocument(
-      process.env.APPWRITE_DATABASE_ID,
-      process.env.APPWRITE_IMAGES_COLLECTION_ID,
-      ID.unique(),
-      {
+    const { data: response, error: dbError } = await supabase
+      .from("Images")
+      .insert({
+        image_urls: imageUrl,
         user_id: userId,
-        image_url: imageUrl,
-      }
-    );
+      });
+    if (dbError) {
+      throw dbError;
+    }
+
     return res.status(200).json(
       new ApiResponse(200, "Image saved", {
         response,
