@@ -10,7 +10,7 @@ import {
 } from "@/Components/UI/Card"
 import { Switch } from "@/Components/UI/Switch"
 
-export default function PricingPage() {
+export default function PricingSection() {
     const [isAnnual, setIsAnnual] = useState(false)
 
     const plans = [
@@ -45,7 +45,7 @@ export default function PricingPage() {
     return (
         <div className="container mx-auto px-4 py-16">
             <div className="text-center mb-12 text-base-content">
-                <div className="inline-block bg-primary text-primary-content rounded-full px-4 py-1 text-sm font-semibold mb-4">
+                <div className="inline-block bg-yellow-100 text-yellow-700 rounded-full px-4 py-1 text-sm font-semibold mb-4">
                     🚀 Launch discount — 25% OFF 🚀
                 </div>
                 <h1 className="text-4xl font-bold mb-4">
@@ -83,10 +83,10 @@ export default function PricingPage() {
                     return (
                         <Card
                             key={plan.title}
-                            className={`flex flex-col ${plan.highlight ? "border-primary border-2" : ""}`}
+                            className={`flex flex-col ${plan.highlight ? "border-purple-300 border-2" : ""}`}
                         >
                             {plan.highlight ? (
-                                <div className="bg-primary text-primary-content text-center py-2 text-sm font-semibold">
+                                <div className="bg-purple-500 text-white text-center py-2 text-sm rounded-t-md font-semibold">
                                     MOST POPULAR
                                 </div>
                             ) : (
@@ -121,14 +121,14 @@ export default function PricingPage() {
                                             key={feature}
                                             className="flex items-center"
                                         >
-                                            <Check className="text-success mr-2 h-5 w-5 flex-shrink-0" />
+                                            <Check className="text-green-500 mr-2 h-5 w-5 flex-shrink-0" />
                                             <span>{feature}</span>
                                         </li>
                                     ))}
                                 </ul>
                             </CardContent>
                             <CardFooter className="mt-auto">
-                                <button className="w-full bg-primary text-primary-content py-2 rounded-md">
+                                <button className="w-full bg-purple-500 text-white py-2 rounded-md">
                                     {plan.highlight ? "Get Started" : "Try Now"}
                                 </button>
                             </CardFooter>

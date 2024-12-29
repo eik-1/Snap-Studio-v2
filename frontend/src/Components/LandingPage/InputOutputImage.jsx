@@ -5,7 +5,7 @@ import { img1, img2, img3, img4 } from "@/assets/input-images"
 
 function InputOutputImage() {
     return (
-        <div className="flex flex-col items-center justify-start bg-primary h-fit pt-20 mx-4 sm:mx-8 px-4 sm:px-16 rounded-xl">
+        <div className="flex flex-col items-center justify-start bg-primary h-fit pt-20 mx-4 sm:mx-8 px-4 sm:px-16 rounded-xl mt-24">
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
                 <h1 className="text-3xl sm:text-4xl font-bold text-primary-content">
                     Upload Your Images
