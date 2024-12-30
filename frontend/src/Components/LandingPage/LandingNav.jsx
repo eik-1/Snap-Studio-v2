@@ -2,7 +2,6 @@ import { NavLink, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { useUser } from "@/contexts/UserContext"
 import { useToast } from "@/hooks/use-toast"
-import { Button } from "../UI/Button"
 import { Menu, X } from "lucide-react"
 import {motion} from "motion/react"
 
@@ -44,8 +43,8 @@ function LandingNav() {
     return (
         <>
             <motion.nav
-                className={`fixed  top-0 flex items-center justify-between p-2 rounded-full   lg:px-14  z-50 bg-transparent ${scrolledDown ? "drop-shadow-lg bg-[white] lg:px-8 " : ""}`}
-                initial={{ width: "100%" }}
+                className={`fixed  top-0 flex items-center justify-between p-2 rounded-full bg-white   lg:px-14  z-50 bg-transparent ${scrolledDown ? "drop-shadow-lg lg:px-8 " : ""}`}
+                initial={false}
                 animate={{ width: scrolledDown?"75%":"100%", marginTop:scrolledDown?"0.7rem":"0", transform: scrolledDown?"translateX(-50%)":"translateX(-50%)", left: scrolledDown?"50%":"50%" }}
                 transition={{ type: "spring", stiffness: 150, damping: 20, mass:0.7 }}
             
