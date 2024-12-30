@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence } from "motion/react"
 import { useState } from "react"
 import axios from "axios"
 import { Image, AlertTriangleIcon, Download, Heart } from "lucide-react"
