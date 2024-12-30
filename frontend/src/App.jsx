@@ -8,7 +8,7 @@ import Home from "./Pages/Home"
 import LandingPage from "./Pages/LandingPage"
 import LandingRootLayout from "./Pages/LandingRootLayout"
 import Login from "./Pages/Login"
-import Pricing from "./Pages/Pricing"
+import Pricing from "./Components/Pricing"
 import RootLayout from "./Pages/RootLayout"
 import SavedImageCollection from "./Pages/SavedImageCollection"
 

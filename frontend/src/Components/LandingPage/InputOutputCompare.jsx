@@ -5,8 +5,8 @@ import { img1 as afterImage } from "@/assets/images"
 import { img4 as beforeImage } from "@/assets/input-images"
 
 export default function ImageComparisonSlider({
-    beforeLabel = "Before",
-    afterLabel = "After",
+    beforeLabel = "Original",
+    afterLabel = "By SnapSTUDIO",
 }) {
     const [sliderPosition, setSliderPosition] = useState(50)
     const [imagesLoaded, setImagesLoaded] = useState(false)
@@ -84,9 +84,10 @@ export default function ImageComparisonSlider({
     }
 
     return (
+        <div className="w-max h-max p-2 bg-gradient-to-b from-purple-500 via-rose-400 to-orange-400  rounded-lg">
         <div
             ref={containerRef}
-            className="relative w-full max-w-xl max-h-[500px] overflow-hidden rounded-lg border-[10px] border-secondary"
+            className="relative w-md max-w-md max-h-[24rem] overflow-hidden rounded-lg"
             aria-label="Image comparison slider"
         >
             <div className="relative h-full">
@@ -113,7 +114,7 @@ export default function ImageComparisonSlider({
                 </div>
             </div>
             <div
-                className="absolute top-0 bottom-0 w-0.5 bg-white cursor-ew-resize"
+                className="absolute top-0 bottom-0 w-0.5 bg-white/50 cursor-ew-resize"
                 style={{
                     left: `${sliderPosition}%`,
                     display: imagesLoaded ? "block" : "none",
@@ -127,21 +128,22 @@ export default function ImageComparisonSlider({
                 aria-label="Comparison slider"
                 tabIndex={0}
             >
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-secondary rounded-full shadow-md flex items-center justify-center">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white/70 backdrop-blur-md rounded-full shadow-md flex items-center justify-center">
                     <ChevronLeftIcon className="w-4 h-4 text-secondary-content" />
                     <ChevronRightIcon className="w-4 h-4 text-secondary-content" />
                 </div>
             </div>
             {imagesLoaded && (
                 <>
-                    <div className="absolute top-4 left-4 bg-secondary text-secondary-content px-2 py-1 rounded">
+                    <div className="absolute top-4 left-4 bg-white/60 backdrop-blur-md text-neutral-900 px-2 py-1 rounded-full">
                         {beforeLabel}
                     </div>
-                    <div className="absolute top-4 right-4 bg-secondary text-secondary-content px-2 py-1 rounded">
+                    <div className="absolute top-4 right-4 bg-white/60 backdrop-blur-md text-neutral-900 px-2 py-1 rounded-full">
                         {afterLabel}
                     </div>
                 </>
             )}
+        </div>
         </div>
     )
 }

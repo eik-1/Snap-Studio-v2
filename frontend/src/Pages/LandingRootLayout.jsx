@@ -3,7 +3,7 @@ import LandingNav from "../Components/LandingPage/LandingNav"
 
 function LandingRootLayout() {
     return (
-        <div className="min-h-screen">
+        <div className="h-screen">
             <LandingNav />
             <Outlet />
         </div>

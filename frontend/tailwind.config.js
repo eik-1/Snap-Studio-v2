@@ -1,19 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 const config = {
-    content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
-    daisyui: {
-        themes: ["bumblebee", "dark"],
-        base: true,
-        styled: true,
-        utils: true,
-        prefix: "",
-        logs: true,
-        themeRoot: ":root",
-    },
+    content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx,html}"],
+   
     theme: {
         extend: {
             fontFamily: {
                 sans: ["Inter", "sans-serif"],
+                display: ["Fahkwang", "sans-serif"],
                 heading: ["Arima", "sans-serif"],
             },
             borderRadius: {
@@ -21,7 +14,14 @@ const config = {
                 md: "calc(var(--radius) - 2px)",
                 sm: "calc(var(--radius) - 4px)",
             },
-            colors: {},
+            colors: {
+                palette: {
+                  light: "#FFEBA5", 
+                  lavender: "#A15FFF", 
+                  purpleLight: "#8548E0", 
+                  purpleDark: "#6C3DD0", 
+                },
+              },
             keyframes: {
                 marquee: {
                     from: {
@@ -50,7 +50,7 @@ const config = {
     plugins: [
         require("tailwindcss-animate"),
         require("@tailwindcss/typography"),
-        require("daisyui"),
+        
     ],
 }
 
