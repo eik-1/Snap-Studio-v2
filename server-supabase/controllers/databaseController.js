@@ -61,6 +61,9 @@ export async function updateModel(modelId, status, modelVersion) {
       })
       .eq("model_id", modelId)
       .select();
+    if (error) {
+      throw error;
+    }
     return data;
   } catch (err) {
     throw err;
@@ -119,16 +122,19 @@ export async function saveImage(req, res) {
 
 export async function getImages(req, res) {
   const { userId } = req.body;
-  const query = Query.equal("user_id", userId);
   try {
     /* Get images from database */
-    const response = await databases.listDocuments(
-      process.env.APPWRITE_DATABASE_ID,
-      process.env.APPWRITE_IMAGES_COLLECTION_ID,
-      [query]
-    );
+    const { data, error } = await supabase
+      .from("Images")
+      .select("image_url")
+      .eq("user_id", userId);
+
+    if (error) {
+      throw error;
+    }
+
     let imageUrls = [];
-    response.documents.forEach((image) => {
+    data.forEach((image) => {
       imageUrls.push(image.image_url);
     });
     console.log("Images fetched: ", imageUrls);
