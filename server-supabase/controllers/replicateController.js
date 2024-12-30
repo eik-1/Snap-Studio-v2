@@ -2,7 +2,6 @@ import axios from "axios";
 import dotenv from "dotenv";
 import FormData from "form-data";
 
-import { response } from "express";
 import { replicate } from "../configs/replicateConfig.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import {
