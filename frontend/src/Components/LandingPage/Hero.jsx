@@ -1,22 +1,22 @@
 import camera3D from "../../assets/camera3d.png";
 import ImageComparisonSlider from "./InputOutputCompare";
-import { Camera, ShoppingBag, ArrowRightIcon } from "lucide-react";
+import { Camera, ShoppingBag } from "lucide-react";
 import SparklesText from "../UI/SparklesText";
 const Hero = () => {
   
   return (
-    <div className="relative h-max mt-36  bg-white">
+    <div className="relative h-max mt-32 sm:mt-36 bg-white">
       
 
-      <main className="max-w-full mx-auto gap-8  flex flex-row justify-around">
+      <main className="max-w-full mx-auto gap-24 sm:gap-8  flex flex-row flex-wrap justify-center sm:justify-around">
         <div className="max-w-md h-max flex flex-col justify-center gap-6">
 
         
-        <h1 className="text-6xl font-bold text-[#1A1A1A]">
+        <h1 className="text-5xl sm:text-6xl font-extrabold text-[#1A1A1A]">
 
 <span>Your <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-rose-400  to-orange-400">AI</span>{" "}
 <SparklesText
-    className="inline-block"
+    className="text-5xl sm:text-6xl inline-block"
     text="Image Studio"
     colors={{first: '#ba68c8', second: '#fff176'}}
 />

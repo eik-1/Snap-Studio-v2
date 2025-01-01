@@ -1,4 +1,3 @@
-import { motion } from "motion/react"
 import { AlertCircle, Lock, Mail } from "lucide-react"
 import React, { useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
@@ -8,11 +7,7 @@ import supabase from "@/configs/supabase"
 import { useUser } from "@/contexts/UserContext"
 import { useToast } from "@/hooks/use-toast"
 
-const fadeIn = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6 },
-}
+
 function Login() {
     const location = useLocation()
     const { email: emailFromParams } = location.state || {}
@@ -84,7 +79,6 @@ function Login() {
         return Object.keys(newErrors).length === 0
     }
 
-    /* Form Submission */
     async function handleSubmit(e) {
         e.preventDefault()
         setErrorMessage("")
@@ -105,33 +99,31 @@ function Login() {
     }
 
     return (
-        <motion.div
-            className="w-full h-screen p-12 flex flex-col justify-center items-center"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+        <div
+            className="w-full sm:w-1/2  mx-auto h-max px-4 py-6 my-40 sm:my-20  flex flex-col justify-center items-center border-[1px] rounded-lg bg-white "
+            
         >
-            <div className="w-full max-w-md space-y-8">
-                <div className="text-center">
-                    <motion.h2
-                        className="text-4xl font-extrabold  mb-2 text-secondary "
-                        variants={fadeIn}
+            <div className="w-full max-w-md">
+                <div className="h-max w-max mx-auto flex flex-col justify-center">
+                    <h2
+                        className="text-2xl font-bold text-center text-purple-600   cursor-pointer"
+                   
                     >
                         SnapSTUDIO
-                    </motion.h2>
-                    <motion.p
-                        className="text-lg text-base-content mb-6"
-                        variants={fadeIn}
+                    </h2>
+                    <p
+                        className="text-lg  mb-6"
+                      
                     >
                         {isSignup
                             ? "Create a new account"
-                            : "Login to your account"}
-                    </motion.p>
+                            : "Welcome Back, Login to continue"}
+                    </p>
                 </div>
 
-                <motion.form
+                <form
                     className="space-y-6"
-                    variants={fadeIn}
+                    
                     onSubmit={handleSubmit}
                 >
                     {isSignup && (
@@ -235,13 +227,13 @@ function Login() {
                     )}
                     <button
                         type="submit"
-                        className="w-full py-3 bg-neutral text-base-100 rounded-lg hover:bg-neutral/90 transition-colors duration-200"
+                        className="w-full py-3  bg-neutral bg-black text-white rounded-lg hover:bg-neutral/90 transition-colors duration-200"
                         disabled={loading}
                         onClick={handleSubmit}
                     >
                         {isSignup ? "Sign Up" : "Login"}
                     </button>
-                </motion.form>
+                </form>
 
                 <button
                     onClick={() => setIsSignup(!isSignup)}
@@ -256,7 +248,7 @@ function Login() {
             <div className="mt-8 text-center text-sm text-gray-400">
                 © 2025 ALL RIGHTS RESERVED
             </div>
-        </motion.div>
+        </div>
     )
 }
 
