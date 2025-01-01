@@ -44,5 +44,5 @@ jobs:
             docker rm snap_server_container || true  # Remove any stopped container
 
             # Run a new container with the updated image
-            docker run -d --name snap_server_container -p 80:80 snap_server_image  # Run the container at port 80
+             docker run -d --name snap_server_container -p 80:3000 --env-file .env snap_server_image  # Run the container at port 80
           EOF
