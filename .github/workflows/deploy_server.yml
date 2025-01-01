@@ -1,0 +1,35 @@
+name: Deploy Server to Azure VM
+
+# Trigger the workflow on a push to the 'main' branch
+on:
+  push:
+    branches:
+      - main  # Change to your desired branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # The environment in which the job will run
+
+    steps:
+      # Step 1: Checkout the code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v3  # GitHub action to checkout your code
+
+      # Step 2: Set up SSH access to the Azure VM
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3  # GitHub action to set up SSH agent
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}  # Use the SSH private key from GitHub secrets
+
+      # Step 3: Deploy the server to the Azure VM
+      - name: Deploy server to Azure VM
+        run: |
+          # SSH into the Azure VM and perform the deployment steps
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USERNAME }}@${{ secrets.VM_IP }} << 'EOF'
+            cd /path/to/your/project/server  # Change to the correct path where the server code is stored
+            git pull origin main  # Pull the latest changes from the 'main' branch
+            docker build -t your_image .  # Build the Docker image from the Dockerfile
+            docker stop your_container || true  # Stop any existing container
+            docker rm your_container || true  # Remove any stopped containers
+            docker run -d --name your_container -p 80:80 your_image  # Start a new container with the updated image
+          EOF
