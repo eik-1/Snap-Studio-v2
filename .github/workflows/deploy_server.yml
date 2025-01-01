@@ -13,6 +13,8 @@ jobs:
       # Step 1: Checkout the repository (both client and server code)
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+         token: ${{ secrets.GH_TOKEN }}  # This ensures private repo access
 
       # Step 2: Set up SSH agent for accessing the Azure VM
       - name: Set up SSH
@@ -26,20 +28,21 @@ jobs:
           # SSH into the Azure VM and perform the deployment steps
           ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USERNAME }}@${{ secrets.VM_IP }} << 'EOF'
             # Navigate to the 'server' directory on the Azure VM where the server code is located
-            cd /path/to/your/project/server  # Update the path to your server directory
+            cd /home/snapserver/SnapStudio/server-supabase  # Update the path to your server directory
 
             # Pull the latest changes for the server code from GitHub
+            git config --global url."https://${{ secrets.GH_TOKEN }}@github.com/".insteadOf "https://github.com/"
             git pull origin main  # Pull the latest changes from the 'main' branch
 
             # Build the Docker image for the server
-            docker build -t my_server_image .  # Build the Docker image with the 'server' Dockerfile
+            docker build -t snap_server_image .  # Build the Docker image with the 'server' Dockerfile
 
             # Stop the existing container if running
-            docker stop my_server_container || true  # Stop any existing container named 'my_server_container'
+            docker stop snap_server_container || true  # Stop any existing container named 'my_server_container'
 
             # Remove the stopped container
-            docker rm my_server_container || true  # Remove any stopped container
+            docker rm snap_server_container || true  # Remove any stopped container
 
             # Run a new container with the updated image
-            docker run -d --name my_server_container -p 80:80 my_server_image  # Run the container
+            docker run -d --name snap_server_container -p 80:80 snap_server_image  # Run the container
           EOF
