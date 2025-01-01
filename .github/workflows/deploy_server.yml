@@ -1,0 +1,48 @@
+name: Deploy Server to Azure VM
+
+on:
+  push:
+    branches:
+      - main  # Trigger on push to the 'main' branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # GitHub Actions will run on an Ubuntu runner
+
+    steps:
+      # Step 1: Checkout the repository (both client and server code)
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+         token: ${{ secrets.GH_TOKEN }}  # This ensures private repo access
+
+      # Step 2: Set up SSH agent for accessing the Azure VM
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3  # Use the ssh-agent GitHub action
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}  # SSH key from GitHub Secrets
+
+      # Step 3: Deploy server code to Azure VM
+      - name: Deploy server to Azure VM
+        run: |
+          # SSH into the Azure VM and perform the deployment steps
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USERNAME }}@${{ secrets.VM_IP }} << 'EOF'
+            # Navigate to the 'server' directory on the Azure VM where the server code is located
+            cd /home/snapserver/SnapStudio/server-supabase  # Update the path to your server directory
+
+            # Pull the latest changes for the server code from GitHub
+            git config --global url."https://${{ secrets.GH_TOKEN }}@github.com/".insteadOf "https://github.com/"
+            git pull origin main  # Pull the latest changes from the 'main' branch
+
+            # Build the Docker image for the server
+            docker build -t snap_server_image .  # Build the Docker image with the 'server' Dockerfile
+
+            # Stop the existing container if running
+            docker stop snap_server_container || true  # Stop any existing container named 'my_server_container'
+
+            # Remove the stopped container
+            docker rm snap_server_container || true  # Remove any stopped container
+
+            # Run a new container with the updated image
+             docker run -d --name snap_server_container -p 127.0.0.1:8080:3000 --env-file .env snap_server_image  # Run the container at port 80
+          EOF
