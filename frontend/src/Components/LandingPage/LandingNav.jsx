@@ -45,7 +45,7 @@ function LandingNav() {
     return (
         <>
             <motion.nav
-                className={`fixed  top-0 flex flex-col  sm:flex-row sm:items-center sm:justify-between p-2 sm:py-8 rounded-full bg-white px-6  sm:px-14  z-50 bg-transparent ${scrolledDown ? "drop-shadow-lg lg:px-8 " : ""} ${(location.pathname === "/login" || location.pathname=== "/terms" || location.pathname==="/privacy") && 'hidden'} ${isMenuOpen && 'drop-shadow-xl'} `}
+                className={`fixed  top-0 flex flex-col  sm:flex-row sm:items-center sm:justify-between p-2 sm:py-8 rounded-full bg-white px-6  sm:px-14  z-50 bg-transparent ${scrolledDown ? "drop-shadow-lg lg:px-8 border-[1px] " : ""} ${(location.pathname === "/login" || location.pathname=== "/terms" || location.pathname==="/privacy") && 'hidden'} ${isMenuOpen && 'drop-shadow-xl'} `}
                 initial={false}
                 animate={{ width: scrolledDown?"75%":"100%", marginTop:scrolledDown?"0.7rem":"0", transform: scrolledDown?"translateX(-50%)":"translateX(-50%)", left: scrolledDown?"50%":"50%", height:isMenuOpen?"14rem":"3rem", borderRadius:isMenuOpen &&"2rem"}}
                 transition={{ type: "spring", stiffness: 150, damping: 20, mass:0.7 }}
@@ -54,9 +54,9 @@ function LandingNav() {
                 <div 
                     
                         className="text-xl w-full flex  sm:pl-0 text-center sm:w-max sm:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-rose-500 to-orange-500 cursor-pointer"
-                        onClick={() => navigate("/")}>
-                    
-                        <p className="w-full pl-6 sm:pl-0 sm:w-max">SnapSTUDIO</p>
+                       >
+                     
+                        <p className="w-full pl-6 sm:pl-0 sm:w-max "><span onClick={() => navigate("/")}>SnapSTUDIO</span></p>
                         <div className="lg:hidden lg:z-[80] flex items-center">
                     <button
                         onClick={toggleMenu}
