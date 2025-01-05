@@ -16,7 +16,7 @@ const Footer = () => {
             Privacy Policy
           </Link>
           <a href="/contact" className="text-gray-500 hover:text-black transition-colors duration-300">
-            Contact Us
+          <a href="mailto:email@example.com">Contact us - help@snapstudio.me</a>
           </a>
         </div>
 
