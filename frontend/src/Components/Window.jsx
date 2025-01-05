@@ -20,7 +20,7 @@ const  Window = ({children, title="SnapStudio", link})=>{
      },[setIsMobile])
     return (
         
-        <div className="relative h-[16rem] w-full sm:h-[30rem] sm:w-[56rem] mx-auto rounded-lg sm:rounded-2xl border-[1px] p-0 shadow-xl mt-28">
+        <div className="relative h-[16rem] w-full sm:h-[30rem] sm:w-[50rem] mx-auto rounded-lg sm:rounded-2xl border-[1px] p-0 shadow-xl mt-28">
             <div className="absolute h-full w-full top-0 z-10 bg-gradient-to-r from-violet-100 via-fuchsia-200  to-orange-100 blur-[80px]"></div>
             <div className="absolute h-[6%] min-w-full bg-white flex items-center px-2 rounded-t-lg sm:rounded-t-2xl border-b-[1px] z-30 s:drop-shadow-sm">
                 <div className="w-max h-max flex gap-1 sm:gap-2 mr-auto">

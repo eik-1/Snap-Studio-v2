@@ -39,7 +39,7 @@ function InputOutputImage() {
             </div>
 
             <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8 md:gap-16 relative pb-20">
-                <div className="w-full md:w-1/2 border-2">
+                <div className="w-full md:w-1/2">
                     <div className="grid grid-cols-2 gap-4">
                         <div className="rounded-2xl overflow-hidden aspect-square">
                             <img

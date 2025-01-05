@@ -2,6 +2,8 @@ import Hero from "@/Components/LandingPage/Hero"
 import InputOutputImage from "@/Components/LandingPage/InputOutputImage"
 import PricingSection from "@/Components/Pricing"
 import Window from "@/Components/Window"
+import appImage from "../assets/collection.png"
+import Footer from "@/Components/LandingPage/Footer"
 
 
 export default function LandingPage() {
@@ -9,9 +11,12 @@ export default function LandingPage() {
         <div className="h-screen">
 
             <Hero />
-            <Window/>
+            <Window>
+                <img src={appImage} alt="app running" className="h-full w-full object-contain"/>
+                </Window>
             <InputOutputImage />
             <PricingSection />
+            <Footer/>
 
         </div>
     )
