@@ -11,6 +11,8 @@ import Login from "./Pages/Login"
 import Pricing from "./Components/Pricing"
 import RootLayout from "./Pages/RootLayout"
 import SavedImageCollection from "./Pages/SavedImageCollection"
+import TermsOfService from "./Pages/TermsOfService"
+import PrivacyPolicy from "./Pages/Privacy"
 
 function ProtectedRoute({ children }) {
     const { user, loading } = useUser()
@@ -37,6 +39,16 @@ function App() {
                     element: <Pricing />,
                     errorElement: <Error />,
                 },
+                {
+                    path:"/terms",
+                    element: <TermsOfService />,
+                    errorElement: <Error />,
+                },
+                {
+                    path:"/privacy",
+                    element: <PrivacyPolicy />,
+                    errorElement: <Error />,
+                }
             ],
         },
         {
