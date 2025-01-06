@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom"
 
 import { Alert, AlertDescription } from "@/Components/UI/alert"
 import supabase from "@/configs/supabase"
-import { useUser } from "@/contexts/UserContext"
+import { useUser } from "@/configs/contexts/UserContext"
 import { useToast } from "@/hooks/use-toast"
 
 

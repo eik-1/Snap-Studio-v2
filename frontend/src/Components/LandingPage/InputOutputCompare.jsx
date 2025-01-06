@@ -6,7 +6,7 @@ import { img4 as beforeImage } from "@/assets/input-images"
 
 export default function ImageComparisonSlider({
     beforeLabel = "Original",
-    afterLabel = "By SnapSTUDIO",
+    afterLabel = "AI Generated",
 }) {
     const [sliderPosition, setSliderPosition] = useState(50)
     const [imagesLoaded, setImagesLoaded] = useState(false)
@@ -87,7 +87,7 @@ export default function ImageComparisonSlider({
         <div className="w-max h-max p-2 bg-gradient-to-b from-purple-500 via-rose-400 to-orange-400  rounded-lg">
         <div
             ref={containerRef}
-            className="relative w-md max-w-md max-h-[24rem] overflow-hidden rounded-lg"
+            className="relative  max-w-sm max-h-[20rem] overflow-hidden rounded-lg"
             aria-label="Image comparison slider"
         >
             <div className="relative h-full">
@@ -135,10 +135,10 @@ export default function ImageComparisonSlider({
             </div>
             {imagesLoaded && (
                 <>
-                    <div className="absolute top-4 left-4 bg-white/60 backdrop-blur-md text-neutral-900 px-2 py-1 rounded-full">
+                    <div className="absolute h-max w-max text-xs  top-4 left-4 bg-white/60 backdrop-blur-md text-neutral-900 px-2 py-1 rounded-full">
                         {beforeLabel}
                     </div>
-                    <div className="absolute top-4 right-4 bg-white/60 backdrop-blur-md text-neutral-900 px-2 py-1 rounded-full">
+                    <div className="absolute h-max w-max text-xs   top-4 right-4 bg-white/60 backdrop-blur-md text-neutral-900 px-2 py-1 rounded-full">
                         {afterLabel}
                     </div>
                 </>

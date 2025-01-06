@@ -2,17 +2,16 @@ import React from "react"
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom"
 
 import Error from "./Components/Error"
-import { ImageProvider } from "./contexts/ImageContext"
-import { useUser } from "./contexts/UserContext"
-import Home from "./Pages/Home"
-import LandingPage from "./Pages/LandingPage"
-import LandingRootLayout from "./Pages/LandingRootLayout"
-import Login from "./Pages/Login"
-import Pricing from "./Components/Pricing"
-import RootLayout from "./Pages/RootLayout"
-import SavedImageCollection from "./Pages/SavedImageCollection"
-import TermsOfService from "./Pages/TermsOfService"
-import PrivacyPolicy from "./Pages/Privacy"
+import { ImageProvider } from "./configs/contexts/ImageContext"
+import { useUser } from "./configs/contexts/UserContext"
+import Home from "./Pages/Dashboard/Home"
+import LandingPage from "./Pages/Landing/LandingPage"
+import LandingRootLayout from "./Pages/Landing/LandingRootLayout"
+import Login from "./Pages/Landing/Login"
+import RootLayout from "./Pages/Dashboard/RootLayout"
+import SavedImageCollection from "./Pages/Dashboard/SavedImageCollection"
+import TermsOfService from "./Pages/Landing/TermsOfService"
+import PrivacyPolicy from "./Pages/Landing/Privacy"
 
 function ProtectedRoute({ children }) {
     const { user, loading } = useUser()
@@ -32,11 +31,6 @@ function App() {
                 {
                     path: "/login",
                     element: <Login />,
-                    errorElement: <Error />,
-                },
-                {
-                    path: "/pricing",
-                    element: <Pricing />,
                     errorElement: <Error />,
                 },
                 {

@@ -5,10 +5,10 @@ import { ChevronRight } from "lucide-react"
 import NumberInput from "./NumberInput"
 import { Button } from "./UI/Button"
 import Pen from "./PenIcon"
-import { useUser } from "../contexts/UserContext"
+import { useUser } from "../configs/contexts/UserContext"
 import PromptDescription from "./PromptDescription"
 import axios from "axios"
-import { useImage } from "@/contexts/ImageContext"
+import { useImage } from "@/configs/contexts/ImageContext"
 
 export default function PromptForm() {
 

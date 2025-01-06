@@ -5,7 +5,7 @@ import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 import { Alert, AlertDescription } from "@/Components/UI/alert"
-import { useUser } from "@/contexts/UserContext"
+import { useUser } from "@/configs/contexts/UserContext"
 import { useToast } from "@/hooks/use-toast"
 
 const fadeIn = {

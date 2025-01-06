@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
-import { useUser } from "@/contexts/UserContext"
+import { useUser } from "@/configs/contexts/UserContext"
 import { useToast } from "@/hooks/use-toast"
 import { Menu, X } from "lucide-react"
 import { useLocation } from "react-router-dom"
@@ -47,13 +47,13 @@ function LandingNav() {
             <motion.nav
                 className={`fixed  top-0 flex flex-col  sm:flex-row sm:items-center sm:justify-between p-2 sm:py-8 rounded-full bg-white px-6  sm:px-14  z-50 bg-transparent ${scrolledDown ? "drop-shadow-lg lg:px-8 border-[1px] " : ""} ${(location.pathname === "/login" || location.pathname=== "/terms" || location.pathname==="/privacy") && 'hidden'} ${isMenuOpen && 'drop-shadow-xl'} `}
                 initial={false}
-                animate={{ width: scrolledDown?"75%":"100%", marginTop:scrolledDown?"0.7rem":"0", transform: scrolledDown?"translateX(-50%)":"translateX(-50%)", left: scrolledDown?"50%":"50%", height:isMenuOpen?"14rem":"3rem", borderRadius:isMenuOpen &&"2rem"}}
+                animate={{ width: scrolledDown ? "75%":"100%", marginTop:scrolledDown?"0.7rem":"0", transform: scrolledDown?"translateX(-50%)":"translateX(-50%)", left: scrolledDown?"50%":"50%", height:isMenuOpen?"14rem":"3rem", borderRadius:isMenuOpen &&"2rem"}}
                 transition={{ type: "spring", stiffness: 150, damping: 20, mass:0.7 }}
             
             >
                 <div 
                     
-                        className="text-xl w-full flex  sm:pl-0 text-center sm:w-max sm:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-rose-500 to-orange-500 cursor-pointer"
+                        className="text-xl w-full flex   sm:pl-0 text-center sm:w-max sm:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-rose-500 to-orange-500 cursor-pointer"
                        >
                      
                         <p className="w-full pl-6 sm:pl-0 sm:w-max "><span onClick={() => navigate("/")}>SnapSTUDIO</span></p>
@@ -67,38 +67,38 @@ function LandingNav() {
                 </div>
                     
                 </div>
-                <div className="hidden lg:flex items-center space-x-3 text-lg font-medium">
-                    <NavLink
-                        to="/pricing"
-                        className="text-neutral-600 hover:text-neutral-900 rounded-md px-3 py-2"
+                <div className={` hidden lg:flex items-center space-x-3 text-lg font-medium ${user? 'ml-24': 'ml-8'}`}>
+                    <a
+                        href="#pricing"
+                        className="text-neutral-600 hover:text-neutral-900 rounded-md px-3 py-2 transition-all duration-300"
                     >
                         Pricing
-                    </NavLink>
+                    </a>
 
                     <NavLink
                         to="/gallery"
-                        className="text-neutral-600 hover:text-neutral-900 rounded-md px-3 py-2"
+                        className="text-neutral-600 hover:text-neutral-900 rounded-md px-3 py-2 transition-all duration-300"
                     >
                         Gallery
                     </NavLink>
-                    <NavLink
-                        to="/pricing"
-                        className="text-neutral-600 hover:text-neutral-900 rounded-md px-3 py-2"
+                    <a
+                        href="#feat"
+                        className="text-neutral-600 hover:text-neutral-900 rounded-md px-3 py-2 transition-all duration-300"
                     >
                         Features
-                    </NavLink>
+                    </a>
                 </div>
 
                 <div className="flex gap-2">
                     {!user ? (
                         <NavLink
                             to="/login"
-                            className="text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900 rounded-full px-3 py-2 hidden sm:block"
+                            className="text-neutral-700 hover:bg-neutral-100 hover:text-neutral-900 rounded-full px-3 py-2 hidden sm:block transition-all duration-300"
                         >
                             Login
                         </NavLink>
                     ) : (
-                        <span className="text-neutral-700 hover:bg-neutral-50 rounded-md px-3 py-2">
+                        <span className="text-neutral-700 hover:bg-neutral-100 rounded-md px-3 py-2 transition-all duration-300">
                             Hello, {user.name}
                         </span>
                     )}

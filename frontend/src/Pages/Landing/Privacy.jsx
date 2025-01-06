@@ -9,12 +9,12 @@ const PrivacyPolicy = () => {
        
           {/* Header */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">Privacy Policy</h1>
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">SnapStudio Privacy Policy</h1>
             <p className="text-gray-600">Last Updated: January 5, 2025</p>
           </div>
 
           {/* Important Notice */}
-          <div className="mb-8 border-blue-200 border-[1px] bg-blue-50 h-max w-full p-4 rounded-md">
+          <div className="mb-8 border-green-200 border-[1px] bg-green-50 h-max w-full p-4 rounded-md">
             <div className='flex items-center space-x-2'>
             <Shield className="h-4 w-4" />
             <h2>Your Privacy Matters</h2>

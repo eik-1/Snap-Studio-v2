@@ -8,7 +8,7 @@ const Hero = () => {
     <div className="relative h-max mt-32 sm:mt-36 bg-white">
       
 
-      <main className="max-w-full mx-auto gap-24 sm:gap-8  flex flex-row flex-wrap justify-center sm:justify-around">
+      <main className="max-w-full mx-auto gap-24 sm:gap-8  flex flex-row flex-wrap justify-center sm:justify-between">
         <div className="max-w-md h-max flex flex-col justify-center gap-6">
 
         
@@ -67,25 +67,6 @@ const Hero = () => {
          
         
 
-        
-          {/*<div className="absolute left-20 top-40 flex">
-            <div className="w-24 h-24 rounded-2xl overflow-hidden shadow-lg -rotate-12">
-              <img src={i1} alt="AI generated im" className="w-full h-full object-cover"  />
-            </div>
-            <div className="w-24 h-24 rounded-2xl overflow-hidden shadow-lg -ml-6 rotate-12">
-              <img src={i2} alt="AI generated im" className="w-full h-full object-cover" />
-            </div>
-          </div>
-          
-          <div className="absolute right-20 -top-12 flex">
-            <div className="w-24 h-24 rounded-2xl overflow-hidden shadow-lg -rotate-12">
-              <img src={i3} alt="AI generated im" className="w-full h-full object-cover" />
-            </div>
-            <div className="w-24 h-24 rounded-2xl overflow-hidden shadow-lg -ml-6 rotate-12">
-              <img src={i4} alt="AI generated im" className="w-full h-full object-cover" />
-            </div>
-          </div>*/}
-      
       </main>
     </div>
   );

@@ -1,4 +1,4 @@
-import ModelTrainForm from "../Components/ModelTrainForm"
+import ModelTrainForm from "@/Components/ModelTrainForm"
 import ImageGenerateSection from "@/Components/ImageGenerateSection";
 
 function Home() {
