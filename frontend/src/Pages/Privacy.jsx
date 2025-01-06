@@ -179,9 +179,9 @@ const PrivacyPolicy = () => {
                 If you have questions, concerns, or requests related to your privacy or this policy, please contact us at:
               </p>
               <div className="mt-4">
-                <p>Email: contact@snapstudio.me</p>
-                <p>Address: </p>
-                <p>Phone: </p>
+                <p>Email: help@snapstudio.me</p>
+                {/*<p>Address: </p>
+                <p>Phone: </p>*/}
               </div>
               <p className="mt-4">
                 We will respond to your request within the timeframe specified by applicable law.
