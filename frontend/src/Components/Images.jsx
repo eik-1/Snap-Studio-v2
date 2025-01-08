@@ -44,15 +44,22 @@ function ImageGrid() {
     if (generationStatus.status === "idle") {
         content = (
             <>
-                <div className="w-full sm:w-3/6 p-4 bg-[#ffffff50] rounded-xl backdrop-blur-sm shadow-sm flex flex-col justify-center items-center">
+                <div className="w-full h-2/3  p-4 bg-white  rounded-xl flex flex-col justify-center gap-2 drop-shadow-sm">
+                <h2 className="text-lg font-semibold text-gray-800">
+                    Your Generated Images
+                </h2>
+                <div className="w-full h-full gap-4  p-2 bg-gray-50 rounded-lg  shadow-sm flex flex-col justify-center items-center">
                     <Image size={64} color="lightgray" />
+                    <p className="text-center text-neutral-300">No Image is generated, Your Generated images will be shown here.</p>
                 </div>
+                </div>
+                
             </>
         )
     } else if (generationStatus.status === "loading") {
         content = (
             <>
-                <div className="w-3/6 p-4 bg-[#ffffff50] rounded-xl backdrop-blur-sm shadow-sm flex justify-center items-center">
+                <div className=" p-4 bg-[#ffffff50] rounded-xl backdrop-blur-sm shadow-sm flex justify-center items-center">
                     <FadeLoader
                         loading={true}
                         height={15}
@@ -66,7 +73,7 @@ function ImageGrid() {
     } else if (generationStatus.status === "generated") {
         content = (
             <>
-                <div className="w-full sm:w-3/6 p-4 bg-[#ffffff50] rounded-xl backdrop-blur-sm shadow-sm">
+                <div className="w-full  p-4 bg-[#ffffff50] rounded-xl backdrop-blur-sm shadow-sm">
                     <div className="grid grid-cols-2 gap-4">
                         {imageUrls.map((url, index) => (
                             <motion.div

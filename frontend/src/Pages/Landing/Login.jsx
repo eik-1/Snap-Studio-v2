@@ -49,7 +49,7 @@ function Login() {
     async function loginUser() {
         try {
             await login(email, password)
-            navigate("/home")
+            navigate("/app")
         } catch (error) {
             setErrorMessage(error.message || "Failed to login")
         }

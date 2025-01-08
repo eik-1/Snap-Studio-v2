@@ -46,7 +46,7 @@ function App() {
             ],
         },
         {
-            path: "/home",
+            path: "/app",
             element: (
                 <ProtectedRoute>
                     <ImageProvider>
@@ -61,7 +61,7 @@ function App() {
                     errorElement: <Error />,
                 },
                 {
-                    path: "/home/mycollection",
+                    path: "myimages",
                     element: <SavedImageCollection />,
                     errorElement: <Error />,
                 },

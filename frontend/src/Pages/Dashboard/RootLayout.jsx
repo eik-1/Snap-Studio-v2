@@ -1,17 +1,22 @@
 import { Outlet } from "react-router-dom"
 import Header from "@/Components/Header"
-import SideBar from "@/Components/SideBar"
-
+import SideNavbar from "@/Components/SideNavbar"
 
 function RootLayout() {
-
+    console.log("RootLayout get rendered")
 
     return (
-        <div className="min-h-screen">
-            <Header />
-            <SideBar />
+        <>
+            <SideNavbar />
+
+            <div className="min-h-screen ml-16 overflow-hidden">
+                <Header />
+            <main className="relative bg-gray-50 h-[calc(100vh-2.5rem)] w-full mt-10 overflow-hidden">
             <Outlet />
-        </div>
+            </main>
+    
+            </div>
+        </>
     )
 }
 export default RootLayout
