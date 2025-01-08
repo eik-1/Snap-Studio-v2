@@ -34,7 +34,7 @@ function SavedImageCollection()
     },[user.$id])
     return(
         <>
-        <div className="min-h-screen w-screen mt-[12dvh] flex-col  items-center">
+        <div className="min-h-screen w-screen  flex-col  items-center">
             <h1 className="w-full text-center font-sans font-bold text-3xl mb-10 pt-12 tracking-tight text-gray-800 ">Gallery</h1>
             {
                 isLoading && <>

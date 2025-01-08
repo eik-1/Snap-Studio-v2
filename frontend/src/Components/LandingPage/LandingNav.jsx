@@ -15,7 +15,7 @@ function LandingNav() {
     const [scrolledDown, setScrolledDown] = useState(false)
     useEffect(() => {
         window.addEventListener("resize", () => {
-            if (window.innerWidth > 1024) {
+            if (window.innerWidth > 768) {
                 setIsMenuOpen(false)
             }
         })
@@ -30,7 +30,7 @@ function LandingNav() {
 
     function handleDashboard() {
         if (user) {
-            navigate("/home")
+            navigate("/app")
         } else {
             toast({
                 description: "Please login to access the dashboard",
@@ -45,7 +45,7 @@ function LandingNav() {
     return (
         <>
             <motion.nav
-                className={`fixed  top-0 flex flex-col  sm:flex-row sm:items-center sm:justify-between p-2 sm:py-8 rounded-full bg-white px-6  sm:px-14  z-50 bg-transparent ${scrolledDown ? "drop-shadow-lg lg:px-8 border-[1px] " : ""} ${(location.pathname === "/login" || location.pathname=== "/terms" || location.pathname==="/privacy") && 'hidden'} ${isMenuOpen && 'drop-shadow-xl'} `}
+                className={`fixed  top-0 flex flex-col  lg:flex-row lg:items-center lg:justify-between p-2 lg:py-8 rounded-full bg-white px-6  lg:px-14  z-50 bg-transparent ${scrolledDown ? "drop-shadow-lg lg:px-6 border-[1px] " : ""} ${(location.pathname === "/login" || location.pathname=== "/terms" || location.pathname==="/privacy") && 'hidden'} ${isMenuOpen && 'drop-shadow-xl'} `}
                 initial={false}
                 animate={{ width: scrolledDown ? "75%":"100%", marginTop:scrolledDown?"0.7rem":"0", transform: scrolledDown?"translateX(-50%)":"translateX(-50%)", left: scrolledDown?"50%":"50%", height:isMenuOpen?"14rem":"3rem", borderRadius:isMenuOpen &&"2rem"}}
                 transition={{ type: "spring", stiffness: 150, damping: 20, mass:0.7 }}
@@ -53,11 +53,11 @@ function LandingNav() {
             >
                 <div 
                     
-                        className="text-xl w-full flex   sm:pl-0 text-center sm:w-max sm:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-rose-500 to-orange-500 cursor-pointer"
+                        className="text-xl w-full flex   lg:pl-0 text-center lg:w-max lg:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-rose-500 to-orange-500 cursor-pointer"
                        >
                      
-                        <p className="w-full pl-6 sm:pl-0 sm:w-max "><span onClick={() => navigate("/")}>SnapSTUDIO</span></p>
-                        <div className="lg:hidden lg:z-[80] flex items-center">
+                        <p className="w-full pl-6 lg:pl-0 lg:w-max "><span onClick={() => navigate("/")}>SnapSTUDIO</span></p>
+                        <div className="lg:hidden z-[80] flex items-center">
                     <button
                         onClick={toggleMenu}
                         className="text-neutral-700 hover:bg-base-200 rounded-md z-[80]"
@@ -89,11 +89,11 @@ function LandingNav() {
                     </a>
                 </div>
 
-                <div className="flex gap-2">
+                <div className=" gap-2 hidden lg:flex">
                     {!user ? (
                         <NavLink
                             to="/login"
-                            className="text-neutral-700 hover:bg-neutral-100 hover:text-neutral-900 rounded-full px-3 py-2 hidden sm:block transition-all duration-300"
+                            className="text-neutral-700 hover:bg-neutral-100 hover:text-neutral-900 rounded-full px-3 py-2  transition-all duration-300"
                         >
                             Login
                         </NavLink>
@@ -104,7 +104,7 @@ function LandingNav() {
                     )}
 
                     <button
-                        className="bg-purple-600 rounded-full text-white px-4 text-lg font-bold hidden sm:block"
+                        className="bg-purple-600 rounded-full text-white px-4 text-lg font-bold hidden lg:block"
                         onClick={handleDashboard}
                     >
                         Dashboard →
@@ -118,7 +118,7 @@ function LandingNav() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{delay:0.2, duration: 0.4 }}
-                            className="flex flex-col items-center gap-2 sm:hidden"
+                            className="flex flex-col items-center gap-2 lg:hidden"
                         >
                             <NavLink
                                 to="/pricing"
@@ -143,7 +143,7 @@ function LandingNav() {
                                     Login
                                 </NavLink>
                             ) : (
-                                <span className="text-base-content hover:bg-base-200 rounded-md w-full px-3 py-2">
+                                <span className="text-base-content text-center hover:bg-base-200 rounded-md w-full px-3 py-2">
                                     Hello, {user.name}
                                 </span>
                             )}
