@@ -5,7 +5,7 @@ const OptionPanel = () => {
     return (
         <section className="h-full w-full bg-white p-4 flex flex-col items-center gap-4">
             <div className="h-max w-full border-b-[1px] pb-6 text-center flex flex-col gap-2">
-                <WelcomeText className="text-xl font-semibold "/>
+                <WelcomeText className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-violet-600  to-cyan-500  "/>
                 <p className=" text-[0.8rem] text-gray-500">Select an Option to get started</p>
             </div>
                 <div className="flex flex-col items-center gap-4 ">

@@ -17,8 +17,8 @@ import {
 } from "@/Components/UI/alert-dialog"
 import { cn } from "@/lib/utils"
 import { Button } from "@/Components/UI/Button"
-import { useUser } from "@/configs/contexts/UserContext"
-import { useImage } from "@/configs/contexts/ImageContext"
+import { useUser } from "@/contexts/UserContext"
+import { useImage } from "@/contexts/ImageContext"
 
 function ModelTrainForm() {
     const [modelName, setModelName] = useState("")

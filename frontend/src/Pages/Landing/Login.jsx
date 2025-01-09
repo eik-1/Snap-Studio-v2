@@ -1,11 +1,11 @@
 import { AlertCircle, Lock, Mail } from "lucide-react"
 import React, { useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
-
 import { Alert, AlertDescription } from "@/Components/UI/alert"
-import { useUser } from "@/configs/contexts/UserContext"
 import supabase from "@/configs/supabase"
+import { useUser } from "@/configs/contexts/UserContext"
 import { useToast } from "@/hooks/use-toast"
+
 
 function Login() {
     const location = useLocation()
@@ -19,25 +19,18 @@ function Login() {
     const [loading, setLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
 
-    const { login } = useUser()
+    const { loginUser } = useUser()
     const { toast } = useToast()
     const navigate = useNavigate()
 
     async function createUser() {
         try {
-            await supabase.auth.signUp({
-                email,
-                password,
-                options: {
-                    data: {
-                        name: username,
-                    },
-                },
-            })
+            await signUp(email, password, username)
             setPassword("")
             setIsSignup(false)
             toast({
-                description: "Sign Up Successful. Login to continue",
+                description:
+                    "Sign Up Successful. Please check your email to verify your account",
             })
         } catch (error) {
             console.log(error)
@@ -45,9 +38,9 @@ function Login() {
         }
     }
 
-    async function loginUser() {
+    async function login() {
         try {
-            await login(email, password)
+            await loginUser(email, password)
             navigate("/app")
         } catch (error) {
             setErrorMessage(error.message || "Failed to login")
@@ -87,7 +80,7 @@ function Login() {
                 if (isSignup) {
                     await createUser()
                 } else {
-                    await loginUser()
+                    await login()
                 }
             } catch (err) {
                 setErrorMessage(err.message || "An error occurred")

@@ -1,5 +1,11 @@
+<<<<<<< HEAD:frontend/src/configs/contexts/UserContext.jsx
 import supabase from "@/configs/supabase"
 import { createContext, useContext, useState } from "react"
+=======
+
+import { login, signOut } from "@/services/api/authService"
+import { createContext, useContext, useEffect, useMemo, useState } from "react"
+>>>>>>> dash:frontend/src/contexts/UserContext.jsx
 
 const UserContext = createContext()
 
@@ -12,34 +18,25 @@ function UserProvider({ children }) {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
 
-    async function login(email, password) {
+    async function loginUser(email, password) {
         try {
             setLoading(true)
-            await supabase.auth.signInWithPassword({ email, password })
-            const { data } = await supabase.auth.getUser()
-            if (!data.user) {
-                throw new Error("Incorrect Email or Password")
-            }
-            const userData = {
-                email: data.user.email,
-                name: data.user.user_metadata.name,
-                $id: data.user.id,
-            }
+            const userData=await login(email,password)
             localStorage.setItem("userData", JSON.stringify(userData))
             setUser(userData)
-            return data.user
+            return userData
         } catch (err) {
             setError(err)
-            throw err
+        
         } finally {
             setLoading(false)
         }
     }
 
-    async function logout() {
+    async function logoutUser() {
         try {
             localStorage.removeItem("userData")
-            await supabase.auth.signOut()
+            await signOut()
             setUser(null)
         } catch (err) {
             setError(err)
@@ -49,7 +46,7 @@ function UserProvider({ children }) {
 
     return (
         <UserContext.Provider
-            value={{ user, loading, error, login, logout, setLoading }}
+            value={{ user, loading, error, loginUser, logoutUser, setLoading }}
         >
             {children}
         </UserContext.Provider>

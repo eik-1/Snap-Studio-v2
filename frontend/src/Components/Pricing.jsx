@@ -84,7 +84,7 @@ export default function PricingSection() {
     const { user } = useUser()
 
     return (
-        <div className="container mx-auto px-4 py-16" id="pricing">
+        <div className="container mx-auto px-4 py-16 mt-24" id="pricing ">
             <div className="text-center mb-12 text-base-content">
                 <div className="inline-block bg-yellow-100 text-yellow-700 rounded-full px-4 py-1 text-sm font-semibold mb-4">
                     🚀 Launch discount — 25% OFF 🚀
