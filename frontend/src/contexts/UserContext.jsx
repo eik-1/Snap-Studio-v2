@@ -1,11 +1,10 @@
-<<<<<<< HEAD:frontend/src/configs/contexts/UserContext.jsx
-import supabase from "@/configs/supabase"
+
+
 import { createContext, useContext, useState } from "react"
-=======
+
 
 import { login, signOut } from "@/services/api/authService"
-import { createContext, useContext, useEffect, useMemo, useState } from "react"
->>>>>>> dash:frontend/src/contexts/UserContext.jsx
+
 
 const UserContext = createContext()
 
