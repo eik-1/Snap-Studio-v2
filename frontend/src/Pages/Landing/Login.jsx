@@ -3,10 +3,9 @@ import React, { useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 
 import { Alert, AlertDescription } from "@/Components/UI/alert"
-import supabase from "@/configs/supabase"
 import { useUser } from "@/configs/contexts/UserContext"
+import supabase from "@/configs/supabase"
 import { useToast } from "@/hooks/use-toast"
-
 
 function Login() {
     const location = useLocation()
@@ -49,7 +48,7 @@ function Login() {
     async function loginUser() {
         try {
             await login(email, password)
-            navigate("/home")
+            navigate("/")
         } catch (error) {
             setErrorMessage(error.message || "Failed to login")
         }
@@ -99,33 +98,20 @@ function Login() {
     }
 
     return (
-        <div
-            className="w-full sm:w-1/2  mx-auto h-max px-4 py-6 my-40 sm:my-20  flex flex-col justify-center items-center border-[1px] rounded-lg bg-white "
-            
-        >
+        <div className="w-full sm:w-1/2  mx-auto h-max px-4 py-6 my-40 sm:my-20  flex flex-col justify-center items-center border-[1px] rounded-lg bg-white ">
             <div className="w-full max-w-md">
                 <div className="h-max w-max mx-auto flex flex-col justify-center">
-                    <h2
-                        className="text-2xl font-bold text-center text-purple-600   cursor-pointer"
-                   
-                    >
+                    <h2 className="text-2xl font-bold text-center text-purple-600   cursor-pointer">
                         SnapSTUDIO
                     </h2>
-                    <p
-                        className="text-lg  mb-6"
-                      
-                    >
+                    <p className="text-lg  mb-6">
                         {isSignup
                             ? "Create a new account"
                             : "Welcome Back, Login to continue"}
                     </p>
                 </div>
 
-                <form
-                    className="space-y-6"
-                    
-                    onSubmit={handleSubmit}
-                >
+                <form className="space-y-6" onSubmit={handleSubmit}>
                     {isSignup && (
                         <div>
                             <label className="block text-sm font-medium text-base-content mb-2">

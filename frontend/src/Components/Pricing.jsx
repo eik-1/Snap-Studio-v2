@@ -1,5 +1,6 @@
 import { Check } from "lucide-react"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 import {
     Card,
@@ -9,28 +10,30 @@ import {
     CardTitle,
 } from "@/Components/UI/Card"
 import { Switch } from "@/Components/UI/Switch"
+import { useUser } from "@/configs/contexts/UserContext"
 
-export default function PricingSection() {
-    const [isAnnual, setIsAnnual] = useState(false)
-
-    const plans = [
+export const plans = {
+    monthly: [
         {
             title: "Basic",
-            monthlyPrice: 15,
-            yearlyMonthlyPrice: 12.5,
+            price: 15,
             originalPrice: 20,
+            link: import.meta.env.VITE_BASICMONTHLY_URL,
+            priceId: import.meta.env.VITE_BASICMONTHLY_ID,
             features: [
                 "100 AI-generated images per month",
                 "Basic editing tools",
                 "Standard resolution output",
                 "Email support",
             ],
+            highlight: false,
         },
         {
             title: "Pro",
-            monthlyPrice: 35,
-            yearlyMonthlyPrice: 29,
+            price: 35,
             originalPrice: 40,
+            link: import.meta.env.VITE_PROMONTHLY_URL,
+            priceId: import.meta.env.VITE_PROMONTHLY_ID,
             features: [
                 "Unlimited AI-generated images",
                 "Advanced editing tools",
@@ -40,7 +43,45 @@ export default function PricingSection() {
             ],
             highlight: true,
         },
-    ]
+    ],
+    annual: [
+        {
+            title: "Basic",
+            price: 12.5,
+            originalPrice: 20,
+            link: import.meta.env.VITE_BASICYEARLY_URL,
+            priceId: import.meta.env.VITE_BASICYEARLY_ID,
+            features: [
+                "100 AI-generated images per month",
+                "Basic editing tools",
+                "Standard resolution output",
+                "Email support",
+            ],
+            highlight: false,
+        },
+        {
+            title: "Pro",
+            price: 29,
+            originalPrice: 40,
+            link: import.meta.env.VITE_PROYEARLY_URL,
+            priceId: import.meta.env.VITE_PROYEARLY_ID,
+            features: [
+                "Unlimited AI-generated images",
+                "Advanced editing tools",
+                "High-resolution output",
+                "Priority email and chat support",
+                "Custom AI model fine-tuning",
+            ],
+            highlight: true,
+        },
+    ],
+}
+
+export default function PricingSection() {
+    const [isAnnual, setIsAnnual] = useState(false)
+
+    const navigate = useNavigate()
+    const { user } = useUser()
 
     return (
         <div className="container mx-auto px-4 py-16" id="pricing">
@@ -70,11 +111,11 @@ export default function PricingSection() {
             </div>
 
             <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                {plans.map((plan) => {
-                    const price = isAnnual
-                        ? plan.yearlyMonthlyPrice
-                        : plan.monthlyPrice
-                    const totalAnnualPrice = plan.yearlyMonthlyPrice * 12
+                {(isAnnual ? plans.annual : plans.monthly).map((plan) => {
+                    const price = plan.price
+                    const url = plan.link
+                    const priceId = plan.priceId
+                    const totalAnnualPrice = plan.price * 12
                     const savings = (
                         ((plan.originalPrice - price) / plan.originalPrice) *
                         100
@@ -128,9 +169,32 @@ export default function PricingSection() {
                                 </ul>
                             </CardContent>
                             <CardFooter className="mt-auto">
-                                <button className="w-full bg-purple-500 text-white py-2 rounded-md">
-                                    {plan.highlight ? "Get Started" : "Try Now"}
-                                </button>
+                                {user ? (
+                                    <a
+                                        target="_blank"
+                                        href={
+                                            url +
+                                            "?prefilled_email=" +
+                                            user.email
+                                        }
+                                        className="w-full bg-purple-500 text-white py-2 rounded-md text-center"
+                                        rel="noreferrer"
+                                    >
+                                        {plan.highlight
+                                            ? "Get Started"
+                                            : "Try Now"}
+                                    </a>
+                                ) : (
+                                    <button
+                                        onClick={() => navigate("/login")}
+                                        className="w-full bg-purple-500 text-white py-2 rounded-md"
+                                        rel="noreferrer"
+                                    >
+                                        {plan.highlight
+                                            ? "Get Started"
+                                            : "Try Now"}
+                                    </button>
+                                )}
                             </CardFooter>
                         </Card>
                     )
