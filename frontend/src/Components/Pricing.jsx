@@ -10,7 +10,7 @@ import {
     CardTitle,
 } from "@/Components/UI/Card"
 import { Switch } from "@/Components/UI/Switch"
-import { useUser } from "@/configs/contexts/UserContext"
+import { useUser } from "@/contexts/UserContext"
 
 export const plans = {
     monthly: [
