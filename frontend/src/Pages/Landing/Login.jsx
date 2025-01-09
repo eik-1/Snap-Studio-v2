@@ -48,7 +48,7 @@ function Login() {
     async function loginUser() {
         try {
             await login(email, password)
-            navigate("/")
+            navigate("/app")
         } catch (error) {
             setErrorMessage(error.message || "Failed to login")
         }

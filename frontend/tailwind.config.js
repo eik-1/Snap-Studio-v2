@@ -5,7 +5,7 @@ const config = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ["Inter", "sans-serif"],
+                sans: ["Instrument Sans", "sans-serif"],
                 display: ["Fahkwang", "sans-serif"],
                 heading: ["Arima", "sans-serif"],
             },
@@ -21,6 +21,11 @@ const config = {
                   purpleLight: "#8548E0", 
                   purpleDark: "#6C3DD0", 
                 },
+              },
+              backgroundImage:{
+                serviceone:"linear-gradient(180deg, #FFBB3B 0%, #FFD891 100%)",
+                servicetwo:" linear-gradient(180deg, #544EFF 0%, #8A86FE 100%)",
+                servicethree:"linear-gradient(180deg, #FF0066 0%, #FF93BE 100%)",
               },
             keyframes: {
                 marquee: {
