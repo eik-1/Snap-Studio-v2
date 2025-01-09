@@ -4,9 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom"
 import { Alert, AlertDescription } from "@/Components/UI/alert"
 import { useUser } from "@/contexts/UserContext"
 import { useToast } from "@/hooks/use-toast"
-import {signUp} from "@/services/api/authService"
-
-
+import { signUp } from "@/services/api/authService"
 
 function Login() {
     const location = useLocation()
@@ -30,7 +28,8 @@ function Login() {
             setPassword("")
             setIsSignup(false)
             toast({
-                description: "Sign Up Successful. Please check your email to verify your account"
+                description:
+                    "Sign Up Successful. Please check your email to verify your account",
             })
         } catch (error) {
             console.log(error)
@@ -91,33 +90,20 @@ function Login() {
     }
 
     return (
-        <div
-            className="w-full sm:w-1/2  mx-auto h-max px-4 py-6 my-40 sm:my-20  flex flex-col justify-center items-center border-[1px] rounded-lg bg-white "
-            
-        >
+        <div className="w-full sm:w-1/2  mx-auto h-max px-4 py-6 my-40 sm:my-20  flex flex-col justify-center items-center border-[1px] rounded-lg bg-white ">
             <div className="w-full max-w-md">
                 <div className="h-max w-max mx-auto flex flex-col justify-center">
-                    <h2
-                        className="text-2xl font-bold text-center text-purple-600   cursor-pointer"
-                   
-                    >
+                    <h2 className="text-2xl font-bold text-center text-purple-600   cursor-pointer">
                         SnapSTUDIO
                     </h2>
-                    <p
-                        className="text-lg  mb-6"
-                      
-                    >
+                    <p className="text-lg  mb-6">
                         {isSignup
                             ? "Create a new account"
                             : "Welcome Back, Login to continue"}
                     </p>
                 </div>
 
-                <form
-                    className="space-y-6"
-                    
-                    onSubmit={handleSubmit}
-                >
+                <form className="space-y-6" onSubmit={handleSubmit}>
                     {isSignup && (
                         <div>
                             <label className="block text-sm font-medium text-base-content mb-2">
