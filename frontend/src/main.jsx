@@ -2,7 +2,7 @@ import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import App from "./App.jsx"
 import "./index.css"
-import { UserProvider } from "./configs/contexts/UserContext.jsx"
+import { UserProvider } from "./contexts/UserContext.jsx"
 import { Toaster } from "@/Components/UI/toaster"
 
 export default function RootLayout({ children }) {

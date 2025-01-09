@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from "react-router-dom"
 import { motion } from "motion/react"
 import { House, Settings, BookImage, Layers, User2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
-import { useUser } from "@/configs/contexts/UserContext"
+import { useUser } from "@/contexts/UserContext"
 import { useState } from "react"
 
 
@@ -11,12 +11,12 @@ function SideNavbar() {
    
 
     const navigate = useNavigate()
-    const { user, logout } = useUser()
+    const { user, logoutUser } = useUser()
     const { toast } = useToast()
 
     const [isHovered, setIsHovered] = useState(false)
     async function handleLogout() {
-        await logout()
+        await logoutUser()
         toast({
             description: "Logged out successfully",
         })
