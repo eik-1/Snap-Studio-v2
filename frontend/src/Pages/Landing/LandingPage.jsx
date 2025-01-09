@@ -1,5 +1,4 @@
 import Hero from "@/Components/LandingPage/Hero"
-import InputOutputImage from "@/Components/LandingPage/InputOutputImage"
 import PricingSection from "@/Components/Pricing"
 import Window from "@/Components/Window"
 import appImage from "@/assets/collection.png"

@@ -2,7 +2,7 @@ import { AlertCircle, Lock, Mail } from "lucide-react"
 import React, { useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { Alert, AlertDescription } from "@/Components/UI/alert"
-import { useUser } from "@/configs/contexts/UserContext"
+import { useUser } from "@contexts/UserContext"
 import { useToast } from "@/hooks/use-toast"
 import { signUp } from "@/services/api/authService"
 
