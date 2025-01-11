@@ -149,3 +149,7 @@ export async function getImages(req, res) {
       );
   }
 }
+
+export async function addUserSubscription(req, res) {
+  const { userId } = req.body;
+}
