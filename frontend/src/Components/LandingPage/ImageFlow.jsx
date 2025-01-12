@@ -1,9 +1,6 @@
 import { img1, img2, img3, img4 } from '@/assets/images/index.js';
 
 
-
-import React from 'react';
-
 const ImageFlow = () => {
   const steps = [
     {
@@ -60,7 +57,7 @@ const ImageFlow = () => {
                         <div className="flex flex-col  justify-center">
                           {step.images.map((img, i) => (
                             <img key={i} src={img} alt={`Training ${i + 1}`} 
-                              className={`w-16 h-16 md:w-32 md:h-32 object-cover rounded-lg transform ${i===0 && '-rotate-[30deg] translate-y-4'} ${i===2 && 'rotate-[30deg] -translate-y-2 sm:-translate-y-4'} ${i===1 && '-translate-y-1 sm:-translate-y-3 rotate-12'}`} />
+                              className={`w-16 h-16 md:w-32 md:h-32 object-cover shadow-lg shadow-neutral-500 rounded-lg transform ${i===0 && '-rotate-[30deg] translate-y-4'} ${i===2 && 'rotate-[30deg] -translate-y-2 sm:-translate-y-4'} ${i===1 && '-translate-y-1 sm:-translate-y-3 rotate-12'}`} />
                           ))}
                          
                     
@@ -81,7 +78,7 @@ const ImageFlow = () => {
                        AI Generated
                     </div>
                           <img src={step.resultImage} alt="AI Generated result" 
-                            className="h-40 w-40 md:w-60 md:h-60 rounded-lg object-cover" />
+                            className="h-40 w-40 md:w-60 md:h-60 rounded-lg object-cover shadow-lg shadow-neutral-600" />
                         </div>
                       )}
                     </div>

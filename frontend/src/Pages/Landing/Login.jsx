@@ -1,4 +1,4 @@
-import { AlertCircle, Lock, Mail } from "lucide-react"
+import { AlertCircle, Lock, Mail, UserSquare2 } from "lucide-react"
 import React, { useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { Alert, AlertDescription } from "@/Components/UI/alert"
@@ -13,6 +13,8 @@ function Login() {
     const [email, setEmail] = useState(emailFromParams)
     const [password, setPassword] = useState("")
     const [username, setUsername] = useState("")
+    const [firstName, setFirstName] = useState("")
+    const [lastName, setLastName] = useState("")
     const [errors, setErrors] = useState({})
     const [isSignup, setIsSignup] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -65,6 +67,9 @@ function Login() {
         if (isSignup && !username) {
             newErrors.username = "Username is required"
         }
+        if (isSignup && !firstName) {
+            newErrors.firstName = "First Name is required"
+        }
 
         setErrors(newErrors)
         return Object.keys(newErrors).length === 0
@@ -104,7 +109,65 @@ function Login() {
                 </div>
 
                 <form className="space-y-6" onSubmit={handleSubmit}>
-                    {isSignup && (
+                    {isSignup && (<>
+                    <div className="flex space-x-2">
+
+                    
+                        <div>
+                        <label className="block text-sm font-medium text-base-content mb-2">
+                            First Name
+                        </label>
+                        <div className="relative">
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                <UserSquare2 size={20} />
+                            </span>
+                            <input
+                                type="text"
+                                placeholder="First Name"
+                                className={`w-full pl-10 pr-4 py-3 rounded-lg border ${
+                                    errors.firstName
+                                        ? "border-error"
+                                        : "border-gray-300"
+                                }  transition-all duration-200`}
+                                value={firstName}
+                                onChange={(e) =>
+                                    setFirstName(e.target.value)
+                                }
+                            />
+
+                        </div>
+                        {errors.username && (
+                            <Alert variant="destructive" className="mt-2">
+                                <AlertCircle className="h-4 w-4" />
+                                <AlertDescription>
+                                    {errors.firstName}
+                                </AlertDescription>
+                            </Alert>
+                        )}
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-base-content mb-2">
+                            Last Name
+                        </label>
+                        <div className="relative">
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                <UserSquare2 size={20} />
+                            </span>
+                            <input
+                                type="text"
+                                placeholder="Last Name"
+                                className={`w-full pl-10 pr-4 py-3 rounded-lg border `}
+                                value={lastName}
+                                onChange={(e) =>
+                                    setLastName(e.target.value)
+                                }
+                            />
+                            
+                        </div>
+                       
+                    </div>
+                    
+                    </div>
                         <div>
                             <label className="block text-sm font-medium text-base-content mb-2">
                                 Username
@@ -136,6 +199,7 @@ function Login() {
                                 </Alert>
                             )}
                         </div>
+                    </>
                     )}
                     <div>
                         <label className="block text-sm font-medium text-base-content mb-2">

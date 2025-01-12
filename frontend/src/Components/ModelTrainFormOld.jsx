@@ -184,7 +184,7 @@ function ModelTrainForm() {
     if (trainingState === "loading") {
         content = (
             <>
-                <div className="max-w-sm h-[90dvh] mx-auto  bg-white border-r-[1px] relative">
+                <div className="w-full h-full mx-auto  bg-white border-r-[1px] relative">
                     <div className="h-[90%] max-w-sm m-0 px-4 py-4 overflow-y-scroll oveflow-x-hidden flex items-center justify-center">
                         <FadeLoader
                             loading={true}
@@ -201,7 +201,7 @@ function ModelTrainForm() {
     } else if (trainingState === "idle") {
         content = (
             <>
-                <div className="max-w-sm h-[90dvh] mx-auto  bg-white border-r-[1px] relative">
+                 <div className="w-full h-full mx-auto  bg-white border-r-[1px] relative">
                     <div className="h-[90%] max-w-sm m-0 px-4 py-4 overflow-y-scroll oveflow-x-hidden">
                         <div className="font-sans flex flex-col gap-1 h-max pb-6 border-b-[1px] ">
                             <h1 className="font-sans font-semibold tracking-tighter text-xl text-gray-800">
@@ -332,7 +332,7 @@ function ModelTrainForm() {
     } else
         content = (
             <>
-                <div className="max-w-sm h-[90dvh] mx-auto  bg-white border-r-[1px] relative">
+                 <div className="w-full h-full mx-auto  bg-white border-r-[1px] relative">
                     <div className="h-[90%] max-w-sm m-0 px-4 py-4 overflow-y-scroll oveflow-x-hidden">
                         <div className="font-sans flex flex-col gap-1 h-max pb-6 border-b-[1px] ">
                             <h1

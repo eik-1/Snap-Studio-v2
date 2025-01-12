@@ -17,12 +17,14 @@ async function login(email, password) {
 async function signOut() {
     await supabase.auth.signOut()
 }
-async function signUp(email, password, username) {
+async function signUp(email, password, username, first_name, last_name) {
     await supabase.auth.signUp({
         email,
         password,
         options: {
             data: {
+                first_name: first_name,
+                last_name: last_name || "",
                 name: username,
             },
         },
