@@ -8,6 +8,7 @@ const initialState= {
         message: "",
     },
     generatedImageUrls:[],
+  
 
 }
 const Actions={

@@ -9,6 +9,8 @@ async function login(email, password) {
     const userData = {
         email: data.user.email,
         name: data.user.user_metadata.name,
+        first_name: data.user.user_metadata.first_name,
+        last_name: data.user.user_metadata.last_name,
         $id: data.user.id,
     }
 

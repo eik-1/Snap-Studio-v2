@@ -26,7 +26,7 @@ function Login() {
 
     async function createUser() {
         try {
-            await signUp(email, password, username)
+            await signUp(email, password, username, firstName, lastName)
             setPassword("")
             setIsSignup(false)
             toast({
@@ -269,7 +269,7 @@ function Login() {
                     )}
                     <button
                         type="submit"
-                        className="w-full py-3  bg-neutral bg-black text-white rounded-lg hover:bg-neutral/90 transition-colors duration-200"
+                        className="w-full py-3  bg-black hover:bg-slate-900 text-white rounded-lg transition-colors duration-200"
                         disabled={loading}
                         onClick={handleSubmit}
                     >
