@@ -35,7 +35,7 @@ function CustomImageModelTrainForm() {
   
     return (
         <div className="w-full h-full mx-auto  bg-white border-r-[1px] relative">
-            <div className="h-[90%] max-w-sm m-0 px-4 py-4 overflow-y-scroll oveflow-x-hidden">
+            <div className="h-[90%] max-w-sm m-0 px-4 py-4 overflow-y-scroll oveflow-x-hidden custom-scrollbar">
                 <div className="font-sans flex flex-col gap-1 h-max pb-6 border-b-[1px] ">
                     <h1 className="font-sans font-medium tracking-tight text-lg text-purple-500">
                         Train Model
