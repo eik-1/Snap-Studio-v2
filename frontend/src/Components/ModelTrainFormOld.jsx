@@ -27,6 +27,7 @@ function ModelTrainForm() {
     const [selectedFiles, setSelectedFiles] = useState([])
     const { user } = useUser()
     const { trainingState, setTrainingState } = useImage()
+    const fileInputRef = useRef(null)
     let intervalId = null
     const data = {
         started: {
@@ -113,7 +114,7 @@ function ModelTrainForm() {
         checkTrainingstatus()
     }, [getTrainingStatus, setTrainingState])
 
-    const fileInputRef = useRef(null)
+   
 
     function handleFileChange(e) {
         const files = Array.from(e.target.files)
