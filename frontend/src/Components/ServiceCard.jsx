@@ -4,7 +4,7 @@ const ServiceCard=({
   title = '', 
   description = '',
   images = [],
-  lablelText = null,
+  labelText = null,
   labelStyle=null,
   handleClick,
   className=''
@@ -16,16 +16,16 @@ const ServiceCard=({
       className={cn(`relative rounded-2xl h-32 px-4 py-4  max-w-xs  flex items-center   cursor-pointer hover:scale-105 transition-all duration-300 ${className}   `)}
       onClick={handleClick}
     >
-       {lablelText && <div className={cn(`absolute right-2 top-2 z-[100] w-max h-max p-1 bg-white/60 rounded-full backdrop-blur-md text-[0.6rem] leading-tight tracking-tighter drop-shadow-sm ${labelStyle}`)}>
-              {lablelText}
+       {labelText && <div className={cn(`absolute right-2 top-2 z-[100] w-max h-max p-1 bg-white/60 rounded-full backdrop-blur-md text-[0.5rem] leading-tight tracking-tighter drop-shadow-sm ${labelStyle}`)}>
+              {labelText}
           </div>}
       <div className=" flex justify-between items-center   ">
         <div className="max-w-[50%]">
-          <h2 className="text-lg font-bold mb-2 leading-tight">
+          <h2 className="text-md font-semibold mb-2 leading-tight">
             {title}
           </h2>
          
-          <p className="text-[0.6rem] font-normal leading-tight opacity-80">
+          <p className="text-[0.575rem] font-normal leading-tight opacity-80">
             {description}
           </p>
         </div>

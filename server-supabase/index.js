@@ -8,7 +8,17 @@ import modelRoutes from "./routes/replicateRoutes.js";
 import stripeRoutes from "./routes/stripeRoutes.js";
 
 const port = process.env.PORT || 3000;
+const corsOptions = {
+  origin: 'https://snapstudio.me', 
+  methods: 'GET,POST',          
+  allowedHeaders: ['Content-Type', 'Authorization'], 
+  credentials:true
+};
+
+
+
 const app = express();
+app.use(cors(corsOptions));
 
 //Middlewares
 app.use(cors());

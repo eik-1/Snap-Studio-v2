@@ -17,8 +17,8 @@ import {
 } from "@/Components/UI/alert-dialog"
 import { cn } from "@/lib/utils"
 import { Button } from "@/Components/UI/Button"
-import { useUser } from "@/configs/contexts/UserContext"
-import { useImage } from "@/configs/contexts/ImageContext"
+import { useUser } from "@/contexts/UserContext"
+import { useImage } from "@/contexts/ImageContext"
 
 function ModelTrainForm() {
     const [modelName, setModelName] = useState("")
@@ -27,6 +27,7 @@ function ModelTrainForm() {
     const [selectedFiles, setSelectedFiles] = useState([])
     const { user } = useUser()
     const { trainingState, setTrainingState } = useImage()
+    const fileInputRef = useRef(null)
     let intervalId = null
     const data = {
         started: {
@@ -98,7 +99,7 @@ function ModelTrainForm() {
                     clearInterval(intervalId)
                     setTrainingState("idle")
                 } else {
-                    setTrainingState("error")
+                    setTrainingState("idle")
                 }
             }
         },
@@ -113,7 +114,7 @@ function ModelTrainForm() {
         checkTrainingstatus()
     }, [getTrainingStatus, setTrainingState])
 
-    const fileInputRef = useRef(null)
+   
 
     function handleFileChange(e) {
         const files = Array.from(e.target.files)
@@ -184,7 +185,7 @@ function ModelTrainForm() {
     if (trainingState === "loading") {
         content = (
             <>
-                <div className="max-w-sm h-[90dvh] mx-auto  bg-white border-r-[1px] relative">
+                <div className="w-full h-full mx-auto  bg-white border-r-[1px] relative">
                     <div className="h-[90%] max-w-sm m-0 px-4 py-4 overflow-y-scroll oveflow-x-hidden flex items-center justify-center">
                         <FadeLoader
                             loading={true}
@@ -201,24 +202,22 @@ function ModelTrainForm() {
     } else if (trainingState === "idle") {
         content = (
             <>
-                <div className="max-w-sm h-[90dvh] mx-auto  bg-white border-r-[1px] relative">
+                 <div className="w-full h-full mx-auto  bg-white border-r-[1px] relative">
                     <div className="h-[90%] max-w-sm m-0 px-4 py-4 overflow-y-scroll oveflow-x-hidden">
                         <div className="font-sans flex flex-col gap-1 h-max pb-6 border-b-[1px] ">
-                            <h1 className="font-sans font-semibold tracking-tighter text-xl text-gray-800">
+                            <h1 className="font-sans font-semibold tracking-tighter text-lg text-purple-500">
                                 Train Model
                             </h1>
                             <p className="text-xs font-regular tracking-tight text-gray-500">
-                                Train your images to help the AI get to know
-                                you, so it can create images just the way you
-                                like!
+                                Train a new model using your images. The model will be used to generate images based on the provided images. 
                             </p>
                         </div>
                         <form onSubmit={handleSubmit} className="mt-4">
                             <div className="flex flex-col h-max pb-2">
-                                <label className="block text-sm font-medium text-gray-700">
+                                <label className="block text-xs font-medium text-gray-700">
                                     Model Name
                                 </label>
-                                <p className="text-[0.675rem] font-regular tracking-tight text-gray-500">
+                                <p className="text-[0.575rem] font-regular tracking-tight text-gray-500">
                                     Pick a name for your model
                                 </p>
 
@@ -236,7 +235,7 @@ function ModelTrainForm() {
                                 <label className="block text-sm font-medium text-gray-700">
                                     Trigger Word
                                 </label>
-                                <p className="text-[0.675rem] font-regular tracking-tight text-gray-500">
+                                <p className="text-[0.575rem] font-regular tracking-tight text-gray-500">
                                     Choose a trigger word for the model to
                                     generate images using the provided images.
                                     It should be a unique term that doesn't have
@@ -332,7 +331,7 @@ function ModelTrainForm() {
     } else
         content = (
             <>
-                <div className="max-w-sm h-[90dvh] mx-auto  bg-white border-r-[1px] relative">
+                 <div className="w-full h-full mx-auto  bg-white border-r-[1px] relative">
                     <div className="h-[90%] max-w-sm m-0 px-4 py-4 overflow-y-scroll oveflow-x-hidden">
                         <div className="font-sans flex flex-col gap-1 h-max pb-6 border-b-[1px] ">
                             <h1

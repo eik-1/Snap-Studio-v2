@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from "react-router-dom"
 import { motion } from "motion/react"
 import { House, Settings, BookImage, Layers, User2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
-import { useUser } from "@/configs/contexts/UserContext"
+import { useUser } from "@/contexts/UserContext"
 import { useState } from "react"
 
 
@@ -11,35 +11,35 @@ function SideNavbar() {
    
 
     const navigate = useNavigate()
-    const { user, logout } = useUser()
+    const { user, logoutUser } = useUser()
     const { toast } = useToast()
 
     const [isHovered, setIsHovered] = useState(false)
     async function handleLogout() {
-        await logout()
+        await logoutUser()
         toast({
             description: "Logged out successfully",
         })
         navigate("/")
     }
     const navData = [
-        { icon: <House size={24} />, label: "Home", route: "/app" },
+        { icon: <House size={20} />, label: "Home", route: "/app" },
         {
-            icon: <BookImage size={24} />,
+            icon: <BookImage size={20} />,
             label: "My Images",
             route: "myimages",
         },
         {
-            icon: <Layers size={24} />,
+            icon: <Layers size={20} />,
             label: "Saved Models",
             route: "savedmodels",
         },
-        { icon: <Settings size={24} />, label: "Settings", route: "settings" },
+        { icon: <Settings size={20} />, label: "Settings", route: "settings" },
     ]
 
     return (
         <motion.nav
-            className="fixed  left-0  h-screen  bg-white/75 backdrop-blur-2xl border-r z-[100] hover:border-none"
+            className="fixed font-sans left-0  h-screen  bg-white/75 backdrop-blur-2xl border-r z-[100] hover:border-none"
             whileHover={{
                 width: "14rem",
                 boxShadow: "0 0 5px rgba(0,0,0,0.1)",
@@ -60,7 +60,7 @@ function SideNavbar() {
                     {navData.map((item, index) => {
                         return (
                             <li
-                                className={`cursor-pointer text-gray-500 w-full  rounded-xl  `}
+                                className={`cursor-pointer text-gray-500 w-full  rounded-xl   `}
                                 key={index}
                             >
                                 <NavLink
@@ -77,7 +77,7 @@ function SideNavbar() {
                                     <div>{item.icon}</div>
                                     {isHovered && (
                                         <motion.p
-                                            className="whitespace-nowrap"
+                                            className="whitespace-nowrap font-medium text-sm"
                                             initial={{ opacity: 0 }}
                                             animate={{ opacity: 1 }}
                                             duration={0.1}
@@ -93,15 +93,15 @@ function SideNavbar() {
 
                 <div className="flex h-12  w-full text-gray-500 p-3  space-x-6  pt-4 ">
                     <div>
-                        <User2 size={24} />
+                        <User2 size={20} />
                     </div>
 
                     {isHovered && (
                         <div className="flex flex-col text-neutral-800">
-                            <p className="text-md font-semibold">{user.name}</p>
+                            <p className="text-base font-semibold">{user.first_name}</p>
                             <div>
                                 <button onClick={handleLogout}>
-                                    <span className="text-red-500">Log out</span>
+                                    <span className="text-red-500 text-sm">Log out</span>
                                 </button>
                             </div>
                         </div>

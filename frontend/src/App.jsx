@@ -2,8 +2,9 @@ import React from "react"
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom"
 
 import Error from "./Components/Error"
-import { ImageProvider } from "./configs/contexts/ImageContext"
-import { useUser } from "./configs/contexts/UserContext"
+import { ImageProvider } from "./contexts/ImageContext"
+import { NavigationProvider } from "./contexts/NavigationContext"
+import { useUser } from "./contexts/UserContext"
 import Home from "./Pages/Dashboard/Home"
 import LandingPage from "./Pages/Landing/LandingPage"
 import LandingRootLayout from "./Pages/Landing/LandingRootLayout"
@@ -50,7 +51,10 @@ function App() {
             element: (
                 <ProtectedRoute>
                     <ImageProvider>
-                        <RootLayout />
+                        <NavigationProvider>
+                            <RootLayout />
+                        </NavigationProvider>
+                        
                     </ImageProvider>
                 </ProtectedRoute>
             ),

@@ -1,11 +1,10 @@
-import { AlertCircle, Lock, Mail } from "lucide-react"
+import { AlertCircle, Lock, Mail, UserSquare2 } from "lucide-react"
 import React, { useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
-
 import { Alert, AlertDescription } from "@/Components/UI/alert"
-import { useUser } from "@/configs/contexts/UserContext"
-import supabase from "@/configs/supabase"
+import { useUser } from "@/contexts/UserContext"
 import { useToast } from "@/hooks/use-toast"
+import { signUp } from "@/services/api/authService"
 
 function Login() {
     const location = useLocation()
@@ -14,30 +13,25 @@ function Login() {
     const [email, setEmail] = useState(emailFromParams)
     const [password, setPassword] = useState("")
     const [username, setUsername] = useState("")
+    const [firstName, setFirstName] = useState("")
+    const [lastName, setLastName] = useState("")
     const [errors, setErrors] = useState({})
     const [isSignup, setIsSignup] = useState(false)
     const [loading, setLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
 
-    const { login } = useUser()
+    const { loginUser } = useUser()
     const { toast } = useToast()
     const navigate = useNavigate()
 
     async function createUser() {
         try {
-            await supabase.auth.signUp({
-                email,
-                password,
-                options: {
-                    data: {
-                        name: username,
-                    },
-                },
-            })
+            await signUp(email, password, username, firstName, lastName)
             setPassword("")
             setIsSignup(false)
             toast({
-                description: "Sign Up Successful. Login to continue",
+                description:
+                    "Sign Up Successful. Please check your email to verify your account",
             })
         } catch (error) {
             console.log(error)
@@ -45,9 +39,9 @@ function Login() {
         }
     }
 
-    async function loginUser() {
+    async function login() {
         try {
-            await login(email, password)
+            await loginUser(email, password)
             navigate("/app")
         } catch (error) {
             setErrorMessage(error.message || "Failed to login")
@@ -73,6 +67,9 @@ function Login() {
         if (isSignup && !username) {
             newErrors.username = "Username is required"
         }
+        if (isSignup && !firstName) {
+            newErrors.firstName = "First Name is required"
+        }
 
         setErrors(newErrors)
         return Object.keys(newErrors).length === 0
@@ -87,7 +84,7 @@ function Login() {
                 if (isSignup) {
                     await createUser()
                 } else {
-                    await loginUser()
+                    await login()
                 }
             } catch (err) {
                 setErrorMessage(err.message || "An error occurred")
@@ -112,7 +109,65 @@ function Login() {
                 </div>
 
                 <form className="space-y-6" onSubmit={handleSubmit}>
-                    {isSignup && (
+                    {isSignup && (<>
+                    <div className="flex space-x-2">
+
+                    
+                        <div>
+                        <label className="block text-sm font-medium text-base-content mb-2">
+                            First Name
+                        </label>
+                        <div className="relative">
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                <UserSquare2 size={20} />
+                            </span>
+                            <input
+                                type="text"
+                                placeholder="First Name"
+                                className={`w-full pl-10 pr-4 py-3 rounded-lg border ${
+                                    errors.firstName
+                                        ? "border-error"
+                                        : "border-gray-300"
+                                }  transition-all duration-200`}
+                                value={firstName}
+                                onChange={(e) =>
+                                    setFirstName(e.target.value)
+                                }
+                            />
+
+                        </div>
+                        {errors.username && (
+                            <Alert variant="destructive" className="mt-2">
+                                <AlertCircle className="h-4 w-4" />
+                                <AlertDescription>
+                                    {errors.firstName}
+                                </AlertDescription>
+                            </Alert>
+                        )}
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-base-content mb-2">
+                            Last Name
+                        </label>
+                        <div className="relative">
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                <UserSquare2 size={20} />
+                            </span>
+                            <input
+                                type="text"
+                                placeholder="Last Name"
+                                className={`w-full pl-10 pr-4 py-3 rounded-lg border `}
+                                value={lastName}
+                                onChange={(e) =>
+                                    setLastName(e.target.value)
+                                }
+                            />
+                            
+                        </div>
+                       
+                    </div>
+                    
+                    </div>
                         <div>
                             <label className="block text-sm font-medium text-base-content mb-2">
                                 Username
@@ -144,6 +199,7 @@ function Login() {
                                 </Alert>
                             )}
                         </div>
+                    </>
                     )}
                     <div>
                         <label className="block text-sm font-medium text-base-content mb-2">
@@ -213,7 +269,7 @@ function Login() {
                     )}
                     <button
                         type="submit"
-                        className="w-full py-3  bg-neutral bg-black text-white rounded-lg hover:bg-neutral/90 transition-colors duration-200"
+                        className="w-full py-3  bg-black hover:bg-slate-900 text-white rounded-lg transition-colors duration-200"
                         disabled={loading}
                         onClick={handleSubmit}
                     >

@@ -1,11 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 const config = {
+    darkMode:'class',
     content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx,html}"],
-   
-    theme: {
+    
+    theme: {    
         extend: {
             fontFamily: {
-                sans: ["Instrument Sans", "sans-serif"],
+                sans: ["Poppins", "sans-serif"],
                 display: ["Fahkwang", "sans-serif"],
                 heading: ["Arima", "sans-serif"],
             },
@@ -20,6 +21,8 @@ const config = {
                   lavender: "#A15FFF", 
                   purpleLight: "#8548E0", 
                   purpleDark: "#6C3DD0", 
+                  darkText: "#1A1A1A",
+                    lightText: "#F2F2F2",
                 },
               },
               backgroundImage:{

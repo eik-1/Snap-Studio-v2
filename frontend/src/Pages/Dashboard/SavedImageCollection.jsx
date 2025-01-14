@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-import { useUser } from "@/configs/contexts/UserContext";
+import { useUser } from "@/contexts/UserContext";
 import {motion, AnimatePresence} from "motion/react"
 import { FadeLoader } from "react-spinners";
 function SavedImageCollection()

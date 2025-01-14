@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
-import { useUser } from "@/configs/contexts/UserContext"
+import { useUser } from "@/contexts/UserContext"
 import { useToast } from "@/hooks/use-toast"
 import { Menu, X } from "lucide-react"
 import { useLocation } from "react-router-dom"

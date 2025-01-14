@@ -4,8 +4,8 @@ import axios from "axios"
 import { Image, AlertTriangleIcon, Download, Heart } from "lucide-react"
 import { FadeLoader } from "react-spinners"
 
-import { useUser } from "@/configs/contexts/UserContext"
-import { useImage } from "@/configs/contexts/ImageContext"
+import { useUser } from "@/contexts/UserContext"
+import { useImage } from "@/contexts/ImageContext"
 
 function ImageGrid() {
     const [selectedId, setSelectedId] = useState(null)
