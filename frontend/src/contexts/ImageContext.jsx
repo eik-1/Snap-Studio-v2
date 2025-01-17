@@ -1,46 +1,48 @@
-import { useState, createContext, useContext, useReducer } from "react"
+import { createContext, useContext, useReducer, useState } from "react"
 
 const ImageContext = createContext()
-const initialState= {
+const initialState = {
     mode: "none",
-    generationStatus:{
+    generationStatus: {
         status: "idle",
         message: "",
     },
-    generatedImageUrls:[],
-  
-
+    generatedImageUrls: [],
 }
-const Actions={
-    SET_MODE:"SET_MODE",
-    SET_GENERATION_STATUS:"SET_GENERATION_STATUS",
-    START_GENERATION:"START_GENERATION",    
+const Actions = {
+    SET_MODE: "SET_MODE",
+    SET_GENERATION_STATUS: "SET_GENERATION_STATUS",
+    START_GENERATION: "START_GENERATION",
 }
-function generationReducer(state, action) { 
-    switch(action.type)
-    {
+function generationReducer(state, action) {
+    switch (action.type) {
         case Actions.SET_MODE:
-            return {...state, mode:action.payload}
-        
+            return { ...state, mode: action.payload }
+
         case Actions.START_GENERATION:
-            return {...state, generationStatus:{status:"generating", message:"Generating Images"}}
+            return {
+                ...state,
+                generationStatus: {
+                    status: "generating",
+                    message: "Generating Images",
+                },
+            }
         case Actions.SET_GENERATION_STATUS:
-            return {...state, generationStatus:action.payload}
+            return { ...state, generationStatus: action.payload }
         default:
-            return state;
+            return state
     }
 }
 
 function ImageProvider({ children }) {
     const [generationStatus, setGenerationStatus] = useState({
         status: "idle",
-        message: ""
+        message: "",
     })
     const [generatedImageUrls, setGeneratedImageUrls] = useState([])
     const [isSaved, setIsSaved] = useState([])
     const [trainingState, setTrainingState] = useState("loading")
-    const [state, dispatch]= useReducer(generationReducer, initialState)
-
+    const [state, dispatch] = useReducer(generationReducer, initialState)
 
     return (
         <ImageContext.Provider
@@ -54,7 +56,7 @@ function ImageProvider({ children }) {
                 trainingState,
                 setTrainingState,
                 state,
-                dispatch
+                dispatch,
             }}
         >
             {children}

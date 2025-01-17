@@ -10,14 +10,28 @@ export async function createModel(
   triggerWord,
   status,
   modelId,
-  modelVersion
+  modelVersion,
+  gender,
+  ethnicity
 ) {
+  const { data: pre_existModel, error: pre_existError } = await supabase
+    .from("Models")
+    .select("*")
+    .eq("model_id", userId)
+    .eq("model_name", modelName);
+
+  if (pre_existModel.length > 0) {
+    console.log("Model already exists: ", pre_existModel);
+  }
+
   try {
     const { data, error } = await supabase
       .from("Models")
       .insert({
         model_name: modelName,
         trigger_word: triggerWord,
+        gender: gender,
+        ethnicity: ethnicity,
         status: status,
         model_id: modelId,
         model_version: modelVersion,
@@ -44,10 +58,35 @@ export async function getModel(userId, modelName) {
     if (error) {
       throw error;
     }
-    console.log("Models fetched: ", data);
+    console.log("Model fetched: ", data);
     return data;
   } catch (err) {
     throw err;
+  }
+}
+
+export async function getUserModels(req, res) {
+  const { userId } = req.headers;
+  try {
+    const { data, error } = await supabase
+      .from("Models")
+      .select("*")
+      .eq("user_id", userId);
+
+    if (error) {
+      throw error;
+    }
+    return res.status(200).json(
+      new ApiResponse(200, "User models", {
+        models: data, // Array of user models
+      })
+    );
+  } catch (err) {
+    return res.status(500).json(
+      new ApiResponse(500, "Error fetching user models", {
+        error: err.message,
+      })
+    );
   }
 }
 

@@ -5,17 +5,15 @@ dotenv.config();
 
 import databaseRoutes from "./routes/databaseRoutes.js";
 import modelRoutes from "./routes/replicateRoutes.js";
-import stripeRoutes from "./routes/stripeRoutes.js";
+import stripeRoutes from "./routes/webhookRoutes.js";
 
 const port = process.env.PORT || 3000;
 const corsOptions = {
-  origin: 'https://snapstudio.me', 
-  methods: 'GET,POST',          
-  allowedHeaders: ['Content-Type', 'Authorization'], 
-  credentials:true
+  origin: "https://snapstudio.me",
+  methods: "GET,POST",
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
 };
-
-
 
 const app = express();
 app.use(cors(corsOptions));
