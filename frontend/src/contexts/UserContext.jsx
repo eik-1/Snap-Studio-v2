@@ -1,10 +1,6 @@
-
-
 import { createContext, useContext, useState } from "react"
 
-
 import { login, signOut } from "@/services/api/authService"
-
 
 const UserContext = createContext()
 
@@ -20,13 +16,12 @@ function UserProvider({ children }) {
     async function loginUser(email, password) {
         try {
             setLoading(true)
-            const userData=await login(email,password)
+            const userData = await login(email, password)
             localStorage.setItem("userData", JSON.stringify(userData))
             setUser(userData)
             return userData
         } catch (err) {
             setError(err)
-        
         } finally {
             setLoading(false)
         }

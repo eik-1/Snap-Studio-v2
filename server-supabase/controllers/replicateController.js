@@ -4,6 +4,7 @@ import FormData from "form-data";
 
 import { replicate } from "../configs/replicateConfig.js";
 import ApiResponse from "../utils/ApiResponse.js";
+import { styleAndPrompts } from "../utils/headshotPrompts.js";
 import {
   createModel,
   deleteModel,
@@ -15,7 +16,7 @@ dotenv.config();
 
 export async function trainOstrisModel(req, res) {
   try {
-    const { modelName, userId, triggerWord } = req.body;
+    const { modelName, userId, triggerWord, gender, ethnicity } = req.body;
     const zipBuffer = req.file.buffer;
 
     /* Upload zip to Replicate's File API */
@@ -61,6 +62,9 @@ export async function trainOstrisModel(req, res) {
           cache_latents_to_disk: false,
           wandb_sample_interval: 100,
         },
+        webhook:
+          "https://6bea-2405-201-6804-8156-297d-440-288e-5c1f.ngrok-free.app/webhook/replicate",
+        //webhook_events_filter: ["completed"],
       }
     );
     console.log("Training started: ", training);
@@ -68,6 +72,8 @@ export async function trainOstrisModel(req, res) {
       userId,
       modelName,
       triggerWord,
+      gender,
+      ethnicity,
       training.status,
       training.id
     );
@@ -139,11 +145,9 @@ export async function getTriggerWord(req, res) {
       );
     }
     const triggerWord = model[0].trigger_word;
-    const modelName = model[0].model_name;
     return res.status(200).json(
       new ApiResponse(200, "Trigger word", {
         triggerWord,
-        modelName,
       })
     );
   } catch (err) {
@@ -156,10 +160,10 @@ export async function getTriggerWord(req, res) {
 }
 
 export async function runUserModel(req, res) {
-  const { userId, prompt, numberOfImages } = req.body;
+  const { userId, modelName, prompt, numberOfImages } = req.body;
   console.log(userId, prompt, numberOfImages);
   try {
-    const model = await getModel(userId);
+    const model = await getModel(userId, modelName);
     const modelVersion = model[0].model_version;
     const output = await replicate.run(`${modelVersion}`, {
       input: {
@@ -191,4 +195,51 @@ export async function runUserModel(req, res) {
   }
 }
 
-export async function replicateWebhook(req, res) {}
+export async function runHeadshotUserModel(req, res) {
+  const { userId, modelName, numberOfImages, style } = req.body;
+  try {
+    const model = await getModel(userId, modelName);
+    const modelVersion = model[0].model_version;
+    const modelGender = model[0].gender;
+    const modelTriggerWord = model[0].trigger_word;
+    //const modelEthnicity = model[0].ethnicity;
+    const prompt = styleAndPrompts.find((item) => {
+      return item.style === style && item.gender === modelGender;
+    });
+    const enhancedPrompt = `${modelTriggerWord} ${modelGender}. ${prompt.prompt}`;
+
+    const output = await replicate.run(`${modelVersion}`, {
+      input: {
+        model: "dev",
+        prompt: enhancedPrompt,
+        aspect_ratio: "1:1",
+        output_format: "webp",
+        output_quality: 90,
+        num_outputs: numberOfImages,
+      },
+    });
+    const outputURL = [];
+    output.forEach((fileOutput) => {
+      outputURL.push(fileOutput.url().href);
+    });
+
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(200, "Model run successfully", { output: outputURL })
+      );
+  } catch (err) {
+    console.log("Couldn't run the model. Error: ", err);
+    return res
+      .status(500)
+      .json(
+        new ApiResponse(500, "Couldn't run the model", { error: err.message })
+      );
+  }
+}
+
+export async function replicateWebhook(req, res) {
+  console.log("Replicate Webhook called");
+  console.log(req.body);
+  return res.end(JSON.stringify(req.body));
+}
