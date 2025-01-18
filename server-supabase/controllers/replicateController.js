@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import FormData from "form-data";
 
 import { replicate } from "../configs/replicateConfig.js";
+import { sendEventToClients } from "../routes/sseRoutes.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import { styleAndPrompts } from "../utils/headshotPrompts.js";
 import {
@@ -252,8 +253,10 @@ export async function replicateWebhook(req, res) {
   }
   if (status === "failed") {
     await deleteModel(id);
+    sendEventToClients({ id, status: "failed" });
   } else if (status === "succeeded") {
     await updateModel(id, status, output.version);
+    sendEventToClients({ id, status: "succeeded" });
   } else {
     console.log("Don't care about this status");
   }
