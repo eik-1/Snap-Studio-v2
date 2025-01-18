@@ -17,7 +17,7 @@ function SidePanel({ children }) {
   };
 
   return (
-    <div className="h-full w-1/3 flex bg-gray-200 sm:w-[24rem] z-10 top-0 border-r-[1px] overflow-y-auto">
+    <div className="h-max sm:h-full w-full flex z-10 top-0 border-r-[1px] overflow-y-auto">
       {modeComponents[state.tabs[state.tabs.length-1]] || <OptionPanel />}
     </div>
   );

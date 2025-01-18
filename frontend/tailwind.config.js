@@ -30,6 +30,9 @@ const config = {
                 servicetwo:" linear-gradient(180deg, #544EFF 0%, #8A86FE 100%)",
                 servicethree:"linear-gradient(180deg, #FF0066 0%, #FF93BE 100%)",
               },
+              screens:{
+                s:"480px"
+              },
             keyframes: {
                 marquee: {
                     from: {

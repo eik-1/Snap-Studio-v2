@@ -34,8 +34,8 @@ function CustomImageForm()
     })
 }
     return(
-        <div className="w-full h-full mx-auto  bg-white border-r-[1px] relative">
-        <div className="h-[90%] max-w-sm m-0 px-4 py-4 overflow-y-scroll oveflow-x-hidden custom-scrollbar">
+        <div className="w-full h-full mx-auto  bg-white border-r-[1px] relative border-green-500 border-2">
+        <div className="h-[90%] w-full m-0 px-4 py-4 overflow-y-scroll oveflow-x-hidden custom-scrollbar">
             <div className="font-sans flex flex-col gap-1 h-max pb-6 border-b-[1px] ">
                 <h1 className="font-sans font-medium tracking-tight text-lg text-purple-500">
                     Generate Image
@@ -55,7 +55,7 @@ function CustomImageForm()
                     <select
                         required
                         value={selectedModel}
-                        className={`px-3 py-2 mt-2 block w-full  border border-gray-700 rounded-md  focus:ring-slate-500 focus:border-slate-500 text-xs ${trainedModels.length===0 && 'cursor-not-allowed'} `}
+                        className={`px-3 py-2 mt-2 block w-full  border border-gray-300 rounded-md  focus:ring-slate-500 focus:border-slate-500 text-xs ${trainedModels.length===0 && 'cursor-not-allowed'} `}
                         disabled={trainedModels.length===0}
                         >
                       
@@ -91,7 +91,7 @@ function CustomImageForm()
                         required
                         min="1"
                         max="5"
-                       className="px-3 py-2 mt-2 block w-full border border-gray-700 rounded-md  focus:ring-slate-500 focus:border-slate-500 text-sm"
+                       className="px-3 py-2 mt-2 block w-full border border-gray-300 rounded-md  focus:ring-slate-500 focus:border-slate-500 text-sm"
                     />
                 </div>
                 <div className="flex flex-col h-max pb-2 mt-4">
@@ -104,7 +104,7 @@ function CustomImageForm()
                     <textarea
                         type="text"
                        
-                       className="px-3 py-2 mt-2 min-h-36 block w-full border border-gray-700 rounded-md  focus:ring-slate-500 focus:border-slate-500 text-sm"
+                       className="px-3 py-2 mt-2 min-h-36 block w-full border border-gray-300 rounded-md  focus:ring-slate-500 focus:border-slate-500 text-sm"
                     />
                 </div>
                 
@@ -112,7 +112,7 @@ function CustomImageForm()
                 
             </form>
         </div>
-        <div className="w-full h-[10%] flex justify-center items-center border-t-[1px]">
+        <div className="w-[calc(100dvw-4rem)] sm:w-full bg-white h-[10%]  fixed bottom-0 sm:relative flex justify-center items-center border-t-[1px]">
             <Button
                 type="button"
                 onClick={handleSubmit}

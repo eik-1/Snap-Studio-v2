@@ -13,15 +13,15 @@ const ServiceCard=({
 
   return (
     <div
-      className={cn(`relative rounded-2xl h-32 px-4 py-4  max-w-xs  flex items-center   cursor-pointer hover:scale-105 transition-all duration-300 ${className}   `)}
+      className={cn(`relative rounded-2xl h-max px-4 py-8  max-w-xs  flex items-center   cursor-pointer hover:scale-105 transition-all duration-300 ${className}   `)}
       onClick={handleClick}
     >
        {labelText && <div className={cn(`absolute right-2 top-2 z-[100] w-max h-max p-1 bg-white/60 rounded-full backdrop-blur-md text-[0.5rem] leading-tight tracking-tighter drop-shadow-sm ${labelStyle}`)}>
               {labelText}
           </div>}
-      <div className=" flex justify-between items-center   ">
-        <div className="max-w-[50%]">
-          <h2 className="text-md font-semibold mb-2 leading-tight">
+      <div className=" flex justify-between items-center">
+        <div className="max-w-[50%] flex flex-col gap-2">
+          <h2 className="text-md  font-semibold leading-tight">
             {title}
           </h2>
          
@@ -36,7 +36,7 @@ const ServiceCard=({
           {images.map((image, index) => (
             <div
               key={index}
-              className={`w-[4rem] h-[4rem] rounded-xl overflow-hidden shadow-lg drop-shadow-md z-10 transform ${
+              className={`w-[4rem] h-[4rem] sm:h-[3rem]  sm:w-[3rem] lg:h-[4rem] lg:w-[4rem] rounded-xl overflow-hidden shadow-lg drop-shadow-md z-10 transform ${
                 (index %2=== 0 && images.length>1) ? 'rotate-[-20deg] translate-x-4' : 'rotate-[20deg] -translate-x-4'
               }`}
             >

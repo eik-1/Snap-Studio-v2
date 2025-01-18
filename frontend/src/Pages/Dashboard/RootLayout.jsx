@@ -14,7 +14,7 @@ function RootLayout() {
             
             <div className="min-h-screen ml-16 overflow-hidden font-sans">
                 <Header />
-            <main className="relative bg-gray-50 h-[calc(100vh-2.5rem)] w-full mt-10 overflow-hidden">
+            <main className="relative bg-gray-50  h-[calc(100dvh-2.5rem)] w-[calc(100dvw-4rem)]  mt-10 overflow-hidden">
             <Outlet />
             </main>
     

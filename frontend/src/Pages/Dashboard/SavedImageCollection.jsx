@@ -35,7 +35,7 @@ function SavedImageCollection()
     return(
         <>
         <div className="min-h-screen w-screen  flex-col  items-center">
-            <h1 className="w-full text-center font-sans font-bold text-3xl mb-10 pt-12 tracking-tight text-gray-800 ">Gallery</h1>
+            <h1 className="w-full text-center font-sans font-bold text-3xl mb-10 pt-12  text-gray-800 ">Your Collection</h1>
             {
                 isLoading && <>
                     <div className="h-max w-full flex justify-center">
