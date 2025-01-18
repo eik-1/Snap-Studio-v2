@@ -9,6 +9,7 @@ import {
   createModel,
   deleteModel,
   getModel,
+  getModelById,
   updateModel,
 } from "./databaseController.js";
 
@@ -64,7 +65,7 @@ export async function trainOstrisModel(req, res) {
         },
         webhook:
           "https://6bea-2405-201-6804-8156-297d-440-288e-5c1f.ngrok-free.app/webhook/replicate",
-        //webhook_events_filter: ["completed"],
+        webhook_events_filter: ["start", "completed"],
       }
     );
     console.log("Training started: ", training);
@@ -75,7 +76,7 @@ export async function trainOstrisModel(req, res) {
       gender,
       ethnicity,
       training.status,
-      training.id
+      training.id // to identify model's ID while version is used to run the model
     );
     return res.status(200).json(
       new ApiResponse(200, "Model training started", {
@@ -240,6 +241,36 @@ export async function runHeadshotUserModel(req, res) {
 
 export async function replicateWebhook(req, res) {
   console.log("Replicate Webhook called");
-  console.log(req.body);
-  return res.end(JSON.stringify(req.body));
+  const { id, output, status } = req.body;
+  const model = await getModelById(id);
+  if (!model || model.length === 0) {
+    return res.status(404).json(
+      new ApiResponse(404, "Model not found", {
+        error: "The requested model is not found.",
+      })
+    );
+  }
+  if (status === "failed") {
+    await deleteModel(id);
+  } else if (status === "succeeded") {
+    await updateModel(id, status, output.version);
+  } else {
+    console.log("Don't care about this status");
+  }
 }
+
+// {
+//   "id": "ufawqhfynnddngldkgtslldrkq",
+//   "version": "5c7d5dc6dd8bf75c1acaa8565735e7986bc5b66206b55cca93cb72c9bf15ccaa",
+//   "created_at": "2022-04-26T22:13:06.224088Z",
+//   "started_at": null,
+//   "completed_at": null,
+//   "status": "starting",
+//   "input": {
+//     "text": "Alice"
+//   },
+//   "output": null,
+//   "error": null,
+//   "logs": null,
+//   "metrics": {}
+// }

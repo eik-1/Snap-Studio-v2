@@ -10,7 +10,6 @@ export async function createModel(
   triggerWord,
   status,
   modelId,
-  modelVersion,
   gender,
   ethnicity
 ) {
@@ -34,7 +33,6 @@ export async function createModel(
         ethnicity: ethnicity,
         status: status,
         model_id: modelId,
-        model_version: modelVersion,
         user_id: userId,
       })
       .select();
@@ -54,6 +52,23 @@ export async function getModel(userId, modelName) {
       .select("*")
       .eq("user_id", userId)
       .eq("model_name", modelName);
+
+    if (error) {
+      throw error;
+    }
+    console.log("Model fetched: ", data);
+    return data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function getModelById(modelId) {
+  try {
+    const { data, error } = await supabase
+      .from("Models")
+      .select("*")
+      .eq("model_id", modelId);
 
     if (error) {
       throw error;
