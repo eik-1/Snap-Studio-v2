@@ -5,6 +5,7 @@ dotenv.config();
 
 import databaseRoutes from "./routes/databaseRoutes.js";
 import modelRoutes from "./routes/replicateRoutes.js";
+import sseRoutes from "./routes/sseRoutes.js";
 import stripeRoutes from "./routes/webhookRoutes.js";
 
 const port = process.env.PORT || 3000;
@@ -28,6 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/models", modelRoutes);
 app.use("/database", databaseRoutes);
 app.use("/webhook", stripeRoutes);
+app.use("/sse", sseRoutes);
 app.get("/", (req, res) => {
   res.status(200).json({
     status: 200,
