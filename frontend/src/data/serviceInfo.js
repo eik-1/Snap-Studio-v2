@@ -1,5 +1,5 @@
 import { img1, img2, img3, img4, img5, img6 } from "@/assets/images/index"
-import { HeadshotIcon, ImageIcon, FashionIcon} from "@/data/icons"
+import { HeadshotIcon, ImageIcon, FashionIcon} from "@/data/Icons"
 const services = [
     {
         serviceType: "headshot",
