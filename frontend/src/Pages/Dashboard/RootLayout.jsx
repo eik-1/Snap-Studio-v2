@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom"
 import Header from "@/Components/Header"
-import SideNavbar from "@/Components/SideNavbar"
+import AppNavbar from "@/Components/AppNavbar"
 
 import { NavigationProvider } from "@/contexts/NavigationContext"
 
@@ -10,11 +10,11 @@ function RootLayout() {
     return (
         <>
        
-            <SideNavbar />
+            <AppNavbar />
             <Header />
-            <div className="min-h-screen ml-16 z-50 overflow-hidden font-sans">
+            <div className="min-h-screen sm:ml-16 z-50 overflow-hidden font-sans">
                 
-            <main className="relative bg-gray-50  h-[calc(100dvh-2.5rem)] w-[calc(100dvw-4rem)]  mt-10 overflow-hidden">
+            <main className="relative bg-gray-50  h-[calc(100dvh-2.5rem)] w-full sm:w-[calc(100dvw-4rem)]  mt-10 overflow-hidden">
             <Outlet />
             </main>
     

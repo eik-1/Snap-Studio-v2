@@ -12,7 +12,7 @@ export default defineConfig({
         },
     },
     server: {
-        host: "localhost",
+        host: "192.168.1.3",
         port: 5173,
         cors: {
             origin: "*",

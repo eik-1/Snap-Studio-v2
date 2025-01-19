@@ -3,7 +3,6 @@ import { services } from "@/data/serviceInfo"
 import WelcomeText from "@/Components/WelcomeText"
 import { useNavigation } from "@/contexts/NavigationContext" 
 
-
 function OptionPanel() {
     
     const { state, dispatch } = useNavigation()
@@ -17,7 +16,7 @@ function OptionPanel() {
 
             
             <div className="h-max w-full  brounded-xl p-4  text-center flex flex-col gap-2">
-                <WelcomeText className="text-lg font-semibold bg-clip-text tracking-tight text-transparent bg-gradient-to-r from-purple-600 via-pink-500   to-orange-500  " />
+                <WelcomeText className="text-xl font-semibold bg-clip-text tracking-tight text-transparent bg-gradient-to-r from-rose-500 via-purple-500 to-cyan-500    " />
                 <p className=" text-[0.8rem] text-gray-700">
                     Select an Option to get started
                 </p>
@@ -38,6 +37,7 @@ function OptionPanel() {
                         className={service.className}
                     />
                 ))}
+    
             </div>
         </section>
     )

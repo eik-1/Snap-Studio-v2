@@ -16,8 +16,9 @@ const ServiceCard=({
 
   return (
     <div
-      className={cn(`relative rounded-2xl h-max px-4 py-8  max-w-xs  flex items-center   cursor-pointer hover:scale-105 transition-all duration-300 ${className}   `)}
+      className={cn(`relative rounded-2xl h-max px-4 py-8  max-w-xs  flex items-center   cursor-pointer hover:scale-105 transition-all duration-300 active:scale-[0.98] ${className}   `)}
       onClick={handleClick}
+      role="button"
       onMouseEnter={() => {setIsHovering(true)}} onMouseLeave={() => {setIsHovering(false)}}
     >
        {labelText && <div className={cn(`absolute right-2 top-2 z-[100] w-max h-max p-1 bg-white/60 rounded-full backdrop-blur-md text-[0.5rem] leading-tight tracking-tighter drop-shadow-sm ${labelStyle}`)}>
@@ -34,9 +35,9 @@ const ServiceCard=({
       <div className=" flex justify-between items-center">
         <div className="max-w-[50%] flex flex-col gap-2">
           <div>
-            {Icon && <Icon className={`w-8 h-8 ${title==="Generate HeadShots"?"text-black/80":"text-white/80"}` }/>}
+            {Icon && <Icon className={`w-6 h-6 ${title==="Generate HeadShots"?"text-black/70":"text-white/80"}` }/>}
           </div>
-          <h2 className="text-md  font-semibold leading-tight">
+          <h2 className="text-[1.1rem]  font-semibold leading-tight">
             {title}
           </h2>
          
