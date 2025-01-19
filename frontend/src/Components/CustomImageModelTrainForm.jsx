@@ -98,7 +98,7 @@ function CustomImageModelTrainForm() {
                     
                 </form>
             </div>
-            <div className="w-full bg-white h-[10%]  fixed bottom-16 sm:relative flex justify-center items-center border-t-[1px]">
+            <div className="w-full bg-white h-[10%]  fixed bottom-16 sm:bottom-0 sm:relative flex justify-center items-center border-t-[1px]">
                 <Button
                     type="button"
                     onClick={handleSubmit}
