@@ -1,5 +1,5 @@
 import axios from "axios";
-import { apiConfig } from "@src/services/configs/apiConfig";
+import { apiConfig } from "@/services/configs/apiConfig";
 
 export const apiRequest = async (endpoint, method = "GET", data = null, headers = {}) => {
   try {
