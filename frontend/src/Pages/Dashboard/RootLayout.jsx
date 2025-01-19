@@ -11,9 +11,9 @@ function RootLayout() {
         <>
        
             <SideNavbar />
-            
-            <div className="min-h-screen ml-16 overflow-hidden font-sans">
-                <Header />
+            <Header />
+            <div className="min-h-screen ml-16 z-50 overflow-hidden font-sans">
+                
             <main className="relative bg-gray-50  h-[calc(100dvh-2.5rem)] w-[calc(100dvw-4rem)]  mt-10 overflow-hidden">
             <Outlet />
             </main>

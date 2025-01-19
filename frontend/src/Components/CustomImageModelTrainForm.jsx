@@ -13,14 +13,14 @@ function CustomImageModelTrainForm() {
         ethnicity:"",
         
     }
-    const [formData, setFormData] = useState(initialState);
+    const [formDataValues, setFormDataValues] = useState(initialState);
     const [selectedImages, setSelectedImages] = useState([])
 
     function handleChange(e)
     {
         const {name, value}= e.target;
-        setFormData({
-            ...formData,
+        setFormDataValues({
+            ...formDataValues,
             [name]:value
         })
 
@@ -28,9 +28,10 @@ function CustomImageModelTrainForm() {
     
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(formData)
+        console.log(formDataValues)
+        
         setSelectedImages([])
-        setFormData(initialState)
+        setFormDataValues(initialState)
     }
   
     return (
@@ -58,7 +59,7 @@ function CustomImageModelTrainForm() {
                               {field.name!=="uploadImages" &&  <input
                                     type={field.type}
                                     name={field.name}
-                                    value={formData[field.name]}
+                                    value={formDataValues[field.name]}
                                    onChange={handleChange}
                                     className="px-3 py-2 mt-2 block w-full border border-gray-300 rounded-md  focus:ring-slate-500 focus:border-slate-500 text-sm"
                                 />}
