@@ -26,9 +26,9 @@ const config = {
                 },
               },
               backgroundImage:{
-                serviceone:"linear-gradient(180deg, #FFBB3B 0%, #FFD891 100%)",
-                servicetwo:" linear-gradient(180deg, #544EFF 0%, #8A86FE 100%)",
-                servicethree:"linear-gradient(180deg, #FF0066 0%, #FF93BE 100%)",
+                serviceone:"linear-gradient(125deg, #FFD47F 16.7%, #FDFABB 71.47%)",
+                servicetwo:" linear-gradient(125deg, #0067CF 2.79%, #A4FFFF 98.19%)",
+                servicethree:"linear-gradient(125deg, #FF3F6F -6.78%, #FFA0EC 107.12%)",
               },
               screens:{
                 s:"480px"

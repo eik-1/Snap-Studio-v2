@@ -1,36 +1,7 @@
 import ServiceCard from "@/Components/ServiceCard"
-import { img1, img2, img3, img4, img5, img6 } from "@/assets/images/index"
+import { services } from "@/data/serviceInfo"
 import WelcomeText from "@/Components/WelcomeText"
 import { useNavigation } from "@/contexts/NavigationContext" 
-const services = [
-    {
-        serviceType: "headshot",
-        title: "Generate HeadShots",
-        description: "Transform your photos into studio-quality headshots.",
-        images: [img5, img6],
-        className: "bg-serviceone hover:shadow-lg hover:shadow-amber-100 ",
-    },
-    {
-        serviceType: "customImage",
-        title: "Create Your Custom Images",
-        description:
-            "Create custom images of your choice with just a prompt",
-        images: [img1, img2],
-        className:
-            "bg-servicetwo text-white hover:shadow-lg hover:shadow-violet-200",
-    },
-    {
-        serviceType: "fashionModel",
-        title: "Create Your AI Fashion Model",
-        description:
-            "Create your own AI fashion model for your shopify store",
-        images: [img3, img4],
-        labelText: "Coming Soon",
-        labelStyle: "text-rose-600",
-        className:
-            "bg-servicethree text-white hover:shadow-lg hover:shadow-rose-200",
-    },
-]
 
 
 function OptionPanel() {
@@ -41,19 +12,23 @@ function OptionPanel() {
         dispatch({ type: "SET_TAB", payload: { tab: option } })
     }
     return (
-        <section className="h-full w-full bg-white p-4 flex flex-col gap-4 items-center justify-center">
-            <div className="h-max w-full border-b-[1px] pb-6 text-center flex flex-col gap-2">
+        <section className="h-max  w-full p-4 bg-white  flex flex-col gap-4 items-center justify-center ">
+            <div className="h-max w-full pb-3 border-b-[1px] border-gray-200">
+
+            
+            <div className="h-max w-full  brounded-xl p-4  text-center flex flex-col gap-2">
                 <WelcomeText className="text-lg font-semibold bg-clip-text tracking-tight text-transparent bg-gradient-to-r from-purple-600 via-pink-500   to-orange-500  " />
-                <p className=" text-[0.8rem] text-gray-500">
+                <p className=" text-[0.8rem] text-gray-700">
                     Select an Option to get started
                 </p>
             </div>
-            <div className="h-full w-full flex flex-col items-center gap-4 ">
+           </div>
+            <div className="h-max w-full flex flex-col items-center gap-4 ">
                 {services.map((service, index) => (
                     <ServiceCard
                         key={index}
                         title={service.title}
-                        description={service.description}
+                        Icon={service.icon}
                         images={service.images}
                         handleClick={() =>
                             handleSelectOption(service.serviceType)
