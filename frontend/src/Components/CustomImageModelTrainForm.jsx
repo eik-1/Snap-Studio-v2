@@ -2,6 +2,8 @@ import {useState} from "react"
 import ImageInputBox from "@/Components/ImageInputBox"
 import { Button } from "@/Components/UI/Button"
 import { customImageTrainingField } from "@/data/formFields";
+import { imagesToZipBlob } from "@/services/utils/zipUtils";
+import { apiRequest } from "@/services/utils/apiRequest";
   
 function CustomImageModelTrainForm() {
 
@@ -26,9 +28,31 @@ function CustomImageModelTrainForm() {
 
     }
     
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         console.log(formDataValues)
+        try
+        {
+            const zipBlob = await imagesToZipBlob(selectedImages)
+            const formData= new FormData()
+            formData.append("file", zipBlob, "images.zip");
+            for (const [key, value] of Object.entries(formDataValues)) {
+                formData.append(key, value);
+            }
+            const headers={
+                "Content-Type": "multipart/form-data",
+            }
+            const response = await apiRequest("/models/train", "POST", formData, headers );
+
+           
+
+        }
+        catch(error)
+        {
+            console.log(error)
+        }
+      
+
         
         setSelectedImages([])
         setFormDataValues(initialState)
