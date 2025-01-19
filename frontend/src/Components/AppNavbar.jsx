@@ -5,7 +5,14 @@ import { useToast } from "@/hooks/use-toast"
 import { useUser } from "@/contexts/UserContext"
 import { useState } from "react"
 
-
+function AppNavbar() {
+    return(
+        <>
+            <SideNavbar/>
+            <MobileNavbar/>
+        </>
+    )
+}
 
 function SideNavbar() {
    
@@ -39,13 +46,14 @@ function SideNavbar() {
 
     return (
         <motion.nav
-            className="fixed font-sans left-0  h-screen  bg-white/75 backdrop-blur-2xl border-r z-[100] hover:border-none"
+            className="hidden sm:block fixed font-sans left-0  h-screen  bg-white/75 backdrop-blur-2xl border-r z-[100] hover:border-none"
             whileHover={{
                 width: "14rem",
                 boxShadow: "0 0 5px rgba(0,0,0,0.1)",
 
             }}
             initial={{ width: "4rem" }}
+          
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             transition={{
@@ -111,4 +119,62 @@ function SideNavbar() {
         </motion.nav>
     )
 }
-export default SideNavbar
+function MobileNavbar() {
+    return (
+        <div className="sm:hidden fixed bottom-0 w-full h-16  bg-white/75 backdrop-blur-2xl border-t z-[100]">
+            <nav className="flex justify-between items-center p-2 pb-0 ">
+                <NavLink
+                    to="/app"
+                    className={({ isActive }) =>
+                        `flex flex-col items-center justify-center space-y-1 p-2 rounded-2xl transition-all duration-200 ${
+                            isActive ? " text-purple-500" : "text-gray-500 "
+                        }`
+                    }
+                    end
+                >
+                    <House size={20} />
+                    <p className="text-xs">Home</p>
+                </NavLink>
+                <NavLink
+                    to="/app/myimages"
+                    className={({ isActive }) =>
+                        `flex flex-col items-center justify-center space-y-1 p-2 rounded-lg transition-all duration-200 ${
+                           isActive ? " text-purple-500" : "text-gray-500 "
+                        }`
+                    }
+                    end
+                >
+                    <BookImage size={20} />
+                    <p className="text-xs">My Images</p>
+                </NavLink>
+                <NavLink
+                    to="/app/savedmodels"
+                    className={({ isActive }) =>
+                        `flex flex-col items-center justify-center space-y-1 p-2 rounded-lg transition-all duration-200 ${
+                            isActive ? " text-purple-500" : "text-gray-500 "
+                        }`
+                    }
+                    end
+                >
+                    <Layers size={20} />
+                    <p className="text-xs">Saved Models</p>
+                </NavLink>
+                <NavLink
+                    to="/app/settings"
+                    className={({ isActive }) =>
+                        `flex flex-col items-center justify-center space-y-1 p-2 rounded-lg transition-all duration-200 ${
+                           isActive ? " text-purple-500" : "text-gray-500 "
+                        }`
+                    }
+                    end
+                >
+                    <Settings size={20} />
+                    <p className="text-xs">Settings</p>
+                </NavLink>
+            </nav>
+        </div>
+    );
+}
+
+
+export default AppNavbar

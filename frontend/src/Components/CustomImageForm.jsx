@@ -46,10 +46,10 @@ function CustomImageForm()
             </div>
             <form onSubmit={handleSubmit} className="mt-4">
                 <div className="flex flex-col h-max pb-2">
-                    <label className="block text-xs font-medium text-gray-700">
+                    <label className="block text-sm font-medium text-gray-700">
                         Select Model
                     </label>
-                    <p className="text-[0.575rem] font-regular tracking-tight text-gray-500">
+                    <p className="text-[0.675rem] font-regular tracking-tight text-gray-500">
                         Choose from your trained models
                     </p>
                     <select
@@ -72,18 +72,18 @@ function CustomImageForm()
                    
                 </div>
                 <div className="flex ">
-                    <span className="text-xs font-medium text-neutral-500">Or&nbsp;</span>
+                    <span className="text-sm font-medium text-neutral-500">Or&nbsp;</span>
                     <button
                         type="button"
-                        className="text-xs font-medium text-neutral-500 hover:text-emerald-600 transition-all duration-200 underline"
+                        className="text-sm font-medium text-neutral-500 hover:text-emerald-600 transition-all duration-200 underline"
                         onClick={handleCreateNewModel}
                     >Train New Model</button>
                 </div>
                 <div className="flex flex-col h-max pb-2 mt-6">
-                    <label className="block text-xs font-medium text-gray-700">
+                    <label className="block text-sm font-medium text-gray-700">
                         Number of Images
                     </label>
-                    <p className="text-[0.575rem] font-regular tracking-tight text-gray-500">
+                    <p className="text-[0.675rem] font-regular tracking-tight text-gray-500">
                         {"Number of images to generate (min:1, max:5)" } 
                     </p>
                     <input
@@ -95,10 +95,10 @@ function CustomImageForm()
                     />
                 </div>
                 <div className="flex flex-col h-max pb-2 mt-4">
-                    <label className="block text-xs font-medium text-gray-700">
+                    <label className="block text-sm font-medium text-gray-700">
                         Write a prompt
                     </label>
-                    <p className="text-[0.575rem] font-regular tracking-tight text-gray-500">
+                    <p className="text-[0.675rem] font-regular tracking-tight text-gray-500">
                         {"Describe the image you want to generate" } 
                     </p>
                     <textarea
@@ -112,7 +112,7 @@ function CustomImageForm()
                 
             </form>
         </div>
-        <div className="w-[calc(100dvw-4rem)] sm:w-full bg-white h-[10%]  fixed bottom-0 sm:relative flex justify-center items-center border-t-[1px]">
+        <div className="w-full bg-white h-[10%]  fixed bottom-16 sm:bottom-0 sm:relative flex justify-center items-center border-t-[1px]">
             <Button
                 type="button"
                 onClick={handleSubmit}
