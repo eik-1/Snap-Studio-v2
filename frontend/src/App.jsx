@@ -13,11 +13,19 @@ import RootLayout from "./Pages/Dashboard/RootLayout"
 import SavedImageCollection from "./Pages/Dashboard/SavedImageCollection"
 import TermsOfService from "./Pages/Landing/TermsOfService"
 import PrivacyPolicy from "./Pages/Landing/Privacy"
+import { useToast } from "@/hooks/use-toast"
 
 function ProtectedRoute({ children }) {
-    const { user, loading } = useUser()
-    if (loading) return
-    if (!user) return <Navigate to="/" replace />
+    const { user} = useUser();
+    const { toast } = useToast()
+  
+    if (!user
+        
+    ) { 
+        toast({description: "You need to be logged in to access this page"})
+        return <Navigate to="/login" replace />
+
+    }
     return children
 }
 
