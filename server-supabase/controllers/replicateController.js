@@ -163,17 +163,21 @@ export async function getTriggerWord(req, res) {
 
 export async function runUserModel(req, res) {
   const { userId, modelName, prompt, numberOfImages } = req.body;
-  console.log(userId, prompt, numberOfImages);
+  console.log(typeof numberOfImages);
   try {
     const model = await getModel(userId, modelName);
     const modelVersion = model[0].model_version;
+    const modelGender = model[0].gender;
+    const modelTriggerWord = model[0].trigger_word;
+    const enhancedPrompt = `${modelTriggerWord} ${modelGender}. ${prompt}`;
+
     const output = await replicate.run(`${modelVersion}`, {
       input: {
         model: "dev",
-        prompt: prompt,
+        prompt: enhancedPrompt,
         aspect_ratio: "1:1",
         output_format: "webp",
-        output_quality: 90,
+        output_quality: 100,
         num_outputs: numberOfImages,
       },
     });
@@ -181,7 +185,7 @@ export async function runUserModel(req, res) {
     output.forEach((fileOutput) => {
       outputURL.push(fileOutput.url().href);
     });
-
+    console.log(outputURL);
     return res
       .status(200)
       .json(
