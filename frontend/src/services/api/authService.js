@@ -11,7 +11,7 @@ async function login(email, password) {
         name: data.user.user_metadata.name,
         first_name: data.user.user_metadata.first_name,
         last_name: data.user.user_metadata.last_name,
-        $id: data.user.id,
+        $id: data.user.user_metadata.sub,
     }
 
     return userData

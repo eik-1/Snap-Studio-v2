@@ -1,3 +1,5 @@
+import { generateImage } from "@/services/api/apiReq"
+import { useQuery } from "@tanstack/react-query"
 import { createContext, useContext, useReducer, useState } from "react"
 
 const ImageContext = createContext()
@@ -9,16 +11,17 @@ const initialState = {
     },
     generatedImageUrls: [],
 }
+
 const Actions = {
     SET_MODE: "SET_MODE",
     SET_GENERATION_STATUS: "SET_GENERATION_STATUS",
     START_GENERATION: "START_GENERATION",
 }
+
 function generationReducer(state, action) {
     switch (action.type) {
         case Actions.SET_MODE:
             return { ...state, mode: action.payload }
-
         case Actions.START_GENERATION:
             return {
                 ...state,
@@ -39,19 +42,35 @@ function ImageProvider({ children }) {
         status: "idle",
         message: "",
     })
-    const [generatedImageUrls, setGeneratedImageUrls] = useState([])
+    const [imageUrls, setImageUrls] = useState([])
     const [isSaved, setIsSaved] = useState([])
     const [trainingState, setTrainingState] = useState("loading")
     const [state, dispatch] = useReducer(generationReducer, initialState)
+
+    async function handleImageGeneration(userId, modelName, prompt, numImages) {
+        dispatch({ type: Actions.START_GENERATION })
+        const generatedImages = await generateImage(
+            userId,
+            modelName,
+            prompt,
+            numImages,
+        )
+        setImageUrls(generatedImages)
+        setGenerationStatus({
+            status: "success",
+            message: "Images generated successfully",
+        })
+    }
 
     return (
         <ImageContext.Provider
             value={{
                 generationStatus,
                 setGenerationStatus,
-                generatedImageUrls,
-                setGeneratedImageUrls,
+                imageUrls,
+                setImageUrls,
                 isSaved,
+                handleImageGeneration,
                 setIsSaved,
                 trainingState,
                 setTrainingState,

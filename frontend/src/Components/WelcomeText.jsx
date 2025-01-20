@@ -1,5 +1,6 @@
 import { useUser } from "@/contexts/UserContext"
 import { cn } from "@/lib/utils"
+
 function WelcomeText({ className }) {
     const { user } = useUser()
     if (new Date().getHours() >= 4 && new Date().getHours() < 12) {
