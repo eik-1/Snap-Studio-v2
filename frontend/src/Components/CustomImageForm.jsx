@@ -33,6 +33,7 @@ function CustomImageForm()
             }
     })
 }
+
     return(
         <div className="w-full h-full mx-auto  bg-white border-r-[1px] relative">
         <div className="h-[90%] w-full m-0 px-4 py-4 overflow-y-scroll oveflow-x-hidden custom-scrollbar">
@@ -41,7 +42,7 @@ function CustomImageForm()
                     Generate Image
                 </h1>
                 <p className="text-xs font-regular tracking-tight text-gray-500">
-                    {"Generate images using your trained models " }
+                    {"Generate images using your trained models" }
                 </p>
             </div>
             <form onSubmit={handleSubmit} className="mt-4">
