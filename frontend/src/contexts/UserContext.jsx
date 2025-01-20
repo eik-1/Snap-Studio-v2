@@ -1,7 +1,6 @@
 import { createContext, useContext, useState } from "react"
 
 import { login, signOut } from "@/services/api/authService"
-import { ChartNoAxesColumnDecreasing } from "lucide-react"
 
 const UserContext = createContext()
 

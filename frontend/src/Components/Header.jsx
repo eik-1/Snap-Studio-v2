@@ -1,5 +1,6 @@
 import NavigationBackButton from "./NavigationBackButton"
 import NotificationButton from "./Notification"
+import Profile from "./Profile"
 
 
 function Header() {
@@ -11,8 +12,9 @@ function Header() {
                 <NavigationBackButton />
             </div>
 
-            <div className="h-max w-max">
+            <div className="h-max w-max flex gap-4 mr-4 items-center justify-center p-2 ">
                 <NotificationButton/>
+                <Profile/>
             </div>
           
 

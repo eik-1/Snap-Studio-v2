@@ -6,7 +6,7 @@ function NotificationTray({isVisible=false})
     
     return(
        
-        <motion.div className="absolute z-30 top-12 right-2 w-[20rem] h-[30rem] border-[1px] bg-white/75 backdrop-blur-3xl shadow-md rounded-xl p-4"
+        <motion.div className="absolute z-30 top-12 -right-8 sm:right-2 w-[20rem] h-[30rem] border-[1px] bg-white/75 backdrop-blur-2xl shadow-md rounded-xl p-4"
         initial={{opacity: 0, y: -50}}    
         animate={{opacity:  1 , y:  0}}
         exit={{opacity: 0, y: -50}}
@@ -31,7 +31,7 @@ export default function NotificationButton()
     
     const [notificationTrayOpen, setNotificationTrayOpen] = useState(false)
     return (
-        <div className="h-max w-max flex relative p-2 ">
+        <div className="h-max w-max flex relative ">
                     <div className="h-max w-max  text-gray-500 hover:text-gray-700 cursor-pointer transition-all duration-75"
                     onClick={() => {setNotificationTrayOpen((prev) => !prev)}}
                     >
