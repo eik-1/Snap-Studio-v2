@@ -1,6 +1,7 @@
 import React from "react"
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom"
 
+import { useToast } from "@/hooks/use-toast"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import Error from "./Components/Error"
 import { ImageProvider } from "./contexts/ImageContext"
@@ -16,9 +17,13 @@ import PrivacyPolicy from "./Pages/Landing/Privacy"
 import TermsOfService from "./Pages/Landing/TermsOfService"
 
 function ProtectedRoute({ children }) {
-    const { user, loading } = useUser()
-    if (loading) return
-    if (!user) return <Navigate to="/" replace />
+    const { user } = useUser()
+    const { toast } = useToast()
+
+    if (!user) {
+        toast({ description: "You need to be logged in to access this page" })
+        return <Navigate to="/login" replace />
+    }
     return children
 }
 
