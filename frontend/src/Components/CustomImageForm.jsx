@@ -30,6 +30,7 @@ function CustomImageForm() {
 
     const handleCreateNewModel = () => {
         dispatch({
+
             type: "SET_TAB",
             payload: {
                 tab: ["newCustomModelTrainForm"],
@@ -45,6 +46,7 @@ function CustomImageForm() {
                     </h1>
                     <p className="text-xs font-regular tracking-tight text-gray-500">
                         {"Generate images using your trained models "}
+
                     </p>
                 </div>
                 <form onSubmit={handleImageGeneration} className="mt-4">
