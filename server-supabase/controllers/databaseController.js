@@ -81,12 +81,14 @@ export async function getModelById(modelId) {
 }
 
 export async function getUserModels(req, res) {
-  const { userId } = req.headers;
+  const userId = req.header("userId");
+  console.log("User ID: ", userId);
   try {
     const { data, error } = await supabase
       .from("Models")
       .select("*")
-      .eq("user_id", userId);
+      .eq("user_id", userId)
+      .eq("status", "succeeded");
 
     if (error) {
       throw error;

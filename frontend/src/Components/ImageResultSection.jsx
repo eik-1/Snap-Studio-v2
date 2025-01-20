@@ -1,5 +1,10 @@
 import { Image } from "lucide-react"
+
+import { useImage } from "@/contexts/ImageContext"
+
 function ImageResultSection() {
+    const { imageUrls } = useImage()
+
     return (
         <>
             <section className="w-full h-full  p-4 bg-white flex flex-col items-center justify-center gap-2 drop-shadow-sm">
