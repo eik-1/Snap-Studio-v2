@@ -248,6 +248,7 @@ export async function replicateWebhook(req, res) {
   console.log("Replicate Webhook called");
   const { id, output, status } = req.body;
   const model = await getModelById(id);
+  const userId = model[0].user_id;
   if (!model || model.length === 0) {
     return res.status(404).json(
       new ApiResponse(404, "Model not found", {
@@ -257,10 +258,10 @@ export async function replicateWebhook(req, res) {
   }
   if (status === "failed") {
     await deleteModel(id);
-    sendEventToClients({ id, status: "failed" });
+    sendEventToClients({ id, status: "failed" }, userId);
   } else if (status === "succeeded") {
     await updateModel(id, status, output.version);
-    sendEventToClients({ id, status: "succeeded" });
+    sendEventToClients({ id, status: "succeeded" }, userId);
   } else {
     console.log("Don't care about this status");
   }
