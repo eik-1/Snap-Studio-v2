@@ -38,8 +38,8 @@ function SideNavbar() {
         },
         {
             icon: <Layers size={20} />,
-            label: "Saved Models",
-            route: "savedmodels",
+            label: "My Models",
+            route: "mymodels",
         },
         { icon: <Settings size={20} />, label: "Settings", route: "settings" },
     ]

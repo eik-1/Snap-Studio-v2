@@ -1,3 +1,5 @@
+/* important this is an old component and is not in use*/
+
 import React, { useState, useRef, useEffect, useCallback } from "react"
 import JSZip from "jszip"
 import axios from "axios"

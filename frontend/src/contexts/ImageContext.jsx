@@ -1,9 +1,7 @@
-import { generateImage } from "@/services/api/apiReq"
-import { useQuery } from "@tanstack/react-query"
 import { createContext, useContext, useReducer, useState } from "react"
 
 const ImageContext = createContext()
-const initialState = {
+const imageState = {
     mode: "none",
     generationStatus: {
         status: "idle",
@@ -16,6 +14,7 @@ const Actions = {
     SET_MODE: "SET_MODE",
     SET_GENERATION_STATUS: "SET_GENERATION_STATUS",
     START_GENERATION: "START_GENERATION",
+    SET_GENERATED_IMAGE_URLS: "SET_GENERATED_IMAGE_URLS",
 }
 
 function generationReducer(state, action) {
@@ -32,6 +31,8 @@ function generationReducer(state, action) {
             }
         case Actions.SET_GENERATION_STATUS:
             return { ...state, generationStatus: action.payload }
+        case Actions.SET_GENERATED_IMAGE_URLS:
+            return { ...state, generatedImageUrls: [...action.payload] }
         default:
             return state
     }
@@ -42,25 +43,10 @@ function ImageProvider({ children }) {
         status: "idle",
         message: "",
     })
-    const [imageUrls, setImageUrls] = useState([])
-    const [isSaved, setIsSaved] = useState([])
+    const [imageUrls, setImageUrls] = useState([]) //these are old state old variables they are currently not in use,
+    const [isSaved, setIsSaved] = useState([]) //for all the image urls we are using state.generatedImageUrls
     const [trainingState, setTrainingState] = useState("loading")
-    const [state, dispatch] = useReducer(generationReducer, initialState)
-
-    async function handleImageGeneration(userId, modelName, prompt, numImages) {
-        dispatch({ type: Actions.START_GENERATION })
-        const generatedImages = await generateImage(
-            userId,
-            modelName,
-            prompt,
-            numImages,
-        )
-        setImageUrls(generatedImages)
-        setGenerationStatus({
-            status: "success",
-            message: "Images generated successfully",
-        })
-    }
+    const [state, dispatch] = useReducer(generationReducer, imageState)
 
     return (
         <ImageContext.Provider
@@ -70,7 +56,6 @@ function ImageProvider({ children }) {
                 imageUrls,
                 setImageUrls,
                 isSaved,
-                handleImageGeneration,
                 setIsSaved,
                 trainingState,
                 setTrainingState,

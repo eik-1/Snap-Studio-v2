@@ -11,11 +11,5 @@ export default defineConfig({
             "@": path.resolve(__dirname, "./src"),
         },
     },
-    // server: {
-    //     host: "192.168.1.3",
-    //     port: 5173,
-    //     cors: {
-    //         origin: "*",
-    //     },
-    // },
+    
 })
