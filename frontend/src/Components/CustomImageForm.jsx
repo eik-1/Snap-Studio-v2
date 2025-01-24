@@ -1,35 +1,69 @@
 import { Stars } from "lucide-react"
 import { useState } from "react"
-
 import { useImage } from "@/contexts/ImageContext"
-import { useNavigation } from "@/contexts/NavigationContext"
 import { useUser } from "@/contexts/UserContext"
-import { generateImage, getUserModels } from "@/services/api/apiReq"
+import { generateImage, getUserModels } from "@/services/api/imageService"
 import { useQuery } from "@tanstack/react-query"
 import { Button } from "./UI/Button"
+import { useNavigation } from "@/contexts/NavigationContext"
 
 function CustomImageForm() {
     const [selectedModel, setSelectedModel] = useState("")
     const [numberOfImages, setNumberOfImages] = useState(1)
     const [prompt, setPrompt] = useState("")
     const { user } = useUser()
-    const { handleImageGeneration } = useImage()
-    const { dispatch } = useNavigation()
+    const { dispatch: imageDispatch, state: imageState } = useImage()
+    const { dispatch: navDispatch } = useNavigation()
 
     const { data: fetchedModels = [] } = useQuery({
         queryKey: ["models", user],
         queryFn: () => getUserModels(user.$id),
     })
-
+    async function handleImageGeneration(userId, modelName, prompt, numImages) {
+        imageDispatch({ type: "START_GENERATION" })
+        try {
+            const generatedImages = await generateImage(
+                userId,
+                modelName,
+                prompt,
+                numImages,
+            )
+            imageDispatch({
+                type: "SET_GENERATION_STATUS",
+                payload: {
+                    status: "success",
+                    message: "Images generated successfully",
+                },
+            })
+            imageDispatch({
+                type: "SET_GENERATED_IMAGE_URLS",
+                payload: generatedImages,
+            })
+        } catch (error) {
+            imageDispatch({
+                type: "SET_GENERATION_STATUS",
+                payload: {
+                    status: "error",
+                    message: "Error generating images",
+                },
+            })
+            console.log("Error generating images")
+        }
+    }
     async function handleSubmit(e) {
         e.preventDefault()
         const numImages = parseInt(numberOfImages)
         // handle > 5 images
         await handleImageGeneration(user.$id, selectedModel, prompt, numImages)
+        if (imageState.generationStatus.status === "success") {
+            //reset form state or just leave it as it is
+        } else if (imageState.generationStatus.status === "error") {
+            //handle error  to be implemented
+        }
     }
 
     const handleCreateNewModel = () => {
-        dispatch({
+        navDispatch({
             type: "SET_TAB",
             payload: {
                 tab: ["newCustomModelTrainForm"],

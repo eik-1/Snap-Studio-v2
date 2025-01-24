@@ -1,3 +1,5 @@
+/* important this is an old component and is not in use*/
+
 import { motion, AnimatePresence } from "motion/react"
 import { useState } from "react"
 import axios from "axios"
