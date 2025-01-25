@@ -4,6 +4,7 @@ import { FashionIcon, HeadshotIcon, ImageIcon } from "@/data/Icons"
 const services = [
     {
         serviceType: "headshot",
+        name:"Headshots",
         title: "Generate HeadShots",
         description: "Transform your photos into studio-quality headshots.",
         images: [img5, img6],
@@ -13,6 +14,7 @@ const services = [
     },
     {
         serviceType: "customImage",
+        name:"Images",
         title: "Create Custom Images",
         description: "Create custom images of your choice with just a prompt",
         images: [img1, img2],
@@ -22,6 +24,7 @@ const services = [
     },
     {
         serviceType: "fashionModel",
+        name:"Fashion Model",
         title: "Create AI Fashion Model",
         description: "Create your own AI fashion model for your shopify store",
         images: [img3, img4],

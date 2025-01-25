@@ -55,6 +55,7 @@ function CustomImageForm() {
         e.preventDefault()
         const numImages = parseInt(numberOfImages)
         // handle > 5 images
+        console.log(selectedModel);
         await handleImageGeneration(user.$id, selectedModel, prompt, numImages)
         if (imageState.generationStatus.status === "success") {
             //reset form state or just leave it as it is
