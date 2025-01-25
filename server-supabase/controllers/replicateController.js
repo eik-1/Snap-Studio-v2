@@ -70,6 +70,18 @@ export async function trainOstrisModel(req, res) {
       }
     );
     console.log("Training started: ", training);
+    const modelData={
+      userId,
+      modelName,
+      triggerWord,
+      gender,
+      ethnicity,
+      status:training.status,
+      version:training.id,
+      statusAcknowledged:false
+
+
+    }
     await createModel(
       userId,
       modelName,
@@ -82,6 +94,8 @@ export async function trainOstrisModel(req, res) {
     return res.status(200).json(
       new ApiResponse(200, "Model training started", {
         status: training.status,
+        modelData
+        
       })
     );
   } catch (err) {
