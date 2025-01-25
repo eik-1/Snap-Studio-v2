@@ -14,7 +14,7 @@ export async function getUserModels(userId) {
         console.log(response.data.models)
         return response.data.models
     } catch (error) {
-        console.log("Error fetching user models")
+        throw error
     }
 }
 

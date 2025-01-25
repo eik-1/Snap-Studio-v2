@@ -1,4 +1,4 @@
-import { Stars } from "lucide-react"
+import { Stars, Layers as ModelIcon, PlusCircle as NewModel, Images as NumImage,PenLine as PromptIcon } from "lucide-react"
 import { useState } from "react"
 import { useImage } from "@/contexts/ImageContext"
 import { useUser } from "@/contexts/UserContext"
@@ -83,10 +83,13 @@ function CustomImageForm() {
                     </p>
                 </div>
                 <form onSubmit={handleImageGeneration} className="mt-4">
-                    <div className="flex flex-col h-max pb-2">
-                        <label className="block text-sm font-medium text-gray-700">
+                    <div className="flex flex-col h-max  mt-3 pb-2 gap-1">
+                        <div className="flex gap-2 w-max h-max text-gray-700  items-center justify-center">
+                            <ModelIcon size={16} />
+                        <label className="block text-sm font-medium text-gray-700 leading-none">
                             Select Model
                         </label>
+                        </div>
                         <p className="text-[0.675rem] font-regular tracking-tight text-gray-500">
                             Choose from your trained models
                         </p>
@@ -94,23 +97,24 @@ function CustomImageForm() {
                             required
                             value={selectedModel}
                             onChange={(e) => setSelectedModel(e.target.value)}
-                            className={`px-3 py-2 mt-2 block w-full  border border-gray-300 rounded-md  focus:ring-slate-500 focus:border-slate-500 text-xs ${modelState?.models.length === 0 && "cursor-not-allowed"} `}
-                            disabled={modelState.length === 0}
+                            className={`px-3 py-2 mt-2 block w-full  border border-gray-300 rounded-md  focus:ring-slate-500 focus:border-slate-500 text-xs ${modelState?.models?.length === 0 && "cursor-not-allowed"} `}
+                            disabled={modelState?.models?.length === 0 }
                         >
                             <option value="" disabled>
-                                {modelState?.models.length === 0
+                                {modelState?.models?.length === 0
                                     ? "No trained models"
                                     : "Select Model"}
                             </option>
 
-                            {modelState?.models.map((model, index) => (
+                            {modelState?.models?.map((model, index) => (
                                 <option key={index} value={model.model_name}>
                                     {model.model_name}
                                 </option>
                             ))}
                         </select>
                     </div>
-                    <div className="flex ">
+                    <div className="flex">
+                        
                         <span className="text-sm font-medium text-neutral-500">
                             Or&nbsp;
                         </span>
@@ -122,10 +126,13 @@ function CustomImageForm() {
                             Train New Model
                         </button>
                     </div>
-                    <div className="flex flex-col h-max pb-2 mt-6">
+                    <div className="flex flex-col h-max pb-2 mt-6 gap-1">
+                    <div className="flex gap-2 w-max h-max text-gray-700  items-center justify-center">
+                            <NumImage size={16} />
                         <label className="block text-sm font-medium text-gray-700">
                             Number of Images
                         </label>
+                        </div>
                         <p className="text-[0.675rem] font-regular tracking-tight text-gray-500">
                             {"Number of images to generate (min: 1, max: 5)"}
                         </p>
@@ -139,13 +146,17 @@ function CustomImageForm() {
                             className="px-3 py-2 mt-2 block w-full border border-gray-300 rounded-md  focus:ring-slate-500 focus:border-slate-500 text-sm"
                         />
                     </div>
-                    <div className="flex flex-col h-max pb-2 mt-4">
+                    <div className="flex flex-col h-max pb-2 mt-3 gap-1">
+                    <div className="flex gap-2 w-max h-max text-gray-700  items-center justify-center">
+                            <PromptIcon size={16} />
                         <label className="block text-sm font-medium text-gray-700">
                             Write a prompt
                         </label>
+                        </div>
                         <p className="text-[0.675rem] font-regular tracking-tight text-gray-500">
                             {"Describe the image you want to generate"}
                         </p>
+                      
                         <textarea
                             type="text"
                             required
