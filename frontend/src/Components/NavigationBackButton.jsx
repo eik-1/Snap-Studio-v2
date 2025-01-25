@@ -24,7 +24,7 @@ function NavigationBackButton() {
                             }
                         >
                             <CircleArrowLeft size={14} />
-                            <span>{`Back to ${data[state.previousTab]} `}</span>
+                            <span className="text-left">{`Back to ${data[state.previousTab]} `}</span>
                         </button>
                     </div>
                 )}

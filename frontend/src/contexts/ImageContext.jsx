@@ -1,10 +1,10 @@
-import { createContext, useContext, useReducer, useState } from "react"
+import { createContext, useContext, useReducer } from "react"
 
 const ImageContext = createContext()
 const imageState = {
     mode: "none",
     generationStatus: {
-        status: "idle",
+        status: "",
         message: "",
     },
     generatedImageUrls: [],
@@ -17,7 +17,7 @@ const Actions = {
     SET_GENERATED_IMAGE_URLS: "SET_GENERATED_IMAGE_URLS",
 }
 
-function generationReducer(state, action) {
+function imageReducer(state, action) {
     switch (action.type) {
         case Actions.SET_MODE:
             return { ...state, mode: action.payload }
@@ -39,26 +39,12 @@ function generationReducer(state, action) {
 }
 
 function ImageProvider({ children }) {
-    const [generationStatus, setGenerationStatus] = useState({
-        status: "idle",
-        message: "",
-    })
-    const [imageUrls, setImageUrls] = useState([]) //these are old state old variables they are currently not in use,
-    const [isSaved, setIsSaved] = useState([]) //for all the image urls we are using state.generatedImageUrls
-    const [trainingState, setTrainingState] = useState("loading")
-    const [state, dispatch] = useReducer(generationReducer, imageState)
+   
+    const [state, dispatch] = useReducer(imageReducer, imageState)
 
     return (
         <ImageContext.Provider
             value={{
-                generationStatus,
-                setGenerationStatus,
-                imageUrls,
-                setImageUrls,
-                isSaved,
-                setIsSaved,
-                trainingState,
-                setTrainingState,
                 state,
                 dispatch,
             }}
