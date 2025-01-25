@@ -1,4 +1,4 @@
-import { useModel } from "@/contexts/ModelContext"
+import { useModel } from "@/contexts/ModelContextss"
 function TrainingStatus() {
     const stateColor = {
         succeeded: "bg-green-500",
