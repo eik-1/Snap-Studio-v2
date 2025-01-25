@@ -5,7 +5,7 @@ import { useUser } from "@/contexts/UserContext"
 import { generateImage, getUserModels } from "@/services/api/imageService"
 import { Button } from "./UI/Button"
 import { useNavigation as useBackNavigation } from "@/contexts/NavigationContext"
-import { useModel } from "@/contexts/modelContext"
+import { useModel } from "@/contexts/ModelContext"
 
 function CustomImageForm() {
     const [selectedModel, setSelectedModel] = useState("")
