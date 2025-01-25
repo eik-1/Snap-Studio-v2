@@ -4,7 +4,7 @@ import { Button } from "@/Components/UI/Button"
 import { customImageTrainingField } from "@/data/formFields"
 import { imagesToZipBlob } from "@/services/utils/zipUtils"
 import { apiRequest } from "@/services/utils/apiRequest"
-import { useModel } from "@/contexts/ModelContextss"
+import { useModel } from "@/contexts/ModelContext"
 
 function CustomImageModelTrainForm() {
     const { state: modelState, dispatch: modelDispatch } = useModel()
