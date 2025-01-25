@@ -7,6 +7,7 @@ export default function useSSE(onMessage) {
         eventSource.onMessage = (event) => {
             const data = JSON.parse(event.data)
             onMessage(data)
+            eventSource.close()
         }
 
         return () => {
@@ -14,3 +15,4 @@ export default function useSSE(onMessage) {
         }
     }, [onMessage])
 }
+

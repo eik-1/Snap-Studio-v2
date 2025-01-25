@@ -3,9 +3,9 @@ import { useState } from "react"
 import { useImage } from "@/contexts/ImageContext"
 import { useUser } from "@/contexts/UserContext"
 import { generateImage, getUserModels } from "@/services/api/imageService"
-import { useQuery } from "@tanstack/react-query"
 import { Button } from "./UI/Button"
-import { useNavigation } from "@/contexts/NavigationContext"
+import { useNavigation as useBackNavigation } from "@/contexts/NavigationContext"
+import { useModel } from "@/contexts/modelContext"
 
 function CustomImageForm() {
     const [selectedModel, setSelectedModel] = useState("")
@@ -13,12 +13,13 @@ function CustomImageForm() {
     const [prompt, setPrompt] = useState("")
     const { user } = useUser()
     const { dispatch: imageDispatch, state: imageState } = useImage()
-    const { dispatch: navDispatch } = useNavigation()
+    const { dispatch: navDispatch } = useBackNavigation()
+    const {state: modelState} = useModel();
 
-    const { data: fetchedModels = [] } = useQuery({
+   /* const { data: fetchedModels = [] } = useQuery({
         queryKey: ["models", user],
         queryFn: () => getUserModels(user.$id),
-    })
+    })*/
     async function handleImageGeneration(userId, modelName, prompt, numImages) {
         imageDispatch({ type: "START_GENERATION" })
         try {
@@ -93,16 +94,16 @@ function CustomImageForm() {
                             required
                             value={selectedModel}
                             onChange={(e) => setSelectedModel(e.target.value)}
-                            className={`px-3 py-2 mt-2 block w-full  border border-gray-300 rounded-md  focus:ring-slate-500 focus:border-slate-500 text-xs ${fetchedModels.length === 0 && "cursor-not-allowed"} `}
-                            disabled={fetchedModels.length === 0}
+                            className={`px-3 py-2 mt-2 block w-full  border border-gray-300 rounded-md  focus:ring-slate-500 focus:border-slate-500 text-xs ${modelState?.models.length === 0 && "cursor-not-allowed"} `}
+                            disabled={modelState.length === 0}
                         >
                             <option value="" disabled>
-                                {fetchedModels.length === 0
+                                {modelState?.models.length === 0
                                     ? "No trained models"
                                     : "Select Model"}
                             </option>
 
-                            {fetchedModels.map((model, index) => (
+                            {modelState?.models.map((model, index) => (
                                 <option key={index} value={model.model_name}>
                                     {model.model_name}
                                 </option>
