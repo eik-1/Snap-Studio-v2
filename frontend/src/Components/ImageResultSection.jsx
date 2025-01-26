@@ -26,13 +26,13 @@ function ImageResultSection() {
     }
     return (
         <>
-            <section className="z-50 relative w-full h-full p-4 bg-white flex flex-col items-center gap-6  sm:overflow-y-scroll custom-scrollbar">
+            <section className="relative w-full h-full p-4 bg-white flex flex-col items-center gap-6  sm:overflow-y-scroll custom-scrollbar">
                 <h2 className="text-lg font-semibold bg-clip-text text-transparent text-center bg-gradient-to-r from-rose-500 via-purple-500 to-cyan-500">
                     Your Generated Images
                 </h2>
-                <div className="z-[100] w-full h-full relative ">
+                <div className="w-full h-full relative ">
                    {imageState.generationStatus.status==='generating' && <div className="z-0 animate-gradient blur-md   bg-[length:200%_100%] h-full w-full absolute top-0 right-0  bg-gen rounded-lg" />}
-                    <div className="z-[100] relative w-full h-full gap-4 p-2 rounded-lg bg-white flex flex-col drop-shadow-sm items-center border-gray-200 border-[1px]">
+                    <div className="relative w-full h-full gap-4 p-2 rounded-lg bg-white flex flex-col drop-shadow-sm items-center border-gray-200 border-[1px]">
                         {content}
                     </div>
                 </div>
@@ -42,7 +42,7 @@ function ImageResultSection() {
 }
 function ImageResultEmptyState() {
     return (
-        <div className="z-[100] w-full h-full flex flex-col items-center justify-center gap-4 text-gray-300">
+        <div className="w-full h-full flex flex-col items-center justify-center gap-4 text-gray-300">
             <Image size={64} />
             <p className="text-lg font-medium">No Images Generated Yet</p>
         </div>
@@ -50,7 +50,7 @@ function ImageResultEmptyState() {
 }
 function ImageResultGrid({ images }) {
     return (
-        <div className="z-[100] grid grid-cols-2  lg:grid-cols-3 2xl:grid-cols-4 gap-4 gap-y- w-full h-max p-2">
+        <div className="grid grid-cols-2  lg:grid-cols-3 2xl:grid-cols-4 gap-4 gap-y- w-full h-max p-2">
             {images.map((url, index) => (
                 <motion.div
                     key={index}
@@ -80,7 +80,7 @@ function ImageResultGrid({ images }) {
 }
 function ImageResultLoading() {
     return (
-        <div className="z-[100] w-full h-full flex flex-col items-center justify-center gap-4">
+        <div className="w-full h-full flex flex-col items-center justify-center gap-4">
             <p className="text-lg font-medium animate-gradient bg-[length:200%_100%] bg-clip-text text-transparent bg-gradient-to-r from-rose-500 via-purple-500 to-orange-500">
                 Generating Your Images..
             </p>

@@ -7,7 +7,7 @@ function Home() {
                 <SidePanel />
             </div>
 
-            <div className="h-full w-full sm:flex-grow flex flex-col gap-4 overflow-hidden ">
+            <div className="h-screen pb-8 sm:pb-0 sm:h-full w-full sm:flex-grow flex flex-col gap-4 overflow-hidden ">
                 <ImageResultSection />
             </div>
         </div>

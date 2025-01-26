@@ -75,9 +75,9 @@ function CustomImageForm() {
     }
     return (
         <div className="w-full h-full mx-auto  bg-white border-r-[1px] relative">
-            <div className="h-[90%] w-full m-0 px-4 py-4 overflow-y-scroll oveflow-x-hidden custom-scrollbar">
+            <div className="h-[90%] w-full m-0 px-4 py-4 sm:overflow-y-scroll oveflow-x-hidden custom-scrollbar">
                 <div className="font-sans flex flex-col gap-1 h-max pb-6 border-b-[1px] ">
-                    <h1 className="font-sans font-medium tracking-tight text-lg text-purple-500">
+                    <h1 className="font-sans w-max h-max font-semibold tracking-tight text-lg bg-clip-text from-rose-500 via-purple-500 to-cyan-500 bg-gradient-to-r text-transparent">
                         Generate Image
                     </h1>
                     <p className="text-xs font-regular tracking-tight text-gray-500">
@@ -169,11 +169,11 @@ function CustomImageForm() {
                     </div>
                 </form>
             </div>
-            <div className="w-full bg-white h-[10%]  fixed bottom-16 sm:bottom-0 sm:relative flex justify-center items-center border-t-[1px]">
+            <div className="z-50 w-full bg-white h-[10%]  fixed bottom-16 sm:bottom-0 sm:relative flex justify-center items-center border-t-[1px]">
                 <Button
                     type="button"
                     onClick={handleSubmit}
-                    className="w-2/3 mx-auto"
+                    className="w-2/3 text-xs sm:text-sm mx-auto bg-gradient-to-r from-rose-500 via-purple-500 to-cyan-500 "
                     disabled={imageState.generationStatus.status !== "idle"}
                 >
                     <span>Generate Image</span>
