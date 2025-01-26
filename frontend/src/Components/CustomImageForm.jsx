@@ -21,7 +21,7 @@ function CustomImageForm() {
         queryFn: () => getUserModels(user.$id),
     })*/
     async function handleImageGeneration(userId, modelName, prompt, numImages) {
-        imageDispatch({ type: "START_GENERATION" })
+        imageDispatch({ type: "SET_GENERATION_STATUS", payload: { status: "generating", message: "Generating Images" } })
         try {
             const generatedImages = await generateImage(
                 userId,
@@ -30,16 +30,17 @@ function CustomImageForm() {
                 numImages,
             )
             imageDispatch({
-                type: "SET_GENERATION_STATUS",
-                payload: {
-                    status: "success",
-                    message: "Images generated successfully",
-                },
-            })
-            imageDispatch({
                 type: "SET_GENERATED_IMAGE_URLS",
                 payload: generatedImages,
             })
+            imageDispatch({
+                type: "SET_GENERATION_STATUS",
+                payload: {
+                    status: "generated",
+                    message: "Images generated successfully",
+                },
+            })
+          
         } catch (error) {
             imageDispatch({
                 type: "SET_GENERATION_STATUS",
@@ -173,6 +174,7 @@ function CustomImageForm() {
                     type="button"
                     onClick={handleSubmit}
                     className="w-2/3 mx-auto"
+                    disabled={imageState.generationStatus.status !== "idle"}
                 >
                     <span>Generate Image</span>
                     <Stars />

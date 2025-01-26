@@ -148,7 +148,7 @@ function MobileNavbar() {
                     <p className="text-xs">My Images</p>
                 </NavLink>
                 <NavLink
-                    to="/app/savedmodels"
+                    to="/app/mymodels"
                     className={({ isActive }) =>
                         `flex flex-col items-center justify-center space-y-1 p-2 rounded-lg transition-all duration-200 ${
                             isActive ? " text-purple-500" : "text-gray-500 "
@@ -157,7 +157,7 @@ function MobileNavbar() {
                     end
                 >
                     <Layers size={20} />
-                    <p className="text-xs">Saved Models</p>
+                    <p className="text-xs">My Models</p>
                 </NavLink>
                 <NavLink
                     to="/app/settings"

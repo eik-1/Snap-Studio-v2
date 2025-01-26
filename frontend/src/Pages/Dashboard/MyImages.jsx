@@ -12,7 +12,7 @@ function MyImages()
             <div className="w-[95%] flex-shrink-0  mx-auto md:mx-0 h-36 md:h-[95%] md:my-auto md:w-96  border-b-[1px] md:border-r-[1px] md:border-b-0 border-neutral-200 md:border-b-none ">
                 <div className="flex flex-col  items-center mt-10 md:mt-32 gap-2 ">
                             <h2 className="text-3xl leading-relaxed text-center font-semibold bg-clip-text text-transparent  bg-gradient-to-r from-rose-500 via-purple-500 to-cyan-500"> 
-                    MY Images
+                    My Images
                 </h2>
                 <p className="text-gray-500 text-sm">Explore your saved images</p>
                 </div>
