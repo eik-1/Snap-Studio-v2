@@ -1,10 +1,12 @@
+import { GoogleOriginal, LinkedinOriginal } from "devicons-react"
 import { AlertCircle, Lock, Mail, UserSquare2 } from "lucide-react"
 import React, { useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
+
 import { Alert, AlertDescription } from "@/Components/UI/alert"
 import { useUser } from "@/contexts/UserContext"
 import { useToast } from "@/hooks/use-toast"
-import { signUp } from "@/services/api/authService"
+import { loginWithOAuth, signUp } from "@/services/api/authService"
 
 function Login() {
     const location = useLocation()
@@ -20,7 +22,7 @@ function Login() {
     const [loading, setLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
 
-    const { loginUser } = useUser()
+    const { loginUser, setUser } = useUser()
     const { toast } = useToast()
     const navigate = useNavigate()
 
@@ -75,6 +77,15 @@ function Login() {
         return Object.keys(newErrors).length === 0
     }
 
+    async function handleOAuthLogin(provider) {
+        const data = await loginWithOAuth(provider)
+        console.log("Data here", data)
+    }
+
+    async function handleLinkedinLogin() {
+        console.log("Linkedin login")
+    }
+
     async function handleSubmit(e) {
         e.preventDefault()
         setErrorMessage("")
@@ -109,97 +120,98 @@ function Login() {
                 </div>
 
                 <form className="space-y-6" onSubmit={handleSubmit}>
-                    {isSignup && (<>
-                    <div className="flex space-x-2">
-
-                    
-                        <div>
-                        <label className="block text-sm font-medium text-base-content mb-2">
-                            First Name
-                        </label>
-                        <div className="relative">
-                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                                <UserSquare2 size={20} />
-                            </span>
-                            <input
-                                type="text"
-                                placeholder="First Name"
-                                className={`w-full pl-10 pr-4 py-3 rounded-lg border ${
-                                    errors.firstName
-                                        ? "border-error"
-                                        : "border-gray-300"
-                                }  transition-all duration-200`}
-                                value={firstName}
-                                onChange={(e) =>
-                                    setFirstName(e.target.value)
-                                }
-                            />
-
-                        </div>
-                        {errors.username && (
-                            <Alert variant="destructive" className="mt-2">
-                                <AlertCircle className="h-4 w-4" />
-                                <AlertDescription>
-                                    {errors.firstName}
-                                </AlertDescription>
-                            </Alert>
-                        )}
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-base-content mb-2">
-                            Last Name
-                        </label>
-                        <div className="relative">
-                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                                <UserSquare2 size={20} />
-                            </span>
-                            <input
-                                type="text"
-                                placeholder="Last Name"
-                                className={`w-full pl-10 pr-4 py-3 rounded-lg border `}
-                                value={lastName}
-                                onChange={(e) =>
-                                    setLastName(e.target.value)
-                                }
-                            />
-                            
-                        </div>
-                       
-                    </div>
-                    
-                    </div>
-                        <div>
-                            <label className="block text-sm font-medium text-base-content mb-2">
-                                Username
-                            </label>
-                            <div className="relative">
-                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                                    <Mail size={20} />
-                                </span>
-                                <input
-                                    type="text"
-                                    placeholder="Username"
-                                    className={`w-full pl-10 pr-4 py-3 rounded-lg border ${
-                                        errors.username
-                                            ? "border-error"
-                                            : "border-gray-300"
-                                    }  transition-all duration-200`}
-                                    value={username}
-                                    onChange={(e) =>
-                                        setUsername(e.target.value)
-                                    }
-                                />
+                    {isSignup && (
+                        <>
+                            <div className="flex space-x-2">
+                                <div>
+                                    <label className="block text-sm font-medium text-base-content mb-2">
+                                        First Name
+                                    </label>
+                                    <div className="relative">
+                                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                            <UserSquare2 size={20} />
+                                        </span>
+                                        <input
+                                            type="text"
+                                            placeholder="First Name"
+                                            className={`w-full pl-10 pr-4 py-3 rounded-lg border ${
+                                                errors.firstName
+                                                    ? "border-error"
+                                                    : "border-gray-300"
+                                            }  transition-all duration-200`}
+                                            value={firstName}
+                                            onChange={(e) =>
+                                                setFirstName(e.target.value)
+                                            }
+                                        />
+                                    </div>
+                                    {errors.username && (
+                                        <Alert
+                                            variant="destructive"
+                                            className="mt-2"
+                                        >
+                                            <AlertCircle className="h-4 w-4" />
+                                            <AlertDescription>
+                                                {errors.firstName}
+                                            </AlertDescription>
+                                        </Alert>
+                                    )}
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-base-content mb-2">
+                                        Last Name
+                                    </label>
+                                    <div className="relative">
+                                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                            <UserSquare2 size={20} />
+                                        </span>
+                                        <input
+                                            type="text"
+                                            placeholder="Last Name"
+                                            className={`w-full pl-10 pr-4 py-3 rounded-lg border `}
+                                            value={lastName}
+                                            onChange={(e) =>
+                                                setLastName(e.target.value)
+                                            }
+                                        />
+                                    </div>
+                                </div>
                             </div>
-                            {errors.username && (
-                                <Alert variant="destructive" className="mt-2">
-                                    <AlertCircle className="h-4 w-4" />
-                                    <AlertDescription>
-                                        {errors.username}
-                                    </AlertDescription>
-                                </Alert>
-                            )}
-                        </div>
-                    </>
+                            <div>
+                                <label className="block text-sm font-medium text-base-content mb-2">
+                                    Username
+                                </label>
+                                <div className="relative">
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                        <Mail size={20} />
+                                    </span>
+                                    <input
+                                        type="text"
+                                        placeholder="Username"
+                                        className={`w-full pl-10 pr-4 py-3 rounded-lg border ${
+                                            errors.username
+                                                ? "border-error"
+                                                : "border-gray-300"
+                                        }  transition-all duration-200`}
+                                        value={username}
+                                        onChange={(e) =>
+                                            setUsername(e.target.value)
+                                        }
+                                    />
+                                </div>
+                                {errors.username && (
+                                    <Alert
+                                        variant="destructive"
+                                        className="mt-2"
+                                    >
+                                        <AlertCircle className="h-4 w-4" />
+                                        <AlertDescription>
+                                            {errors.username}
+                                        </AlertDescription>
+                                    </Alert>
+                                )}
+                            </div>
+                        </>
                     )}
                     <div>
                         <label className="block text-sm font-medium text-base-content mb-2">
@@ -284,6 +296,31 @@ function Login() {
                     {isSignup
                         ? "Already have an account? Login"
                         : "Create new account"}
+                </button>
+            </div>
+            <div className="flex items-center w-full my-4">
+                <hr className="w-1/2 h-tiny bg-gray-300 my-2" />
+                <span className="mx-4 text-gray-500">OR</span>
+                <hr className="w-1/2 h-tiny bg-gray-300 my-2" />
+            </div>
+            <div className="flex w-full flex-col space-y-4 text-lg">
+                <button
+                    type="button"
+                    className="w-full py-3 bg-white text-black rounded-lg transition-colors border duration-200 flex items-center justify-center gap-5"
+                    onClick={() => handleOAuthLogin("google")}
+                >
+                    <GoogleOriginal size={20} />
+                    Continue with Google
+                </button>
+                <button
+                    type="button"
+                    className="w-full py-3 bg-white text-black rounded-lg border transition-colors duration-200 flex items-center justify-center gap-5"
+                    onClick={() => {
+                        loginWithOAuth("linkedin_oidc")
+                    }}
+                >
+                    <LinkedinOriginal size={20} />
+                    Continue with LinkedIn
                 </button>
             </div>
 

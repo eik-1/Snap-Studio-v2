@@ -14,13 +14,11 @@ function UserProvider({ children }) {
     const [error, setError] = useState(null)
 
     async function loginUser(email, password) {
-        
-            setLoading(true)
-            const userData = await login(email, password)
-            localStorage.setItem("userData", JSON.stringify(userData))
-            setUser(userData)
-            return userData
-      
+        setLoading(true)
+        const userData = await login(email, password)
+        localStorage.setItem("userData", JSON.stringify(userData))
+        setUser(userData)
+        return userData
     }
 
     async function logoutUser() {
@@ -36,7 +34,15 @@ function UserProvider({ children }) {
 
     return (
         <UserContext.Provider
-            value={{ user, loading, error, loginUser, logoutUser, setLoading }}
+            value={{
+                user,
+                setUser,
+                loading,
+                error,
+                loginUser,
+                logoutUser,
+                setLoading,
+            }}
         >
             {children}
         </UserContext.Provider>
