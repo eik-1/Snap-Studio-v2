@@ -8,7 +8,9 @@ import { NavigationProvider } from "./contexts/NavigationContext"
 import { UserProvider, useUser } from "./contexts/UserContext"
 import Home from "./Pages/Dashboard/Home"
 import RootLayout from "./Pages/Dashboard/RootLayout"
-import SavedImageCollection from "./Pages/Dashboard/SavedImageCollection"
+import MyImages from "./Pages/Dashboard/MyImages"
+import MyModels from "./Pages/Dashboard/MyModels"
+import  Settings  from "@/Pages/Dashboard/Settings"
 import LandingPage from "./Pages/Landing/LandingPage"
 import LandingRootLayout from "./Pages/Landing/LandingRootLayout"
 import Login from "./Pages/Landing/Login"
@@ -90,9 +92,19 @@ function App() {
                 },
                 {
                     path: "myimages",
-                    element: <SavedImageCollection />,
+                    element: <MyImages/>,
                     errorElement: <Error />,
                 },
+                {
+                    path: "mymodels",
+                    element: <MyModels />,
+                    errorElement: <Error />,
+                },
+                {
+                    path: "settings",
+                    element: <Settings />,
+                    errorElement: <Error />,
+                }
             ],
         },
     ])

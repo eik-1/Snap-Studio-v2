@@ -20,7 +20,7 @@ function OptionPanel() {
                     </p>
                 </div>
             </div>
-            <div className="h-max w-full flex flex-col items-center gap-4 ">
+            <div className="h-max w-full flex flex-col items-center gap-5 ">
                 {services.map((service, index) => (
                     <ServiceCard
                         key={index}

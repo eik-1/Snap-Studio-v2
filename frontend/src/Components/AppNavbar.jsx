@@ -99,14 +99,15 @@ function SideNavbar() {
                     })}
                 </ul>
 
-                <div className="flex h-12  w-full text-gray-500 p-3  space-x-6  pt-4 ">
+                <div className="flex h-12  w-full text-gray-500 p-3  space-x-6  mb-3">
                     <div>
                         <User2 size={20} />
                     </div>
 
                     {isHovered && (
-                        <div className="flex flex-col text-neutral-800">
-                            <p className="text-base font-semibold">{user.first_name}</p>
+                        <div className="flex flex-col gap-1 text-neutral-800">
+                            <p className="text-base font-semibold leading-none">{user.first_name}</p>
+                            <p className="text-base font-semibold leading-none">{user?.last_name}</p>
                             <div>
                                 <button onClick={handleLogout}>
                                     <span className="text-red-500 text-sm">Log out</span>
@@ -148,7 +149,7 @@ function MobileNavbar() {
                     <p className="text-xs">My Images</p>
                 </NavLink>
                 <NavLink
-                    to="/app/savedmodels"
+                    to="/app/mymodels"
                     className={({ isActive }) =>
                         `flex flex-col items-center justify-center space-y-1 p-2 rounded-lg transition-all duration-200 ${
                             isActive ? " text-purple-500" : "text-gray-500 "
@@ -157,7 +158,7 @@ function MobileNavbar() {
                     end
                 >
                     <Layers size={20} />
-                    <p className="text-xs">Saved Models</p>
+                    <p className="text-xs">My Models</p>
                 </NavLink>
                 <NavLink
                     to="/app/settings"

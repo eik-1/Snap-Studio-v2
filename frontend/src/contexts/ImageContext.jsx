@@ -1,19 +1,21 @@
 import { createContext, useContext, useReducer } from "react"
 
 const ImageContext = createContext()
+const tempData=["https://replicate.delivery/xezq/1qe8ArAeDDlKPUmd3VX9ReAXf7Wndb5cuLmQNBVtfeL1KrMCF/out-0.webp","https://replicate.delivery/xezq/1qe8ArAeDDlKPUmd3VX9ReAXf7Wndb5cuLmQNBVtfeL1KrMCF/out-0.webp","https://replicate.delivery/xezq/1qe8ArAeDDlKPUmd3VX9ReAXf7Wndb5cuLmQNBVtfeL1KrMCF/out-0.webp", "https://replicate.delivery/xezq/1qe8ArAeDDlKPUmd3VX9ReAXf7Wndb5cuLmQNBVtfeL1KrMCF/out-0.webp", "https://replicate.delivery/xezq/1qe8ArAeDDlKPUmd3VX9ReAXf7Wndb5cuLmQNBVtfeL1KrMCF/out-0.webp"]
 const imageState = {
     mode: "none",
     generationStatus: {
-        status: "",
+        status: "idle",
         message: "",
     },
-    generatedImageUrls: [],
+    generatedImageUrls: []
+        
+    ,
 }
 
 const Actions = {
     SET_MODE: "SET_MODE",
     SET_GENERATION_STATUS: "SET_GENERATION_STATUS",
-    START_GENERATION: "START_GENERATION",
     SET_GENERATED_IMAGE_URLS: "SET_GENERATED_IMAGE_URLS",
 }
 
@@ -21,14 +23,6 @@ function imageReducer(state, action) {
     switch (action.type) {
         case Actions.SET_MODE:
             return { ...state, mode: action.payload }
-        case Actions.START_GENERATION:
-            return {
-                ...state,
-                generationStatus: {
-                    status: "generating",
-                    message: "Generating Images",
-                },
-            }
         case Actions.SET_GENERATION_STATUS:
             return { ...state, generationStatus: action.payload }
         case Actions.SET_GENERATED_IMAGE_URLS:
