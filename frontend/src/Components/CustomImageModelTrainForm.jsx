@@ -80,7 +80,7 @@ function CustomImageModelTrainForm() {
                         return (
                             <div
                                 key={index}
-                                className="flex flex-col h-max w-full  mt-3 pb-2 gap-1 "
+                                className="flex flex-col h-max w-full  mt-6 pb-2 gap-1 "
                             >
                                 <div className="flex gap-2 w-max h-max text-gray-700  items-center justify-center">
                                     {field.Icon}

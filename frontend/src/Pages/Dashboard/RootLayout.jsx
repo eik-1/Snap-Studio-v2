@@ -12,7 +12,7 @@ function RootLayout() {
             <AppNavbar />
             <Header />
             <div className="min-h-screen sm:ml-16 z-50 overflow-hidden font-sans">
-                <main className="relative bg-gray-50  h-[calc(100dvh-2.5rem)] w-full sm:w-[calc(100dvw-4rem)]  mt-10 overflow-hidden">
+                <main className="relative bg-white  h-[calc(100dvh-2.5rem)] w-full sm:w-[calc(100dvw-4rem)]  mt-10 overflow-hidden">
                     <Outlet />
                 </main>
             </div>

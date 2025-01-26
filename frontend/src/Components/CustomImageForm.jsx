@@ -128,7 +128,7 @@ function CustomImageForm() {
                             Train New Model
                         </button>
                     </div>
-                    <div className="flex flex-col h-max pb-2 mt-6 gap-1">
+                    <div className="flex flex-col h-max pb-2 mt-10 gap-1">
                     <div className="flex gap-2 w-max h-max text-gray-700  items-center justify-center">
                             <NumImage size={16} />
                         <label className="block text-sm font-medium text-gray-700">
@@ -148,7 +148,7 @@ function CustomImageForm() {
                             className="px-3 py-2 mt-2 block w-full border border-gray-300 rounded-md  focus:ring-slate-500 focus:border-slate-500 text-sm"
                         />
                     </div>
-                    <div className="flex flex-col h-max pb-2 mt-3 gap-1">
+                    <div className="flex flex-col h-max pb-2 mt-6 gap-1">
                     <div className="flex gap-2 w-max h-max text-gray-700  items-center justify-center">
                             <PromptIcon size={16} />
                         <label className="block text-sm font-medium text-gray-700">

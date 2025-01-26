@@ -1,7 +1,7 @@
 import { Image } from "lucide-react"
 import { Download, Heart } from "lucide-react"
 import { useState } from "react"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "motion/react"
 import { useImage } from "@/contexts/ImageContext"
 //incomplete component: multiple features and functionalities are missing, to be implemented
 
@@ -31,7 +31,20 @@ function ImageResultSection() {
                     Your Generated Images
                 </h2>
                 <div className="w-full h-full relative ">
-                   {imageState.generationStatus.status==='generating' && <div className="z-0 animate-gradient blur-md   bg-[length:200%_100%] h-full w-full absolute top-0 right-0  bg-gen rounded-lg" />}
+                    <AnimatePresence>
+                    {imageState.generationStatus.status==='generating' && <motion.div className="z-0  h-full w-full absolute top-0 right-0  rounded-lg" 
+                    initial={{opacity:0}}
+                    animate={{opacity:1}}
+                    exit={{opacity:0}}>
+                        <div className="z-0 animate-gradient blur-md  bg-[length:200%_100%] h-full w-full  bg-gen rounded-lg">
+
+                        </div>
+                    </motion.div>
+                    
+                    
+                        }
+                    </AnimatePresence>
+                  
                     <div className="relative w-full h-full gap-4 p-2 rounded-lg bg-white flex flex-col drop-shadow-sm items-center border-gray-200 border-[1px]">
                         {content}
                     </div>
@@ -81,7 +94,7 @@ function ImageResultGrid({ images }) {
 function ImageResultLoading() {
     return (
         <div className="w-full h-full flex flex-col items-center justify-center gap-4">
-            <p className="text-lg font-medium animate-gradient bg-[length:200%_100%] bg-clip-text text-transparent bg-gradient-to-r from-rose-500 via-purple-500 to-orange-500">
+            <p className="h-max w-max text-lg font-medium text-transparent bg-clip-text bg-gradient-to-r from-rose-500 via-purple-500 to-cyan-500 bg-[length:200%_100%] animate-gradient ">
                 Generating Your Images..
             </p>
         </div>
