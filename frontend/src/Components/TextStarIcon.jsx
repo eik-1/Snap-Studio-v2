@@ -1,3 +1,5 @@
+/* important this is an old component and is not in use*/
+
 function TextStarIcon() {
     return (
         <div className="h-max w-max">

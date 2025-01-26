@@ -1,3 +1,6 @@
+/* important this is an old component and is not in use*/
+
+
 import PromptForm from "./PromptForm"
 import ImageGrid from "./Images"
 

@@ -1,3 +1,5 @@
+/* important this is an old component and is not in use*/
+
 import { useState, useEffect } from "react"
 import { ChevronRight } from "lucide-react"
 

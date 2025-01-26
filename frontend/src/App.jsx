@@ -1,10 +1,9 @@
 import React from "react"
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom"
-
 import { useToast } from "@/hooks/use-toast"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import Error from "./Components/Error"
-import { ImageProvider } from "./contexts/ImageContext"
+import { ImageProvider } from "@/contexts/ImageContext"
+import { ModelProvider } from "@/contexts/ModelContext"
 import { NavigationProvider } from "./contexts/NavigationContext"
 import { UserProvider, useUser } from "./contexts/UserContext"
 import Home from "./Pages/Dashboard/Home"
@@ -16,6 +15,7 @@ import Login from "./Pages/Landing/Login"
 import OAuth from "./Pages/Landing/OAuth"
 import PrivacyPolicy from "./Pages/Landing/Privacy"
 import TermsOfService from "./Pages/Landing/TermsOfService"
+import Error from "./Components/Error"
 
 function ProtectedRoute({ children }) {
     const { user } = useUser()
@@ -73,9 +73,11 @@ function App() {
                 <QueryClientProvider client={queryClient}>
                     <ProtectedRoute>
                         <ImageProvider>
-                            <NavigationProvider>
-                                <RootLayout />
-                            </NavigationProvider>
+                            <ModelProvider>
+                                <NavigationProvider>
+                                    <RootLayout />
+                                </NavigationProvider>
+                            </ModelProvider>
                         </ImageProvider>
                     </ProtectedRoute>
                 </QueryClientProvider>
