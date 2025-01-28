@@ -44,7 +44,7 @@ function SideNavbar() {
 
     return (
         <motion.nav
-            className="hidden sm:block fixed font-sans left-0  h-screen  bg-white/75 backdrop-blur-2xl border-r z-[80] hover:border-none"
+            className="hidden sm:block fixed font-sans left-0  h-screen  bg-white/75 backdrop-blur-2xl border-r z-[85] hover:border-none"
             whileHover={{
                 width: "14rem",
                 boxShadow: "0 0 5px rgba(0,0,0,0.1)",
@@ -124,7 +124,7 @@ function SideNavbar() {
 }
 function MobileNavbar() {
     return (
-        <div className="sm:hidden fixed bottom-0 w-full h-16  bg-white/75 backdrop-blur-2xl border-t z-[80]">
+        <div className="sm:hidden fixed bottom-0 w-full h-16  bg-white/75 backdrop-blur-2xl border-t z-[85]">
             <nav className="flex justify-between items-center p-2 pb-0 ">
                 <NavLink
                     to="/app"
