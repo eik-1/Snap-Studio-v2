@@ -9,7 +9,7 @@ import { FadeLoader } from "react-spinners"
 import { useUser } from "@/contexts/UserContext"
 import { useImage } from "@/contexts/ImageContext"
 
-function ImageGrid() {
+function Img() {
     const [selectedId, setSelectedId] = useState(null)
     const [isHovering, setIsHovering] = useState(false)
     const {
@@ -219,4 +219,4 @@ function ImageGrid() {
     return content
 }
 
-export default ImageGrid
+export default Img

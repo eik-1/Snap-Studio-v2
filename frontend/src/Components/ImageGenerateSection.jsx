@@ -2,7 +2,7 @@
 
 
 import PromptForm from "./PromptForm"
-import ImageGrid from "./Images"
+import ImageGrid from "./ImagesOld"
 
 function ImageGenerateSection() {
     /* const [generationStatus, setGenerationStatus] = useState({
