@@ -22,7 +22,7 @@ function Login() {
     const [loading, setLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
 
-    const { loginUser, setUser } = useUser()
+    const { loginUser } = useUser()
     const { toast } = useToast()
     const navigate = useNavigate()
 
@@ -80,10 +80,6 @@ function Login() {
     async function handleOAuthLogin(provider) {
         const data = await loginWithOAuth(provider)
         console.log("Data here", data)
-    }
-
-    async function handleLinkedinLogin() {
-        console.log("Linkedin login")
     }
 
     async function handleSubmit(e) {
@@ -263,6 +259,15 @@ function Login() {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
+
+                        {errorMessage === "Incorrect Email or Password" && (
+                            <p
+                                className="text-sm font-normal mt-2 ml-1 cursor-pointer text-blue-600"
+                                onClick={() => navigate("/reset-password")}
+                            >
+                                Forgot Password ?
+                            </p>
+                        )}
 
                         {errors.password && (
                             <Alert variant="destructive" className="mt-2">
