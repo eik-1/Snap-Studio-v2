@@ -57,6 +57,10 @@ const config = {
                     '50%': { 'background-position': '100% 50%' },
                     '100%': { 'background-position': '0% 50%' }
                   },
+                  shimmer: {
+                    "0%": { backgroundPosition: "-200% 0" },
+                    "100%": { backgroundPosition: "200% 0" },
+                  },
                 
             },
             animation: {
@@ -64,6 +68,7 @@ const config = {
                 "marquee-vertical":
                     "marquee-vertical var(--duration) linear infinite",
                 gradient: 'gradient 2s ease-out infinite',
+                shimmer: "shimmer 2s infinite",
                
             },
         },

@@ -1,14 +1,14 @@
 import { createContext, useContext, useReducer } from "react"
 
 const ImageContext = createContext()
-const tempData=["https://replicate.delivery/xezq/1qe8ArAeDDlKPUmd3VX9ReAXf7Wndb5cuLmQNBVtfeL1KrMCF/out-0.webp","https://replicate.delivery/xezq/1qe8ArAeDDlKPUmd3VX9ReAXf7Wndb5cuLmQNBVtfeL1KrMCF/out-0.webp","https://replicate.delivery/xezq/1qe8ArAeDDlKPUmd3VX9ReAXf7Wndb5cuLmQNBVtfeL1KrMCF/out-0.webp", "https://replicate.delivery/xezq/1qe8ArAeDDlKPUmd3VX9ReAXf7Wndb5cuLmQNBVtfeL1KrMCF/out-0.webp", "https://replicate.delivery/xezq/1qe8ArAeDDlKPUmd3VX9ReAXf7Wndb5cuLmQNBVtfeL1KrMCF/out-0.webp"]
+const tempData=["https://replicate.delivery/xezq/cskuEt2q4FqjPh62OQNR0vGmycS1XQvpBD6YCPQTJuxjevEKA/out-0.webp","https://replicate.delivery/xezq/cskuEt2q4FqjPh62OQNR0vGmycS1XQvpBD6YCPQTJuxjevEKA/out-0.webp","https://replicate.delivery/xezq/cskuEt2q4FqjPh62OQNR0vGmycS1XQvpBD6YCPQTJuxjevEKA/out-0.webp", "https://replicate.delivery/xezq/cskuEt2q4FqjPh62OQNR0vGmycS1XQvpBD6YCPQTJuxjevEKA/out-0.webp", "https://replicate.delivery/xezq/cskuEt2q4FqjPh62OQNR0vGmycS1XQvpBD6YCPQTJuxjevEKA/out-0.webp"]
 const imageState = {
     mode: "none",
     generationStatus: {
         status: "idle",
         message: "",
     },
-    generatedImageUrls: []
+    generatedImageUrls: [...tempData]
         
     ,
 }
