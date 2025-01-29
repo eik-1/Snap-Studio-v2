@@ -1,23 +1,26 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import React from "react"
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom"
-import { useToast } from "@/hooks/use-toast"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+
 import { ImageProvider } from "@/contexts/ImageContext"
 import { ModelProvider } from "@/contexts/ModelContext"
+import { useToast } from "@/hooks/use-toast"
+import Settings from "@/Pages/Dashboard/Settings"
+import Error from "./Components/Error"
 import { NavigationProvider } from "./contexts/NavigationContext"
 import { UserProvider, useUser } from "./contexts/UserContext"
 import Home from "./Pages/Dashboard/Home"
-import RootLayout from "./Pages/Dashboard/RootLayout"
 import MyImages from "./Pages/Dashboard/MyImages"
 import MyModels from "./Pages/Dashboard/MyModels"
-import  Settings  from "@/Pages/Dashboard/Settings"
+import RootLayout from "./Pages/Dashboard/RootLayout"
 import LandingPage from "./Pages/Landing/LandingPage"
 import LandingRootLayout from "./Pages/Landing/LandingRootLayout"
 import Login from "./Pages/Landing/Login"
 import OAuth from "./Pages/Landing/OAuth"
 import PrivacyPolicy from "./Pages/Landing/Privacy"
 import TermsOfService from "./Pages/Landing/TermsOfService"
-import Error from "./Components/Error"
+import ChangePassword from "./Pages/ResetPassword/ChangePassword"
+import ResetPassword from "./Pages/ResetPassword/ResetPassword"
 
 function ProtectedRoute({ children }) {
     const { user } = useUser()
@@ -70,6 +73,16 @@ function App() {
             ],
         },
         {
+            path: "/reset-password",
+            element: <ResetPassword />,
+            errorElement: <Error />,
+        },
+        {
+            path: "/change-password",
+            element: <ChangePassword />,
+            errorElement: <Error />,
+        },
+        {
             path: "/app",
             element: (
                 <QueryClientProvider client={queryClient}>
@@ -92,7 +105,7 @@ function App() {
                 },
                 {
                     path: "myimages",
-                    element: <MyImages/>,
+                    element: <MyImages />,
                     errorElement: <Error />,
                 },
                 {
@@ -104,7 +117,7 @@ function App() {
                     path: "settings",
                     element: <Settings />,
                     errorElement: <Error />,
-                }
+                },
             ],
         },
     ])

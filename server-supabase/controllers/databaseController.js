@@ -4,6 +4,8 @@ dotenv.config();
 import supabase from "../configs/supabase.js";
 import ApiResponse from "../utils/ApiResponse.js";
 
+/*MODELS TABLE*/
+
 export async function createModel(
   userId,
   modelName,
@@ -134,6 +136,8 @@ export async function deleteModel(modelId) {
   }
 }
 
+/*IMAGES TABLE*/
+
 export async function saveImage(req, res) {
   const { userId, fileUrl } = req.body;
   try {
@@ -206,6 +210,52 @@ export async function getImages(req, res) {
   }
 }
 
-export async function addUserSubscription(req, res) {
-  const { userId } = req.body;
+/*SUBSCRIPTION TABLE*/
+
+export async function checkCredits(req, res) {
+  const { email } = req.body;
+  try {
+    const { data, error } = await supabase
+      .from("Subscription")
+      .select("credits")
+      .eq("email", email);
+    if (error) {
+      throw error;
+    }
+    return res.status(200).json(
+      new ApiResponse(200, "User credits", {
+        credits: data[0].credits,
+      })
+    );
+  } catch (err) {
+    return res.status(500).json(
+      new ApiResponse(500, "Error fetching credits", {
+        error: err.message,
+      })
+    );
+  }
+}
+
+export async function getUserSubscriptionDetails(req, res) {
+  const { email } = req.body;
+  try {
+    const { data, error } = await supabase
+      .from("Subscription")
+      .select("*")
+      .eq("email", email);
+    if (error) {
+      throw error;
+    }
+    return res.status(200).json(
+      new ApiResponse(200, "User subscription details", {
+        subscription: data[0],
+      })
+    );
+  } catch (err) {
+    return res.status(500).json(
+      new ApiResponse(500, "Error fetching subscription details", {
+        error: err.message,
+      })
+    );
+  }
 }

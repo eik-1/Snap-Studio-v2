@@ -70,18 +70,16 @@ export async function trainOstrisModel(req, res) {
       }
     );
     console.log("Training started: ", training);
-    const modelData={
+    const modelData = {
       userId,
       modelName,
       triggerWord,
       gender,
       ethnicity,
-      status:training.status,
-      version:training.id,
-      statusAcknowledged:false
-
-
-    }
+      status: training.status,
+      version: training.id,
+      statusAcknowledged: false,
+    };
     await createModel(
       userId,
       modelName,
@@ -94,8 +92,7 @@ export async function trainOstrisModel(req, res) {
     return res.status(200).json(
       new ApiResponse(200, "Model training started", {
         status: training.status,
-        modelData
-        
+        modelData,
       })
     );
   } catch (err) {
@@ -280,19 +277,3 @@ export async function replicateWebhook(req, res) {
     console.log("Don't care about this status");
   }
 }
-
-// {
-//   "id": "ufawqhfynnddngldkgtslldrkq",
-//   "version": "5c7d5dc6dd8bf75c1acaa8565735e7986bc5b66206b55cca93cb72c9bf15ccaa",
-//   "created_at": "2022-04-26T22:13:06.224088Z",
-//   "started_at": null,
-//   "completed_at": null,
-//   "status": "starting",
-//   "input": {
-//     "text": "Alice"
-//   },
-//   "output": null,
-//   "error": null,
-//   "logs": null,
-//   "metrics": {}
-// }
