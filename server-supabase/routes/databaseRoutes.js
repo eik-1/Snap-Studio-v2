@@ -1,6 +1,7 @@
 import express from "express";
 
 import {
+  checkCredits,
   getImages,
   getUserModels,
   saveImage,
@@ -11,5 +12,6 @@ const router = express.Router();
 router.post("/save-image", saveImage);
 router.post("/get-saved-images", getImages);
 router.get("/user-models", getUserModels);
+router.post("/get-credits", checkCredits);
 
 export default router;
