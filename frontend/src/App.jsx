@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast"
 import Settings from "@/Pages/Dashboard/Settings"
 import Error from "./Components/Error"
 import { NavigationProvider } from "./contexts/NavigationContext"
+import { SubscriptionProvider } from "./contexts/SubscriptionContext"
 import { UserProvider, useUser } from "./contexts/UserContext"
 import Home from "./Pages/Dashboard/Home"
 import MyImages from "./Pages/Dashboard/MyImages"
@@ -87,13 +88,15 @@ function App() {
             element: (
                 <QueryClientProvider client={queryClient}>
                     <ProtectedRoute>
-                        <ImageProvider>
-                            <ModelProvider>
-                                <NavigationProvider>
-                                    <RootLayout />
-                                </NavigationProvider>
-                            </ModelProvider>
-                        </ImageProvider>
+                        <SubscriptionProvider>
+                            <ImageProvider>
+                                <ModelProvider>
+                                    <NavigationProvider>
+                                        <RootLayout />
+                                    </NavigationProvider>
+                                </ModelProvider>
+                            </ImageProvider>
+                        </SubscriptionProvider>
                     </ProtectedRoute>
                 </QueryClientProvider>
             ),

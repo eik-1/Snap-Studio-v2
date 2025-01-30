@@ -1,7 +1,7 @@
-import { createContext, useContext, useEffect, useReducer } from "react"
-import { getUserModels } from "@/services/api/imageService"
-import { useUser } from "./UserContext"
 import useSSE from "@/hooks/useSSE"
+import { getUserModels } from "@/services/api/services"
+import { createContext, useContext, useEffect, useReducer } from "react"
+import { useUser } from "./UserContext"
 const ModelContext = createContext()
 
 const modelState = {
@@ -22,7 +22,7 @@ function modelReducer(state, action) {
         case Actions.ADD_MODEL:
             return { error: null, models: [...state, action.payload] }
         case Actions.ACKNOWLEDGE_MODEL:
-            return  // need to be implemented
+            return // need to be implemented
         default:
             return state
     }
@@ -30,8 +30,8 @@ function modelReducer(state, action) {
 function ModelProvider({ children }) {
     const [state, dispatch] = useReducer(modelReducer, modelState)
     const { user } = useUser()
-        
-       useEffect(() => {
+
+    useEffect(() => {
         const fetchModels = async () => {
             try {
                 const models = await getUserModels(user.$id)
