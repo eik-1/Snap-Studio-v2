@@ -28,3 +28,17 @@ export async function generateImage(userId, modelName, prompt, numberOfImages) {
     })
     return response.data.output //response is an array of image urls
 }
+
+//function to get user subscription details
+export async function getUserSub(email) {
+    try {
+        const response = await apiRequest(
+            `/database/get-subscription`,
+            "POST",
+            { email },
+        )
+        return response.data.subscription
+    } catch (err) {
+        throw err
+    }
+}
