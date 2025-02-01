@@ -1,6 +1,5 @@
-import { AlertCircle, CheckCheck, Mail } from "lucide-react"
+import { AlertCircle, CircleCheck, Mail } from "lucide-react"
 import { React, useState } from "react"
-
 import { Alert, AlertDescription } from "@/Components/UI/alert"
 import supabase from "@/services/configs/supabase"
 
@@ -18,14 +17,16 @@ function ResetPassword() {
             newErrors.email = "Email is invalid"
         }
         setErrors(newErrors)
+        console.log(newErrors)
         return Object.keys(newErrors).length === 0
     }
 
     async function handleSubmit(e) {
         e.preventDefault()
-        setLoading(true)
+      
         if (validateForm()) {
             setErrors({})
+            setLoading(true)
             try {
                 const { data: resetData, error } =
                     await supabase.auth.resetPasswordForEmail(email, {
@@ -34,6 +35,7 @@ function ResetPassword() {
                 if (error) {
                     throw error
                 }
+                setSuccess(true)
             } catch (err) {
                 console.log(err)
                 setErrors({ email: "Error sending email" })
@@ -41,28 +43,29 @@ function ResetPassword() {
                 setLoading(false)
             }
         }
-        if (Object.keys(errors).length === 0) {
-            setSuccess(true)
-        }
+      
     }
 
     if (success) {
         return (
-            <div className="container h-screen w-full flex justify-center items-center">
-                <div className="text-center flex flex-col justify-center p-8 border-2 border-slate-800 ">
-                    <h2 className="text-2xl flex gap-2 items-center font-bold text-green-500">
-                        <CheckCheck size={30} />
-                        Check your email
+            <div className="p-4 h-screen w-full flex justify-center items-center">
+                <div className="w-full sm:w-3/4 text-center flex flex-col justify-center p-8 border-[1px] rounded-lg gap-4 ">
+                    <h2 className="text-lg flex gap-2 items-center font-semibold text-green-600">
+                        <CircleCheck size={24} />
+                        <span className="text-gray-700 leading-none">
+                        Passowrd reset link sent  </span>
                     </h2>
+                    <p className="text-left">
+                We've sent a password reset link to your email. Please check your inbox and follow the instructions to reset your password. If you don't see the email, check your spam or junk folder.</p>
                 </div>
             </div>
         )
     }
 
     return (
-        <div className="container h-screen w-full flex justify-center items-center">
-            <div className="text-center flex flex-col justify-center p-8 border-2 border-slate-800 ">
-                <h2 className="text-2xl font-bold">Trouble Loggin In ?</h2>
+        <div className="h-screen w-full flex justify-center items-center p-4">
+            <div className="text-center flex flex-col justify-center p-8 border-[1px] rounded-lg ">
+                <h2 className="text-2xl font-bold">Reset your password</h2>
                 <p className="font-light text-sm mt-2 text-slate-600">
                     Enter your email and we'll send you a link to get back into
                     your account.
@@ -75,7 +78,7 @@ function ResetPassword() {
                         <input
                             type="email"
                             placeholder="Email"
-                            className={`w-full pl-10 pr-4 py-3 rounded-lg border-4 ${
+                            className={`w-full pl-10 pr-4 py-3 rounded-lg border-2 ${
                                 errors.email
                                     ? "border-error"
                                     : "border-gray-300"
@@ -92,11 +95,11 @@ function ResetPassword() {
                     )}
                     <button
                         type="submit"
-                        className="w-full bg-blue-500 text-white rounded-lg py-3 mt-5 disabled:bg-slate-400"
+                        className="w-full bg-black text-white rounded-lg py-3 mt-5 disabled:bg-slate-400"
                         onClick={handleSubmit}
                         disabled={loading}
                     >
-                        {loading ? "Submitting" : "Submit"}
+                        {loading ? "sending link" : "Send reset link"}
                     </button>
                 </form>
             </div>

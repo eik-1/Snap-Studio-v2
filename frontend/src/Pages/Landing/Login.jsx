@@ -14,7 +14,6 @@ function Login() {
 
     const [email, setEmail] = useState(emailFromParams)
     const [password, setPassword] = useState("")
-    const [username, setUsername] = useState("")
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
     const [errors, setErrors] = useState({})
@@ -28,7 +27,7 @@ function Login() {
 
     async function createUser() {
         try {
-            await signUp(email, password, username, firstName, lastName)
+            await signUp(email, password, firstName, lastName)
             setPassword("")
             setIsSignup(false)
             toast({
@@ -66,9 +65,6 @@ function Login() {
             newErrors.password = "Password must be at least 8 characters long"
         }
 
-        if (isSignup && !username) {
-            newErrors.username = "Username is required"
-        }
         if (isSignup && !firstName) {
             newErrors.firstName = "First Name is required"
         }
@@ -102,23 +98,24 @@ function Login() {
     }
 
     return (
-        <div className="w-full sm:w-1/2  mx-auto h-max px-4 py-6 my-40 sm:my-20  flex flex-col justify-center items-center border-[1px] rounded-lg bg-white ">
-            <div className="w-full max-w-md">
-                <div className="h-max w-max mx-auto flex flex-col justify-center">
+        <div className="w-full h-max py-6 flex justify-center items-center ">
+        <div className="w-full sm:w-1/2 p-6 mx-auto h-max    flex flex-col justify-center items-center border-[1px] rounded-lg bg-white ">
+           
+                <div className="h-max w-full mx-auto flex flex-col justify-center gap-1">
                     <h2 className="text-2xl font-bold text-center text-purple-600   cursor-pointer">
-                        SnapSTUDIO
+                        SnapStudio
                     </h2>
-                    <p className="text-lg  mb-6">
+                    <p className="text-center   mb-6">
                         {isSignup
                             ? "Create a new account"
                             : "Welcome Back, Login to continue"}
                     </p>
                 </div>
 
-                <form className="space-y-6" onSubmit={handleSubmit}>
+                <form className="space-y-6 w-full" onSubmit={handleSubmit}>
                     {isSignup && (
                         <>
-                            <div className="flex space-x-2">
+                           
                                 <div>
                                     <label className="block text-sm font-medium text-base-content mb-2">
                                         First Name
@@ -141,7 +138,7 @@ function Login() {
                                             }
                                         />
                                     </div>
-                                    {errors.username && (
+                                    {errors.firstName && (
                                         <Alert
                                             variant="destructive"
                                             className="mt-2"
@@ -172,41 +169,7 @@ function Login() {
                                         />
                                     </div>
                                 </div>
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-base-content mb-2">
-                                    Username
-                                </label>
-                                <div className="relative">
-                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                                        <Mail size={20} />
-                                    </span>
-                                    <input
-                                        type="text"
-                                        placeholder="Username"
-                                        className={`w-full pl-10 pr-4 py-3 rounded-lg border ${
-                                            errors.username
-                                                ? "border-error"
-                                                : "border-gray-300"
-                                        }  transition-all duration-200`}
-                                        value={username}
-                                        onChange={(e) =>
-                                            setUsername(e.target.value)
-                                        }
-                                    />
-                                </div>
-                                {errors.username && (
-                                    <Alert
-                                        variant="destructive"
-                                        className="mt-2"
-                                    >
-                                        <AlertCircle className="h-4 w-4" />
-                                        <AlertDescription>
-                                            {errors.username}
-                                        </AlertDescription>
-                                    </Alert>
-                                )}
-                            </div>
+                      
                         </>
                     )}
                     <div>
@@ -260,14 +223,14 @@ function Login() {
                             />
                         </div>
 
-                        {errorMessage === "Incorrect Email or Password" && (
-                            <p
+                     
+                        {!isSignup && <p
                                 className="text-sm font-normal mt-2 ml-1 cursor-pointer text-blue-600"
                                 onClick={() => navigate("/reset-password")}
                             >
                                 Forgot Password ?
-                            </p>
-                        )}
+                            </p>}
+                       
 
                         {errors.password && (
                             <Alert variant="destructive" className="mt-2">
@@ -293,22 +256,25 @@ function Login() {
                         {isSignup ? "Sign Up" : "Login"}
                     </button>
                 </form>
-
+                <div className="w-full flex justify-center items-center mt-4 text-base gap-1">
+                <p className="text-gray-900 ">{isSignup?"Already have an account?":"New user?"}</p>
                 <button
                     onClick={() => setIsSignup(!isSignup)}
-                    className="w-full mt-4 text-blue-600 hover:underline"
+                    className="text-blue-600 hover:underline"
                 >
                     {isSignup
-                        ? "Already have an account? Login"
-                        : "Create new account"}
+                        ? " Login"
+                        : "Create account"}
                 </button>
-            </div>
+                </div>
+                
+          
             <div className="flex items-center w-full my-4">
                 <hr className="w-1/2 h-tiny bg-gray-300 my-2" />
                 <span className="mx-4 text-gray-500">OR</span>
                 <hr className="w-1/2 h-tiny bg-gray-300 my-2" />
             </div>
-            <div className="flex w-full flex-col space-y-4 text-lg">
+            <div className="flex w-full flex-col space-y-4 text-base">
                 <button
                     type="button"
                     className="w-full py-3 bg-white text-black rounded-lg transition-colors border duration-200 flex items-center justify-center gap-5"
@@ -332,6 +298,7 @@ function Login() {
             <div className="mt-8 text-center text-sm text-gray-400">
                 © 2025 ALL RIGHTS RESERVED
             </div>
+        </div>
         </div>
     )
 }
