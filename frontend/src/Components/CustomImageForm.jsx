@@ -1,11 +1,17 @@
-import { Stars, Layers as ModelIcon, PlusCircle as NewModel, Images as NumImage,PenLine as PromptIcon } from "lucide-react"
-import { useState } from "react"
 import { useImage } from "@/contexts/ImageContext"
-import { useUser } from "@/contexts/UserContext"
-import { generateImage, getUserModels } from "@/services/api/imageService"
-import { Button } from "./UI/Button"
-import { useNavigation as useBackNavigation } from "@/contexts/NavigationContext"
 import { useModel } from "@/contexts/ModelContext"
+import { useNavigation as useBackNavigation } from "@/contexts/NavigationContext"
+import { useUser } from "@/contexts/UserContext"
+import { generateImage, getUserModels } from "@/services/api/services"
+import {
+    Layers as ModelIcon,
+    PlusCircle as NewModel,
+    Images as NumImage,
+    PenLine as PromptIcon,
+    Stars,
+} from "lucide-react"
+import { useState } from "react"
+import { Button } from "./UI/Button"
 
 function CustomImageForm() {
     const [selectedModel, setSelectedModel] = useState("")
@@ -14,14 +20,17 @@ function CustomImageForm() {
     const { user } = useUser()
     const { dispatch: imageDispatch, state: imageState } = useImage()
     const { dispatch: navDispatch } = useBackNavigation()
-    const {state: modelState} = useModel();
+    const { state: modelState } = useModel()
 
-   /* const { data: fetchedModels = [] } = useQuery({
+    /* const { data: fetchedModels = [] } = useQuery({
         queryKey: ["models", user],
         queryFn: () => getUserModels(user.$id),
     })*/
     async function handleImageGeneration(userId, modelName, prompt, numImages) {
-        imageDispatch({ type: "SET_GENERATION_STATUS", payload: { status: "generating", message: "Generating Images" } })
+        imageDispatch({
+            type: "SET_GENERATION_STATUS",
+            payload: { status: "generating", message: "Generating Images" },
+        })
         try {
             const generatedImages = await generateImage(
                 userId,
@@ -40,7 +49,6 @@ function CustomImageForm() {
                     message: "Images generated successfully",
                 },
             })
-          
         } catch (error) {
             imageDispatch({
                 type: "SET_GENERATION_STATUS",
@@ -56,7 +64,7 @@ function CustomImageForm() {
         e.preventDefault()
         const numImages = parseInt(numberOfImages)
         // handle > 5 images
-        console.log(selectedModel);
+        console.log(selectedModel)
         await handleImageGeneration(user.$id, selectedModel, prompt, numImages)
         if (imageState.generationStatus.status === "success") {
             //reset form state or just leave it as it is
@@ -88,9 +96,9 @@ function CustomImageForm() {
                     <div className="flex flex-col h-max  mt-3 pb-2 gap-1">
                         <div className="flex gap-2 w-max h-max text-gray-700  items-center justify-center">
                             <ModelIcon size={16} />
-                        <label className="block text-sm font-medium text-gray-700 leading-none">
-                            Select Model
-                        </label>
+                            <label className="block text-sm font-medium text-gray-700 leading-none">
+                                Select Model
+                            </label>
                         </div>
                         <p className="text-[0.675rem] font-regular tracking-tight text-gray-500">
                             Choose from your trained models
@@ -100,7 +108,7 @@ function CustomImageForm() {
                             value={selectedModel}
                             onChange={(e) => setSelectedModel(e.target.value)}
                             className={`px-3 py-2 mt-2 block w-full  border border-gray-300 rounded-md  focus:ring-slate-500 focus:border-slate-500 text-xs ${modelState?.models?.length === 0 && "cursor-not-allowed"} `}
-                            disabled={modelState?.models?.length === 0 }
+                            disabled={modelState?.models?.length === 0}
                         >
                             <option value="" disabled>
                                 {modelState?.models?.length === 0
@@ -116,7 +124,6 @@ function CustomImageForm() {
                         </select>
                     </div>
                     <div className="flex">
-                        
                         <span className="text-sm font-medium text-neutral-500">
                             Or&nbsp;
                         </span>
@@ -129,11 +136,11 @@ function CustomImageForm() {
                         </button>
                     </div>
                     <div className="flex flex-col h-max pb-2 mt-10 gap-1">
-                    <div className="flex gap-2 w-max h-max text-gray-700  items-center justify-center">
+                        <div className="flex gap-2 w-max h-max text-gray-700  items-center justify-center">
                             <NumImage size={16} />
-                        <label className="block text-sm font-medium text-gray-700">
-                            Number of Images
-                        </label>
+                            <label className="block text-sm font-medium text-gray-700">
+                                Number of Images
+                            </label>
                         </div>
                         <p className="text-[0.675rem] font-regular tracking-tight text-gray-500">
                             {"Number of images to generate (min: 1, max: 5)"}
@@ -149,16 +156,16 @@ function CustomImageForm() {
                         />
                     </div>
                     <div className="flex flex-col h-max pb-2 mt-6 gap-1">
-                    <div className="flex gap-2 w-max h-max text-gray-700  items-center justify-center">
+                        <div className="flex gap-2 w-max h-max text-gray-700  items-center justify-center">
                             <PromptIcon size={16} />
-                        <label className="block text-sm font-medium text-gray-700">
-                            Write a prompt
-                        </label>
+                            <label className="block text-sm font-medium text-gray-700">
+                                Write a prompt
+                            </label>
                         </div>
                         <p className="text-[0.675rem] font-regular tracking-tight text-gray-500">
                             {"Describe the image you want to generate"}
                         </p>
-                      
+
                         <textarea
                             type="text"
                             required

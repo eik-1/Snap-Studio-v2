@@ -5,8 +5,6 @@ import { Outlet } from "react-router-dom"
 import { NavigationProvider } from "@/contexts/NavigationContext"
 
 function RootLayout() {
-    console.log("RootLayout get rendered")
-
     return (
         <>
             <AppNavbar />
