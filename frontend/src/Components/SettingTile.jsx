@@ -12,7 +12,7 @@ function SettingTile({title="Email", value="abc@example.com", buttons, handlers 
                                 {value}
                             </p>
                     </div>
-                    <div className="w-max h-full flex flex-col justify-center items-end sm:flex-row-reverse gap-2  sm:gap-4">
+                    <div className="w-max h-full flex flex-col justify-center  sm:flex-row-reverse gap-2  sm:gap-4">
                       
                             {buttons?.map((button, index) => (
                                   <div className="w-max h-max">
