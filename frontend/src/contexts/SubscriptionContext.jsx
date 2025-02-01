@@ -1,6 +1,5 @@
 import { getUserSub } from "@/services/api/services"
 import { useQuery } from "@tanstack/react-query"
-import axios from "axios"
 import { createContext, use, useContext, useEffect, useState } from "react"
 import { useUser } from "./UserContext"
 
