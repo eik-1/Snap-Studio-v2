@@ -2,6 +2,7 @@ import { GoogleOriginal, LinkedinOriginal } from "devicons-react"
 import { AlertCircle, Lock, Mail, UserSquare2 } from "lucide-react"
 import React, { useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
+import { FadeLoader } from "react-spinners"
 
 import { Alert, AlertDescription } from "@/Components/UI/alert"
 import { useUser } from "@/contexts/UserContext"
@@ -249,11 +250,12 @@ function Login() {
                     )}
                     <button
                         type="submit"
-                        className="w-full py-3  bg-black hover:bg-slate-900 text-white rounded-lg transition-colors duration-200"
+                        className="w-full py-3  bg-black hover:bg-slate-900 text-white rounded-lg transition-colors duration-200 disabled:bg-slate-900"
                         disabled={loading}
                         onClick={handleSubmit}
                     >
-                        {isSignup ? "Sign Up" : "Login"}
+                        {loading? "Logging in..." :isSignup ? "Sign Up" : "Login"}
+                        
                     </button>
                 </form>
                 <div className="w-full flex justify-center items-center mt-4 text-base gap-1">

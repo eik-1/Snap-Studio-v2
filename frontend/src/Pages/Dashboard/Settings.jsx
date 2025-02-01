@@ -47,7 +47,7 @@ function Settings() {
     }
 
     return (
-        <div className="w-full h-full bg-white pb-20 sm:pb-8  relative flex flex-col md:flex-row md:items-center overflow-y-scroll custom-scrollbar gap-6">
+        <div className="w-full h-full bg-white   relative flex flex-col md:flex-row md:items-center overflow-y-scroll md:overflow-y-visible custom-scrollbar gap-6">
             <div className="w-[95%] flex-shrink-0  mx-auto md:mx-0 h-36 md:h-[95%] md:my-auto md:w-80   border-b-[1px] md:border-r-[1px] md:border-b-0 border-neutral-200 md:border-b-none ">
                 <div className="flex flex-col  items-center mt-10 md:mt-32 gap-2 ">
                     <h2 className="text-3xl leading-relaxed text-center font-semibold bg-clip-text text-transparent  bg-gradient-to-r from-rose-500 via-purple-500 to-cyan-500">
@@ -59,7 +59,7 @@ function Settings() {
                 </div>
             </div>
 
-            <div className="md:h-full pt-8 px-4 flex-grow flex flex-col gap-8 ">
+            <div className="md:h-full pt-8 pb-20 sm:pb-4 px-4 flex-grow flex flex-col gap-8 md:overflow-y-scroll custom-scrollbar   ">
                 {settings.map((category, index) => {
                     return (
                         <SettingsContainer
