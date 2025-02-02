@@ -92,7 +92,7 @@ function CustomImageForm() {
                         {"Generate images using your trained models "}
                     </p>
                 </div>
-                <form onSubmit={handleImageGeneration} className="mt-4">
+                <form onSubmit={handleSubmit} className="mt-4" id="custom-image-form">
                     <div className="flex flex-col h-max  mt-3 pb-2 gap-1">
                         <div className="flex gap-2 w-max h-max text-gray-700  items-center justify-center">
                             <ModelIcon size={16} />
@@ -110,7 +110,7 @@ function CustomImageForm() {
                             className={`px-3 py-2 mt-2 block w-full  border border-gray-300 rounded-md  focus:ring-slate-500 focus:border-slate-500 text-xs ${modelState?.models?.length === 0 && "cursor-not-allowed"} `}
                             disabled={modelState?.models?.length === 0}
                         >
-                            <option value="" disabled>
+                            <option value="" disabled >
                                 {modelState?.models?.length === 0
                                     ? "No trained models"
                                     : "Select Model"}
@@ -178,10 +178,10 @@ function CustomImageForm() {
             </div>
             <div className="z-50 w-full bg-white h-[10%]  fixed bottom-16 sm:bottom-0 sm:relative flex justify-center items-center border-t-[1px]">
                 <Button
-                    type="button"
-                    onClick={handleSubmit}
+                    type="submit"
+                    form="custom-image-form"
                     className="w-2/3 text-xs sm:text-sm mx-auto bg-gradient-to-r from-rose-500 via-purple-500 to-cyan-500 "
-                    disabled={imageState.generationStatus.status !== "idle"}
+                    disabled={imageState.generationStatus.status === "generating"}
                 >
                     <span>Generate Image</span>
                     <Stars />

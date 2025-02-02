@@ -25,7 +25,7 @@ function ImageResultSection() {
     }
     return (
         <>
-            <section className="relative w-full h-max sm:h-full p-4 bg-white flex flex-col items-center gap-6  sm:overflow-y-scroll custom-scrollbar">
+            <section className="relative w-full min-h-full h-max sm:h-full pb-32 sm:pb-4 p-4 bg-white flex flex-col items-center gap-6  sm:overflow-y-scroll custom-scrollbar">
                 <h2 className="text-lg font-semibold bg-clip-text text-transparent text-center bg-gradient-to-r from-rose-500 via-purple-500 to-cyan-500">
                     Your Generated Images
                 </h2>
@@ -44,7 +44,7 @@ function ImageResultSection() {
                         }
                     </AnimatePresence>
                   
-                    <div className={cn(`relative w-full min-h-full sm:h-full gap-4 p-2 rounded-lg bg-white flex flex-col justify-center  items-center border-gray-200 border-[1px] ${imageState?.generationStatus?.status==='generated' && 'h-max justify-start'}`)}>
+                    <div className={cn(`relative w-full min-h-full sm:h-full gap-4 p-2 rounded-lg bg-white flex flex-col justify-center shadow-sm  items-center border-gray-200 border-[1px] ${imageState?.generationStatus?.status==='generated' && 'h-max justify-start'}`)}>
                         {content}
                     </div>
                 </div>
