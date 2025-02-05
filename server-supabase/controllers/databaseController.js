@@ -211,7 +211,6 @@ export async function getImages(req, res) {
 }
 
 /*SUBSCRIPTION TABLE*/
-
 export async function checkCredits(req, res) {
   const { email } = req.body;
   try {
@@ -257,5 +256,20 @@ export async function getUserSubscriptionDetails(req, res) {
         error: err.message,
       })
     );
+  }
+}
+
+async function getCredits(userEmail) {
+  try {
+    const { data, error } = await supabase
+      .from("Subscription")
+      .select("credits")
+      .eq("email", userEmail);
+    if (error) {
+      throw error;
+    }
+    return data[0].credits;
+  } catch (err) {
+    throw err;
   }
 }

@@ -36,10 +36,9 @@ function ChangePassword() {
         if (validateForm()) {
             setErrors({})
             try {
-                const { data: resetData, error } =
-                    await supabase.auth.updateUser({
-                        password: confirmPassword,
-                    })
+                const { error } = await supabase.auth.updateUser({
+                    password: confirmPassword,
+                })
                 if (error) {
                     throw error
                 }

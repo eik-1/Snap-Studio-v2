@@ -1,7 +1,7 @@
-import { AlertCircle, CircleCheck, Mail } from "lucide-react"
-import { React, useState } from "react"
 import { Alert, AlertDescription } from "@/Components/UI/alert"
 import supabase from "@/services/configs/supabase"
+import { AlertCircle, CircleCheck, Mail } from "lucide-react"
+import { React, useState } from "react"
 
 function ResetPassword() {
     const [email, setEmail] = useState("")
@@ -23,15 +23,17 @@ function ResetPassword() {
 
     async function handleSubmit(e) {
         e.preventDefault()
-      
+
         if (validateForm()) {
             setErrors({})
             setLoading(true)
             try {
-                const { data: resetData, error } =
-                    await supabase.auth.resetPasswordForEmail(email, {
+                const { error } = await supabase.auth.resetPasswordForEmail(
+                    email,
+                    {
                         redirectTo: `${window.location.origin}/change-password`,
-                    })
+                    },
+                )
                 if (error) {
                     throw error
                 }
@@ -43,7 +45,6 @@ function ResetPassword() {
                 setLoading(false)
             }
         }
-      
     }
 
     if (success) {
@@ -53,10 +54,15 @@ function ResetPassword() {
                     <h2 className="text-lg flex gap-2 items-center font-semibold text-green-600">
                         <CircleCheck size={24} />
                         <span className="text-gray-700 leading-none">
-                        Passowrd reset link sent  </span>
+                            Passowrd reset link sent{" "}
+                        </span>
                     </h2>
                     <p className="text-left">
-                We've sent a password reset link to your email. Please check your inbox and follow the instructions to reset your password. If you don't see the email, check your spam or junk folder.</p>
+                        We've sent a password reset link to your email. Please
+                        check your inbox and follow the instructions to reset
+                        your password. If you don't see the email, check your
+                        spam or junk folder.
+                    </p>
                 </div>
             </div>
         )
