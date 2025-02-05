@@ -1,13 +1,16 @@
 import SettingsContainer from "@/Components/SettingsContainer"
 import SettingTile from "@/Components/SettingTile"
-import { settings } from "@/data/settings"
-import { useUser } from "@/contexts/UserContext"
 import { useSubscription } from "@/contexts/SubscriptionContext"
+import { useUser } from "@/contexts/UserContext"
+import { settings } from "@/data/settings"
+import { changeUserEmail, changeUserName } from "@/services/api/services"
 import { addOneMonth, addOneYear } from "@/services/utils/date"
+
 function Settings() {
-    const { user } = useUser()
+    const { user, setUser } = useUser()
     const { subscription } = useSubscription()
-    console.log(subscription)
+    const STRIPE_USER_PORTAL = import.meta.env.VITE_STRIPE_USER_PORTAL
+
     function getBillingDate(cycle) {
         if (cycle === "monthly") {
             return addOneMonth(subscription?.start_time)
@@ -15,6 +18,7 @@ function Settings() {
             return addOneYear(subscription?.start_time)
         }
     }
+
     const values = {
         email: user?.email,
         username: user?.first_name + " " + user?.last_name,
@@ -27,22 +31,43 @@ function Settings() {
             : "--",
         password: "************",
     }
-    const handlers={
-    
+    const handlers = {
         updateEmail: () => {
-            console.log("update email")  //to be implemented
+            console.log("update email")
+            if (user) {
+                const newUser = changeUserEmail("newEmail") //pass the new email here
+                const updatedUser = { ...user, email: newUser.email }
+                setUser(updatedUser)
+                //maybe logout the user here
+            }
         },
         updateName: () => {
             console.log("update name")
+            if (user) {
+                const newUser = changeUserName("newName") //pass the new name here
+                const first_name = newUser.name.split(" ")[0]
+                let last_name = newUser.name.split(" ")[1] || ""
+                const updatedUser = {
+                    ...user,
+                    name: newUser.name,
+                    first_name,
+                    last_name,
+                }
+                setUser(updatedUser)
+            }
         },
         updatePassword: () => {
             console.log("update password")
+            //logout the user and send to password reset page
         },
         resetPassword: () => {
             console.log("reset password")
+            //why are you having both update password and reset password?
         },
         upgradePlan: () => {
             console.log("upgrade plan")
+            //We are not allowing the user to upgrade the plan here (only through customer portal)
+            //Redirect to customer portal
         },
     }
 

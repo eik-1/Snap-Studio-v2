@@ -1,12 +1,11 @@
 import { getUserSub } from "@/services/api/services"
 import { useQuery } from "@tanstack/react-query"
-import { createContext, use, useContext, useEffect, useState } from "react"
+import { createContext, useContext } from "react"
 import { useUser } from "./UserContext"
 
 const SubscriptionContext = createContext()
 
 function SubscriptionProvider({ children }) {
-    //const [subscriptions, setSubscriptions] = useState({})
     const { user } = useUser()
 
     const { data: subscription, error } = useQuery({

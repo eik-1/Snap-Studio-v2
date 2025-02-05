@@ -1,4 +1,6 @@
+import { useUser } from "@/contexts/UserContext"
 import { apiRequest } from "@/services/utils/apiRequest"
+import supabase from "../configs/supabase"
 
 //function to get all models created by the user
 export async function getUserModels(userId) {
@@ -38,6 +40,36 @@ export async function getUserSub(email) {
             { email },
         )
         return response.data.subscription
+    } catch (err) {
+        throw err
+    }
+}
+
+export async function changeUserEmail(newEmail) {
+    try {
+        const { user, error } = await supabase.auth.updateUser({
+            email: newEmail,
+        })
+        if (error) {
+            throw error
+        }
+        return user
+    } catch (err) {
+        throw err
+    }
+}
+
+export async function changeUserName(newName) {
+    try {
+        const { user, error } = await supabase.auth.updateUser({
+            data: {
+                name: newName,
+            },
+        })
+        if (error) {
+            throw error
+        }
+        return user
     } catch (err) {
         throw err
     }

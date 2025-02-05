@@ -19,10 +19,7 @@ function OAuth() {
                 throw new Error(userError.message)
             }
             const firstName = user.user_metadata.full_name.split(" ")[0]
-            let lastName = user.user_metadata.full_name.split(" ")[1]
-            if (lastName === undefined) {
-                lastName = ""
-            }
+            let lastName = user.user_metadata.full_name.split(" ")[1] || ""
             const userData = {
                 email: user.email,
                 name: user.user_metadata.full_name,
