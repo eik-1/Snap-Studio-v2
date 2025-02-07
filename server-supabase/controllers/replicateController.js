@@ -9,6 +9,7 @@ import { styleAndPrompts } from "../utils/headshotPrompts.js";
 import {
   createModel,
   deleteModel,
+  getCredits,
   getModel,
   getModelById,
   updateModel,
@@ -19,6 +20,7 @@ dotenv.config();
 export async function trainOstrisModel(req, res) {
   try {
     const { modelName, userId, triggerWord, gender, ethnicity } = req.body;
+
     const zipBuffer = req.file.buffer;
 
     /* Upload zip to Replicate's File API */
