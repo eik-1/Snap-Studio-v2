@@ -259,7 +259,7 @@ export async function getUserSubscriptionDetails(req, res) {
   }
 }
 
-async function getCredits(userEmail) {
+export async function getCredits(userEmail) {
   try {
     const { data, error } = await supabase
       .from("Subscription")
@@ -269,6 +269,23 @@ async function getCredits(userEmail) {
       throw error;
     }
     return data[0].credits;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function updateCredits(userEmail, credits) {
+  try {
+    const { error } = await supabase
+      .from("Subscription")
+      .update({
+        credits: credits,
+      })
+      .eq("email", userEmail);
+
+    if (error) {
+      throw error;
+    }
   } catch (err) {
     throw err;
   }
