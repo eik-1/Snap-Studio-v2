@@ -182,6 +182,13 @@ export async function saveImage(req, res) {
 
 export async function getImages(req, res) {
   const { userId } = req.body;
+  if (userId !== req.userId && !req.userId) {
+    return res.status(401).json(
+      new ApiResponse(401, "Unauthorized", {
+        error: "Unauthorized access",
+      })
+    );
+  }
   try {
     /* Get images from database */
     const { data, error } = await supabase
@@ -211,29 +218,29 @@ export async function getImages(req, res) {
 }
 
 /*SUBSCRIPTION TABLE*/
-export async function checkCredits(req, res) {
-  const { email } = req.body;
-  try {
-    const { data, error } = await supabase
-      .from("Subscription")
-      .select("credits")
-      .eq("email", email);
-    if (error) {
-      throw error;
-    }
-    return res.status(200).json(
-      new ApiResponse(200, "User credits", {
-        credits: data[0].credits,
-      })
-    );
-  } catch (err) {
-    return res.status(500).json(
-      new ApiResponse(500, "Error fetching credits", {
-        error: err.message,
-      })
-    );
-  }
-}
+// export async function checkCredits(req, res) {
+//   const { email } = req.body;
+//   try {
+//     const { data, error } = await supabase
+//       .from("Subscription")
+//       .select("credits")
+//       .eq("email", email);
+//     if (error) {
+//       throw error;
+//     }
+//     return res.status(200).json(
+//       new ApiResponse(200, "User credits", {
+//         credits: data[0].credits,
+//       })
+//     );
+//   } catch (err) {
+//     return res.status(500).json(
+//       new ApiResponse(500, "Error fetching credits", {
+//         error: err.message,
+//       })
+//     );
+//   }
+// }
 
 export async function getUserSubscriptionDetails(req, res) {
   const { email } = req.body;
@@ -263,12 +270,12 @@ export async function getCredits(userEmail) {
   try {
     const { data, error } = await supabase
       .from("Subscription")
-      .select("credits")
+      .select("credits", "model_credits")
       .eq("email", userEmail);
     if (error) {
       throw error;
     }
-    return data[0].credits;
+    return data[0];
   } catch (err) {
     throw err;
   }
@@ -280,6 +287,23 @@ export async function updateCredits(userEmail, credits) {
       .from("Subscription")
       .update({
         credits: credits,
+      })
+      .eq("email", userEmail);
+
+    if (error) {
+      throw error;
+    }
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function updateModelCredits(userEmail, modelCredits) {
+  try {
+    const { error } = await supabase
+      .from("Subscription")
+      .update({
+        model_credits: modelCredits,
       })
       .eq("email", userEmail);
 

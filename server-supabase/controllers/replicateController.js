@@ -12,14 +12,25 @@ import {
   getCredits,
   getModel,
   getModelById,
+  updateCredits,
   updateModel,
+  updateModelCredits,
 } from "./databaseController.js";
 
 dotenv.config();
 
 export async function trainOstrisModel(req, res) {
   try {
-    const { modelName, userId, triggerWord, gender, ethnicity } = req.body;
+    const { modelName, userId, triggerWord, gender, ethnicity, userEmail } =
+      req.body;
+
+    const creditsInfo = await getCredits(userEmail);
+
+    if (creditsInfo.model_credits <= 0) {
+      throw new Error("Insufficient credits to train the model");
+    }
+
+    await updateModelCredits(userEmail, creditsInfo.model_credits - 1);
 
     const zipBuffer = req.file.buffer;
 
@@ -99,6 +110,7 @@ export async function trainOstrisModel(req, res) {
     );
   } catch (err) {
     console.log("Couldn't train the model. Error: ", err);
+    await updateModelCredits(userEmail, creditsInfo.model_credits + 1);
     return res
       .status(500)
       .json({ error: "Couldn't train the model", details: err.message });
@@ -175,9 +187,15 @@ export async function getTriggerWord(req, res) {
 }
 
 export async function runUserModel(req, res) {
-  const { userId, modelName, prompt, numberOfImages } = req.body;
-  console.log(typeof numberOfImages);
+  const { userId, modelName, prompt, numberOfImages, userEmail } = req.body;
+
   try {
+    const creditsInfo = await getCredits(userEmail);
+    if (creditsInfo.credits <= 0) {
+      throw new Error("Insufficient credits to run the model");
+    }
+    const usedCredits = 100 * numberOfImages;
+    await updateCredits(userEmail, creditsInfo.credits - usedCredits);
     const model = await getModel(userId, modelName);
     const modelVersion = model[0].model_version;
     const modelGender = model[0].gender;
@@ -206,6 +224,7 @@ export async function runUserModel(req, res) {
       );
   } catch (err) {
     console.log("Couldn't run the model. Error: ", err);
+    await updateCredits(userEmail, creditsInfo.credits + usedCredits);
     return res
       .status(500)
       .json(
@@ -215,8 +234,14 @@ export async function runUserModel(req, res) {
 }
 
 export async function runHeadshotUserModel(req, res) {
-  const { userId, modelName, numberOfImages, style } = req.body;
+  const { userId, modelName, numberOfImages, style, userEmail } = req.body;
   try {
+    const creditsInfo = await getCredits(userEmail);
+    if (creditsInfo.credits <= 0) {
+      throw new Error("Insufficient credits to run the model");
+    }
+    const usedCredits = 100 * numberOfImages;
+    await updateCredits(userEmail, creditsInfo.credits - usedCredits);
     const model = await getModel(userId, modelName);
     const modelVersion = model[0].model_version;
     const modelGender = model[0].gender;
@@ -249,6 +274,7 @@ export async function runHeadshotUserModel(req, res) {
       );
   } catch (err) {
     console.log("Couldn't run the model. Error: ", err);
+    await updateCredits(userEmail, creditsInfo.credits + usedCredits);
     return res
       .status(500)
       .json(
