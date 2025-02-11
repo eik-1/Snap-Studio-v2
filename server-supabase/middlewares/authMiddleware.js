@@ -9,19 +9,35 @@ const SUPABASE_JWT_SECRET = process.env.SUPABASE_JWT_SECRET;
 export default async function isUserAuthenticated(req, res, next) {
   const authHeader = req.header("Authorization");
   if (!authHeader) {
-    return res.status(401).json({ error: "Unauthorized" });
+    return res.status(401).json(
+      new ApiResponse(401, "Unauthorized", {
+        error: err.message,
+      })
+    );
   }
 
   const token = authHeader.split(" ")[1];
   if (!token) {
-    return res.status(401).json({ error: "Unauthorized" });
+    return res.status(401).json(
+      new ApiResponse(401, "Unauthorized", {
+        error: err.message,
+      })
+    );
   }
 
   try {
-    const decoded = jwt.verify(token, SUPABASE_JWT_SECRET);
+    const decode = jwt.verify(token, SUPABASE_JWT_SECRET);
+    if (!decode) {
+      throw new Error("Invalid token");
+    }
+    req.userId = decode.sub || undefined;
     next();
   } catch (err) {
-    return res.status(401).json({ error: "Unauthorized" });
+    return res.status(401).json(
+      new ApiResponse(401, "Unauthorized", {
+        error: err.message,
+      })
+    );
   }
 }
 

@@ -60,24 +60,29 @@ export async function stripeWebhook(req, res) {
 
         let user;
         let planCredits;
+        let modelCredits;
         let planName;
         let planType;
 
         // Set plan credits based on plan
         if (plan.title === "BasicMonth") {
           planCredits = 1000;
+          modelCredits = 1;
           planName = "Basic";
           planType = "Monthly";
         } else if (plan.title === "ProMonth") {
-          planCredits = 4000;
+          planCredits = 5000;
+          modelCredits = 3;
           planName = "Pro";
           planType = "Monthly";
         } else if (plan.title === "BasicYear") {
-          planCredits = 13000;
+          planCredits = 12000;
+          modelCredits = 12;
           planName = "Basic";
           planType = "Yearly";
         } else if (plan.title === "ProYear") {
-          planCredits = 50000;
+          planCredits = 60000;
+          modelCredits = 36;
           planName = "Pro";
           planType = "Yearly";
         }
@@ -113,6 +118,7 @@ export async function stripeWebhook(req, res) {
           .update({
             has_subscribed: true,
             credits: planCredits,
+            model_credits: modelCredits,
             price_id: priceId,
             plan_name: planName,
             plan_type: planType,
@@ -139,6 +145,7 @@ export async function stripeWebhook(req, res) {
           .update({
             has_subscribed: false,
             credits: 0,
+            model_credits: 0,
             price_id: "",
             plan_name: "",
             plan_type: "",
