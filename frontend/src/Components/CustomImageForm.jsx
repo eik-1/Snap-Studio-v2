@@ -1,14 +1,17 @@
 import { useImage } from "@/contexts/ImageContext"
 import { useModel } from "@/contexts/ModelContext"
 import { useNavigation as useBackNavigation } from "@/contexts/NavigationContext"
+import { useSubscription } from "@/contexts/SubscriptionContext"
 import { useUser } from "@/contexts/UserContext"
 import { generateImage, getUserModels } from "@/services/api/services"
+import { CoinsIcon } from "@/data/Icons"
 import {
     Layers as ModelIcon,
     PlusCircle as NewModel,
     Images as NumImage,
     PenLine as PromptIcon,
     Stars,
+    Coins,
 } from "lucide-react"
 import { useState } from "react"
 import { Button } from "./UI/Button"
@@ -16,11 +19,13 @@ import { Button } from "./UI/Button"
 function CustomImageForm() {
     const [selectedModel, setSelectedModel] = useState("")
     const [numberOfImages, setNumberOfImages] = useState(1)
+    const [error, setError] = useState({modelSelect: "", numberOfImages: "", prompt: ""})
     const [prompt, setPrompt] = useState("")
     const { user } = useUser()
     const { dispatch: imageDispatch, state: imageState } = useImage()
     const { dispatch: navDispatch } = useBackNavigation()
     const { state: modelState } = useModel()
+    const {updateCredits, subscription}=useSubscription()   
 
     /* const { data: fetchedModels = [] } = useQuery({
         queryKey: ["models", user],
@@ -31,16 +36,18 @@ function CustomImageForm() {
             type: "SET_GENERATION_STATUS",
             payload: { status: "generating", message: "Generating Images" },
         })
+        updateCredits(subscription.credits-numImages * 10, user?.email)
         try {
-            const generatedImages = await generateImage(
+            const data = await generateImage(
                 userId,
                 modelName,
                 prompt,
                 numImages,
+                user.email
             )
             imageDispatch({
                 type: "SET_GENERATED_IMAGE_URLS",
-                payload: generatedImages,
+                payload: data.imageUrls,
             })
             imageDispatch({
                 type: "SET_GENERATION_STATUS",
@@ -49,6 +56,7 @@ function CustomImageForm() {
                     message: "Images generated successfully",
                 },
             })
+            updateCredits(data.remainingCredits, user?.email)
         } catch (error) {
             imageDispatch({
                 type: "SET_GENERATION_STATUS",
@@ -57,6 +65,7 @@ function CustomImageForm() {
                     message: "Error generating images",
                 },
             })
+            updateCredits(error.data.remainingCredits, user?.email)
             console.log("Error generating images")
         }
     }
@@ -80,6 +89,18 @@ function CustomImageForm() {
                 tab: ["newCustomModelTrainForm"],
             },
         })
+    }
+    function handleNumberOfImagesChange(e) {
+        if(e.target.value>5){
+            setError({...error,numberOfImages:"Number of images should be less than 5"})
+        
+
+        }
+        else
+        {
+            setError({...error,numberOfImages:""})
+        }
+        setNumberOfImages(e.target.value)
     }
     return (
         <div className="w-full h-full mx-auto  bg-white border-r-[1px] relative">
@@ -149,11 +170,13 @@ function CustomImageForm() {
                             type="number"
                             required
                             value={numberOfImages}
-                            onChange={(e) => setNumberOfImages(e.target.value)}
+                            onChange={handleNumberOfImagesChange}
                             min="1"
                             max="5"
                             className="px-3 py-2 mt-2 block w-full border border-gray-300 rounded-md  focus:ring-slate-500 focus:border-slate-500 text-sm"
                         />
+                        <p className="text-[0.675rem] font-regular tracking-tight text-red-500">
+                            {error.numberOfImages}  </p>
                     </div>
                     <div className="flex flex-col h-max pb-2 mt-6 gap-1">
                         <div className="flex gap-2 w-max h-max text-gray-700  items-center justify-center">
@@ -184,7 +207,11 @@ function CustomImageForm() {
                     disabled={imageState.generationStatus.status === "generating"}
                 >
                     <span>Generate Image</span>
-                    <Stars />
+                    <div className="flex items-center justify-center ">
+                      ~ ( <p>{numberOfImages*10}</p>
+                    <Coins/>)
+                    </div>
+                 
                 </Button>
             </div>
         </div>

@@ -21,14 +21,15 @@ export async function getUserModels(userId) {
 }
 
 //function to generate custom images
-export async function generateImage(userId, modelName, prompt, numberOfImages) {
+export async function generateImage(userId, modelName, prompt, numberOfImages, userEmail) {
     const response = await apiRequest(`/models/run`, "POST", {
         userId,
         modelName,
         prompt,
         numberOfImages,
+        userEmail
     })
-    return response.data.output //response is an array of image urls
+    return response.data //response is an array of image urls
 }
 
 //function to get user subscription details
