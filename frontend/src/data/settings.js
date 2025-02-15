@@ -29,11 +29,7 @@ const settings = [
                 name: "password",
                 title: "Password",
                 buttons: [
-                    {
-                        action: "updatePassword",
-                        text: "Update",
-                        type: "normal",
-                    },
+                 
                     {
                         action: "resetPassword",
                         text: "Forgot Password?",

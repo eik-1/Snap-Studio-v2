@@ -99,7 +99,7 @@ function LandingNav() {
                         </NavLink>
                     ) : (
                         <span className="text-neutral-700 hover:bg-neutral-100 rounded-md px-3 py-2 transition-all duration-300">
-                            Hello, {user.name}
+                            Hii {user.first_name}
                         </span>
                     )}
 
