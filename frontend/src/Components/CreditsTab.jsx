@@ -1,5 +1,6 @@
 import { CoinsIcon } from "@/data/Icons"
 import { useSubscription } from "@/contexts/SubscriptionContext"
+import { ClipLoader } from "react-spinners";
 function CreditsTab()
 {
     const {subscription}= useSubscription();
@@ -9,8 +10,8 @@ function CreditsTab()
                 <CoinsIcon className="w-5 h-5"/>
             </div>
             <div>
-                <p className="text-xs text-gray-500 font-semibold">
-                    {subscription?.credits}
+                <p className="text-xs text-gray-500 font-semibold flex items-center justify-center ">
+                    {subscription?.credits ? subscription.credits : <ClipLoader size={14} color="grey" />}
                 </p>
             </div>
         </div>
