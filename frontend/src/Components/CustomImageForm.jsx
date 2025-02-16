@@ -35,7 +35,7 @@ function CustomImageForm() {
             type: "SET_GENERATION_STATUS",
             payload: { status: "generating", message: "Generating Images" },
         })
-        updateCredits(subscription.credits-numImages * 10, user?.email)
+        subscription?.credits && updateCredits(subscription?.credits-numImages * 10, user?.email)
         try {
             const data = await generateImage(
                 userId,

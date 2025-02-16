@@ -7,10 +7,8 @@ import { generateHeadshot} from "@/services/api/services"
 import { headshotStyles } from "@/data/formData"
 import {
     Layers as ModelIcon,
-    PlusCircle as NewModel,
     Images as NumImage,
-    PenLine as PromptIcon,
-    Stars,
+  
     Coins,
 } from "lucide-react"
 import { useState } from "react"
@@ -41,7 +39,7 @@ function HeadshotForm() {
             type: "SET_GENERATION_STATUS",
             payload: { status: "generating", message: "Generating Images" },
         })
-        updateCredits(subscription.credits - numImages * 10, user?.email)
+        subscription?.credits && updateCredits(subscription?.credits - numImages * 10, user?.email)
         try {
                 const data = await generateHeadshot(
                 userId,
@@ -204,13 +202,12 @@ function HeadshotForm() {
                                 <div key={style.id} className="relative group">
                                     <input
                                         type="radio"
+                                        required
                                         id={style.id}
                                         name="headshotStyle"
                                         value={style.id}
                                         checked={selectedStyle === style.id}
-                                        onChange={(e) =>
-                                            setSelectedStyle(e.target.value)
-                                        }
+                                        onClick={(e)=>selectedStyle===style.id ? setSelectedStyle(null):setSelectedStyle(style.id)}
                                         className="absolute opacity-0 w-full h-full cursor-pointer z-10"
                                     />
                                     <label
