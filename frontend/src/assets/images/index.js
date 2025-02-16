@@ -7,7 +7,7 @@ import img6 from "./img6.webp"
 import img7 from "./img7.webp"
 import Black from '../headshot-images/Black.png'
 import CitySkyline from '../headshot-images/CitySkyline.webp'
-import Office from '../headshot-images/Office.webp'
+import Office from '../headshot-images/OfficeArea.webp'
 import GoldenHour from '../headshot-images/GoldenHour.png'
 import UrbanStreet from '../headshot-images/UrbanStreet.png'
 import Yellow from '../headshot-images/Yellow.png'
