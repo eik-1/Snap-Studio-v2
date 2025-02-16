@@ -4,7 +4,6 @@ import { useNavigation as useBackNavigation } from "@/contexts/NavigationContext
 import { useSubscription } from "@/contexts/SubscriptionContext"
 import { useUser } from "@/contexts/UserContext"
 import { generateImage, getUserModels } from "@/services/api/services"
-import { CoinsIcon } from "@/data/Icons"
 import {
     Layers as ModelIcon,
     PlusCircle as NewModel,

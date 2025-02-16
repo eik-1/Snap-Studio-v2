@@ -1,7 +1,7 @@
 import { useState } from "react"
 import ImageInputBox from "@/Components/ImageInputBox"
 import { Button } from "@/Components/UI/Button"
-import { customImageTrainingField } from "@/data/formFields"
+import { customImageTrainingField } from "@/data/formData"
 import { imagesToZipBlob } from "@/services/utils/zipUtils"
 import { apiRequest } from "@/services/utils/apiRequest"
 import { useModel } from "@/contexts/ModelContext"

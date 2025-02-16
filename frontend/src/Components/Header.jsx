@@ -2,6 +2,7 @@ import NavigationBackButton from "./NavigationBackButton"
 import Profile from "./Profile"
 import TrainingStatus from "@/Components/TrainingStatus"
 import CreditsTab from "@/Components/CreditsTab"
+import NotificationButton from "@/Components/Notification"
 
 function Header() {
     return (
@@ -11,8 +12,9 @@ function Header() {
             </div>
 
             <div className="h-full w-max flex gap-4 sm:gap-6 mr-4 items-center justify-center p-2  ">
-                <TrainingStatus />
+               
                 <CreditsTab />
+                <NotificationButton />
                 <Profile />
             </div>
         </header>

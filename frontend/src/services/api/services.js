@@ -31,7 +31,17 @@ export async function generateImage(userId, modelName, prompt, numberOfImages, u
     })
     return response.data //response is an array of image urls
 }
+export async function generateHeadshot(userId, modelName,  numberOfImages, style, userEmail) {
+    const response = await apiRequest(`/models/run-headshots`, "POST", {
+        userId,
+        modelName,
+        numberOfImages,
+        style,
+        userEmail
+    })
+    return response.data 
 
+}
 //function to get user subscription details
 export async function getUserSub(email) {
     try {

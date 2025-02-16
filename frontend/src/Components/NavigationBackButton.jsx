@@ -20,11 +20,11 @@ function NavigationBackButton() {
                             onClick={() =>
                                 dispatch({
                                     type: "REMOVE_TAB",
-                                })
+                                }) 
                             }
                         >
                             <CircleArrowLeft size={14} />
-                            <span className="text-left">{`Back to ${data[state.previousTab]} `}</span>
+                            <span className="text-left ">{`Back to ${data[state.previousTab]} `}</span>
                         </button>
                     </div>
                 )}
