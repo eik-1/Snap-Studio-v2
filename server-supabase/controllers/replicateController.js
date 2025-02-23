@@ -234,13 +234,26 @@ export async function runUserModel(req, res) {
 
 export async function runHeadshotUserModel(req, res) {
   const { userId, modelName, numberOfImages, style, userEmail } = req.body;
+  console.log("Running headshot user model: ", style);
   try {
     const creditsInfo = await getCredits(userEmail);
+    console.log(creditsInfo);
     if (creditsInfo.credits <= 0) {
       throw new Error("Insufficient credits to run the model");
     }
     const usedCredits = 10 * numberOfImages;
     await updateCredits(userEmail, creditsInfo.credits - usedCredits);
+  } catch (err) {
+    console.log("Couldn't run the model. Error: ", err);
+    await updateCredits(userEmail, creditsInfo.credits + usedCredits);
+    return res
+      .status(500)
+      .json(
+        new ApiResponse(500, "Couldn't run the model", { error: err.message })
+      );
+  }
+
+  try {
     const model = await getModel(userId, modelName);
     const modelVersion = model[0].model_version;
     const modelGender = model[0].gender;
@@ -265,6 +278,8 @@ export async function runHeadshotUserModel(req, res) {
     output.forEach((fileOutput) => {
       outputURL.push(fileOutput.url().href);
     });
+
+    console.log("Output URL: ", outputURL);
 
     return res
     .status(200)
