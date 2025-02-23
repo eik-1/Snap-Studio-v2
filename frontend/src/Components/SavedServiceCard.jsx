@@ -2,10 +2,12 @@ import { cn } from "@/lib/utils"
 import { ChevronRightIcon } from "lucide-react"
 import { motion } from "motion/react"
 import { useState } from "react"
-function SavedServiceCard({serviceName="Saved headshot", Icon, className})
+import { Link } from "react-router-dom"
+function SavedServiceCard({serviceName="Saved headshot", Icon, className, route})
 {
     const [isHovering, setIsHovering] = useState(false)
     return(
+        <Link to={`/app/myimages/${route}`}>
         <div className={cn(`w-[12rem] sm:w-[14rem] h-[12rem] sm:h-[14rem] px-6 sm:px-6 pb-8 sm:pb-12 rounded-2xl bg-blue-500 relative flex items-end sm:text-2xl hover:scale-105 transition-all duration-300 ${className} cursor-pointer`)}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={()=>setIsHovering(false)}
@@ -31,6 +33,7 @@ function SavedServiceCard({serviceName="Saved headshot", Icon, className})
                 </h2>
             </div>
         </div>
+        </Link>
     )
 }
 export default SavedServiceCard

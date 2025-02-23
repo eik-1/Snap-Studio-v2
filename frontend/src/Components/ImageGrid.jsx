@@ -1,6 +1,6 @@
 import  { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Download } from 'lucide-react';
 
 const trs={
     type:"spring",
@@ -16,6 +16,7 @@ function ImageThumbnail({ src, index, onClick }) {
     whileHover={{ scale: 1.03 }}
     transition={trs}
   >
+    
     <motion.img
       src={src}
       alt={`Image ${index + 1}`}
@@ -70,12 +71,15 @@ function ImageGrid({ images }){
     <div className="p-2 sm:p-4 sm:pt-8">
       <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 ">
         {images.map((imageUrl, index) => (
+          <>
+          
           <ImageThumbnail
             key={index}
             src={imageUrl}
             index={index}
             onClick={() => setSelectedIndex(index)}
           />
+          </>
         ))}
       </div>
 

@@ -11,6 +11,7 @@ const services = [
         className:
             "bg-serviceone text-black/70 hover:shadow-lg hover:shadow-amber-100 ",
         icon: HeadshotIcon,
+        route:"headshots"
     },
     {
         serviceType: "customImage",
@@ -21,6 +22,7 @@ const services = [
         className:
             "bg-servicetwo text-white/90 hover:shadow-lg hover:shadow-blue-200",
         icon: ImageIcon,
+        route:"custom-images"
     },
     {
         serviceType: "fashionModel",

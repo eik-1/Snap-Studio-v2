@@ -22,6 +22,7 @@ import PrivacyPolicy from "./Pages/Landing/Privacy"
 import TermsOfService from "./Pages/Landing/TermsOfService"
 import ChangePassword from "./Pages/ResetPassword/ChangePassword"
 import ResetPassword from "./Pages/ResetPassword/ResetPassword"
+import SavedImages from "./Pages/Dashboard/SavedImages"
 
 function ProtectedRoute({ children }) {
     const { user } = useUser()
@@ -110,6 +111,12 @@ function App() {
                     path: "myimages",
                     element: <MyImages />,
                     errorElement: <Error />,
+                   
+                },
+                {
+                    path:"myimages/:category",
+                    element: <SavedImages />,
+                
                 },
                 {
                     path: "mymodels",
