@@ -1,7 +1,6 @@
 import axios from "axios";
 import dotenv from "dotenv";
 import FormData from "form-data";
-
 import { replicate } from "../configs/replicateConfig.js";
 import { sendEventToClients } from "../routes/sseRoutes.js";
 import ApiResponse from "../utils/ApiResponse.js";
@@ -194,7 +193,7 @@ export async function runUserModel(req, res) {
     if (creditsInfo.credits <= 0) {
       throw new Error("Insufficient credits to run the model");
     }
-    const usedCredits = 100 * numberOfImages;
+    const usedCredits = 10 * numberOfImages;
     await updateCredits(userEmail, creditsInfo.credits - usedCredits);
     const model = await getModel(userId, modelName);
     const modelVersion = model[0].model_version;
@@ -207,7 +206,7 @@ export async function runUserModel(req, res) {
         model: "dev",
         prompt: enhancedPrompt,
         aspect_ratio: "1:1",
-        output_format: "webp",
+        output_format: "png",
         output_quality: 100,
         num_outputs: numberOfImages,
       },
@@ -220,7 +219,7 @@ export async function runUserModel(req, res) {
     return res
       .status(200)
       .json(
-        new ApiResponse(200, "Model run successfully", { output: outputURL })
+        new ApiResponse(200, "Model run successfully", { imageUrls: outputURL, remainingCredits: creditsInfo.credits - usedCredits })
       );
   } catch (err) {
     console.log("Couldn't run the model. Error: ", err);
@@ -228,7 +227,7 @@ export async function runUserModel(req, res) {
     return res
       .status(500)
       .json(
-        new ApiResponse(500, "Couldn't run the model", { error: err.message })
+        new ApiResponse(500, "Couldn't run the model", { error: err.message, remainingCredits: creditsInfo.credits })
       );
   }
 }
@@ -240,7 +239,7 @@ export async function runHeadshotUserModel(req, res) {
     if (creditsInfo.credits <= 0) {
       throw new Error("Insufficient credits to run the model");
     }
-    const usedCredits = 100 * numberOfImages;
+    const usedCredits = 10 * numberOfImages;
     await updateCredits(userEmail, creditsInfo.credits - usedCredits);
     const model = await getModel(userId, modelName);
     const modelVersion = model[0].model_version;
@@ -257,7 +256,7 @@ export async function runHeadshotUserModel(req, res) {
         model: "dev",
         prompt: enhancedPrompt,
         aspect_ratio: "1:1",
-        output_format: "webp",
+        output_format: "png",
         output_quality: 90,
         num_outputs: numberOfImages,
       },
@@ -268,18 +267,18 @@ export async function runHeadshotUserModel(req, res) {
     });
 
     return res
-      .status(200)
-      .json(
-        new ApiResponse(200, "Model run successfully", { output: outputURL })
-      );
+    .status(200)
+    .json(
+      new ApiResponse(200, "Model run successfully", { imageUrls: outputURL, remainingCredits: creditsInfo.credits - usedCredits })
+    );
   } catch (err) {
     console.log("Couldn't run the model. Error: ", err);
     await updateCredits(userEmail, creditsInfo.credits + usedCredits);
     return res
-      .status(500)
-      .json(
-        new ApiResponse(500, "Couldn't run the model", { error: err.message })
-      );
+    .status(500)
+    .json(
+      new ApiResponse(500, "Couldn't run the model", { error: err.message, remainingCredits: creditsInfo.credits })
+    );
   }
 }
 

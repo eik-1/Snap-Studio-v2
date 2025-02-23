@@ -26,9 +26,7 @@ function MyImages() {
                             key={index}
                             serviceName={service.name}
                             Icon={service.icon}
-                            handleClick={() =>
-                                handleServiceClick(service.serviceType)
-                            }
+                            route={service.route}
                             className={service.className}
                         />
                     ))}

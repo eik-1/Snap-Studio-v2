@@ -8,6 +8,7 @@ import { headshotStyles } from "@/data/formData"
 import {
     Layers as ModelIcon,
     Images as NumImage,
+    SquareUserRound as StyleIcon,
   
     Coins,
 } from "lucide-react"
@@ -189,7 +190,7 @@ function HeadshotForm() {
                     </div>
                     <div className="flex flex-col h-max pb-2 mt-6 gap-1">
                         <div className="flex gap-2 w-max h-max text-gray-700  items-center justify-center">
-                            <NumImage size={16} />
+                            <StyleIcon size={16} />
                             <p className="block text-sm font-medium text-gray-700">
                                 Select Headshot Style
                             </p>

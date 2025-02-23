@@ -11,7 +11,7 @@ import {
     UrbanStreet,
     Yellow,
     WhiteStudio,
-    CityLights
+    CityLights,
 } from "@/assets/images/index"
 const size = 16
 const customImageTrainingField = [
@@ -55,47 +55,44 @@ const customImageTrainingField = [
 const headshotStyles = [
     {
         id: "black",
-        label: "Midnight Studio", 
+        label: "Midnight Studio",
         image: Black,
     },
     {
         id: "grey",
-        label: "Classic Studio", 
+        label: "Classic Studio",
         image: WhiteStudio,
     },
     {
         id: "yellow",
-        label: "Sunburst Yellow", 
+        label: "Sunburst Yellow",
         image: Yellow,
     },
     {
         id: "citySkyline",
-        label: "Skyline Executive", 
+        label: "Skyline Executive",
         image: CitySkyline,
     },
     {
         id: "office",
-        label: "Corporate Office", 
+        label: "Corporate Office",
         image: Office,
     },
     {
         id: "goldenHour",
-        label: "Golden Hour", 
+        label: "Golden Hour",
         image: GoldenHour,
     },
     {
         id: "cityLights",
-        label: "City Lights", 
+        label: "City Lights",
         image: CityLights,
     },
     {
         id: "urbanSidewalk",
-        label: "Urban Sidewalk", 
+        label: "Urban Sidewalk",
         image: UrbanStreet,
     },
- 
-   
-];
-
+]
 
 export { customImageTrainingField, headshotStyles }
