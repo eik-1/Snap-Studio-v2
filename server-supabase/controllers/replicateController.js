@@ -187,14 +187,26 @@ export async function getTriggerWord(req, res) {
 
 export async function runUserModel(req, res) {
   const { userId, modelName, prompt, numberOfImages, userEmail } = req.body;
-
+  let creditsInfo;
+  let usedCredits;
   try {
-    const creditsInfo = await getCredits(userEmail);
+    creditsInfo = await getCredits(userEmail);
     if (creditsInfo.credits <= 0) {
       throw new Error("Insufficient credits to run the model");
     }
-    const usedCredits = 10 * numberOfImages;
+    usedCredits = 10 * numberOfImages;
     await updateCredits(userEmail, creditsInfo.credits - usedCredits);
+  } catch (err) {
+    console.log("Couldn't run the model. Error: ", err);
+    await updateCredits(userEmail, creditsInfo.credits + usedCredits);
+    return res
+      .status(500)
+      .json(
+        new ApiResponse(500, "Couldn't run the model", { error: err.message })
+      );
+  }
+
+  try {
     const model = await getModel(userId, modelName);
     const modelVersion = model[0].model_version;
     const modelGender = model[0].gender;
@@ -216,32 +228,34 @@ export async function runUserModel(req, res) {
       outputURL.push(fileOutput.url().href);
     });
     console.log(outputURL);
-    return res
-      .status(200)
-      .json(
-        new ApiResponse(200, "Model run successfully", { imageUrls: outputURL, remainingCredits: creditsInfo.credits - usedCredits })
-      );
+    return res.status(200).json(
+      new ApiResponse(200, "Model run successfully", {
+        imageUrls: outputURL,
+        remainingCredits: creditsInfo.credits - usedCredits,
+      })
+    );
   } catch (err) {
     console.log("Couldn't run the model. Error: ", err);
     await updateCredits(userEmail, creditsInfo.credits + usedCredits);
-    return res
-      .status(500)
-      .json(
-        new ApiResponse(500, "Couldn't run the model", { error: err.message, remainingCredits: creditsInfo.credits })
-      );
+    return res.status(500).json(
+      new ApiResponse(500, "Couldn't run the model", {
+        error: err.message,
+        remainingCredits: creditsInfo.credits,
+      })
+    );
   }
 }
 
 export async function runHeadshotUserModel(req, res) {
   const { userId, modelName, numberOfImages, style, userEmail } = req.body;
-  console.log("Running headshot user model: ", style);
+  let creditsInfo;
+  let usedCredits;
   try {
-    const creditsInfo = await getCredits(userEmail);
-    console.log(creditsInfo);
+    creditsInfo = await getCredits(userEmail);
     if (creditsInfo.credits <= 0) {
       throw new Error("Insufficient credits to run the model");
     }
-    const usedCredits = 10 * numberOfImages;
+    usedCredits = 10 * numberOfImages;
     await updateCredits(userEmail, creditsInfo.credits - usedCredits);
   } catch (err) {
     console.log("Couldn't run the model. Error: ", err);
@@ -254,6 +268,8 @@ export async function runHeadshotUserModel(req, res) {
   }
 
   try {
+    console.log(creditsInfo);
+    console.log(usedCredits);
     const model = await getModel(userId, modelName);
     const modelVersion = model[0].model_version;
     const modelGender = model[0].gender;
@@ -279,20 +295,20 @@ export async function runHeadshotUserModel(req, res) {
       outputURL.push(fileOutput.url().href);
     });
 
-    console.log("Output URL: ", outputURL);
-
-    return res
-    .status(200)
-    .json(
-      new ApiResponse(200, "Model run successfully", { imageUrls: outputURL, remainingCredits: creditsInfo.credits - usedCredits })
+    return res.status(200).json(
+      new ApiResponse(200, "Model run successfully", {
+        imageUrls: outputURL,
+        remainingCredits: creditsInfo.credits - usedCredits,
+      })
     );
   } catch (err) {
     console.log("Couldn't run the model. Error: ", err);
     await updateCredits(userEmail, creditsInfo.credits + usedCredits);
-    return res
-    .status(500)
-    .json(
-      new ApiResponse(500, "Couldn't run the model", { error: err.message, remainingCredits: creditsInfo.credits })
+    return res.status(500).json(
+      new ApiResponse(500, "Couldn't run the model", {
+        error: err.message,
+        remainingCredits: creditsInfo.credits,
+      })
     );
   }
 }
