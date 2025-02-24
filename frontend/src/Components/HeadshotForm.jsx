@@ -3,14 +3,13 @@ import { useModel } from "@/contexts/ModelContext"
 import { useNavigation as useBackNavigation } from "@/contexts/NavigationContext"
 import { useSubscription } from "@/contexts/SubscriptionContext"
 import { useUser } from "@/contexts/UserContext"
-import { generateHeadshot} from "@/services/api/services"
 import { headshotStyles } from "@/data/formData"
+import { generateHeadshot } from "@/services/api/services"
 import {
+    Coins,
     Layers as ModelIcon,
     Images as NumImage,
     SquareUserRound as StyleIcon,
-  
-    Coins,
 } from "lucide-react"
 import { useState } from "react"
 import { Button } from "./UI/Button"
@@ -24,7 +23,7 @@ function HeadshotForm() {
         numberOfImages: "",
         style: "",
     })
-  
+
     const { user } = useUser()
     const { dispatch: imageDispatch, state: imageState } = useImage()
     const { dispatch: navDispatch } = useBackNavigation()
@@ -35,14 +34,21 @@ function HeadshotForm() {
         queryKey: ["models", user],
         queryFn: () => getUserModels(user.$id),
     })*/
-    async function handleImageGeneration(userId, modelName, style, numImages, email) {
+    async function handleImageGeneration(
+        userId,
+        modelName,
+        style,
+        numImages,
+        email,
+    ) {
         imageDispatch({
             type: "SET_GENERATION_STATUS",
             payload: { status: "generating", message: "Generating Images" },
         })
-        subscription?.credits && updateCredits(subscription?.credits - numImages * 10, user?.email)
+        subscription?.credits &&
+            updateCredits(subscription?.credits - numImages * 10, user?.email)
         try {
-                const data = await generateHeadshot(
+            const data = await generateHeadshot(
                 userId,
                 modelName,
                 numImages,
@@ -78,7 +84,13 @@ function HeadshotForm() {
         const numImages = parseInt(numberOfImages)
         // handle > 5 images
         console.log(selectedModel)
-        await handleImageGeneration(user.$id, selectedModel, selectedStyle, numImages, user.email)
+        await handleImageGeneration(
+            user.$id,
+            selectedModel,
+            selectedStyle,
+            numImages,
+            user.email,
+        )
         if (imageState.generationStatus.status === "success") {
             //reset form state or just leave it as it is
         } else if (imageState.generationStatus.status === "error") {
@@ -208,7 +220,11 @@ function HeadshotForm() {
                                         name="headshotStyle"
                                         value={style.id}
                                         checked={selectedStyle === style.id}
-                                        onClick={(e)=>selectedStyle===style.id ? setSelectedStyle(null):setSelectedStyle(style.id)}
+                                        onClick={(e) =>
+                                            selectedStyle === style.id
+                                                ? setSelectedStyle(null)
+                                                : setSelectedStyle(style.id)
+                                        }
                                         className="absolute opacity-0 w-full h-full cursor-pointer z-10"
                                     />
                                     <label
@@ -253,7 +269,6 @@ function HeadshotForm() {
                                             <h3 className="font-normal text-[0.675rem] text-gray-700 ">
                                                 {style.label}
                                             </h3>
-                                          
                                         </div>
                                     </label>
                                 </div>

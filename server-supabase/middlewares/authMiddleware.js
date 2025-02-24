@@ -11,7 +11,7 @@ export default async function isUserAuthenticated(req, res, next) {
   if (!authHeader) {
     return res.status(401).json(
       new ApiResponse(401, "Unauthorized", {
-        error: err.message,
+        error: "Unauthorized",
       })
     );
   }
@@ -20,7 +20,7 @@ export default async function isUserAuthenticated(req, res, next) {
   if (!token) {
     return res.status(401).json(
       new ApiResponse(401, "Unauthorized", {
-        error: err.message,
+        error: "Unauthorized",
       })
     );
   }

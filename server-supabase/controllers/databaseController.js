@@ -138,6 +138,49 @@ export async function deleteModel(modelId) {
 
 /*IMAGES TABLE*/
 
+export async function saveHeadshot(req, res) {
+  const { userId, fileUrl } = req.body;
+  try {
+    const blob = await fetch(fileUrl).then((r) => r.blob());
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const fileName = `ai-headshot-${Date.now()}.jpg`;
+
+    const { error } = await supabase.storage
+      .from("images")
+      .upload(fileName, blob);
+
+    if (error) {
+      throw error;
+    }
+
+    const imageUrl = `${supabaseUrl}/storage/v1/object/public/images/${fileName}`;
+
+    /* Create image document in database */
+    const { data: response, error: dbError } = await supabase
+      .from("Images")
+      .insert({
+        image_urls: imageUrl,
+        user_id: userId,
+        type: "headshot",
+      });
+    if (dbError) {
+      throw dbError;
+    }
+
+    return res.status(200).json(
+      new ApiResponse(200, "Image saved", {
+        response,
+      })
+    );
+  } catch (err) {
+    return res.status(500).json(
+      new ApiResponse(500, "Error saving image", {
+        error: err.message,
+      })
+    );
+  }
+}
+
 export async function saveImage(req, res) {
   const { userId, fileUrl } = req.body;
   try {
@@ -161,6 +204,7 @@ export async function saveImage(req, res) {
       .insert({
         image_urls: imageUrl,
         user_id: userId,
+        type: "custom",
       });
     if (dbError) {
       throw dbError;
@@ -194,7 +238,46 @@ export async function getImages(req, res) {
     const { data, error } = await supabase
       .from("Images")
       .select("image_url")
-      .eq("user_id", userId);
+      .eq("user_id", userId)
+      .eq("type", "custom");
+
+    if (error) {
+      throw error;
+    }
+
+    let imageUrls = [];
+    data.forEach((image) => {
+      imageUrls.push(image.image_url);
+    });
+    console.log("Images fetched: ", imageUrls);
+    return res
+      .status(200)
+      .json(new ApiResponse(200, "Images fetched", { imageUrls }));
+  } catch (err) {
+    return res
+      .status(500)
+      .json(
+        new ApiResponse(500, "Error fetching images", { error: err.message })
+      );
+  }
+}
+
+export async function getHeadshotImages(req, res) {
+  const { userId } = req.body;
+  if (userId !== req.userId && !req.userId) {
+    return res.status(401).json(
+      new ApiResponse(401, "Unauthorized", {
+        error: "Unauthorized access",
+      })
+    );
+  }
+  try {
+    /* Get images from database */
+    const { data, error } = await supabase
+      .from("Images")
+      .select("image_url")
+      .eq("user_id", userId)
+      .eq("type", "headshot");
 
     if (error) {
       throw error;
