@@ -21,26 +21,37 @@ export async function getUserModels(userId) {
 }
 
 //function to generate custom images
-export async function generateImage(userId, modelName, prompt, numberOfImages, userEmail) {
+export async function generateImage(
+    userId,
+    modelName,
+    prompt,
+    numberOfImages,
+    userEmail,
+) {
     const response = await apiRequest(`/models/run`, "POST", {
         userId,
         modelName,
         prompt,
         numberOfImages,
-        userEmail
+        userEmail,
     })
     return response.data //response is an array of image urls
 }
-export async function generateHeadshot(userId, modelName,  numberOfImages, style, userEmail) {
+export async function generateHeadshot(
+    userId,
+    modelName,
+    numberOfImages,
+    style,
+    userEmail,
+) {
     const response = await apiRequest(`/models/run-headshots`, "POST", {
         userId,
         modelName,
         numberOfImages,
         style,
-        userEmail
+        userEmail,
     })
-    return response.data 
-
+    return response.data
 }
 //function to get user subscription details
 export async function getUserSub(email) {
@@ -83,5 +94,23 @@ export async function changeUserName(newName) {
         return user
     } catch (err) {
         throw err
+    }
+}
+
+export async function downloadImageFromReplicate(imageUrl) {
+    try {
+        const response = await fetch(imageUrl)
+        const blob = await response.blob()
+        const url = window.URL.createObjectURL(blob)
+        const a = document.createElement("a")
+        a.href = url
+        a.download = `snapstudio-${Date.now()}.png` // Generate unique filename
+        document.body.appendChild(a)
+        a.click()
+        window.URL.revokeObjectURL(url)
+        document.body.removeChild(a)
+    } catch (error) {
+        console.error("Error downloading image:", error)
+        throw error
     }
 }
