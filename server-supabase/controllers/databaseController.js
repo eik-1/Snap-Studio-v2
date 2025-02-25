@@ -143,7 +143,7 @@ export async function saveHeadshot(req, res) {
   try {
     const blob = await fetch(fileUrl).then((r) => r.blob());
     const supabaseUrl = process.env.SUPABASE_URL;
-    const fileName = `ai-headshot-${Date.now()}.jpg`;
+    const fileName = `ai-headshot-${Date.now()}.png`;
 
     const { error } = await supabase.storage
       .from("images")
@@ -186,7 +186,7 @@ export async function saveImage(req, res) {
   try {
     const blob = await fetch(fileUrl).then((r) => r.blob());
     const supabaseUrl = process.env.SUPABASE_URL;
-    const fileName = `ai-image-${Date.now()}.jpg`;
+    const fileName = `ai-image-${Date.now()}.png`;
 
     const { error } = await supabase.storage
       .from("images")
