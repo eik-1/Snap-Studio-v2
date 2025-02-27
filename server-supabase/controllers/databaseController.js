@@ -159,7 +159,7 @@ export async function saveHeadshot(req, res) {
     const { data: response, error: dbError } = await supabase
       .from("Images")
       .insert({
-        image_urls: imageUrl,
+        image_url: imageUrl,
         user_id: userId,
         type: "headshot",
       });
@@ -202,7 +202,7 @@ export async function saveImage(req, res) {
     const { data: response, error: dbError } = await supabase
       .from("Images")
       .insert({
-        image_urls: imageUrl,
+        image_url: imageUrl,
         user_id: userId,
         type: "custom",
       });

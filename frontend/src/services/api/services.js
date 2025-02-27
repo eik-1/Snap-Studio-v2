@@ -53,6 +53,35 @@ export async function generateHeadshot(
     })
     return response.data
 }
+
+export async function saveHeadshot(userId, fileUrl)
+{
+    const response = await apiRequest(`/database/save-headshot-image`, "POST", {
+        userId,
+        fileUrl
+    })
+    return response.data
+}
+export async function saveCustomImage(userId, fileUrl) {
+    const response = await apiRequest(`/database/save-image`, "POST", {
+        userId,
+        fileUrl,
+    })
+    return response.data
+}
+
+export async function getSavedHeadshots(userId) {
+    const response = await apiRequest(`/database/get-saved-headshots`, "POST", {
+        userId,
+    })
+    return response.data.imageUrls;
+}
+export async function getSavedImages(userId) {
+    const response = await apiRequest(`/database/get-saved-images`, "POST", {
+        userId,
+    })
+    return response.imageUrls;
+}
 //function to get user subscription details
 export async function getUserSub(email) {
     try {
@@ -97,20 +126,3 @@ export async function changeUserName(newName) {
     }
 }
 
-export async function downloadImageFromReplicate(imageUrl) {
-    try {
-        const response = await fetch(imageUrl)
-        const blob = await response.blob()
-        const url = window.URL.createObjectURL(blob)
-        const a = document.createElement("a")
-        a.href = url
-        a.download = `snapstudio-${Date.now()}.png` // Generate unique filename
-        document.body.appendChild(a)
-        a.click()
-        window.URL.revokeObjectURL(url)
-        document.body.removeChild(a)
-    } catch (error) {
-        console.error("Error downloading image:", error)
-        throw error
-    }
-}

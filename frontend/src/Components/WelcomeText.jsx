@@ -3,13 +3,36 @@ import { cn } from "@/lib/utils"
 
 function WelcomeText({ className }) {
     const { user } = useUser()
-    if (new Date().getHours() >= 4 && new Date().getHours() < 12) {
+    const userName= user?.first_name || 'user'
+    if(new Date().getHours() >= 0 && new Date().getHours() <4) {
         return (
             <div className="h-max w-full flex justify-center">
                 {" "}
                 <h1
                     className={cn(className)}
-                >{`Good Morning ${user?.first_name}`}</h1>
+                >{`Happy late night, ${userName}`}</h1>
+            </div>
+        )
+
+    }
+    if(new Date().getHours() >= 4 && new Date().getHours() < 6) {
+        return(
+            <div className="h-max w-full flex justify-center">
+                {" "}
+                <h1
+                    className={cn(className)}
+                >{`Happy early morning, ${userName}`}</h1>
+            </div>
+        )
+
+    }
+    else if (new Date().getHours() >= 6 && new Date().getHours() < 12) {
+        return (
+            <div className="h-max w-full flex justify-center">
+                {" "}
+                <h1
+                    className={cn(className)}
+                >{`Good Morning, ${userName}`}</h1>
             </div>
         )
     } else if (new Date().getHours() >= 12 && new Date().getHours() < 16) {
@@ -17,7 +40,7 @@ function WelcomeText({ className }) {
             <div className="h-max w-full flex justify-center">
                 <h1
                     className={cn(className)}
-                >{`Good Afternoon ${user?.first_name}`}</h1>
+                >{`Good Afternoon ${userName}`}</h1>
             </div>
         )
     } else {
@@ -25,7 +48,7 @@ function WelcomeText({ className }) {
             <div className="h-max w-full flex justify-center">
                 <h1
                     className={cn(className)}
-                >{`Good Evening ${user?.first_name}`}</h1>
+                >{`Good Evening ${userName}`}</h1>
             </div>
         )
     }

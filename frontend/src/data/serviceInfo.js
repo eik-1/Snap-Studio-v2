@@ -1,4 +1,4 @@
-import { img1, img2, img3, img4, img5, img6 } from "@/assets/images/index"
+import { img1, img2, img3, img4, img5, img6, GoldenHour, CitySkyline, Black } from "@/assets/images/index"
 import { FashionIcon, HeadshotIcon, ImageIcon } from "@/data/Icons"
 
 const services = [
@@ -7,7 +7,7 @@ const services = [
         name:"Headshots",
         title: "Generate HeadShots",
         description: "Transform your photos into studio-quality headshots.",
-        images: [img5, img6],
+        images: [Black, CitySkyline],
         className:
             "bg-serviceone text-black/70 hover:shadow-lg hover:shadow-amber-100 ",
         icon: HeadshotIcon,

@@ -3,11 +3,16 @@ import { motion, AnimatePresence } from "motion/react"
 import { useImage } from "@/contexts/ImageContext"
 import ImageGrid from "@/Components/ImageGrid"
 import { cn } from "@/lib/utils"
+import { saveHeadshot, saveCustomImage } from "@/services/api/services"
+import { useUser } from "@/contexts/UserContext"
 //incomplete component: multiple features and functionalities are missing, to be implemented
 
-function ImageResultSection() {
+function ImageResultSection(imageUrl) {
     const { state: imageState } = useImage()
-    
+    const { user } = useUser()
+
+
+
     console.log(imageState)
     let content
     switch (imageState.generationStatus.status) {
@@ -18,7 +23,13 @@ function ImageResultSection() {
             content = <ImageResultLoading />
             break
         case "generated":
-            content = <ImageGrid images={imageState.generatedImageUrls} />
+            content = (
+                <ImageGrid
+                    images={imageState.generatedImageUrls}
+                    usedFor="generatedImage"
+                    className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 "
+                />
+            )
             break
         default:
             content = <ImageResultEmptyState />
@@ -31,20 +42,24 @@ function ImageResultSection() {
                 </h2>
                 <div className="w-full h-full relative ">
                     <AnimatePresence>
-                    {imageState.generationStatus.status==='generating' && <motion.div className="z-0  h-full w-full absolute top-0 right-0  rounded-lg" 
-                    initial={{opacity:0}}
-                    animate={{opacity:1}}
-                    exit={{opacity:0}}>
-                        <div className="z-0 animate-gradient blur-md  bg-[length:200%_100%] h-full w-full  bg-gen rounded-lg">
-
-                        </div>
-                    </motion.div>
-                    
-                    
-                        }
+                        {imageState.generationStatus.status ===
+                            "generating" && (
+                            <motion.div
+                                className="z-0  h-full w-full absolute top-0 right-0  rounded-lg"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                            >
+                                <div className="z-0 animate-gradient blur-md  bg-[length:200%_100%] h-full w-full  bg-gen rounded-lg"></div>
+                            </motion.div>
+                        )}
                     </AnimatePresence>
-                  
-                    <div className={cn(`relative w-full min-h-full sm:h-full gap-4 p-2 rounded-lg bg-white flex flex-col justify-center shadow-sm  items-center border-gray-200 border-[1px] ${imageState?.generationStatus?.status==='generated' && 'h-max justify-start'}`)}>
+
+                    <div
+                        className={cn(
+                            `relative w-full min-h-full sm:h-full gap-4 p-2 rounded-lg bg-white flex flex-col justify-center shadow-sm  items-center border-gray-200 border-[1px] ${imageState?.generationStatus?.status === "generated" && "h-max justify-start"}`,
+                        )}
+                    >
                         {content}
                     </div>
                 </div>

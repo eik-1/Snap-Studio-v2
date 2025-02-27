@@ -2,16 +2,13 @@ import { createContext, useContext, useReducer } from "react"
 
 const ImageContext = createContext()
 const tempData = [
-   "https://replicate.delivery/xezq/OkEvhdtNqVb6EVHkMLnK1WAHvRTVDATUrmSHmUc6GuaBOPEF/out-0.png",
-   "https://replicate.delivery/xezq/OkEvhdtNqVb6EVHkMLnK1WAHvRTVDATUrmSHmUc6GuaBOPEF/out-0.png",
-   "https://replicate.delivery/xezq/OkEvhdtNqVb6EVHkMLnK1WAHvRTVDATUrmSHmUc6GuaBOPEF/out-0.png",
-   "https://replicate.delivery/xezq/OkEvhdtNqVb6EVHkMLnK1WAHvRTVDATUrmSHmUc6GuaBOPEF/out-0.png",
-   "https://replicate.delivery/xezq/OkEvhdtNqVb6EVHkMLnK1WAHvRTVDATUrmSHmUc6GuaBOPEF/out-0.png"
+ 
+  
 ]
 const imageState = {
-    mode: "none",
+    mode: "headshot",
     generationStatus: {
-        status: "generated",
+        status: "idle",
         message: "",
     },
     generatedImageUrls: [...tempData],
@@ -38,7 +35,7 @@ function imageReducer(state, action) {
 
 function ImageProvider({ children }) {
     const [state, dispatch] = useReducer(imageReducer, imageState)
-
+    console.log(state.mode)
     return (
         <ImageContext.Provider
             value={{

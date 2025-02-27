@@ -1,6 +1,6 @@
 import { CoinsIcon } from "@/data/Icons"
 import { useSubscription } from "@/contexts/SubscriptionContext"
-import { ClipLoader } from "react-spinners";
+import { RotatingLines } from "react-loader-spinner";
 function CreditsTab()
 {
     const {subscription}= useSubscription();
@@ -11,7 +11,13 @@ function CreditsTab()
             </div>
             <div>
                 <p className="text-xs text-gray-500 font-semibold flex items-center justify-center ">
-                    {subscription?.credits ? subscription.credits : <ClipLoader size={14} color="grey" />}
+                    {subscription?.credits ? subscription.credits :  <RotatingLines
+                    strokeWidth="4"
+                    animationDuration="0.75"
+                    strokeColor="grey"
+                    height="16"
+                    width="16"
+                />}
                 </p>
             </div>
         </div>

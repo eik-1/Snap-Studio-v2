@@ -76,7 +76,7 @@ function SideNavbar() {
                                                 : "hover:text-purple-500"
                                         }`
                                     }
-                                    end
+                                    end={item.route!=="myimages"}
                                 >
                                     <div>{item.icon}</div>
                                     {isHovered && (
