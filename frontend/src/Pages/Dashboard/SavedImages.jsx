@@ -21,10 +21,10 @@ function SavedImages() {
                 category === "headshots"
                     ? await getSavedHeadshots(user.$id)
                     : await getSavedImages(user.$id)
-        
+                    console.log(data)
             setImages(data)
         } catch (error) {
-          
+            console.error(error)
             setIsError(error)
         }
         setIsLoading(false)
@@ -59,7 +59,7 @@ function SavedImages() {
                 No saved images
             </div>
         )
-    } else if (images) {
+    } else if(images) {
         content = (
             <ImageGrid
                 images={images}
@@ -69,7 +69,7 @@ function SavedImages() {
     }
 
     return (
-        <div className="w-full h-full bg-white relative flex flex-col md:flex-row md:items-center overflow-scroll md:overflow-hidden custom-scrollbar">
+        <div className="w-full h-full bg-white relative flex flex-col md:flex-row md:items-center pb-48 md:pb-0 overflow-scroll md:overflow-hidden custom-scrollbar"> 
             <div className="w-[95%] flex-shrink-0  mx-auto md:mx-0 h-36 md:h-[95%] md:my-auto md:w-80  border-b-[1px] md:border-r-[1px] md:border-b-0 border-neutral-200 md:border-b-none ">
                 <div className="flex flex-col  items-center mt-10 md:mt-32 gap-2 ">
                     <h2 className="text-3xl leading-relaxed text-center font-semibold bg-clip-text text-transparent  bg-gradient-to-r from-rose-500 via-purple-500 to-cyan-500">
@@ -81,7 +81,7 @@ function SavedImages() {
                 </div>
             </div>
 
-            <div className="relative min-h-full flex-grow pt-8 px-4 md:overflow-y-scroll md:custom-scrollbar pb-64 sm:pb-0">
+            <div className="relative md:h-full flex-grow pt-8 px-4 md:overflow-y-scroll md:custom-scrollbar ">
                 {content}
             </div>
         </div>

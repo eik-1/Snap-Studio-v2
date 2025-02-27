@@ -13,7 +13,9 @@ import ImageThumbnail from "./ImageThumbnail"
 import { saveHeadshot, saveCustomImage } from "@/services/api/services"
 import { useUser } from "@/contexts/UserContext"
 import { useImage } from "@/contexts/ImageContext"
+import { useToast } from "@/hooks/use-toast"
 import { cn } from "@/lib/utils"
+import SaveImageButton from "./SaveImageButton"
 const trs = {
     type: "spring",
     stiffness: 250,
@@ -24,6 +26,7 @@ function ImageGrid({ images, usedFor = "", className }) {
     const [selectedIndex, setSelectedIndex] = useState(null)
     const { user } = useUser()
     const { state: imageState } = useImage()
+    const { toast } = useToast()
 
     const closeModal = useCallback(() => {
         setSelectedIndex(null)
@@ -73,9 +76,13 @@ function ImageGrid({ images, usedFor = "", className }) {
                 console.log("saving headshot...")
                 const response = await saveHeadshot(userId, imageUrl)
                 console.log(response)
+                toast({
+                    title: "Image saved", })
             } else if (imageState.mode === "customImage") {
                 const response = await saveCustomImage(userId, imageUrl)
                 console.log(response)
+                toast({
+                    description: "Image saved", })
             } else {
                 console.log("Error saving image")
             }
@@ -147,19 +154,7 @@ function ImageGrid({ images, usedFor = "", className }) {
                                             <Download color="white" size={16} />
                                         </button>
                                         {usedFor === "generatedImage" ? (
-                                            <button
-                                                className="block  text-white bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 "
-                                                onClick={(e) => {
-                                                    e.stopPropagation()
-
-                                                    handleSaveImage(
-                                                        images[selectedIndex],
-                                                    )
-                                                }}
-                                            >
-                                                {" "}
-                                                <Bookmark size={16} />
-                                            </button>
+                                  <SaveImageButton imageUrl={ images[selectedIndex]} size="16"/>
                                         ) : (
                                             <button
                                                 className="block  text-white bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 "
