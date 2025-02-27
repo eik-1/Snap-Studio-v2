@@ -1,13 +1,14 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
 import { Download, Bookmark, Trash2 } from "lucide-react"
+import SaveImageButton from "./SaveImageButton"
 import { downloadImageFromReplicate } from "@/services/utils/downloadImage"
 const trs = {
     type: "spring",
     stiffness: 250,
     damping: 30,
 }
-function ImageThumbnail({ src, index, onClick, onSaveImage, usedFor }) {
+function ImageThumbnail({ src, index, onClick,  usedFor }) {
     const [isHovering, setIsHovering] = useState(false)
     return (
         <motion.div
@@ -40,17 +41,7 @@ function ImageThumbnail({ src, index, onClick, onSaveImage, usedFor }) {
                         <Download color="white" size={12} />
                     </button>
                     {usedFor === "generatedImage" ? (
-                        <button
-                            className="block  text-white bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 "
-                            onClick={(e) => {
-                                e.stopPropagation()
-                                onSaveImage(src)
-                                console.log("save image")
-                            }}
-                        >
-                            {" "}
-                            <Bookmark size={12} />
-                        </button>
+                        <SaveImageButton imageUrl={src} size="12" />
                     ) : (
                         <button
                             className="block  text-white bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 "
@@ -60,7 +51,7 @@ function ImageThumbnail({ src, index, onClick, onSaveImage, usedFor }) {
                                 console.log("delete image")
                             }}
                         >
-                            <Trash2 size={16} />
+                            <Trash2 size={12} />
                         </button>
                     )}
                 </div>

@@ -44,7 +44,7 @@ function SaveImageButton({imageUrl, size})
             content=( <RotatingLines
             strokeWidth="4"
             animationDuration="0.75"
-            strokeColor="grey"
+            strokeColor="white"
             height={String(size)}
             width={String(size)}
         />)

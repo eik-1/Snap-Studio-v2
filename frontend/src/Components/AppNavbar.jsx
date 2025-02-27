@@ -145,7 +145,7 @@ function MobileNavbar() {
                             isActive ? " text-purple-500" : "text-gray-500 "
                         }`
                     }
-                    end
+                
                 >
                     <BookImage size={20} />
                     <p className="text-xs">My Images</p>
