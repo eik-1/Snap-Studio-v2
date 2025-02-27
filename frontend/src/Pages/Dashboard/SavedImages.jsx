@@ -21,8 +21,9 @@ function SavedImages() {
                 category === "headshots"
                     ? await getSavedHeadshots(user.$id)
                     : await getSavedImages(user.$id)
-                    console.log(data)
+                
             setImages(data)
+            console.log(data);
         } catch (error) {
             console.error(error)
             setIsError(error)

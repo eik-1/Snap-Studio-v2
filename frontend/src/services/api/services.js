@@ -80,7 +80,7 @@ export async function getSavedImages(userId) {
     const response = await apiRequest(`/database/get-saved-images`, "POST", {
         userId,
     })
-    return response.imageUrls;
+    return response.data.imageUrls;
 }
 //function to get user subscription details
 export async function getUserSub(email) {
