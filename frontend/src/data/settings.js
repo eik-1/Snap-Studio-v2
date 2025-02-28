@@ -29,7 +29,6 @@ const settings = [
                 name: "password",
                 title: "Password",
                 buttons: [
-                 
                     {
                         action: "resetPassword",
                         text: "Forgot Password?",
@@ -80,4 +79,5 @@ const settings = [
         ],
     },
 ]
+
 export { settings }
