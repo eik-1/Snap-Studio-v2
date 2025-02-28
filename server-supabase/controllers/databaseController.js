@@ -300,6 +300,42 @@ export async function getHeadshotImages(req, res) {
   }
 }
 
+export async function deleteImage(req, res) {
+  const { userId, imageUrl } = req.body;
+  if (userId !== req.userId && !req.userId) {
+    return res.status(401).json(
+      new ApiResponse(401, "Unauthorized", {
+        error: "Unauthorized access",
+      })
+    );
+  }
+  try {
+    const { error: imageDBDelete } = await supabase
+      .from("Images")
+      .delete()
+      .eq("image_url", imageUrl)
+      .eq("user_id", userId);
+    if (imageDBDelete) {
+      throw new Error("Error deleting image from database");
+    }
+
+    const fileName = imageUrl.split("/").pop();
+
+    const { error: imageBucketDelete } = await supabase.storage
+      .from("images")
+      .remove([fileName]);
+    if (imageBucketDelete) {
+      throw new Error("Error deleting image from bucket");
+    }
+  } catch (err) {
+    return res.status(500).json(
+      new ApiResponse(500, "Error deleting the images", {
+        error: err.message,
+      })
+    );
+  }
+}
+
 /*SUBSCRIPTION TABLE*/
 // export async function checkCredits(req, res) {
 //   const { email } = req.body;

@@ -1,6 +1,7 @@
 import axios from "axios";
 import dotenv from "dotenv";
 import FormData from "form-data";
+import { client } from "../configs/posthog.js";
 import { replicate } from "../configs/replicateConfig.js";
 import { sendEventToClients } from "../routes/sseRoutes.js";
 import ApiResponse from "../utils/ApiResponse.js";
@@ -189,6 +190,10 @@ export async function runUserModel(req, res) {
   const { userId, modelName, prompt, numberOfImages, userEmail } = req.body;
   let creditsInfo;
   let usedCredits;
+  client.capture({
+    distinctId: userEmail,
+    event: "custom_image generated",
+  });
   try {
     creditsInfo = await getCredits(userEmail);
     if (creditsInfo.credits <= 0) {
