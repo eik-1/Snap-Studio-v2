@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import Stripe from "stripe";
 
+import { client } from "../configs/posthog.js";
 import supabase from "../configs/supabase.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import { plans } from "../utils/stripePlans.js";
@@ -131,6 +132,19 @@ export async function stripeWebhook(req, res) {
           throw error;
         }
 
+        // Capture event in PostHog
+        client.capture({
+          distinctId: customer.email,
+          event: "subscription purchased",
+          properties: {
+            plan_name: planName,
+            plan_type: planType,
+            price_id: priceId,
+            credits: planCredits,
+            model_credits: modelCredits,
+          },
+        });
+
         break;
       }
       case "customer.subscription.deleted": {
@@ -158,6 +172,11 @@ export async function stripeWebhook(req, res) {
         }
 
         console.log("Subscription deleted: ", data);
+
+        client.capture({
+          distinctId: subscription.customer,
+          event: "subscription cancelled",
+        });
 
         break;
       }

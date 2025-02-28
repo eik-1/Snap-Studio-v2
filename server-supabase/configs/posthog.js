@@ -8,5 +8,6 @@ export const client = new PostHog(
   {
     host: "https://us.i.posthog.com",
     flushInterval: 10000,
+    enableExceptionAutocapture: true,
   }
 );

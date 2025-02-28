@@ -1,7 +1,6 @@
 import express from "express";
 
 import {
-  getTrainingStatus,
   getTriggerWord,
   runHeadshotUserModel,
   runUserModel,
@@ -18,7 +17,7 @@ router.post(
   upload.single("file"),
   trainOstrisModel
 );
-router.post("/status", isUserAuthenticated, getTrainingStatus);
+// router.post("/status", isUserAuthenticated, getTrainingStatus);
 router.post("/run", isUserAuthenticated, runUserModel);
 router.post("/get-trigger-word", isUserAuthenticated, getTriggerWord);
 router.post("/run-headshots", isUserAuthenticated, runHeadshotUserModel);
