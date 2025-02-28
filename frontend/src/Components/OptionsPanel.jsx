@@ -2,12 +2,15 @@ import ServiceCard from "@/Components/ServiceCard"
 import { services } from "@/data/serviceInfo"
 import WelcomeText from "@/Components/WelcomeText"
 import { useNavigation } from "@/contexts/NavigationContext"
+import {useImage} from "@/contexts/ImageContext"
 
 function OptionPanel() {
     const { dispatch:navDispatch } = useNavigation()
+    const {dispatch:imageDispatch} = useImage()
 
     const handleSelectOption = (option) => {
         navDispatch({ type: "SET_TAB", payload: { tab: option } })
+        imageDispatch({type:"SET_MODE", payload:option})
     }
     return (
         <section className="h-max  w-full p-4 bg-white  flex flex-col gap-4 items-center justify-center ">

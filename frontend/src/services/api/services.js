@@ -53,6 +53,35 @@ export async function generateHeadshot(
     })
     return response.data
 }
+
+export async function saveHeadshot(userId, fileUrl)
+{
+    const response = await apiRequest(`/database/save-headshot-image`, "POST", {
+        userId,
+        fileUrl
+    })
+    return response.data
+}
+export async function saveCustomImage(userId, fileUrl) {
+    const response = await apiRequest(`/database/save-image`, "POST", {
+        userId,
+        fileUrl,
+    })
+    return response.data
+}
+
+export async function getSavedHeadshots(userId) {
+    const response = await apiRequest(`/database/get-saved-headshots`, "POST", {
+        userId,
+    })
+    return response.data.imageUrls;
+}
+export async function getSavedImages(userId) {
+    const response = await apiRequest(`/database/get-saved-images`, "POST", {
+        userId,
+    })
+    return response.data.imageUrls;
+}
 //function to get user subscription details
 export async function getUserSub(email) {
     try {
