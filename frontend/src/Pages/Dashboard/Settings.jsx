@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom"
+import { redirect, useNavigate } from "react-router-dom"
 
 import SettingsContainer from "@/Components/SettingsContainer"
 import SettingTile from "@/Components/SettingTile"
@@ -64,9 +64,16 @@ function Settings() {
         },
         upgradePlan: () => {
             console.log("upgrade plan")
-            //We are not allowing the user to upgrade the plan here (only through customer portal)
-            //Redirect to customer portal
+            window.location.href=`${import.meta.env.VITE_STRIPE_USER_PORTAL}`
         },
+        upgradePlanCycle: () => {
+            console.log("upgrade plan cycle")
+            window.location.href=`${import.meta.env.VITE_STRIPE_USER_PORTAL}`
+        },
+        cancelSubscription: () => {
+            console.log("cancel subscription")
+            window.location.href=`${import.meta.env.VITE_STRIPE_USER_PORTAL}`
+        }
     }
 
     return (
