@@ -30,7 +30,23 @@ export async function trainOstrisModel(req, res) {
       throw new Error("Insufficient credits to train the model");
     }
 
-    await updateModelCredits(userEmail, creditsInfo.model_credits - 1);
+    const { error } = await updateModelCredits(
+      userEmail,
+      creditsInfo.model_credits - 1
+    );
+    if (error) {
+      throw new Error(error);
+    }
+
+    client.capture({
+      distinctId: userEmail,
+      event: "model_training started",
+      properties: {
+        model_name: modelName,
+        trigger_word: trigger,
+        gender: gender,
+      },
+    });
 
     const zipBuffer = req.file.buffer;
 
@@ -53,7 +69,6 @@ export async function trainOstrisModel(req, res) {
       }
     );
     const fileUrl = uploadResponse.data.urls.get;
-    console.log(fileUrl);
 
     const training = await replicate.trainings.create(
       "ostris",
@@ -82,6 +97,7 @@ export async function trainOstrisModel(req, res) {
         webhook_events_filter: ["start", "completed"],
       }
     );
+
     console.log("Training started: ", training);
     const modelData = {
       userId,
@@ -110,6 +126,7 @@ export async function trainOstrisModel(req, res) {
     );
   } catch (err) {
     console.log("Couldn't train the model. Error: ", err);
+    client.captureException(err, userEmail);
     await updateModelCredits(userEmail, creditsInfo.model_credits + 1);
     return res
       .status(500)
@@ -117,48 +134,48 @@ export async function trainOstrisModel(req, res) {
   }
 }
 
-export async function getTrainingStatus(req, res) {
-  const { userId, modelName } = req.body;
-  try {
-    const model = await getModel(userId, modelName);
-    if (!model || model.length === 0) {
-      return res.status(404).json(
-        new ApiResponse(404, "Model not found", {
-          error: "The requested model is not found.",
-        })
-      );
-    }
+// export async function getTrainingStatus(req, res) {
+//   const { userId, modelName } = req.body;
+//   try {
+//     const model = await getModel(userId, modelName);
+//     if (!model || model.length === 0) {
+//       return res.status(404).json(
+//         new ApiResponse(404, "Model not found", {
+//           error: "The requested model is not found.",
+//         })
+//       );
+//     }
 
-    const modelId = model[0].model_id;
-    const response = await replicate.trainings.get(modelId);
-    if (response.status === "failed") {
-      await deleteModel(modelId);
-    }
-    if (response.status === "succeeded") {
-      await updateModel(modelId, response.status, response.output.version);
-    }
-    return res.status(200).json(
-      new ApiResponse(200, "Training status", {
-        trainingStatus: response.status,
-      })
-    );
+//     const modelId = model[0].model_id;
+//     const response = await replicate.trainings.get(modelId);
+//     if (response.status === "failed") {
+//       await deleteModel(modelId);
+//     }
+//     if (response.status === "succeeded") {
+//       await updateModel(modelId, response.status, response.output.version);
+//     }
+//     return res.status(200).json(
+//       new ApiResponse(200, "Training status", {
+//         trainingStatus: response.status,
+//       })
+//     );
 
-    // response.output.version
-  } catch (err) {
-    if (err.response?.status === 404) {
-      return res.status(404).json(
-        new ApiResponse(404, "Model not found", {
-          error: "The requested model is not found.",
-        })
-      );
-    }
-    return res.status(500).json(
-      new ApiResponse(500, "Error getting training status", {
-        error: err.message,
-      })
-    );
-  }
-}
+//     // response.output.version
+//   } catch (err) {
+//     if (err.response?.status === 404) {
+//       return res.status(404).json(
+//         new ApiResponse(404, "Model not found", {
+//           error: "The requested model is not found.",
+//         })
+//       );
+//     }
+//     return res.status(500).json(
+//       new ApiResponse(500, "Error getting training status", {
+//         error: err.message,
+//       })
+//     );
+//   }
+// }
 
 export async function getTriggerWord(req, res) {
   const { userId, modelName } = req.body;
@@ -242,6 +259,7 @@ export async function runUserModel(req, res) {
   } catch (err) {
     console.log("Couldn't run the model. Error: ", err);
     await updateCredits(userEmail, creditsInfo.credits + usedCredits);
+    client.captureException(err, userEmail);
     return res.status(500).json(
       new ApiResponse(500, "Couldn't run the model", {
         error: err.message,
@@ -255,9 +273,13 @@ export async function runHeadshotUserModel(req, res) {
   const { userId, modelName, numberOfImages, style, userEmail } = req.body;
   let creditsInfo;
   let usedCredits;
+  client.capture({
+    distinctId: userEmail,
+    event: "headshot generated",
+  });
   try {
     creditsInfo = await getCredits(userEmail);
-    if (creditsInfo.credits <= 0) {
+    if (creditsInfo.credits >= 0) {
       throw new Error("Insufficient credits to run the model");
     }
     usedCredits = 10 * numberOfImages;
@@ -265,6 +287,7 @@ export async function runHeadshotUserModel(req, res) {
   } catch (err) {
     console.log("Couldn't run the model. Error: ", err);
     await updateCredits(userEmail, creditsInfo.credits + usedCredits);
+    client.captureException(err, userEmail);
     return res
       .status(500)
       .json(
@@ -309,6 +332,7 @@ export async function runHeadshotUserModel(req, res) {
   } catch (err) {
     console.log("Couldn't run the model. Error: ", err);
     await updateCredits(userEmail, creditsInfo.credits + usedCredits);
+    client.captureException(err, userEmail);
     return res.status(500).json(
       new ApiResponse(500, "Couldn't run the model", {
         error: err.message,
