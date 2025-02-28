@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom"
+
 import SettingsContainer from "@/Components/SettingsContainer"
 import SettingTile from "@/Components/SettingTile"
 import { useSubscription } from "@/contexts/SubscriptionContext"
@@ -9,6 +11,7 @@ import { addOneMonth, addOneYear } from "@/services/utils/date"
 function Settings() {
     const { user, setUser } = useUser()
     const { subscription } = useSubscription()
+    const navigate = useNavigate()
     const STRIPE_USER_PORTAL = import.meta.env.VITE_STRIPE_USER_PORTAL
 
     function getBillingDate(cycle) {
@@ -35,10 +38,9 @@ function Settings() {
         updateEmail: () => {
             console.log("update email")
             if (user) {
-                const newUser = changeUserEmail("newEmail") //pass the new email here
+                const newUser = changeUserEmail("newEmail")
                 const updatedUser = { ...user, email: newUser.email }
                 setUser(updatedUser)
-                //maybe logout the user here
             }
         },
         updateName: () => {
@@ -56,13 +58,9 @@ function Settings() {
                 setUser(updatedUser)
             }
         },
-        updatePassword: () => {
-            console.log("update password")
-            //logout the user and send to password reset page
-        },
         resetPassword: () => {
             console.log("reset password")
-            //why are you having both update password and reset password?
+            navigate("/reset-password")
         },
         upgradePlan: () => {
             console.log("upgrade plan")
@@ -72,7 +70,7 @@ function Settings() {
     }
 
     return (
-        <div className="w-full h-full bg-white   relative flex flex-col md:flex-row md:items-center overflow-y-scroll md:overflow-y-visible custom-scrollbar gap-6">
+        <div className="w-full h-full bg-white relative flex flex-col md:flex-row md:items-center overflow-y-scroll md:overflow-y-visible custom-scrollbar gap-6">
             <div className="w-[95%] flex-shrink-0  mx-auto md:mx-0 h-36 md:h-[95%] md:my-auto md:w-80   border-b-[1px] md:border-r-[1px] md:border-b-0 border-neutral-200 md:border-b-none ">
                 <div className="flex flex-col  items-center mt-10 md:mt-32 gap-2 ">
                     <h2 className="text-3xl leading-relaxed text-center font-semibold bg-clip-text text-transparent  bg-gradient-to-r from-rose-500 via-purple-500 to-cyan-500">
