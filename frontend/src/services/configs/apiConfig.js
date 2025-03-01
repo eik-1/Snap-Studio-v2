@@ -14,14 +14,22 @@ export async function getApiConfig() {
 }
 
 async function getToken() {
-    // const storageKey = `sb-${SUPABASE_PROJECT_ID}-auth-token`
-    // const sessionDataString = localStorage.getItem(storageKey)
-    // const sessionData = JSON.parse(sessionDataString || "null")
-    // const token = sessionData?.access_token
     const { data, error } = await supabase.auth.getSession()
     if (error) {
-        console.error("Error getting session:", error)
+        console.error("Error getting session", error)
         return null
     }
+    if (!data.session.access_token) {
+        await supabase.auth.refreshSession()
+        const { data: refreshedData, error: refreshedError } =
+            await supabase.auth.getSession()
+        if (refreshedError) {
+            console.error("Error refreshing session", refreshedError)
+            return null
+        }
+        console.log("Refreshed Session Data:", refreshedData)
+        return refreshedData.session?.access_token
+    }
+    console.log("Session Data:", data)
     return data.session?.access_token
 }

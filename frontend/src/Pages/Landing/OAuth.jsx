@@ -26,6 +26,7 @@ function OAuth() {
                 first_name: firstName,
                 last_name: lastName,
                 $id: user.id,
+                // refresh_token: session.refresh_token,
             }
             localStorage.setItem("userData", JSON.stringify(userData))
             setUser(userData)

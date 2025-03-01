@@ -94,12 +94,11 @@ export async function stripeWebhook(req, res) {
 
           // If user does not exist, create a new user
           if (user.length === 0) {
-            const { data: newUser, error } = await supabase
+            const { error } = await supabase
               .from("Subscription")
               .insert([
                 {
                   email: customer.email,
-                  customer_id: customerId,
                 },
               ])
               .select();
@@ -109,14 +108,13 @@ export async function stripeWebhook(req, res) {
               throw error;
             }
           }
-        } else {
-          throw new Error("Customer email not found");
         }
 
         // Update user subscription details
-        const { data, error } = await supabase
+        const { error } = await supabase
           .from("Subscription")
           .update({
+            customer_id: customerId,
             has_subscribed: true,
             credits: planCredits,
             model_credits: modelCredits,
