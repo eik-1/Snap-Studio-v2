@@ -371,6 +371,24 @@ export async function getUserSubscriptionDetails(req, res) {
     if (error) {
       throw error;
     }
+    // If user subscription details do not exist, create a new subscription
+    if (data.length === 0) {
+      const { data: newData, error: createError } = await supabase
+        .from("Subscription")
+        .insert([
+          {
+            email: email,
+          },
+        ]);
+      if (createError) {
+        throw createError;
+      }
+      return res.status(200).json(
+        new ApiResponse(200, "User subscription details", {
+          subscription: newData[0],
+        })
+      );
+    }
     return res.status(200).json(
       new ApiResponse(200, "User subscription details", {
         subscription: data[0],
