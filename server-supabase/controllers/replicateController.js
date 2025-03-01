@@ -1,11 +1,7 @@
 import axios from "axios";
 import dotenv from "dotenv";
 import FormData from "form-data";
-import { client } from "../configs/posthog.js";
-import { replicate } from "../configs/replicateConfig.js";
-import { sendEventToClients } from "../routes/sseRoutes.js";
-import ApiResponse from "../utils/ApiResponse.js";
-import { styleAndPrompts } from "../utils/headshotPrompts.js";
+
 import {
   createModel,
   deleteModel,
@@ -17,6 +13,12 @@ import {
   updateModelCredits,
 } from "./databaseController.js";
 
+import { client } from "../configs/posthog.js";
+import { replicate } from "../configs/replicateConfig.js";
+import { sendEventToClients } from "../routes/sseRoutes.js";
+import ApiResponse from "../utils/ApiResponse.js";
+import { styleAndPrompts } from "../utils/headshotPrompts.js";
+
 dotenv.config();
 
 export async function trainOstrisModel(req, res) {
@@ -27,15 +29,24 @@ export async function trainOstrisModel(req, res) {
     const creditsInfo = await getCredits(userEmail);
 
     if (creditsInfo.model_credits <= 0) {
-      throw new Error("Insufficient credits to train the model");
+      return res.status(500).json(
+        new ApiResponse(500, "You have exhausted your monthly model credits", {
+          error: "You have exhausted your monthly model credits",
+        })
+      );
     }
 
-    const { error } = await updateModelCredits(
+    const errorOrNot = await updateModelCredits(
       userEmail,
       creditsInfo.model_credits - 1
     );
-    if (error) {
-      throw new Error(error);
+
+    if (errorOrNot === 0) {
+      return res.status(500).json(
+        new ApiResponse(500, "We are having some issues", {
+          error: "We are having some issues",
+        })
+      );
     }
 
     client.capture({
@@ -101,6 +112,7 @@ export async function trainOstrisModel(req, res) {
     console.log("Training started: ", training);
     const modelData = {
       userId,
+      userEmail,
       modelName,
       triggerWord,
       gender,
@@ -109,7 +121,7 @@ export async function trainOstrisModel(req, res) {
       version: training.id,
       statusAcknowledged: false,
     };
-    await createModel(
+    const errorOrSuccessFlag = await createModel(
       userId,
       modelName,
       triggerWord,
@@ -118,6 +130,15 @@ export async function trainOstrisModel(req, res) {
       training.status,
       training.id // to identify model's ID while version is used to run the model
     );
+
+    if (errorOrSuccessFlag === 0) {
+      return res.status(500).json(
+        new ApiResponse(500, "Model Name Already Exists", {
+          error: "Model Name Already Exists",
+        })
+      );
+    }
+
     return res.status(200).json(
       new ApiResponse(200, "Model training started", {
         status: training.status,
@@ -127,10 +148,22 @@ export async function trainOstrisModel(req, res) {
   } catch (err) {
     console.log("Couldn't train the model. Error: ", err);
     client.captureException(err, userEmail);
-    await updateModelCredits(userEmail, creditsInfo.model_credits + 1);
-    return res
-      .status(500)
-      .json({ error: "Couldn't train the model", details: err.message });
+    const errorOrNot = await updateModelCredits(
+      userEmail,
+      creditsInfo.model_credits + 1
+    );
+    if (errorOrNot === 0) {
+      return res.status(500).json(
+        new ApiResponse(500, "We are having some issues", {
+          error: "We are having some issues",
+        })
+      );
+    }
+    return res.status(500).json(
+      new ApiResponse(500, "Couldn't train the model", {
+        error: "Couldn't train the model",
+      })
+    );
   }
 }
 
@@ -214,7 +247,11 @@ export async function runUserModel(req, res) {
   try {
     creditsInfo = await getCredits(userEmail);
     if (creditsInfo.credits <= 0) {
-      throw new Error("Insufficient credits to run the model");
+      return res.status(500).json(
+        new ApiResponse(500, "Insufficient credits to run the model", {
+          error: "Insufficient credits to run the model",
+        })
+      );
     }
     usedCredits = 10 * numberOfImages;
     await updateCredits(userEmail, creditsInfo.credits - usedCredits);
@@ -280,7 +317,11 @@ export async function runHeadshotUserModel(req, res) {
   try {
     creditsInfo = await getCredits(userEmail);
     if (creditsInfo.credits >= 0) {
-      throw new Error("Insufficient credits to run the model");
+      return res.status(500).json(
+        new ApiResponse(500, "Insufficient credits to run the model", {
+          error: "Insufficient credits to run the model",
+        })
+      );
     }
     usedCredits = 10 * numberOfImages;
     await updateCredits(userEmail, creditsInfo.credits - usedCredits);
