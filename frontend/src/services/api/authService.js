@@ -3,6 +3,7 @@ import supabase from "@/services/configs/supabase"
 async function login(email, password) {
     await supabase.auth.signInWithPassword({ email, password })
     const { data } = await supabase.auth.getUser()
+    // const { data: session } = await supabase.auth.getSession()
     if (!data.user) {
         throw new Error("Incorrect Email or Password")
     }
@@ -12,6 +13,7 @@ async function login(email, password) {
         first_name: data.user.user_metadata.first_name,
         last_name: data.user.user_metadata.last_name,
         $id: data.user.user_metadata.sub,
+        //refresh_token: session.refresh_token,
     }
 
     return userData

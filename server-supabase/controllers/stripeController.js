@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import Stripe from "stripe";
 
+import { client } from "../configs/posthog.js";
 import supabase from "../configs/supabase.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import { plans } from "../utils/stripePlans.js";
@@ -93,29 +94,24 @@ export async function stripeWebhook(req, res) {
 
           // If user does not exist, create a new user
           if (user.length === 0) {
-            const { data: newUser, error } = await supabase
-              .from("Subscription")
-              .insert([
-                {
-                  email: customer.email,
-                  customer_id: customerId,
-                },
-              ])
-              .select();
+            const { data, error } = await supabase.from("Subscription").insert([
+              {
+                email: customer.email,
+              },
+            ]);
 
             if (error) {
               console.log("Error creating new user: ", error);
               throw error;
             }
           }
-        } else {
-          throw new Error("Customer email not found");
         }
 
         // Update user subscription details
-        const { data, error } = await supabase
+        const { data: updatedUser, error } = await supabase
           .from("Subscription")
           .update({
+            customer_id: customerId,
             has_subscribed: true,
             credits: planCredits,
             model_credits: modelCredits,
@@ -130,6 +126,19 @@ export async function stripeWebhook(req, res) {
           console.log("Error updating subscription: ", error);
           throw error;
         }
+
+        // Capture event in PostHog
+        client.capture({
+          distinctId: customer.email,
+          event: "subscription purchased",
+          properties: {
+            plan_name: planName,
+            plan_type: planType,
+            price_id: priceId,
+            credits: planCredits,
+            model_credits: modelCredits,
+          },
+        });
 
         break;
       }
@@ -158,6 +167,11 @@ export async function stripeWebhook(req, res) {
         }
 
         console.log("Subscription deleted: ", data);
+
+        client.capture({
+          distinctId: subscription.customer,
+          event: "subscription cancelled",
+        });
 
         break;
       }

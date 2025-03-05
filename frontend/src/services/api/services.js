@@ -53,6 +53,7 @@ export async function generateImage(
     })
     return response.data //response is an array of image urls
 }
+
 export async function generateHeadshot(
     userId,
     modelName,
@@ -70,14 +71,14 @@ export async function generateHeadshot(
     return response.data
 }
 
-export async function saveHeadshot(userId, fileUrl)
-{
+export async function saveHeadshot(userId, fileUrl) {
     const response = await apiRequest(`/database/save-headshot-image`, "POST", {
         userId,
-        fileUrl
+        fileUrl,
     })
     return response.data
 }
+
 export async function saveCustomImage(userId, fileUrl) {
     const response = await apiRequest(`/database/save-image`, "POST", {
         userId,
@@ -90,14 +91,16 @@ export async function getSavedHeadshots(userId) {
     const response = await apiRequest(`/database/get-saved-headshots`, "POST", {
         userId,
     })
-    return response.data.imageUrls;
+    return response.data.imageUrls
 }
+
 export async function getSavedImages(userId) {
     const response = await apiRequest(`/database/get-saved-images`, "POST", {
         userId,
     })
-    return response.data.imageUrls;
+    return response.data.imageUrls
 }
+<<<<<<< HEAD
 export async function deleteSavedImage(userId, imageUrl) {
     const response = await apiRequest(`/database/delete-image`, "POST", {
         userId,
@@ -105,6 +108,9 @@ export async function deleteSavedImage(userId, imageUrl) {
     })
     return response.data
 }
+=======
+
+>>>>>>> 9fd4b143a8af65e17e46b28ffaf4c8e1da9c15f0
 //function to get user subscription details
 export async function getUserSub(email) {
     try {
@@ -113,6 +119,7 @@ export async function getUserSub(email) {
             "POST",
             { email },
         )
+        console.log("Sub data: ", response.data.subscription)
         return response.data.subscription
     } catch (err) {
         throw err
@@ -148,4 +155,3 @@ export async function changeUserName(newName) {
         throw err
     }
 }
-

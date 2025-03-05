@@ -8,6 +8,7 @@ import ApiResponse from "../utils/ApiResponse.js";
 
 export async function createModel(
   userId,
+  userEmail,
   modelName,
   triggerWord,
   status,
@@ -15,7 +16,7 @@ export async function createModel(
   gender,
   ethnicity
 ) {
-  const { data: pre_existModel, error: pre_existError } = await supabase
+  const { data: pre_existModel } = await supabase
     .from("Models")
     .select("*")
     .eq("model_id", userId)
@@ -23,30 +24,35 @@ export async function createModel(
 
   if (pre_existModel.length > 0) {
     console.log("Model already exists: ", pre_existModel);
+    return 0;
   }
 
   try {
     const { data, error } = await supabase
       .from("Models")
       .insert({
+        user_id: userId,
+        email: userEmail,
+        model_id: modelId,
         model_name: modelName,
         trigger_word: triggerWord,
+        status: status,
         gender: gender,
         ethnicity: ethnicity,
-        status: status,
-        model_id: modelId,
-        user_id: userId,
       })
       .select();
     if (error) {
-      throw error;
+      return 0;
     }
     console.log("Model created: ", data);
+    return 1;
   } catch (err) {
     console.log("Error creating model: ", err);
+    return 0;
   }
 }
 
+// To identify the model (for generating the images)
 export async function getModel(userId, modelName) {
   try {
     const { data, error } = await supabase
@@ -65,6 +71,7 @@ export async function getModel(userId, modelName) {
   }
 }
 
+// To identify the model in replicate webhook
 export async function getModelById(modelId) {
   try {
     const { data, error } = await supabase
@@ -371,6 +378,24 @@ export async function getUserSubscriptionDetails(req, res) {
     if (error) {
       throw error;
     }
+    // If user subscription details do not exist, create a new subscription
+    if (data.length === 0) {
+      const { data: newData, error: createError } = await supabase
+        .from("Subscription")
+        .insert([
+          {
+            email: email,
+          },
+        ]);
+      if (createError) {
+        throw createError;
+      }
+      return res.status(200).json(
+        new ApiResponse(200, "User subscription details", {
+          subscription: newData[0],
+        })
+      );
+    }
     return res.status(200).json(
       new ApiResponse(200, "User subscription details", {
         subscription: data[0],
@@ -427,9 +452,10 @@ export async function updateModelCredits(userEmail, modelCredits) {
       .eq("email", userEmail);
 
     if (error) {
-      throw error;
+      return 0;
     }
+    return 1;
   } catch (err) {
-    throw err;
+    return 0;
   }
 }
