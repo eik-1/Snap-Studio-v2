@@ -2,13 +2,14 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import { Download, Bookmark, Trash2 } from "lucide-react"
 import SaveImageButton from "./SaveImageButton"
+import DeleteImageButton from "./DeleteImageButton"
 import { downloadImageFromReplicate } from "@/services/utils/downloadImage"
 const trs = {
     type: "spring",
     stiffness: 250,
     damping: 30,
 }
-function ImageThumbnail({ src, index, onClick,  usedFor }) {
+function ImageThumbnail({ src, index, onClick, usedFor, onDeleteImage }) {
     const [isHovering, setIsHovering] = useState(false)
     return (
         <motion.div
@@ -43,16 +44,11 @@ function ImageThumbnail({ src, index, onClick,  usedFor }) {
                     {usedFor === "generatedImage" ? (
                         <SaveImageButton imageUrl={src} size="12" />
                     ) : (
-                        <button
-                            className="block  text-white bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 "
-                            onClick={(e) => {
-                                e.stopPropagation()
-
-                                console.log("delete image")
-                            }}
-                        >
-                            <Trash2 size={12} />
-                        </button>
+                        <DeleteImageButton
+                            imageUrl={src}
+                            size="12"
+                            onDelete={onDeleteImage}
+                        />
                     )}
                 </div>
             )}

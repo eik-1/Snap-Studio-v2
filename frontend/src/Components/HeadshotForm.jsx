@@ -81,6 +81,7 @@ function HeadshotForm() {
     }
     async function handleSubmit(e) {
         e.preventDefault()
+        if (!validateForm(e)) return
         const numImages = parseInt(numberOfImages)
         // handle > 5 images
         console.log(selectedModel)
@@ -105,6 +106,16 @@ function HeadshotForm() {
                 tab: ["newCustomModelTrainForm"],
             },
         })
+    }
+    function validateForm(e)
+    {
+        if (!selectedModel) {                    // check if model is selected
+            const selectElement = e.target.querySelector("select");
+            selectElement.setCustomValidity("Please select a model.");
+            selectElement.reportValidity();
+            return false
+        }
+        return true;
     }
     function handleNumberOfImagesChange(e) {
         if (e.target.value > 5) {
@@ -146,13 +157,13 @@ function HeadshotForm() {
                             Choose from your trained models
                         </p>
                         <select
-                            required
+        
                             value={selectedModel}
                             onChange={(e) => setSelectedModel(e.target.value)}
                             className={`px-3 py-2 mt-2 block w-full  border border-gray-300 rounded-md  focus:ring-slate-500 focus:border-slate-500 text-xs ${modelState?.models?.length === 0 && "cursor-not-allowed"} `}
                             disabled={modelState?.models?.length === 0}
                         >
-                            <option value="" disabled>
+                            <option value="" disabled >
                                 {modelState?.models?.length === 0
                                     ? "No trained models"
                                     : "Select Model"}

@@ -4,6 +4,7 @@ import { RotatingLines } from "react-loader-spinner";
 function CreditsTab()
 {
     const {subscription}= useSubscription();
+    console.log(subscription?.credits)
     return(
         <div className="h-max min-w-16 w-max flex items-center justify-center py-1 px-2 rounded-lg border-[1px] gap-2 cursor-pointer">
             <div className="w-max h-max flex items-center justify-center gap-2">

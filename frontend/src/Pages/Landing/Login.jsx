@@ -2,7 +2,7 @@ import { GoogleOriginal, LinkedinOriginal } from "devicons-react"
 import { AlertCircle, Lock, Mail, UserSquare2 } from "lucide-react"
 import React, { useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
-import { FadeLoader } from "react-spinners"
+import { RotatingLines } from "react-loader-spinner"
 
 import { Alert, AlertDescription } from "@/Components/UI/alert"
 import { useUser } from "@/contexts/UserContext"
@@ -250,11 +250,18 @@ function Login() {
                     )}
                     <button
                         type="submit"
-                        className="w-full py-3  bg-black hover:bg-slate-900 text-white rounded-lg transition-colors duration-200 disabled:bg-slate-900"
+                        className="w-full h-12 py-3 flex items-center justify-center  bg-black hover:bg-slate-900 text-white rounded-lg transition-colors duration-200 disabled:bg-slate-900"
                         disabled={loading}
                         onClick={handleSubmit}
                     >
-                        {loading? "Logging in..." :isSignup ? "Sign Up" : "Login"}
+                        {loading? <RotatingLines
+                            strokeWidth="4"
+                            animationDuration="0.75"
+                            strokeColor="white"
+                            height="16"
+                            width="16"
+                           
+                        /> :isSignup ? "Sign Up" : "Login"}
                         
                     </button>
                 </form>

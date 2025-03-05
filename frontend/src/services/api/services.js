@@ -2,6 +2,22 @@ import { useUser } from "@/contexts/UserContext"
 import { apiRequest } from "@/services/utils/apiRequest"
 import supabase from "../configs/supabase"
 
+//function to start model training
+export async function startModelTraining(data) {
+    try {
+        const response = await apiRequest(`/models/train`, "POST", data,{
+            "Content-Type": "multipart/form-data",
+        })
+        return response
+    } catch (error) {
+        throw error
+    }
+
+}
+
+
+
+
 //function to get all models created by the user
 export async function getUserModels(userId) {
     try {
@@ -81,6 +97,13 @@ export async function getSavedImages(userId) {
         userId,
     })
     return response.data.imageUrls;
+}
+export async function deleteSavedImage(userId, imageUrl) {
+    const response = await apiRequest(`/database/delete-image`, "POST", {
+        userId,
+        imageUrl,
+    })
+    return response.data
 }
 //function to get user subscription details
 export async function getUserSub(email) {

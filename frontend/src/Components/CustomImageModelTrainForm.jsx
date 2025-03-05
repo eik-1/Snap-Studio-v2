@@ -5,6 +5,7 @@ import { customImageTrainingField } from "@/data/formData"
 import { imagesToZipBlob } from "@/services/utils/zipUtils"
 import { apiRequest } from "@/services/utils/apiRequest"
 import { useModel } from "@/contexts/ModelContext"
+import { startModelTraining } from "@/services/api/services"
 
 function CustomImageModelTrainForm() {
     const { state: modelState, dispatch: modelDispatch } = useModel()
@@ -35,15 +36,7 @@ function CustomImageModelTrainForm() {
             for (const [key, value] of Object.entries(formDataValues)) {
                 formData.append(key, value)
             }
-            const headers = {
-                "Content-Type": "multipart/form-data",
-            }
-            const response = await apiRequest(
-                "/models/train",
-                "POST",
-                formData,
-                headers,
-            )
+            const response = await startModelTraining(formData)
             console.log(response)
             if (response.status === 200) {
                 console.log("Model Training Started")

@@ -5,12 +5,14 @@ import axios from "axios";
 import { useUser } from "@/contexts/UserContext";
 import {motion, AnimatePresence} from "motion/react"
 import { FadeLoader } from "react-spinners";
+import { deleteSavedImage } from "@/services/api/services";
 function SavedImageCollection()
 {
     const [savedImages,setSavedImages]=useState([]);
     const [sId, setSId] = useState(null);
     const [isLoading, setIsLoading]=useState(true);
     const {user}=useUser();
+  
     useEffect(()=>{
         async function fetchSavedImages()
         {

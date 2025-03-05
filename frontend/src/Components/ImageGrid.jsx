@@ -16,13 +16,14 @@ import { useImage } from "@/contexts/ImageContext"
 import { useToast } from "@/hooks/use-toast"
 import { cn } from "@/lib/utils"
 import SaveImageButton from "./SaveImageButton"
+import DeleteImageButton from "./DeleteImageButton"
 const trs = {
     type: "spring",
     stiffness: 250,
     damping: 30,
 }
 
-function ImageGrid({ images, usedFor = "", className }) {
+function ImageGrid({ images, usedFor = "", className, handlers={} }) {
     const [selectedIndex, setSelectedIndex] = useState(null)
     const { user } = useUser()
     const { state: imageState } = useImage()
@@ -108,8 +109,9 @@ function ImageGrid({ images, usedFor = "", className }) {
                             src={imageUrl}
                             index={index}
                             onClick={() => setSelectedIndex(index)}
-                            onSaveImage={handleSaveImage}
+                            onDeleteImage={handlers.onDeleteImage}
                             usedFor={usedFor}
+
                         />
                     </>
                 ))}
@@ -156,16 +158,11 @@ function ImageGrid({ images, usedFor = "", className }) {
                                         {usedFor === "generatedImage" ? (
                                   <SaveImageButton imageUrl={ images[selectedIndex]} size="16"/>
                                         ) : (
-                                            <button
-                                                className="block  text-white bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 "
-                                                onClick={(e) => {
-                                                    e.stopPropagation()
-
-                                                    console.log("delete image")
-                                                }}
-                                            >
-                                                <Trash2 size={16} />
-                                            </button>
+                                            <DeleteImageButton
+                                                imageUrl={images[selectedIndex]}
+                                                size="16"
+                                                onDelete={handlers.onDeleteImage}
+                                            />
                                         )}
                                     </div>
 
