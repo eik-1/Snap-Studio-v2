@@ -5,18 +5,14 @@ import supabase from "../configs/supabase"
 //function to start model training
 export async function startModelTraining(data) {
     try {
-        const response = await apiRequest(`/models/train`, "POST", data,{
+        const response = await apiRequest(`/models/train`, "POST", data, {
             "Content-Type": "multipart/form-data",
         })
         return response
     } catch (error) {
         throw error
     }
-
 }
-
-
-
 
 //function to get all models created by the user
 export async function getUserModels(userId) {
@@ -100,7 +96,7 @@ export async function getSavedImages(userId) {
     })
     return response.data.imageUrls
 }
-<<<<<<< HEAD
+
 export async function deleteSavedImage(userId, imageUrl) {
     const response = await apiRequest(`/database/delete-image`, "POST", {
         userId,
@@ -108,9 +104,7 @@ export async function deleteSavedImage(userId, imageUrl) {
     })
     return response.data
 }
-=======
 
->>>>>>> 9fd4b143a8af65e17e46b28ffaf4c8e1da9c15f0
 //function to get user subscription details
 export async function getUserSub(email) {
     try {
