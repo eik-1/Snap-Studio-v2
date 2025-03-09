@@ -9,7 +9,7 @@ const trs = {
     stiffness: 250,
     damping: 30,
 }
-function ImageThumbnail({ src, index, onClick, usedFor, onDeleteImage }) {
+function ImageThumbnail({ src, index, onClick, usedFor,imageDeleteState, setImageDeleteState }) {
     const [isHovering, setIsHovering] = useState(false)
     return (
         <motion.div
@@ -47,7 +47,7 @@ function ImageThumbnail({ src, index, onClick, usedFor, onDeleteImage }) {
                         <DeleteImageButton
                             imageUrl={src}
                             size="12"
-                            onDelete={onDeleteImage}
+
                         />
                     )}
                 </div>

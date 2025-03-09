@@ -316,12 +316,14 @@ export async function deleteImage(req, res) {
       })
     );
   }
+
   try {
     const { error: imageDBDelete } = await supabase
       .from("Images")
       .delete()
       .eq("image_url", imageUrl)
       .eq("user_id", userId);
+
     if (imageDBDelete) {
       throw new Error("Error deleting image from database");
     }
@@ -331,17 +333,25 @@ export async function deleteImage(req, res) {
     const { error: imageBucketDelete } = await supabase.storage
       .from("images")
       .remove([fileName]);
+
     if (imageBucketDelete) {
       throw new Error("Error deleting image from bucket");
     }
+
+    return res.status(200).json(
+      new ApiResponse(200, "Image deleted successfully", {
+        success: true,
+      })
+    );
   } catch (err) {
     return res.status(500).json(
-      new ApiResponse(500, "Error deleting the images", {
+      new ApiResponse(500, "Error deleting the image", {
         error: err.message,
       })
     );
   }
 }
+
 
 /*SUBSCRIPTION TABLE*/
 // export async function checkCredits(req, res) {

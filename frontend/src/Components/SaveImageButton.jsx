@@ -4,18 +4,23 @@ import { saveHeadshot, saveCustomImage } from "@/services/api/services";
 import { useUser } from "@/contexts/UserContext";
 import { useImage } from "@/contexts/ImageContext";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
+
 function SaveImageButton({imageUrl, size})
 {
-    const [saveState, setSaveState] = useState("notSaved")
+   
     const { user } = useUser()
-    const { state: imageState } = useImage()
+    const { state: imageState, dispatch:imageDispatch } = useImage()
     const { toast } = useToast()
     
     async function handleSaveImage(src) {
         const userId = user?.$id
-     
-        setSaveState("saving")
+        if(imageState?.imageSaveStatus && imageState.imageSaveStatus.hasOwnProperty(src) && (imageState.imageSaveStatus[src]==="saving" || imageState.imageSaveStatus[src]==="saved"))
+        {
+            console.log("already saving or saved")
+            return
+        }
+        
+        imageDispatch({type:"SET_IMAGE_SAVE_STATUS", payload:{url:src, status:"saving"}})
         try {
             if (imageState.mode === "headshot") {
                 const response = await saveHeadshot(userId, src)
@@ -25,41 +30,38 @@ function SaveImageButton({imageUrl, size})
                 console.log(response)
                
             } 
-            setSaveState("saved")
+            imageDispatch({type:"SET_IMAGE_SAVE_STATUS", payload:{url:src, status:"saved"}})
             toast({
                 description: "Image saved", })
         } catch (error) {
-            setSaveState("notSaved")
+            imageDispatch({type:"SET_IMAGE_SAVE_STATUS", payload:{url:src, status:"notSaved"}})
             toast({
                 description: "Error saving image", })
             console.error("Error saving image:", error)
         }
     }
     let content=null;
-    switch (saveState) {
-        case "notSaved":
-            content=<Bookmark size={size}/>
-            break;
-        case  "saving":
-            content=( <RotatingLines
-            strokeWidth="4"
-            animationDuration="0.75"
-            strokeColor="white"
-            height={String(size)}
-            width={String(size)}
-        />)
-        break;
-        case "saved":
-            content= (<BookmarkCheck size={size}/>)
-            break;
-        default:
-            content=  content=<Bookmark size={size}/>
-            break;
+    if(!imageState.imageSaveStatus.hasOwnProperty(imageUrl) || !imageState.imageSaveStatus[imageUrl] || imageState.imageSaveStatus[imageUrl]==="notSaved" ){
+        content=<Bookmark size={size}/>
+
     }
+    else if(imageState.imageSaveStatus[imageUrl]==="saving"){
+        content=( <RotatingLines
+        strokeWidth="4"
+        animationDuration="0.75"
+        strokeColor="white"
+        height={String(size)}
+        width={String(size)}    />) 
+    }
+    else if(imageState.imageSaveStatus[imageUrl]==="saved"){
+        content= (<BookmarkCheck size
+        ={size}/>)      
+    }
+   
 
    return(
     <button
-    className="block  text-white bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 "
+    className="block text-white bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 "
     onClick={(e) => {
         e.stopPropagation()
 

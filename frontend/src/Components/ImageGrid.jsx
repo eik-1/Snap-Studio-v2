@@ -21,10 +21,9 @@ const trs = {
     damping: 30,
 }
 
-function ImageGrid({ images, usedFor = "", className, handlers={} }) {
+function ImageGrid({ images, usedFor = "", className}) {
     const [selectedIndex, setSelectedIndex] = useState(null)
-    const [imageDeleteState, setImageDeleteState] = useState("notDeleted")
-    const [imageSaveState, setImageSaveState] = useState("notSaved")
+ 
     const { user } = useUser()
     const { state: imageState } = useImage()
     const { toast } = useToast()
@@ -69,28 +68,7 @@ function ImageGrid({ images, usedFor = "", className, handlers={} }) {
         },
         [handlePrev, handleNext, closeModal],
     )
-    async function handleSaveImage(imageUrl) {
-        const userId = user?.$id
-     
-        try {
-            if (imageState.mode === "headshot") {
-                console.log("saving headshot...")
-                const response = await saveHeadshot(userId, imageUrl)
-                console.log(response)
-                toast({
-                    title: "Image saved", })
-            } else if (imageState.mode === "customImage") {
-                const response = await saveCustomImage(userId, imageUrl)
-                console.log(response)
-                toast({
-                    description: "Image saved", })
-            } else {
-                console.log("Error saving image")
-            }
-        } catch (error) {
-            console.error("Error saving image:", error)
-        }
-    }
+
 
     useEffect(() => {
         if (selectedIndex !== null) {
@@ -109,7 +87,6 @@ function ImageGrid({ images, usedFor = "", className, handlers={} }) {
                             src={imageUrl}
                             index={index}
                             onClick={() => setSelectedIndex(index)}
-                            onDeleteImage={handlers.onDeleteImage}
                             usedFor={usedFor}
 
                         />
@@ -161,9 +138,7 @@ function ImageGrid({ images, usedFor = "", className, handlers={} }) {
                                             <DeleteImageButton
                                                 imageUrl={images[selectedIndex]}
                                                 size="16"
-                                                onDelete={handlers.onDeleteImage}
-                                                deleteState={imageDeleteState}
-                                                setDeleteState={setImageDeleteState}
+                                               
                                             />
                                         )}
                                     </div>

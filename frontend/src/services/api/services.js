@@ -102,7 +102,7 @@ export async function deleteSavedImage(userId, imageUrl) {
         userId,
         imageUrl,
     })
-    return response.data
+    return response
 }
 
 //function to get user subscription details
