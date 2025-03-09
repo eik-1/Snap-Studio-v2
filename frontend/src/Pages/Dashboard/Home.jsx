@@ -1,8 +1,7 @@
 import ImageResultSection from "@/Components/ImageResultSection"
 import SidePanel from "@/Components/SidePanel"
 import { useSubscription } from "@/contexts/SubscriptionContext"
-import Dialog from "@/Components/Dialog"
-import { useEffect } from "react"
+
 
 function Home() {
     const { sub } = useSubscription()
