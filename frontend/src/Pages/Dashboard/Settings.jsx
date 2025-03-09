@@ -104,6 +104,7 @@ function Settings() {
                                         value={values[setting.name]}
                                         buttons={setting.buttons}
                                         handlers={handlers}
+                                        dialog={setting?.dialog}
                                     />
                                 )
                             })}

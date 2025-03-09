@@ -5,8 +5,6 @@ import {
     ChevronLeft,
     ChevronRight,
     Download,
-    Bookmark,
-    Trash2,
 } from "lucide-react"
 import { downloadImageFromReplicate } from "@/services/utils/downloadImage"
 import ImageThumbnail from "./ImageThumbnail"
@@ -25,6 +23,8 @@ const trs = {
 
 function ImageGrid({ images, usedFor = "", className, handlers={} }) {
     const [selectedIndex, setSelectedIndex] = useState(null)
+    const [imageDeleteState, setImageDeleteState] = useState("notDeleted")
+    const [imageSaveState, setImageSaveState] = useState("notSaved")
     const { user } = useUser()
     const { state: imageState } = useImage()
     const { toast } = useToast()
@@ -162,6 +162,8 @@ function ImageGrid({ images, usedFor = "", className, handlers={} }) {
                                                 imageUrl={images[selectedIndex]}
                                                 size="16"
                                                 onDelete={handlers.onDeleteImage}
+                                                deleteState={imageDeleteState}
+                                                setDeleteState={setImageDeleteState}
                                             />
                                         )}
                                     </div>

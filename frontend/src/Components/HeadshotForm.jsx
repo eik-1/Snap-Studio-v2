@@ -81,7 +81,7 @@ function HeadshotForm() {
     }
     async function handleSubmit(e) {
         e.preventDefault()
-        if (!validateForm(e)) return
+        //if (!validateForm(e)) return
         const numImages = parseInt(numberOfImages)
         // handle > 5 images
         console.log(selectedModel)
@@ -107,7 +107,7 @@ function HeadshotForm() {
             },
         })
     }
-    function validateForm(e)
+  /*  function validateForm(e)
     {
         if (!selectedModel) {                    // check if model is selected
             const selectElement = e.target.querySelector("select");
@@ -116,7 +116,7 @@ function HeadshotForm() {
             return false
         }
         return true;
-    }
+    }*/
     function handleNumberOfImagesChange(e) {
         if (e.target.value > 5) {
             setError({
@@ -130,7 +130,7 @@ function HeadshotForm() {
     }
     return (
         <div className="w-full h-full mx-auto  bg-white border-r-[1px] relative">
-            <div className="h-[90%] w-full m-0 px-4 py-4 sm:overflow-y-scroll oveflow-x-hidden custom-scrollbar">
+            <div className="h-[90%] w-full m-0 px-4 py-4 sm:overflow-y-scroll oveflow-x-hidden">
                 <div className="font-sans flex flex-col gap-1 h-max pb-6 border-b-[1px] ">
                     <h1 className="font-sans w-max h-max font-semibold tracking-tight text-lg bg-clip-text from-rose-500 via-purple-500 to-cyan-500 bg-gradient-to-r text-transparent">
                         Generate Headshot
@@ -221,7 +221,7 @@ function HeadshotForm() {
                         <p className="text-[0.675rem] font-regular tracking-tight text-gray-500">
                             {"Choose a style for your headshot"}
                         </p>
-                        <div className="grid grid-cols-[repeat(auto-fit,_minmax(7rem,_1fr))] justify-items-center  gap-4 mt-4">
+                        <div className="grid grid-cols-[repeat(auto-fit,_minmax(6rem,_1fr))] justify-items-center  gap-4 mt-4">
                             {headshotStyles.map((style) => (
                                 <div key={style.id} className="relative group">
                                     <input

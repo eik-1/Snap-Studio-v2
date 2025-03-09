@@ -316,10 +316,12 @@ export async function runHeadshotUserModel(req, res) {
   });
   try {
     creditsInfo = await getCredits(userEmail);
-    if (creditsInfo.credits >= 0) {
-      return res.status(500).json(
+    console.log(creditsInfo);
+    if (creditsInfo.credits <= 0) {
+      return res.status(500).js>on(
         new ApiResponse(500, "Insufficient credits to run the model", {
           error: "Insufficient credits to run the model",
+          remainingCredits: creditsInfo.credits,
         })
       );
     }
@@ -332,7 +334,9 @@ export async function runHeadshotUserModel(req, res) {
     return res
       .status(500)
       .json(
-        new ApiResponse(500, "Couldn't run the model", { error: err.message })
+        new ApiResponse(500, "Couldn't run the model", { error: err.message,
+          remainingCredits: creditsInfo.credits,
+         })
       );
   }
 

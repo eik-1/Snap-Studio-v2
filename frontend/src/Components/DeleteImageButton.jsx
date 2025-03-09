@@ -2,11 +2,9 @@ import { Trash2 } from "lucide-react";
 import { RotatingLines } from "react-loader-spinner";
 import { useUser } from "@/contexts/UserContext";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
 import { deleteSavedImage } from "@/services/api/services";
-function DeleteImageButton({imageUrl, size, onDelete})
+function DeleteImageButton({imageUrl, size, onDelete, deleteState, setDeleteState})
 {
-    const [deleteState, setDeleteState] = useState("notDeleted")
 
     const { user } = useUser()
     const { toast } = useToast()
@@ -15,6 +13,7 @@ function DeleteImageButton({imageUrl, size, onDelete})
         const userId = user?.$id
      
         setDeleteState("deleting")
+        console.log("deleting image", src)
         try {
             await deleteSavedImage(userId, src)
             onDelete(src)
