@@ -14,6 +14,8 @@ import Home from "./Pages/Dashboard/Home"
 import MyImages from "./Pages/Dashboard/MyImages"
 import MyModels from "./Pages/Dashboard/MyModels"
 import RootLayout from "./Pages/Dashboard/RootLayout"
+import SavedImages from "./Pages/Dashboard/SavedImages"
+import Gallery from "./Pages/Landing/Gallery"
 import LandingPage from "./Pages/Landing/LandingPage"
 import LandingRootLayout from "./Pages/Landing/LandingRootLayout"
 import Login from "./Pages/Landing/Login"
@@ -22,7 +24,6 @@ import PrivacyPolicy from "./Pages/Landing/Privacy"
 import TermsOfService from "./Pages/Landing/TermsOfService"
 import ChangePassword from "./Pages/ResetPassword/ChangePassword"
 import ResetPassword from "./Pages/ResetPassword/ResetPassword"
-import SavedImages from "./Pages/Dashboard/SavedImages"
 
 function ProtectedRoute({ children }) {
     const { user } = useUser()
@@ -72,6 +73,11 @@ function App() {
                     element: <OAuth />,
                     errorElement: <Error />,
                 },
+                {
+                    path: "/gallery",
+                    element: <Gallery />,
+                    errorElement: <Error />,
+                },
             ],
         },
         {
@@ -111,12 +117,10 @@ function App() {
                     path: "myimages",
                     element: <MyImages />,
                     errorElement: <Error />,
-                   
                 },
                 {
-                    path:"myimages/:category",
+                    path: "myimages/:category",
                     element: <SavedImages />,
-                
                 },
                 {
                     path: "mymodels",
