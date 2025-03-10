@@ -77,7 +77,10 @@ function LandingNav() {
 
                     <NavLink
                         to="/gallery"
-                        className="text-neutral-600 hover:text-neutral-900 rounded-md px-3 py-2 transition-all duration-300"
+                        end
+                        className={({isActive})=>` hover:text-neutral-900 rounded-md px-3 py-2 transition-all duration-300 ${isActive? 'text-neutral-900': 'text-neutral-600'}`}
+                        
+                        
                     >
                         Gallery
                     </NavLink>

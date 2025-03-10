@@ -85,9 +85,9 @@ function Gallery() {
     }
 
     return (
-        <div className="-mx-28 my-24 py-16">
+        <div className="my-24 py-16">
             <div className="max-w-[1400px] mx-auto px-4 md:px-8">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
+                <div className="grid grid-cols-2  lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
                     {galleryItems.map((item, index) => (
                         <div key={index} className="flex flex-col gap-2">
                             <GalleryImage
@@ -119,55 +119,51 @@ function Gallery() {
                 tabIndex={selectedIndex !== null ? 0 : -1}
             >
                 {selectedIndex !== null && (
-                    <div className="fixed inset-0 flex items-center justify-center p-4">
+                    <div className="fixed inset-0 flex items-center justify-center py-8 px-4">
                         <button
                             onClick={closeModal}
                             className="absolute top-4 right-4 p-2 bg-black/50 rounded-full text-white hover:bg-black/75 transition-colors"
                         >
                             <X size={24} />
                         </button>
+                      
+
                         <motion.div
-                            className="relative w-full sm:w-[32rem] md:h-[32rem] flex items-center"
-                            onClick={(e) => e.stopPropagation()}
+                            layoutId={`container-${selectedIndex}`}
+                            className=" aspect-square flex flex-col items-center justify-center md:h-max md:w-[30rem] w-full"
+                            transition={trs}
                         >
-                            <motion.div
-                                layoutId={`container-${selectedIndex}`}
-                                className="h-full w-full aspect-square flex flex-col items-center justify-center"
-                                transition={trs}
-                            >
-                                {/* Navigation buttons positioned relative to the image only */}
-                                <div className="relative w-full">
-                                    <button
-                                        onClick={handlePrev}
-                                        className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-black/50 rounded-full text-white hover:bg-black/75 transition-colors z-50"
-                                    >
-                                        <ChevronLeft size={18} />
-                                    </button>
+                            {/* Navigation buttons positioned relative to the image only */}
+                            <div className="relative w-full h-[28rem] aspect-square rounded-lg">
+                                <button
+                                    onClick={handlePrev}
+                                    className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-black/50 rounded-full text-white hover:bg-black/75 transition-colors z-50"
+                                >
+                                    <ChevronLeft size={18} />
+                                </button>
 
-                                    <button
-                                        onClick={handleNext}
-                                        className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-black/50 rounded-full text-white hover:bg-black/75 transition-colors z-50"
-                                    >
-                                        <ChevronRight size={18} />
-                                    </button>
+                                <button
+                                    onClick={handleNext}
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-black/50 rounded-full text-white hover:bg-black/75 transition-colors z-50"
+                                >
+                                    <ChevronRight size={18} />
+                                </button>
 
-                                    <motion.img
-                                        layoutId={`image-${selectedIndex}`}
-                                        src={
-                                            galleryItems[selectedIndex].imageUrl
-                                        }
-                                        alt={`Image ${selectedIndex + 1}`}
-                                        className="w-full h-full object-contain rounded-lg"
-                                        transition={trs}
-                                    />
-                                </div>
-
-                                <div className="bg-white backdrop-blur-sm p-4 rounded-lg mt-4 max-w-lg z-40">
+                                <motion.img
+                                    layoutId={`image-${selectedIndex}`}
+                                    src={galleryItems[selectedIndex].imageUrl}
+                                    alt={`Image ${selectedIndex + 1}`}
+                                    className="w-full h-full object-cover rounded-lg"
+                                    transition={trs}
+                                />
+                                
+                            </div>
+                            <div className="bg-gradient-to-br from-rose-50/65 to-orange-50/65 backdrop-blur-xl p-4 rounded-lg mt-4  z-40 ">
                                     <div className="flex flex-col gap-2">
-                                        <div className="flex justify-between items-center mb-1">
-                                            <h4 className="text-black text-md font-medium">
-                                                Prompt Used
-                                            </h4>
+                                        <div className="flex justify-between items-center">
+                                            <h2 className="text-black/80 font-semibold">
+                                                Prompt      
+                                            </h2>
                                             <button
                                                 onClick={(e) => {
                                                     e.stopPropagation()
@@ -184,17 +180,12 @@ function Gallery() {
                                                 <span>Copy</span>
                                             </button>
                                         </div>
-                                        <div className="bg-black/10 p-2.5 rounded-md">
-                                            <p className="text-black/90 text-sm leading-relaxed">
-                                                {
-                                                    galleryItems[selectedIndex]
-                                                        .prompt
-                                                }
-                                            </p>
-                                        </div>
+
+                                        <p className="text-black/90 text-sm leading-relaxed">
+                                            {galleryItems[selectedIndex].prompt}
+                                        </p>
                                     </div>
                                 </div>
-                            </motion.div>
                         </motion.div>
                     </div>
                 )}
