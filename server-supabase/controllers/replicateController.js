@@ -1,5 +1,5 @@
 import axios from "axios";
-import dotenv from "dotenv";
+import dotenv from "dotenv/config";
 import FormData from "form-data";
 
 import {
@@ -18,8 +18,6 @@ import { replicate } from "../configs/replicateConfig.js";
 import { sendEventToClients } from "../routes/sseRoutes.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import { styleAndPrompts } from "../utils/headshotPrompts.js";
-
-dotenv.config();
 
 export async function trainOstrisModel(req, res) {
   try {
@@ -103,9 +101,9 @@ export async function trainOstrisModel(req, res) {
           cache_latents_to_disk: false,
           wandb_sample_interval: 100,
         },
-        webhook:
-          "https://6bea-2405-201-6804-8156-297d-440-288e-5c1f.ngrok-free.app/webhook/replicate",
-        webhook_events_filter: ["start", "completed"],
+        // webhook:
+        //   "https://6bea-2405-201-6804-8156-297d-440-288e-5c1f.ngrok-free.app/webhook/replicate",
+        // webhook_events_filter: ["start", "completed"],
       }
     );
 
@@ -318,11 +316,14 @@ export async function runHeadshotUserModel(req, res) {
     creditsInfo = await getCredits(userEmail);
     console.log(creditsInfo);
     if (creditsInfo.credits <= 0) {
-      return res.status(500).js>on(
-        new ApiResponse(500, "Insufficient credits to run the model", {
-          error: "Insufficient credits to run the model",
-          remainingCredits: creditsInfo.credits,
-        })
+      return (
+        res.status(500).js >
+        on(
+          new ApiResponse(500, "Insufficient credits to run the model", {
+            error: "Insufficient credits to run the model",
+            remainingCredits: creditsInfo.credits,
+          })
+        )
       );
     }
     usedCredits = 10 * numberOfImages;
@@ -331,13 +332,12 @@ export async function runHeadshotUserModel(req, res) {
     console.log("Couldn't run the model. Error: ", err);
     await updateCredits(userEmail, creditsInfo.credits + usedCredits);
     client.captureException(err, userEmail);
-    return res
-      .status(500)
-      .json(
-        new ApiResponse(500, "Couldn't run the model", { error: err.message,
-          remainingCredits: creditsInfo.credits,
-         })
-      );
+    return res.status(500).json(
+      new ApiResponse(500, "Couldn't run the model", {
+        error: err.message,
+        remainingCredits: creditsInfo.credits,
+      })
+    );
   }
 
   try {
@@ -391,7 +391,6 @@ export async function replicateWebhook(req, res) {
   console.log("Replicate Webhook called");
   const { id, output, status } = req.body;
   const model = await getModelById(id);
-  const userId = model[0].user_id;
   if (!model || model.length === 0) {
     return res.status(404).json(
       new ApiResponse(404, "Model not found", {
@@ -399,7 +398,21 @@ export async function replicateWebhook(req, res) {
       })
     );
   }
-  if (status === "failed") {
+  const userId = model[0].user_id;
+  const userEmail = model[0].email;
+  if (status === "failed" || status === "cancelled") {
+    const creditsInfo = await getCredits(userEmail);
+    const errorOrNot = await updateModelCredits(
+      userEmail,
+      creditsInfo.model_credits + 1
+    );
+    if (errorOrNot === 0) {
+      return res.status(500).json(
+        new ApiResponse(500, "We are having some issues", {
+          error: "We are having some issues",
+        })
+      );
+    }
     await deleteModel(id);
     sendEventToClients({ id, status: "failed" }, userId);
   } else if (status === "succeeded") {

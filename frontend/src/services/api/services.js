@@ -1,4 +1,3 @@
-import { useUser } from "@/contexts/UserContext"
 import { apiRequest } from "@/services/utils/apiRequest"
 import supabase from "../configs/supabase"
 

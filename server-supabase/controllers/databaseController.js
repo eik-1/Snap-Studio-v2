@@ -352,7 +352,6 @@ export async function deleteImage(req, res) {
   }
 }
 
-
 /*SUBSCRIPTION TABLE*/
 // export async function checkCredits(req, res) {
 //   const { email } = req.body;
