@@ -7,7 +7,7 @@ export default function HeadshotSection() {
         navigate("/app")
     }
     return (
-        <div className="relative z-10 max-w-7xl mx-auto">
+        <div className="relative z-10 max-w-7xl mx-auto mt-48">
             <div className="relative rounded-2xl lg:rounded-3xl overflow-hidden shadow-xl p-6 sm:p-8 md:p-12 lg:p-16 bg-gradient-to-br from-white to-rose-50">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-200 to-purple-300 opacity-30 rounded-full transform translate-x-12 -translate-y-12" />
                 <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-slate-200 to-slate-300 opacity-30 rounded-full transform -translate-x-16 translate-y-12" />

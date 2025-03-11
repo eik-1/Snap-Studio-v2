@@ -1,40 +1,28 @@
-import { useEffect, useState } from "react"
-
-const Window = ({ children, title = "SnapStudio", link }) => {
-    const [isMobile, setIsMobile] = useState(false)
-    useEffect(() => {
-        if (window.innerWidth < 1024) {
-            setIsMobile(true)
-        } else {
-            setIsMobile(false)
-        }
-        window.addEventListener("resize", () => {
-            if (window.innerWidth < 1024) {
-                setIsMobile(true)
-            } else {
-                setIsMobile(false)
-            }
-        })
-    }, [setIsMobile])
+const Window = ({ children, title = "SnapStudio" }) => {
     return (
-        <div className="relative h-[16rem] w-full sm:h-[30rem] sm:w-[50rem] mx-auto rounded-lg sm:rounded-2xl border-[1px] p-0 shadow-xl mt-28">
-            <div className="absolute h-full w-full top-0 z-10 bg-gradient-to-r from-violet-100 via-fuchsia-200  to-orange-100 blur-[80px]"></div>
-            <div className="absolute h-[6%] min-w-full bg-white flex items-center px-2 rounded-t-lg sm:rounded-t-2xl border-b-[1px] z-30 s:drop-shadow-sm">
-                <div className="w-max h-max flex gap-1 sm:gap-2 mr-auto">
-                    <div className="rounded-full bg-red-400 h-1 w-1 sm:h-3 sm:w-3 sm:border-red-500 sm:border-[1px]"></div>
-                    <div className="rounded-full bg-yellow-400 h-1 w-1 sm:h-3 sm:w-3 sm:border-yellow-500 sm:border-[1px]"></div>
-                    <div className="rounded-full bg-green-400 h-1 w-1 sm:h-3 sm:w-3 sm:border-green-500 sm:border-[1px]"></div>
-                </div>
-                <div className="absolute w-full flex justify-center pr-2 z-30">
-                    <h2 className="font-sans font-semibold text-[0.625rem] sm:text-sm text-neutral-700">
-                        {title}
-                    </h2>
-                </div>
-            </div>
-            <div className="absolute top-[6%] h-[94%] w-full bg-white flex justify-center rounded-b-lg s:rounded-b-xl overflow-hidden z-30 ">
-                {children}
-            </div>
+      <div className="flex flex-col rounded-lg shadow-xl w-full max-w-4xl overflow-hidden border border-gray-200">
+       
+        <div className="flex items-center px-2 sm:px-4 py-1 sm:py-2 bg-gray-100 border-b border-gray-200">
+         
+          <div className="flex space-x-1 sm:space-x-2 mr-2 sm:mr-4">
+            <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-red-500"></div>
+            <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-yellow-500"></div>
+            <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-green-500"></div>
+          </div>
+  
+          <div className="text-xs sm:text-sm text-center text-gray-600 font-medium flex-grow truncate">
+            {title}
+          </div>
+          
+          
+          <div className="w-8 sm:w-16"></div>
         </div>
-    )
-}
-export default Window
+        
+        
+        <div className="bg-white p-0 flex-grow">
+          {children}
+        </div>
+      </div>
+    );
+  };
+export default Window;
