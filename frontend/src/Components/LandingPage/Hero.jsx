@@ -1,69 +1,92 @@
 import camera3D from "../../assets/camera3d.png";
 import ImageComparisonSlider from "./InputOutputCompare";
 import { Camera, ShoppingBag } from "lucide-react";
-import SparklesText from "../UI/SparklesText";
+import { ArrowRight, Sparkles } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
 const Hero = () => {
-  
+  const navigate = useNavigate();
+  function handleClick() {
+    navigate("/app");
+  }
   return (
     <div className="relative h-max mt-32 sm:mt-36 bg-white">
       
 
       <main className="max-w-full mx-auto gap-24 sm:gap-8  flex flex-row flex-wrap justify-center sm:justify-between">
-        <div className="max-w-md h-max flex flex-col justify-center gap-6">
+      <div className="max-w-lg">
+                        <div className="inline-flex items-center px-4 py-2 mb-8 rounded-full bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-100 shadow-sm">
+                            <Sparkles className="h-4 w-4 mr-2 text-purple-500" />
+                            <span className="text-sm font-medium text-purple-800">Transform your imagery</span>
+                        </div>
 
-        
-        <h1 className="text-5xl sm:text-6xl font-extrabold text-[#1A1A1A]">
-
-<span>Your <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-rose-400  to-orange-400">AI</span>{" "}
-<SparklesText
-    className="text-5xl sm:text-6xl inline-block"
-    text="Image Studio"
-    colors={{first: '#ba68c8', second: '#fff176'}}
-/>
-{" "}
- </span>
-<img src={camera3D} alt="" className="h-14 w-14 inline-block pb-1" />
-
-
-</h1>
-
-
-        
-        <p className="text-gray-600 text-xl max-w-2xl mx-auto mb-4">
-          Get custom images of you, any way you envision. With just a few photos of yourself and a simple prompt
-        </p>
-        <div className="flex items-center gap-4">
-                                <Camera className="h-6 w-6 text-orange-500" />
-                                <span className="text-lg text-neutral-600">
-                                    <span className="font-semibold text-black  cursor-pointer">
-                                        Take 100% AI photos
-                                    </span>{" "}
-                                    in any pose, place or action
+                        <h1 className="text-5xl sm:text-6xl font-extrabold text-gray-900 leading-tight mb-6">
+                            Your{" "}
+                            <span className="relative inline-block">
+                                <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 via-rose-500 to-orange-500">
+                                    AI
                                 </span>
+                                <svg className="absolute -bottom-1 w-full" height="6" viewBox="0 0 100 6" preserveAspectRatio="none">
+                                    <path d="M 0 6 Q 50 -6 100 6" fill="none" stroke="url(#grad)" strokeWidth="2" />
+                                    <defs>
+                                        <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" stopColor="#A855F7" />
+                                            <stop offset="50%" stopColor="#F43F5E" />
+                                            <stop offset="100%" stopColor="#FB923C" />
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                            </span>{" "}
+                            Image Studio{" "}
+                            <span className="inline-block relative">
+                                <img
+                                    src={camera3D}
+                                    alt=""
+                                    className="h-14 w-14 inline-block drop-shadow-lg"
+                                />
+                              
+                            </span>
+                        </h1>
+
+                      
+
+                        <div className="space-y-6 mb-12">
+                            <div className="flex items-start">
+                                
+                                <div>
+                                    <span className="block text-lg font-semibold text-gray-900 mb-1">
+                                        Create 100% AI photos
+                                    </span>
+                                    <span className="text-gray-600">
+                                        in any pose, place or action — from casual selfies to 
+                                        professional portraits with perfect lighting with just a simple prompt
+                                    </span>
+                                </div>
                             </div>
-                            <div className="flex items-center gap-4 ">
-                                <ShoppingBag className="h-6 w-6 text-blue-500" />
-                                <span className="text-lg text-neutral-600">
-                                    <span className="font-semibold text-black  cursor-pointer">
-                                        Try on clothes on your model
-                                    </span>{" "}
-                                    for your Shopify store
+
+                          
+                           
+                        </div>
+
+                        <div className="flex flex-col sm:flex-row items-center gap-6">
+                            <button className="group px-8 py-4 rounded-full bg-gradient-to-r from-purple-600 via-rose-500 to-orange-500 text-white font-medium text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
+                            onClick={handleClick}
+                            >
+                                <span className="flex items-center">
+                                    Create Your AI Model Now
+                                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                                 </span>
-                            </div>
-
-                            <button
-      className={`relative w-max h-max px-4 py-2 border-[1px] drop-shadow-sm hover:drop-shadow-md hover:scale-105 transition-all rounded-full bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-rose-500 to-orange-500 flex items-center justify-center`}
-    
-    
-    >
-      <div>Create Your AI Model Now</div>
-     
-    </button>
-  
-
+                            </button>
+                            
+                            <a href="#howItWorks" className="text-gray-600 font-medium underline-offset-4 hover:text-gray-900 transition-colors">
+                               see how it works
+                            </a>
+                        </div>
+                    </div>
+                    <div className="">
+                    <ImageComparisonSlider/>
+                    </div>
  
-  </div>
-  <ImageComparisonSlider/>
          
         
 

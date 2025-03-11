@@ -1,6 +1,6 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 import React, { useEffect, useRef, useState } from "react"
-
+import { useNavigation } from "react-router-dom"
 import { img1 as afterImage } from "@/assets/images"
 import { img4 as beforeImage } from "@/assets/input-images"
 
@@ -84,10 +84,10 @@ export default function ImageComparisonSlider({
     }
 
     return (
-        <div className="w-max h-max p-2 bg-gradient-to-b from-purple-500 via-rose-400 to-orange-400  rounded-lg">
+        <div className="w-max h-max p-1 bg-gradient-to-b from-purple-500 via-rose-400 to-orange-400  rounded-lg">
         <div
             ref={containerRef}
-            className="relative  max-w-sm max-h-[20rem] overflow-hidden rounded-lg"
+            className="relative  max-w-[24rem] max-h-[26rem] overflow-hidden rounded-lg"
             aria-label="Image comparison slider"
         >
             <div className="relative h-full">
@@ -135,10 +135,10 @@ export default function ImageComparisonSlider({
             </div>
             {imagesLoaded && (
                 <>
-                    <div className="absolute h-max w-max text-xs  top-4 left-4 bg-white/60 backdrop-blur-md text-neutral-900 px-2 py-1 rounded-full">
+                    <div className={`absolute h-max w-max text-xs  top-4 left-4 bg-white/60 backdrop-blur-md text-neutral-900 px-2 py-1 rounded-full ${sliderPosition<25 ? 'hidden' : 'block'}`}>
                         {beforeLabel}
                     </div>
-                    <div className="absolute h-max w-max text-xs   top-4 right-4 bg-white/60 backdrop-blur-md text-neutral-900 px-2 py-1 rounded-full">
+                    <div className={`absolute h-max w-max text-xs  top-4 right-4 bg-white/60 backdrop-blur-md text-neutral-900 px-2 py-1 rounded-full ${sliderPosition>75 ? 'hidden' : 'block'}`}>
                         {afterLabel}
                     </div>
                 </>
