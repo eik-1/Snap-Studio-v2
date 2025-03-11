@@ -97,7 +97,6 @@ export async function getUserModels(req, res) {
       .from("Models")
       .select("*")
       .eq("user_id", userId)
-      .eq("status", "succeeded");
 
     if (error) {
       throw error;

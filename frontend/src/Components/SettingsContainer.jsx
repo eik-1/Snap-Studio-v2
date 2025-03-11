@@ -6,7 +6,7 @@ function SettingsContainer({ children, heading }) {
                     {heading}
                 </h2>
             </div>
-            <div className="w-full h-max  relative flex flex-col items-center py-8 px-8  rounded-lg  border-[1px] drop-shadow-sm">
+            <div className="w-full h-max  relative flex flex-col items-center py-8 px-8  rounded-lg  border-[1px] shadow-sm">
                 <div className="w-full h-full flex flex-col gap-8">
                     <div className="w-full h-max flex flex-col gap-4">
                         {children}

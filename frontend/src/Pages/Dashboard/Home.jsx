@@ -1,10 +1,11 @@
 import ImageResultSection from "@/Components/ImageResultSection"
 import SidePanel from "@/Components/SidePanel"
-import { useSubscription } from "@/contexts/SubscriptionContext"
+
+import Dialog from "@/Components/NameDialog"
 
 
 function Home() {
-    const { sub } = useSubscription()
+ 
     // useEffect(() => {
     //     console.log("Subscription data:", sub)
     // }, [sub]) 
@@ -17,6 +18,7 @@ function Home() {
             <div className="h-screen pb-8 sm:pb-0 sm:h-full w-full sm:flex-grow flex flex-col gap-4 sm:overflow-hidden ">
                 <ImageResultSection />
             </div>
+            
            
         </div>
     )

@@ -1,16 +1,19 @@
 import { cn } from "@/lib/utils"
 import { useState } from "react"
+import NameDialog from "./NameDialog"
+import EmailDialog from "./EmailDialog"
 function SettingTile({
     title = "Email",
     value = "abc@example.com",
+    name,
     buttons,
     handlers,
-    dialog,
 }) {
 
-    const [dialogOpen, setDialogOpen] = useState(false)
+    const [nameDialogOpen, setNameDialogOpen] = useState(false)
+    const [emailDialogOpen, setEmailDialogOpen] = useState(false)
     return (
-        
+        <>
         <div className="w-full h-14  ">
             <div className="w-full h-full flex items-center justify-between  ">
                 <div className="w-max h-full flex flex-col justify-center">
@@ -27,7 +30,10 @@ function SettingTile({
                                     `text-xs transform transition-all ${button.type === "normal" && "text-purple-500 hover:text-purple-600"} ${button.type === "destructive" && "text-rose-500 hover:text-rose-600"} ${button.type === "secondary" && "text-slate-500 hover:text-slate-700"}`,
                                 )}
                                 key={index}
-                                onClick={dialog?()=>{setDialogOpen(true)}:handlers[button.action]}
+                                onClick={button?.dialog?()=>{
+                                    if(name==="email") setEmailDialogOpen(true)
+                                    if(name==="username") setNameDialogOpen(true)
+                                }:handlers[button.action]}
                             >
                                 {button.text}
                             </button>
@@ -36,10 +42,13 @@ function SettingTile({
                     ))}
                    
                 </div>
-                {dialogOpen && <Dialog setOpen={setDialogOpen} title={dialog.title} content={dialog.description} onClick={handlers[dialog.action]} >
-                </Dialog> }
+                
             </div>
         </div>
+         <NameDialog isOpen={nameDialogOpen} handleClose={setNameDialogOpen} />
+       
+         <EmailDialog isOpen={emailDialogOpen} handleClose={setEmailDialogOpen} />
+        </>
     )
 }
 export default SettingTile

@@ -5,6 +5,7 @@ import {
   runHeadshotUserModel,
   runUserModel,
   trainOstrisModel,
+  trainingTest,
 } from "../controllers/replicateController.js";
 import isUserAuthenticated from "../middlewares/authMiddleware.js";
 import upload from "../middlewares/uploadMiddleware.js";
@@ -21,5 +22,6 @@ router.post(
 router.post("/run", isUserAuthenticated, runUserModel);
 router.post("/get-trigger-word", isUserAuthenticated, getTriggerWord);
 router.post("/run-headshots", isUserAuthenticated, runHeadshotUserModel);
+router.post("/train-test", isUserAuthenticated, trainingTest);
 
 export default router;

@@ -2,7 +2,7 @@ import { apiRequest } from "@/services/utils/apiRequest"
 import supabase from "../configs/supabase"
 
 //function to start model training
-export async function startModelTraining(data) {
+export async function startTraining(data) {
     try {
         const response = await apiRequest(`/models/train`, "POST", data, {
             "Content-Type": "multipart/form-data",
@@ -121,29 +121,31 @@ export async function getUserSub(email) {
 
 export async function changeUserEmail(newEmail) {
     try {
-        const { user, error } = await supabase.auth.updateUser({
+        const { data, error } = await supabase.auth.updateUser({
             email: newEmail,
         })
         if (error) {
             throw error
         }
-        return user
+        return data.user
     } catch (err) {
         throw err
     }
 }
 
-export async function changeUserName(newName) {
+export async function changeUserName(firstName, lastName) {
     try {
-        const { user, error } = await supabase.auth.updateUser({
+        const { data, error } = await supabase.auth.updateUser({
             data: {
-                name: newName,
+                first_name: firstName,
+                last_name: lastName,
             },
         })
+        console.log(data)
         if (error) {
             throw error
         }
-        return user
+        return data.user
     } catch (err) {
         throw err
     }

@@ -5,10 +5,9 @@ import { customImageTrainingField } from "@/data/formData"
 import { imagesToZipBlob } from "@/services/utils/zipUtils"
 import { apiRequest } from "@/services/utils/apiRequest"
 import { useModel } from "@/contexts/ModelContext"
-import { startModelTraining } from "@/services/api/services"
 
 function CustomImageModelTrainForm() {
-    const { state: modelState, dispatch: modelDispatch } = useModel()
+    const { state: modelState, dispatch: modelDispatch, startModelTraining } = useModel()
     const initialState = {
         modelName: "",
         triggerWord: "",
