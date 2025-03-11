@@ -1,13 +1,17 @@
-import { useState } from "react"
 import ImageInputBox from "@/Components/ImageInputBox"
 import { Button } from "@/Components/UI/Button"
+import { useModel } from "@/contexts/ModelContext"
+import { useUser } from "@/contexts/UserContext"
 import { customImageTrainingField } from "@/data/formData"
 import { imagesToZipBlob } from "@/services/utils/zipUtils"
-import { apiRequest } from "@/services/utils/apiRequest"
-import { useModel } from "@/contexts/ModelContext"
+import { useState } from "react"
 
 function CustomImageModelTrainForm() {
-    const { state: modelState, dispatch: modelDispatch, startModelTraining } = useModel()
+    const {
+        state: modelState,
+        dispatch: modelDispatch,
+        startModelTraining,
+    } = useModel()
     const initialState = {
         modelName: "",
         triggerWord: "",
@@ -16,6 +20,8 @@ function CustomImageModelTrainForm() {
     }
     const [formDataValues, setFormDataValues] = useState(initialState)
     const [selectedImages, setSelectedImages] = useState([])
+
+    const { user } = useUser()
 
     function handleChange(e) {
         const { name, value } = e.target
@@ -35,6 +41,8 @@ function CustomImageModelTrainForm() {
             for (const [key, value] of Object.entries(formDataValues)) {
                 formData.append(key, value)
             }
+            formData.append("userId", user.$id)
+            formData.append("userEmail", user.email)
             const response = await startModelTraining(formData)
             console.log(response)
             if (response.status === 200) {
@@ -59,7 +67,7 @@ function CustomImageModelTrainForm() {
         <div className="w-full h-full mx-auto  bg-white border-r-[1px] relative">
             <div className="h-[90%] w-full m-0 px-4 py-4  sm:overflow-y-scroll oveflow-x-hidden">
                 <div className="font-sans flex flex-col gap-1 h-max pb-6 border-b-[1px] ">
-                <h1 className="font-sans w-max h-max font-semibold tracking-tight text-lg bg-clip-text from-rose-500 via-purple-500 to-cyan-500 bg-gradient-to-r text-transparent">
+                    <h1 className="font-sans w-max h-max font-semibold tracking-tight text-lg bg-clip-text from-rose-500 via-purple-500 to-cyan-500 bg-gradient-to-r text-transparent">
                         Train Model
                     </h1>
                     <p className="text-xs font-regular tracking-tight text-gray-500">
