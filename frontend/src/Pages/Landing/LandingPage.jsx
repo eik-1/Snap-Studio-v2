@@ -20,7 +20,9 @@ export default function LandingPage() {
             </Window>
             </div>
            
-            <h2 className="text-2xl md:text-5xl z-40 relative bg-clip-text text-transparent bg-gradient-to-b p-2 from-black to-black/75 tracking-wide mx-auto text-center font-bold  mt-48 mb-24">
+            <h2 className="text-2xl md:text-5xl z-40 relative bg-clip-text text-transparent bg-gradient-to-b p-2 from-black to-black/75 tracking-wide mx-auto text-center font-bold  mt-48 mb-24"
+            id="howItWorks"
+            >
             <span >
             How It Works: Upload, Train, and Create – Effortless Visual Magic.
             </span>
