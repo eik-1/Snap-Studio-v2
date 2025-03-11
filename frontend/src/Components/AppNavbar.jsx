@@ -72,8 +72,8 @@ function SideNavbar() {
                                     className={({ isActive }) =>
                                         `w-full flex space-x-6 rounded-xl p-3 transition-all duration-200 ${
                                             isActive
-                                                ? "bg-purple-500 text-white"
-                                                : "hover:text-purple-500"
+                                                ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white"
+                                                : "hover:text-purple-600"
                                         }`
                                     }
                                     end={item.route!=="myimages"}
@@ -130,7 +130,7 @@ function MobileNavbar() {
                     to="/app"
                     className={({ isActive }) =>
                         `flex flex-col items-center justify-center space-y-1 p-2 rounded-2xl transition-all duration-200 ${
-                            isActive ? " text-purple-500" : "text-gray-500 "
+                            isActive ? " text-purple-600" : "text-gray-500 "
                         }`
                     }
                     end

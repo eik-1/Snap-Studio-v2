@@ -132,7 +132,7 @@ function HeadshotForm() {
         <div className="w-full h-full mx-auto  bg-white border-r-[1px] relative">
             <div className="h-[90%] w-full m-0 px-4 py-4 sm:overflow-y-scroll oveflow-x-hidden">
                 <div className="font-sans flex flex-col gap-1 h-max pb-6 border-b-[1px] ">
-                    <h1 className="font-sans w-max h-max font-semibold tracking-tight text-lg bg-clip-text from-rose-500 via-purple-500 to-cyan-500 bg-gradient-to-r text-transparent">
+                    <h1 className="font-sans w-max h-max font-semibold tracking-tight text-lg bg-clip-text bg-text-gradient text-transparent">
                         Generate Headshot
                     </h1>
                     <p className="text-xs font-regular tracking-tight text-gray-500">

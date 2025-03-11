@@ -16,7 +16,7 @@ function OptionPanel() {
         <section className="h-max  w-full p-4 bg-white  flex flex-col gap-4 items-center justify-center ">
             <div className="h-max w-full pb-3 border-b-[1px] border-neutral-100">
                 <div className="h-max w-full  brounded-xl p-4  text-center flex flex-col gap-2">
-                    <WelcomeText className="text-xl font-semibold bg-clip-text tracking-tight text-transparent bg-gradient-to-r from-rose-500 via-purple-500 to-cyan-500" />
+                    <WelcomeText className="text-xl font-semibold bg-clip-text tracking-tight text-transparent bg-text-gradient" />
 
                     <p className=" text-[0.8rem] text-gray-700">
                         Select an Option to get started

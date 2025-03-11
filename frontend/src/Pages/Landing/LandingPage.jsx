@@ -20,7 +20,7 @@ export default function LandingPage() {
             </Window>
             </div>
            
-            <h2 className="text-2xl md:text-5xl z-40 relative bg-clip-text text-transparent bg-gradient-to-b p-2 from-black to-black/75 tracking-wide mx-auto text-center font-bold  mt-48 mb-24"
+            <h1 className="text-5xl text-center mt-36 mb-24 font-bold p-2 bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-500 bg-clip-text text-transparent"
             id="howItWorks"
             >
             <span >
@@ -30,7 +30,7 @@ export default function LandingPage() {
             <Sparkles size={32} className="text-purple-500 ml-4 inline" />
         
            
-            </h2>
+            </h1>
             <ImageFlow />
             <HeadshotSection />
             <PricingSection />

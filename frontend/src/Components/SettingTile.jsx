@@ -27,7 +27,7 @@ function SettingTile({
                         <div className="w-max h-max">
                             <button
                                 className={cn(
-                                    `text-xs transform transition-all ${button.type === "normal" && "text-purple-500 hover:text-purple-600"} ${button.type === "destructive" && "text-rose-500 hover:text-rose-600"} ${button.type === "secondary" && "text-slate-500 hover:text-slate-700"}`,
+                                    `text-xs transform transition-all ${button.type === "normal" && "bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600 hover:text-purple-600"} ${button.type === "destructive" && "text-rose-500 hover:text-rose-600"} ${button.type === "secondary" && "text-slate-500 hover:text-slate-700"}`,
                                 )}
                                 key={index}
                                 onClick={button?.dialog?()=>{

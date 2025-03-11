@@ -43,6 +43,12 @@ input[type="number"] {
         
     }
 
+
+}
+@layer components {
+  .bg-text-gradient{
+    @apply bg-gradient-to-r from-sky-500 via-purple-500 to-rose-500;
+  }
 }
 
   .custom-scrollbar::-webkit-scrollbar {

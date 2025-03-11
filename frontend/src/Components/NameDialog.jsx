@@ -164,7 +164,7 @@ async function handleChangeName(){
                                     type="button"
                                     onClick={handleChangeName}
                                     disabled={isSubmitting || (!firstName.trim() && !lastName.trim())}
-                                    className="px-4 py-2 w-40 h-10 text-center flex justify-center text-white bg-purple-500 rounded-md disabled:opacity-50"
+                                    className="px-4 py-2 w-40 h-10 text-center flex justify-center text-white bg-gradient-to-r from-purple-600 to-indigo-600 rounded-md disabled:opacity-50"
                                 >
                                     {isSubmitting ? (
                                     
