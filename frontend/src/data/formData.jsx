@@ -1,18 +1,20 @@
-import { Edit3 as ModelName } from "lucide-react"
-import { Zap as TriggerWord } from "lucide-react"
-import { Users2 as Gender } from "lucide-react"
-import { Globe2 as Ethnicity } from "lucide-react"
-import { Images as Image } from "lucide-react"
 import {
     Black,
-    CitySkyline,
-    Office,
-    GoldenHour,
-    UrbanStreet,
-    Yellow,
-    WhiteStudio,
     CityLights,
+    CitySkyline,
+    GoldenHour,
+    Office,
+    UrbanStreet,
+    WhiteStudio,
+    Yellow,
 } from "@/assets/images/index"
+import {
+    Globe2 as Ethnicity,
+    Users2 as Gender,
+    Images as Image,
+    Edit3 as ModelName,
+    Zap as TriggerWord,
+} from "lucide-react"
 const size = 16
 const customImageTrainingField = [
     {

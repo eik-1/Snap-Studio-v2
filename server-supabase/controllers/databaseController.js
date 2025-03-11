@@ -39,6 +39,7 @@ export async function createModel(
         status: status,
         gender: gender,
         ethnicity: ethnicity,
+        status_ack: false,
       })
       .select();
     if (error) {
@@ -96,7 +97,7 @@ export async function getUserModels(req, res) {
     const { data, error } = await supabase
       .from("Models")
       .select("*")
-      .eq("user_id", userId)
+      .eq("user_id", userId);
 
     if (error) {
       throw error;
@@ -115,7 +116,7 @@ export async function getUserModels(req, res) {
   }
 }
 
-export async function updateModel(modelId, status, modelVersion) {
+export async function updateModel(modelId, status, modelVersion = null) {
   try {
     const { data, error } = await supabase
       .from("Models")
@@ -424,6 +425,7 @@ export async function getCredits(userEmail) {
       .from("Subscription")
       .select("credits", "model_credits")
       .eq("email", userEmail);
+    console.log("Credits: ", data);
     if (error) {
       throw error;
     }
