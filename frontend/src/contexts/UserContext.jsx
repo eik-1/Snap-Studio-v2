@@ -16,6 +16,7 @@ function UserProvider({ children }) {
     async function loginUser(email, password) {
         setLoading(true)
         const userData = await login(email, password)
+        console.log(userData)
         localStorage.setItem("userData", JSON.stringify(userData))
         setUser(userData)
         return userData

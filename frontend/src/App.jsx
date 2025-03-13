@@ -10,6 +10,7 @@ import Error from "./Components/Error"
 import { NavigationProvider } from "./contexts/NavigationContext"
 import { SubscriptionProvider } from "./contexts/SubscriptionContext"
 import { UserProvider, useUser } from "./contexts/UserContext"
+import { NotificationProvider } from "./contexts/NotificationContext"
 import Home from "./Pages/Dashboard/Home"
 import MyImages from "./Pages/Dashboard/MyImages"
 import MyModels from "./Pages/Dashboard/MyModels"
@@ -98,9 +99,11 @@ function App() {
                         <SubscriptionProvider>
                             <ImageProvider>
                                 <ModelProvider>
+                                    <NotificationProvider>
                                     <NavigationProvider>
                                         <RootLayout />
                                     </NavigationProvider>
+                                    </NotificationProvider>
                                 </ModelProvider>
                             </ImageProvider>
                         </SubscriptionProvider>

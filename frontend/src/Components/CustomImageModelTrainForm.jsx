@@ -5,6 +5,8 @@ import { useUser } from "@/contexts/UserContext"
 import { customImageTrainingField } from "@/data/formData"
 import { imagesToZipBlob } from "@/services/utils/zipUtils"
 import { useState } from "react"
+import { Info } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
 
 function CustomImageModelTrainForm() {
     const {
@@ -18,6 +20,7 @@ function CustomImageModelTrainForm() {
         gender: "",
         ethnicity: "",
     }
+
     const [formDataValues, setFormDataValues] = useState(initialState)
     const [selectedImages, setSelectedImages] = useState([])
 
@@ -31,6 +34,7 @@ function CustomImageModelTrainForm() {
         })
     }
 
+    const {toast} = useToast()
     const handleSubmit = async (e) => {
         e.preventDefault()
         console.log(formDataValues)
@@ -44,19 +48,15 @@ function CustomImageModelTrainForm() {
             formData.append("userId", user.$id)
             formData.append("userEmail", user.email)
             const response = await startModelTraining(formData)
-            console.log(response)
-            if (response.status === 200) {
-                console.log("Model Training Started")
-
-                modelDispatch({
-                    type: "ADD_MODEL",
-                    payload: response.data.modelData,
-                })
-            } else {
-                console.log("Model Training Failed")
-            }
         } catch (error) {
             console.log(error)
+            toast({
+                title: "Error",
+                description: "There was an error training the model. Please try again",
+                variant: "destructive",
+            })
+            
+            
         }
 
         setSelectedImages([])
@@ -74,6 +74,17 @@ function CustomImageModelTrainForm() {
                         Train a new model using your images. The model will be
                         used to generate images based on the provided images.
                     </p>
+                    {modelState?.currentTrainingId && (
+                        <div className="flex items-center gap-2 mt-4">
+                            <Info size={32} color="orange"/>
+
+                            <p className="text-xs font-regular tracking-tight text-gray-500">
+                                You have a model training in progress. Please wait
+                                for the training to complete to start a new one.
+                            </p>
+                           
+                        </div>
+                    )}
                 </div>
                 <form onSubmit={handleSubmit} className="mt-4">
                     {customImageTrainingField.map((field, index) => {
@@ -114,7 +125,7 @@ function CustomImageModelTrainForm() {
                 <Button
                     type="button"
                     onClick={handleSubmit}
-                    disabled={selectedImages.length === 0}
+                    disabled={selectedImages.length === 0 || modelState?.currentTrainingId}
                     className="w-2/3 mx-auto"
                 >
                     Train Model

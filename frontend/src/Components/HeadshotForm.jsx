@@ -29,6 +29,9 @@ function HeadshotForm() {
     const { dispatch: navDispatch } = useBackNavigation()
     const { state: modelState } = useModel()
     const { updateCredits, subscription } = useSubscription()
+    const trainedModels = modelState.models.filter(
+        (model) => model.status === "succeeded",
+    )
 
     /* const { data: fetchedModels = [] } = useQuery({
         queryKey: ["models", user],
@@ -107,7 +110,7 @@ function HeadshotForm() {
             },
         })
     }
-  /*  function validateForm(e)
+    /*  function validateForm(e)
     {
         if (!selectedModel) {                    // check if model is selected
             const selectElement = e.target.querySelector("select");
@@ -157,19 +160,18 @@ function HeadshotForm() {
                             Choose from your trained models
                         </p>
                         <select
-        
                             value={selectedModel}
                             onChange={(e) => setSelectedModel(e.target.value)}
                             className={`px-3 py-2 mt-2 block w-full  border border-gray-300 rounded-md  focus:ring-slate-500 focus:border-slate-500 text-xs ${modelState?.models?.length === 0 && "cursor-not-allowed"} `}
-                            disabled={modelState?.models?.length === 0}
+                            disabled={trainedModels?.length === 0}
                         >
-                            <option value="" disabled >
+                            <option value="" disabled>
                                 {modelState?.models?.length === 0
                                     ? "No trained models"
                                     : "Select Model"}
                             </option>
 
-                            {modelState?.models?.map((model, index) => (
+                            {trainedModels?.map((model, index) => (
                                 <option key={index} value={model.model_name}>
                                     {model.model_name}
                                 </option>

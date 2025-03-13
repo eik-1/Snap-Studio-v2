@@ -1,6 +1,5 @@
 import NavigationBackButton from "./NavigationBackButton"
 import Profile from "./Profile"
-import TrainingStatus from "@/Components/TrainingStatus"
 import CreditsTab from "@/Components/CreditsTab"
 import NotificationButton from "@/Components/Notification"
 

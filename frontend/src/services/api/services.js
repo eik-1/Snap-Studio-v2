@@ -7,7 +7,7 @@ export async function startTraining(data) {
         const response = await apiRequest(`/models/train`, "POST", data, {
             "Content-Type": "multipart/form-data",
         })
-        return response
+        return response.data
     } catch (error) {
         throw error
     }
