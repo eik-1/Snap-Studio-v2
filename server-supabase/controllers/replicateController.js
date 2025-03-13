@@ -112,7 +112,7 @@ export async function trainOstrisModel(req, res) {
     console.log("Training started: ", training);
 
     console.log("Creating model in DB");
-    const errorOrSuccessFlag = await createModel(
+    const createdModel = await createModel(
       userId,
       userEmail,
       modelName,
@@ -123,7 +123,7 @@ export async function trainOstrisModel(req, res) {
       ethnicity
     );
 
-    if (errorOrSuccessFlag === 0) {
+    if (createdModel.errorOrSuccessFlag === 0) {
       return res.status(500).json(
         new ApiResponse(500, "Model Name Already Exists", {
           error: "Model Name Already Exists",
@@ -134,6 +134,7 @@ export async function trainOstrisModel(req, res) {
     return res.status(200).json(
       new ApiResponse(200, "Model training started", {
         status: training.status,
+        model: createdModel.model,
       })
     );
   } catch (err) {

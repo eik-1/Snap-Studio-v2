@@ -26,30 +26,37 @@ export async function createModel(
     console.log("Model already exists: ", pre_existModel);
     return 0;
   }
+  const model = {
+    user_id: userId,
+    email: userEmail,
+    model_id: modelId,
+    model_name: modelName,
+    trigger_word: triggerWord,
+    status: status,
+    gender: gender,
+    ethnicity: ethnicity,
+    status_ack: false,
+  };
 
   try {
     const { data, error } = await supabase
       .from("Models")
-      .insert({
-        user_id: userId,
-        email: userEmail,
-        model_id: modelId,
-        model_name: modelName,
-        trigger_word: triggerWord,
-        status: status,
-        gender: gender,
-        ethnicity: ethnicity,
-        status_ack: false,
-      })
+      .insert(model)
       .select();
     if (error) {
-      return 0;
+      return {};
     }
     console.log("Model created: ", data);
-    return 1;
+    return {
+      model: model,
+      errorOrSuccessFlag: 1,
+    };
   } catch (err) {
     console.log("Error creating model: ", err);
-    return 0;
+    return {
+      model: model,
+      errorOrSuccessFlag: 0,
+    };
   }
 }
 
