@@ -29,7 +29,7 @@ function FAQSection(){
           {faqs.map((faq, index) => (
             <div 
               key={index}
-              className={`bg-white rounded-xl border border-gray-100 overflow-hidden transition-all duration-200 ${
+              className={`bg-white  rounded-xl border border-purple-100  transition-all duration-200 ${
                 openIndex === index ? 'shadow-lg' : 'shadow-sm hover:shadow-md'
               }`}
             >
@@ -51,7 +51,7 @@ function FAQSection(){
               
               <div 
                 className={`px-6 transition-all duration-200 ease-in-out overflow-hidden ${
-                  openIndex === index ? 'max-h-40 pb-5 opacity-100' : 'max-h-0 opacity-0'
+                  openIndex === index ? ' pb-5 opacity-100' : 'max-h-0 opacity-0'
                 }`}
               >
                 <p className="text-gray-600">

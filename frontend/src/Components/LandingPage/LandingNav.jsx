@@ -45,7 +45,7 @@ function LandingNav() {
     return (
         <>
             <motion.nav
-                className={`fixed  top-0 flex flex-col  lg:flex-row lg:items-center lg:justify-between py-2 lg:py-8 rounded-full bg-white/75 backdrop-blur-2xl px-6 lg:px-12  z-50  ${scrolledDown ? "drop-shadow-lg lg:px-6 " : ""} ${(location.pathname === "/login" || location.pathname === "/terms" || location.pathname === "/privacy") && "hidden"} ${isMenuOpen && "drop-shadow-xl"} `}
+                className={`fixed  top-0 flex flex-col  lg:flex-row lg:items-center lg:justify-between py-2 lg:py-8 rounded-full bg-white/75 backdrop-blur-xl px-6 lg:px-12  z-50  ${scrolledDown ? "drop-shadow-lg lg:px-6 " : ""} ${(location.pathname === "/login" || location.pathname === "/terms" || location.pathname === "/privacy") && "hidden"} ${isMenuOpen && "drop-shadow-xl"} `}
                 initial={false}
                 animate={{
                     width: scrolledDown ? "75%" : "100%",

@@ -100,7 +100,7 @@ function Login() {
 
     return (
         <div className="w-full h-max py-6 flex justify-center items-center ">
-        <div className="w-full sm:w-1/2 p-6 mx-auto h-max    flex flex-col justify-center items-center border-[1px] rounded-lg bg-white ">
+        <div className="w-full sm:w-1/2 max-w-lg p-6 mx-auto h-max    flex flex-col justify-center items-center border-[1px] rounded-lg bg-white ">
            
                 <div className="h-max w-full mx-auto flex flex-col justify-center gap-1">
                     <h2 className="text-2xl font-bold text-center text-purple-600   cursor-pointer">

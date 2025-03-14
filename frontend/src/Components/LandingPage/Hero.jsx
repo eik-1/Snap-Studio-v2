@@ -1,6 +1,5 @@
-import camera3D from "../../assets/camera3d.png"
+
 import ImageComparisonSlider from "./InputOutputCompare"
-import { Camera, ShoppingBag } from "lucide-react"
 import { ArrowRight, Sparkles, Check } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 
@@ -94,7 +93,7 @@ const Hero = () => {
                             onClick={handleClick}
                         >
                             <span className="flex items-center">
-                                Create Your AI Model Now
+                                Create Your AI Avatar Now
                                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                             </span>
                         </button>
