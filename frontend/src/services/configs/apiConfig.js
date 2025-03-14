@@ -8,7 +8,6 @@ export async function getApiConfig() {
     return {
         baseUrl: BASE_URL,
         defaultHeaders: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
         },
     }

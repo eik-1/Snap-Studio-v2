@@ -1,6 +1,8 @@
 import { getUserModels, startTraining } from "@/services/api/services"
 import { createContext, useContext, useEffect, useReducer, useRef } from "react"
 import { useUser } from "./UserContext"
+import { useToast } from "@/hooks/use-toast"
+
 
 const ModelContext = createContext()
 
@@ -66,18 +68,20 @@ function ModelProvider({ children }) {
     const { user } = useUser()
     const eventSourceRef = useRef(null)
     const userId = user?.$id
+    const { toast } = useToast()
 
     // Function to connect to SSE endpoint
     function connectToSSE(modelId) {
         if (eventSourceRef.current) {
             eventSourceRef.current.close()
         }
-
+        console.log("Connecting to SSE")
         const eventSource = new EventSource(
             `http://localhost:3000/sse/events/${userId}`,
         )
-
+        console.log("Connected to SSE")
         eventSource.onmessage = (event) => {
+            console.log("message from SSE:", event.data)
             try {
                 const data = JSON.parse(event.data)
                 console.log("message from SSE:", data)
@@ -85,7 +89,7 @@ function ModelProvider({ children }) {
                 dispatch({
                     type: Actions.UPDATE_MODEL_STATUS,
                     payload: {
-                        modelId: data.id,
+                        modelId: data.model_id,
                         status: data.status,
                     },
                 })
@@ -97,6 +101,10 @@ function ModelProvider({ children }) {
                 ) {
                     eventSource.close()
                     eventSourceRef.current = null
+                    toast({
+                        title: "Training Completed",
+                        description: `Model training  has completed`,
+                    })
                     dispatch({
                         type: Actions.SET_CURRENT_TRAINING,
                         payload: null,
@@ -135,6 +143,7 @@ function ModelProvider({ children }) {
     }, [])
 
     useEffect(() => {
+        console.log("Current Training ID:", state.currentTrainingId)
         if (state.currentTrainingId) {
             connectToSSE(state.currentTrainingId)
         } else {
@@ -162,10 +171,10 @@ function ModelProvider({ children }) {
 
             if (ongoingTrainings.length > 0 && !state.currentTrainingId) {
                 const trainingToConnect = ongoingTrainings[0]
-
+                console.log("Current Training ID:", state.currentTrainingId)
                 dispatch({
                     type: Actions.SET_CURRENT_TRAINING,
-                    payload: trainingToConnect.id,
+                    payload: trainingToConnect.model_id,
                 })
             }
         } catch (error) {
@@ -189,12 +198,15 @@ function ModelProvider({ children }) {
 
     async function startModelTraining(modelData) {
         try {
+          
             const data = await startTraining(modelData)
+            console.log(data);
 
             if (data) {
+                console.log("setting current training id")
                 dispatch({
                     type: Actions.SET_CURRENT_TRAINING,
-                    payload: data.model.id,
+                    payload: data.model.model_id,
                 })
                 dispatch({ type: Actions.ADD_MODEL, payload: data.model })
             }

@@ -40,13 +40,19 @@ function CustomImageModelTrainForm() {
         console.log(formDataValues)
         try {
             const zipBlob = await imagesToZipBlob(selectedImages)
+            console.log(zipBlob)
             const formData = new FormData()
             formData.append("file", zipBlob, "images.zip")
+            console.log(formData)
             for (const [key, value] of Object.entries(formDataValues)) {
                 formData.append(key, value)
             }
             formData.append("userId", user.$id)
             formData.append("userEmail", user.email)
+            console.log(formData);
+            formData.forEach((value, key) => {
+                console.log(`${key}: ${value}`);
+              });
             const response = await startModelTraining(formData)
         } catch (error) {
             console.log(error)

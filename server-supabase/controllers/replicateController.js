@@ -168,88 +168,96 @@ export async function trainingTest(req, res) {
       gender,
       ethnicity,
       userEmail,
-      file,
     } = req.body;
+    console.log(req.body)
 
-    // Get credits from DB
+    console.log(`[TEST API] Starting test training for model: ${modelName}`);
+
+    // Use your real DB call to get credits
     const creditsInfo = await getCredits(userEmail);
+    console.log(`[TEST API] User credits: ${creditsInfo.model_credits}`);
 
     if (creditsInfo.model_credits <= 0) {
-      return res.status(500).json({
-        status: 500,
-        message: "You have exhausted your monthly model credits",
-      });
+      return res.status(500).json(
+        new ApiResponse(500, "You have exhausted your monthly model credits", {
+          error: "You have exhausted your monthly model credits",
+        })
+      );
     }
 
-    // Deduct credits
+    // Use your real DB call to deduct credits
     const updateResult = await updateModelCredits(
       userEmail,
       creditsInfo.model_credits - 1
     );
+    
     if (updateResult === 0) {
-      return res.status(500).json({
-        status: 500,
-        message: "We are having some issues",
-      });
+      return res.status(500).json(
+        new ApiResponse(500, "We are having some issues", {
+          error: "We are having some issues",
+        })
+      );
     }
 
-    // Capture event (mock)
-    console.log("Event Captured:", {
-      model_name: modelName,
-      trigger_word: triggerWord,
-      gender: gender,
-    });
-
-    // Simulate file upload delay
-    const fileUrl = `https://fake-replicate.com/files/${uuidv4()}`;
+    let fileUrl= "https://example.com/images.zip";
+    console.log(`[TEST API] Mock file URL: ${fileUrl}`);
 
     // Simulate training process
     const trainingId = uuidv4();
     const trainingStatus = "starting";
 
-    console.log("Training started:", {
-      trainingId,
-      status: trainingStatus,
-    });
+    console.log(`[TEST API] Training started: ${trainingId}, status: ${trainingStatus}`);
 
-    // Create model entry in DB
-    const modelData = {
+    // Use your real DB call to create the model
+    const createdModel = await createModel(
       userId,
       userEmail,
       modelName,
       triggerWord,
+      trainingStatus,
+      trainingId,
       gender,
-      ethnicity,
-      status: trainingStatus,
-      version: trainingId,
-    };
-    const createResult = await createModel(modelData);
+      ethnicity
+    );
 
-    if (createResult === 0) {
+    if (createdModel.errorOrSuccessFlag === 0) {
       // Refund credits if model creation fails
       await updateModelCredits(userEmail, creditsInfo.model_credits);
-      return res.status(500).json({
-        status: 500,
-        message: "Model Name Already Exists",
-      });
+      
+      return res.status(500).json(
+        new ApiResponse(500, "Model Name Already Exists", {
+          error: "Model Name Already Exists",
+        })
+      );
     }
 
     // Success response
-    return res.status(200).json({
-      status: 200,
-      message: "Model training started",
-      data: modelData,
-    });
+    setTimeout(() => {
+      console.log(`[TEST API] Training completed: ${trainingId}`);
+      updateModel(trainingId, "succeeded");
+      sendEventToClients({ model_id:trainingId, status: "succeeded" }, userId);
+      console.log("event sent to client");
+    }, 120000);
+    return res.status(200).json(
+      new ApiResponse(200, "Model training started", {
+        status: trainingStatus,
+        model: createdModel.model,
+      })
+    );
   } catch (error) {
     console.error("Error training model:", error);
 
     // Refund credits on error
-    await updateModelCredits(userEmail, creditsInfo.model_credits);
+    if (req.body?.userEmail) {
+      const creditsInfo = await getCredits(req.body.userEmail);
+      await updateModelCredits(req.body.userEmail, creditsInfo.model_credits);
+    }
 
-    return res.status(500).json({
-      status: 500,
-      message: "Could not train the model",
-    });
+    return res.status(500).json(
+      new ApiResponse(500, "Could not train the model", {
+        error: error.message || "Could not train the model",
+      })
+    );
   }
 }
 
@@ -490,11 +498,11 @@ export async function replicateWebhook(req, res) {
     const creditsInfo = await getCredits(userEmail);
     await updateModelCredits(userEmail, creditsInfo.model_credits + 1);
     await updateModel(id, status);
-    sendEventToClients({ id, status: "failed" }, userId);
+    sendEventToClients({ model_id:id, status: "failed" }, userId);
     res.status(200).send("Webhook received");
   } else if (status === "succeeded") {
     await updateModel(id, status, output.version);
-    sendEventToClients({ id, status: "succeeded" }, userId);
+    sendEventToClients({ model_id:id, status: "succeeded" }, userId);
     res.status(200).send("Webhook received");
   } else {
     console.log("Don't care about this status");

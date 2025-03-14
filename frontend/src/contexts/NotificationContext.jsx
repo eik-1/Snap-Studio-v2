@@ -36,6 +36,7 @@ function NotificationProvider({ children }) {
 
     useEffect(() => {
         const newNotifications = []
+      
         trainings?.ongoingTrainings?.forEach((training) => {
             const notification = {
                 id: training.$id,
@@ -60,14 +61,23 @@ function NotificationProvider({ children }) {
         })
         trainings?.currentCompletedTrainings?.forEach((training) => {
             const notification = {
-                id: training.$id,
+                id: training.model_id,
                 type: "success",
                 title: "Training Completed",
                 message: `Training for model ${training.model_name} has completed`,
-                time: new Date().toLocaleString(),
+                time:  new Date().toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "2-digit",
+                }),
+                createdAt: training.created_at,
                 dismissible: true,
             }
             newNotifications.push(notification)
+            newNotifications.sort(
+                (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+            )
+            console.log({ newNotifications })
         })
         dispatch({
             type: Actions.SET_NOTIFICATIONS,
