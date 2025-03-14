@@ -1,7 +1,7 @@
 import camera3D from "../../assets/camera3d.png"
 import ImageComparisonSlider from "./InputOutputCompare"
 import { Camera, ShoppingBag } from "lucide-react"
-import { ArrowRight, Sparkles } from "lucide-react"
+import { ArrowRight, Sparkles, Check } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 
 const Hero = () => {
@@ -10,8 +10,8 @@ const Hero = () => {
         navigate("/app")
     }
     return (
-        <div className="relative h-max mt-24 sm:mt-36 bg-white">
-            <main className="max-w-full mx-auto gap-24 sm:gap-8  flex md:flex-row flex-col items-center justify-center md:justify-between">
+        <div className="relative h-max mt-16 md:mt-20 bg-gradient-to-r from-purple-50  via-indigo-50 to-rose-50 py-16 rounded-2xl max-w-7xl mx-auto px-10">
+            <main className="max-w-full mx-auto gap-24 lg:gap-8  flex lg:flex-row flex-col items-center justify-center lg:justify-between">
                 <div className="max-w-lg">
                     <div className="inline-flex items-center px-4 py-2 mb-8 rounded-full bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-100 shadow-sm">
                         <Sparkles className="h-4 w-4 mr-2 text-purple-500" />
@@ -60,29 +60,33 @@ const Hero = () => {
                             </svg>
                         </span>{" "}
                         Image Studio{" "}
-                        <span className="inline-block relative">
-                            <img
-                                src={camera3D}
-                                alt=""
-                                className="h-14 w-14 inline-block drop-shadow-lg"
-                            />
-                        </span>
+                     
                     </h1>
+                    <p className="text-lg text-gray-600 leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0">
+              Generate stunning AI-powered photos in any pose, place, or action—from professional Head shots to casual pictures—with just a simple prompt.
+            </p>
 
-                    <div className="space-y-6 mb-12">
-                        <div className="flex items-start">
-                            <div>
-                                <span className="block text-lg font-semibold text-gray-900 mb-1">
-                                    Create 100% AI photos
-                                </span>
-                                <span className="text-gray-600">
-                                    in any pose, place or action — from casual
-                                    selfies to professional portraits with
-                                    perfect lighting with just a simple prompt
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+           
+            <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 mb-8">
+              <div className="flex items-center">
+                <span className="flex items-center justify-center w-5 h-5 rounded-full bg-green-100 mr-2">
+                  <Check className="h-3 w-3 text-green-600" />
+                </span>
+                <span className="text-sm text-gray-600">Instant Generation</span>
+              </div>
+              <div className="flex items-center">
+                <span className="flex items-center justify-center w-5 h-5 rounded-full bg-green-100 mr-2">
+                  <Check className="h-3 w-3 text-green-600" />
+                </span>
+                <span className="text-sm text-gray-600">Studio Quality</span>
+              </div>
+              <div className="flex items-center">
+                <span className="flex items-center justify-center w-5 h-5 rounded-full bg-green-100 mr-2">
+                  <Check className="h-3 w-3 text-green-600" />
+                </span>
+                <span className="text-sm text-gray-600">Multiple Styles</span>
+              </div>
+            </div>
 
                     <div className="flex flex-col md:flex-row items-center gap-6">
                         <button
@@ -106,6 +110,7 @@ const Hero = () => {
                 <div className="">
                     <ImageComparisonSlider />
                 </div>
+               
             </main>
         </div>
     )

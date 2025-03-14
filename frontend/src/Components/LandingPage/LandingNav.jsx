@@ -45,7 +45,7 @@ function LandingNav() {
     return (
         <>
             <motion.nav
-                className={`fixed  top-0 flex flex-col  lg:flex-row lg:items-center lg:justify-between p-2 lg:py-8 rounded-full bg-white/75 backdrop-blur-2xl px-6  lg:px-14  z-50  ${scrolledDown ? "drop-shadow-lg lg:px-6 " : ""} ${(location.pathname === "/login" || location.pathname === "/terms" || location.pathname === "/privacy") && "hidden"} ${isMenuOpen && "drop-shadow-xl"} `}
+                className={`fixed  top-0 flex flex-col  lg:flex-row lg:items-center lg:justify-between py-2 lg:py-8 rounded-full bg-white/75 backdrop-blur-2xl px-6 lg:px-12  z-50  ${scrolledDown ? "drop-shadow-lg lg:px-6 " : ""} ${(location.pathname === "/login" || location.pathname === "/terms" || location.pathname === "/privacy") && "hidden"} ${isMenuOpen && "drop-shadow-xl"} `}
                 initial={false}
                 animate={{
                     width: scrolledDown ? "75%" : "100%",
@@ -109,11 +109,11 @@ function LandingNav() {
                     </a>
                 </div>
 
-                <div className=" gap-2 hidden lg:flex">
+                <div className="gap-4 hidden lg:flex">
                     {!user ? (
                         <NavLink
                             to="/login"
-                            className={  `bg-gradient-to-r hover:from-purple-600 hover:via-indigo-600 hover:to-pink-600 text-transparent bg-clip-text rounded-md px-3 py-2 transition-color duration-300   from-black/80 to-black/65`}
+                            className={  `bg-gradient-to-r hover:from-purple-600 hover:via-indigo-600 hover:to-pink-600 text-transparent bg-clip-text rounded-md  py-2 transition-color duration-300   from-black/80 to-black/65`}
                         >
                             Login
                         </NavLink>
