@@ -7,8 +7,21 @@ import PricingSection from "@/Components/Pricing"
 import Window from "@/Components/Window"
 import FAQSection from "@/Components/LandingPage/FAQSection"
 import { Sparkles } from "lucide-react"
+import { Helmet } from "react-helmet-async"
 export default function LandingPage() {
     return (
+        <>
+        <Helmet>
+        <title>SnapStudio - AI Headshot & Photo Generator</title>
+      <meta name="description" content="Generate AI-powered headshots, Images and clothing models instantly." />
+      <meta name="keywords" content="AI headshot generator, AI photo editor, AI image generator AI marketing poster, AI clothing model" />
+      <meta property="og:title" content="SnapStudio - AI Headshot & Photo Generator" />
+      <meta property="og:description" content="Create professional AI-generated headshots and images." />
+      <meta property="og:image" content="https://snapstudio.com/snapstudio-og.png" />
+      <meta property="og:url" content="https://snapstudio.com" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:image" content="https://snapstudio.com/snapstudio-og.png" />
+        </Helmet>
         <div className="relative  mx-auto">
             <Hero />
             <div className="max-w-full flex justify-center max-h-full mx-auto mt-48">
@@ -38,5 +51,6 @@ export default function LandingPage() {
             <FAQSection />
             <Footer />
         </div>
+        </>
     )
 }

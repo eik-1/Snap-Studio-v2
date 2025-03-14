@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client"
 import App from "./App.jsx"
 import "./index.css"
 import { UserProvider } from "./contexts/UserContext.jsx"
+import { HelmetProvider } from "react-helmet-async"
 import { Toaster } from "@/Components/UI/toaster"
 
 export default function RootLayout({ children }) {
@@ -21,8 +22,10 @@ export default function RootLayout({ children }) {
 createRoot(document.getElementById("root")).render(
     <StrictMode>
         <UserProvider>
+          <HelmetProvider>
             <App />
             <Toaster />
+          </HelmetProvider>
         </UserProvider>
     </StrictMode>,
 )
