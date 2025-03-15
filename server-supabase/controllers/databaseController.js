@@ -100,6 +100,7 @@ export async function getModelById(modelId) {
 export async function getUserModels(req, res) {
   const userId = req.header("userId");
   console.log("User ID: ", userId);
+
   try {
     const { data, error } = await supabase
       .from("Models")
@@ -139,6 +140,44 @@ export async function updateModel(modelId, status, modelVersion = null) {
     return data;
   } catch (err) {
     throw err;
+  }
+}
+
+export async function updateModelAck(req, res) {
+  const { userId, modelId } = req.body;
+  if (userId !== req.userId && !req.userId) {
+    return res.status(401).json(
+      new ApiResponse(401, "Unauthorized", {
+        error: "Unauthorized access",
+      })
+    );
+  }
+  try {
+    const { data, error } = await supabase
+      .from("Models")
+      .update({ status_ack: true })
+      .eq("model_id", modelId)
+      .select();
+
+    if (error) {
+      throw error;
+    }
+
+    if (data[0].status === "canceled" || data[0].status === "failed") {
+      await deleteModel(modelId);
+    }
+
+    return res.status(200).json(
+      new ApiResponse(200, "Model status acknowledged", {
+        modelId,
+      })
+    );
+  } catch (err) {
+    return res.status(500).json(
+      new ApiResponse(500, "Error acknowledging model status", {
+        error: err.message,
+      })
+    );
   }
 }
 

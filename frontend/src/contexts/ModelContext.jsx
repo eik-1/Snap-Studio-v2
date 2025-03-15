@@ -1,8 +1,7 @@
+import { useToast } from "@/hooks/use-toast"
 import { getUserModels, startTraining } from "@/services/api/services"
 import { createContext, useContext, useEffect, useReducer, useRef } from "react"
 import { useUser } from "./UserContext"
-import { useToast } from "@/hooks/use-toast"
-
 
 const ModelContext = createContext()
 
@@ -14,7 +13,6 @@ const modelState = {
 
 const Actions = {
     SET_MODEL: "SET_MODEL",
-
     ADD_MODEL: "ADD_MODEL",
     ACKNOWLEDGE_MODEL: "ACKNOWLEDGE_MODEL",
     UPDATE_MODEL_STATUS: "UPDATE_MODEL_STATUS",
@@ -33,6 +31,7 @@ function modelReducer(state, action) {
             }
 
         case Actions.ACKNOWLEDGE_MODEL:
+            console.log("Acknowledging model: ", action.payload)
             return {
                 ...state,
                 models: state.models.map((model) =>
@@ -198,9 +197,8 @@ function ModelProvider({ children }) {
 
     async function startModelTraining(modelData) {
         try {
-          
             const data = await startTraining(modelData)
-            console.log(data);
+            console.log(data)
 
             if (data) {
                 console.log("setting current training id")
