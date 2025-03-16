@@ -1,6 +1,7 @@
-import { useContext, createContext, useEffect, useReducer } from "react"
-import { useUser } from "./UserContext"
+import { acknowledgeNotification } from "@/services/api/services"
+import { createContext, useContext, useEffect, useReducer } from "react"
 import { useModel } from "./ModelContext"
+import { useUser } from "./UserContext"
 
 const NotificationContext = createContext()
 
@@ -34,13 +35,15 @@ function NotificationProvider({ children }) {
     const { user } = useUser()
     const { trainings } = useModel()
 
-    function deleteNotification(id) {
-        dispatch({ type: Actions.UpdateTrainings, payload: id })
+    async function onNotificationDelete(notificationId) {
+        const userId = user?.$id
+        await acknowledgeNotification(notificationId, userId)
+        dispatch({ type: Actions.DELETE_NOTIFICATION, payload: notificationId })
     }
 
     useEffect(() => {
         const newNotifications = []
-      
+
         trainings?.ongoingTrainings?.forEach((training) => {
             const notification = {
                 id: training.$id,
@@ -69,7 +72,7 @@ function NotificationProvider({ children }) {
                 type: "success",
                 title: "Training Completed",
                 message: `Training for model ${training.model_name} has completed`,
-                time:  new Date().toLocaleDateString("en-GB", {
+                time: new Date().toLocaleDateString("en-GB", {
                     day: "2-digit",
                     month: "2-digit",
                     year: "2-digit",
@@ -90,7 +93,9 @@ function NotificationProvider({ children }) {
     }, [trainings])
 
     return (
-        <NotificationContext.Provider value={{ state, dispatch, deleteNotification }}>
+        <NotificationContext.Provider
+            value={{ state, dispatch, onNotificationDelete }}
+        >
             {children}
         </NotificationContext.Provider>
     )

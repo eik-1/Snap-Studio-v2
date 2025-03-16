@@ -5,7 +5,6 @@ import { v4 as uuidv4 } from "uuid";
 
 import {
   createModel,
-  deleteModel,
   getCredits,
   getModel,
   getModelById,
@@ -161,15 +160,9 @@ export async function trainOstrisModel(req, res) {
 
 export async function trainingTest(req, res) {
   try {
-    const {
-      modelName,
-      userId,
-      triggerWord,
-      gender,
-      ethnicity,
-      userEmail,
-    } = req.body;
-    console.log(req.body)
+    const { modelName, userId, triggerWord, gender, ethnicity, userEmail } =
+      req.body;
+    console.log(req.body);
 
     console.log(`[TEST API] Starting test training for model: ${modelName}`);
 
@@ -190,7 +183,7 @@ export async function trainingTest(req, res) {
       userEmail,
       creditsInfo.model_credits - 1
     );
-    
+
     if (updateResult === 0) {
       return res.status(500).json(
         new ApiResponse(500, "We are having some issues", {
@@ -199,14 +192,16 @@ export async function trainingTest(req, res) {
       );
     }
 
-    let fileUrl= "https://example.com/images.zip";
+    let fileUrl = "https://example.com/images.zip";
     console.log(`[TEST API] Mock file URL: ${fileUrl}`);
 
     // Simulate training process
     const trainingId = uuidv4();
     const trainingStatus = "starting";
 
-    console.log(`[TEST API] Training started: ${trainingId}, status: ${trainingStatus}`);
+    console.log(
+      `[TEST API] Training started: ${trainingId}, status: ${trainingStatus}`
+    );
 
     // Use your real DB call to create the model
     const createdModel = await createModel(
@@ -223,7 +218,7 @@ export async function trainingTest(req, res) {
     if (createdModel.errorOrSuccessFlag === 0) {
       // Refund credits if model creation fails
       await updateModelCredits(userEmail, creditsInfo.model_credits);
-      
+
       return res.status(500).json(
         new ApiResponse(500, "Model Name Already Exists", {
           error: "Model Name Already Exists",
@@ -235,7 +230,7 @@ export async function trainingTest(req, res) {
     setTimeout(() => {
       console.log(`[TEST API] Training completed: ${trainingId}`);
       updateModel(trainingId, "succeeded");
-      sendEventToClients({ model_id:trainingId, status: "succeeded" }, userId);
+      sendEventToClients({ model_id: trainingId, status: "succeeded" }, userId);
       console.log("event sent to client");
     }, 120000);
     return res.status(200).json(
@@ -498,11 +493,11 @@ export async function replicateWebhook(req, res) {
     const creditsInfo = await getCredits(userEmail);
     await updateModelCredits(userEmail, creditsInfo.model_credits + 1);
     await updateModel(id, status);
-    sendEventToClients({ model_id:id, status: "failed" }, userId);
+    sendEventToClients({ model_id: id, status: "failed" }, userId);
     res.status(200).send("Webhook received");
   } else if (status === "succeeded") {
     await updateModel(id, status, output.version);
-    sendEventToClients({ model_id:id, status: "succeeded" }, userId);
+    sendEventToClients({ model_id: id, status: "succeeded" }, userId);
     res.status(200).send("Webhook received");
   } else {
     console.log("Don't care about this status");

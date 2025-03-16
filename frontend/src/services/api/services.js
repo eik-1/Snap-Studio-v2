@@ -3,7 +3,6 @@ import supabase from "../configs/supabase"
 
 //function to start model training
 export async function startTraining(data) {
-    
     try {
         const response = await apiRequest(`/models/train-test`, "POST", data, {
             "Content-Type": "multipart/form-data",
@@ -23,7 +22,6 @@ export async function getUserModels(userId) {
             {},
             {
                 userId: userId,
-                
             },
         )
         console.log(response.data.models)
@@ -31,6 +29,16 @@ export async function getUserModels(userId) {
     } catch (error) {
         throw error
     }
+}
+
+//function to acknowledge notification and delete it
+export async function acknowledgeNotification(modelId, userId) {
+    try {
+        await apiRequest(`/database/update-model-ack`, "POST", {
+            modelId,
+            userId,
+        })
+    } catch (err) {}
 }
 
 //function to generate custom images
@@ -41,15 +49,20 @@ export async function generateImage(
     numberOfImages,
     userEmail,
 ) {
-    const response = await apiRequest(`/models/run`, "POST", {
-        userId,
-        modelName,
-        prompt,
-        numberOfImages,
-        userEmail,
-    },{
-        "Content-Type": "application/json",
-    })
+    const response = await apiRequest(
+        `/models/run`,
+        "POST",
+        {
+            userId,
+            modelName,
+            prompt,
+            numberOfImages,
+            userEmail,
+        },
+        {
+            "Content-Type": "application/json",
+        },
+    )
     return response.data //response is an array of image urls
 }
 
@@ -60,64 +73,93 @@ export async function generateHeadshot(
     style,
     userEmail,
 ) {
-    const response = await apiRequest(`/models/run-headshots`, "POST", {
-        userId,
-        modelName,
-        numberOfImages,
-        style,
-        userEmail,
-    },
-{
-    "Content-Type": "application/json",
-})
+    const response = await apiRequest(
+        `/models/run-headshots`,
+        "POST",
+        {
+            userId,
+            modelName,
+            numberOfImages,
+            style,
+            userEmail,
+        },
+        {
+            "Content-Type": "application/json",
+        },
+    )
     return response.data
 }
 
 export async function saveHeadshot(userId, fileUrl) {
-    const response = await apiRequest(`/database/save-headshot-image`, "POST", {
-        userId,
-        fileUrl,
-    },{
-        "Content-Type": "application/json",
-    })
+    const response = await apiRequest(
+        `/database/save-headshot-image`,
+        "POST",
+        {
+            userId,
+            fileUrl,
+        },
+        {
+            "Content-Type": "application/json",
+        },
+    )
     return response.data
 }
 
 export async function saveCustomImage(userId, fileUrl) {
-    const response = await apiRequest(`/database/save-image`, "POST", {
-        userId,
-        fileUrl,
-    },{
-        "Content-Type": "application/json",
-    })
+    const response = await apiRequest(
+        `/database/save-image`,
+        "POST",
+        {
+            userId,
+            fileUrl,
+        },
+        {
+            "Content-Type": "application/json",
+        },
+    )
     return response.data
 }
 
 export async function getSavedHeadshots(userId) {
-    const response = await apiRequest(`/database/get-saved-headshots`, "POST", {
-        userId,
-    },{
-        "Content-Type": "application/json",
-    })
+    const response = await apiRequest(
+        `/database/get-saved-headshots`,
+        "POST",
+        {
+            userId,
+        },
+        {
+            "Content-Type": "application/json",
+        },
+    )
     return response.data.imageUrls
 }
 
 export async function getSavedImages(userId) {
-    const response = await apiRequest(`/database/get-saved-images`, "POST", {
-        userId,
-    },{
-        "Content-Type": "application/json",
-    })
+    const response = await apiRequest(
+        `/database/get-saved-images`,
+        "POST",
+        {
+            userId,
+        },
+        {
+            "Content-Type": "application/json",
+        },
+    )
     return response.data.imageUrls
 }
 
 export async function deleteSavedImage(userId, imageUrl) {
-    const response = await apiRequest(`/database/delete-image`, "POST", {
-        userId,
-        imageUrl,
-    },{
-        "Content-Type": "application/json",
-    })
+    const response = await apiRequest(
+        `/database/delete-image`,
+        "POST",
+        {
+            userId,
+            imageUrl,
+        },
+        {
+            "Content-Type": "application/json",
+        },
+    )
     return response
 }
 
@@ -130,7 +172,7 @@ export async function getUserSub(email) {
             { email },
             {
                 "Content-Type": "application/json",
-            }
+            },
         )
         console.log("Sub data: ", response.data.subscription)
         return response.data.subscription
