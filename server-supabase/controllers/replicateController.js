@@ -232,7 +232,7 @@ export async function trainingTest(req, res) {
       updateModel(trainingId, "succeeded");
       sendEventToClients({ model_id: trainingId, status: "succeeded" }, userId);
       console.log("event sent to client");
-    }, 120000);
+    }, 60000);
     return res.status(200).json(
       new ApiResponse(200, "Model training started", {
         status: trainingStatus,

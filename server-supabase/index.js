@@ -2,7 +2,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 dotenv.config();
-
 import databaseRoutes from "./routes/databaseRoutes.js";
 import modelRoutes from "./routes/replicateRoutes.js";
 import sseRoutes from "./routes/sseRoutes.js";
@@ -31,6 +30,7 @@ app.use("/models", modelRoutes);
 app.use("/database", databaseRoutes);
 app.use("/webhook", stripeRoutes);
 app.use("/sse", sseRoutes);
+
 app.get("/", (req, res) => {
   res.status(200).json({
     status: 200,
@@ -38,9 +38,6 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
