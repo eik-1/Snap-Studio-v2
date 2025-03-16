@@ -34,6 +34,10 @@ function NotificationProvider({ children }) {
     const { user } = useUser()
     const { trainings } = useModel()
 
+    function deleteNotification(id) {
+        dispatch({ type: Actions.UpdateTrainings, payload: id })
+    }
+
     useEffect(() => {
         const newNotifications = []
       
@@ -86,7 +90,7 @@ function NotificationProvider({ children }) {
     }, [trainings])
 
     return (
-        <NotificationContext.Provider value={{ state, dispatch }}>
+        <NotificationContext.Provider value={{ state, dispatch, deleteNotification }}>
             {children}
         </NotificationContext.Provider>
     )

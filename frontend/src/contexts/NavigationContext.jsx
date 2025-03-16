@@ -29,6 +29,7 @@ const NavigationProvider = ({ children }) => {
         navigationReducer,
         initialNavigationState,
     )
+    
 
     return (
         <NavigationContext.Provider value={{ state, dispatch }}>

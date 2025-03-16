@@ -1,7 +1,9 @@
 import React from 'react';
 import { Check, AlertTriangle, Info, Bell, X } from 'lucide-react';
+import {useNotification} from '@/contexts/NotificationContext'
 
 const NotificationCard = ({ notification }) => {
+  const {deleteNotification} = useNotification() 
   const getTypeDetails = (type) => {
     switch (type) {
       case "success":
@@ -71,7 +73,9 @@ const NotificationCard = ({ notification }) => {
         
         {/* Close button (optional) */}
         {notification.dismissible && (
-          <button className="p-1.5 mr-1 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 transition-colors duration-200">
+          <button className="p-1.5 mr-1 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 transition-colors duration-200"
+            onClick={()=>deleteNotification(notification.id)}
+          >
             <X size={12} />
           </button>
         )}

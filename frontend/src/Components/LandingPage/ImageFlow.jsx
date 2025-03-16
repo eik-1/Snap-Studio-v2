@@ -29,7 +29,7 @@ const ImageFlow = () => {
     ]
 
     return (
-        <div className=" mx-auto relative max-w-7xl lg:px-10 ">
+        <div className=" mx-auto relative max-w-6xl lg:px-10 ">
             <div className="absolute -top-20 left-0  w-64 h-64 bg-purple-100 rounded-full blur-3xl"></div>
             <div className="absolute top-1/3 right-0  w-72 h-72 bg-indigo-100 rounded-full blur-3xl"></div>
             <div className="absolute bottom-0 left-1/4 w-64 h-64 bg-rose-100 rounded-full blur-3xl"></div>
@@ -40,7 +40,7 @@ const ImageFlow = () => {
 
                 <div className="relative w-full flex flex-col">
                     {steps.map((step, index) => (
-                        <div key={index} className="mb-24">
+                        <div key={index} className="mb-20">
                             <div className="flex justify-center">
                                 <div
                                     className={`w-10 h-10 rounded-full bg-gradient-to-br ${index === 0 ? "from-purple-400 to-purple-600" : index === 1 ? "from-indigo-400 to-indigo-600" : "from-rose-400 to-rose-600"}
@@ -57,12 +57,12 @@ const ImageFlow = () => {
                                     className={`w-1/2 flex flex-col ${index % 2 === 0 ? "md:items-end" : "md:items-start"}`}
                                 >
                                     <h3
-                                        className={`text-2xl md:text-4xl font-bold mb-2 bg-gradient-to-r  bg-clip-text text-transparent from-black to-black/75`}
+                                        className={`text-xl md:text-3xl font-bold mb-2 bg-gradient-to-r  bg-clip-text text-transparent from-black to-black/75`}
                                     >
                                         {step.title}
                                     </h3>
                                     <p
-                                        className={`text-gray-600 tracking-wide text-lg leading-relaxed max-w-md`}
+                                        className={`text-gray-600  text-base leading-relaxed max-w-md`}
                                     >
                                         {step.description}
                                     </p>
@@ -80,7 +80,7 @@ const ImageFlow = () => {
 
                                 <div className="w-1/2 flex justify-center">
                                     {index === 0 && (
-                                        <div className="flex flex-col justify-center relative">
+                                        <div className="flex flex-col sm:flex-row justify-center relative">
                                             <div className="absolute -inset-4 bg-purple-50/30 rounded-xl backdrop-blur-sm -z-10"></div>
                                             <div className="absolute -right-4 -bottom-4 w-16 h-16 rounded-full border border-dashed border-purple-300 -z-10"></div>
 
@@ -89,16 +89,14 @@ const ImageFlow = () => {
                                                     key={i}
                                                     src={img}
                                                     alt={`Training ${i + 1}`}
-                                                    className={`w-16 h-16 md:w-32 md:h-32 object-cover shadow-lg shadow-neutral-500/20 rounded-lg transform 
-                            ${i === 0 && "-rotate-[30deg] translate-y-4 border-2 border-white"} 
-                            ${i === 2 && "rotate-[30deg] -translate-y-2 sm:-translate-y-4 border-2 border-white"} 
-                            ${i === 1 && "-translate-y-1 sm:-translate-y-3 rotate-12 border-2 border-white"}`}
+                                                    className={`w-20 h-20 md:w-28 md:h-28 object-cover shadow-lg shadow-neutral-500/20 rounded-lg transform 
+                            ${i === 0 && "-rotate-[30deg] translate-y-4 sm:-translate-y-2 border-2 border-white"} 
+                            ${i === 2 && "rotate-[30deg] -translate-y-2 sm:-translate-y-4  border-2 border-white"} 
+                            ${i === 1 && "-translate-y-1 sm:-translate-y-4 rotate-12 border-2 border-white"}`}
                                                 />
                                             ))}
 
-                                            <div className="absolute -right-2 bottom-1/2 bg-purple-100 backdrop-blur-xl text-purple-600 text-xs px-3 py-1 rounded-full font-medium shadow-sm border border-purple-200 flex items-center gap-1">
-                                                <Upload size={12} /> Uploaded
-                                            </div>
+                                           
                                         </div>
                                     )}
 
