@@ -1,7 +1,6 @@
 import LandingNav from "@/Components/LandingPage/LandingNav"
 import { useEffect } from "react"
 import { Outlet, useLocation } from "react-router-dom"
-
 function LandingRootLayout() {
     const location = useLocation()
     useEffect(() => {
