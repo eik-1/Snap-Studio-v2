@@ -9,17 +9,19 @@ import sseRoutes from "./routes/sseRoutes.js";
 import stripeRoutes from "./routes/webhookRoutes.js";
 
 const port = process.env.PORT || 3000;
-// const corsOptions = {
-//   origin: "https://snapstudio.me",
-//   methods: "GET,POST",
-//   allowedHeaders: ["Content-Type", "Authorization"],
-//   credentials: true,
-// };
+const corsOptions = {
+  origin: "https://snapstudio.me",
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+  maxAge: 86400, // 24 hours
+  optionsSuccessStatus: 200,
+};
 
 const app = express();
 
 //Middlewares
-app.use(cors());
+app.use(cors(corsOptions));
 app.use("/webhook", express.raw({ type: "application/json" }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
