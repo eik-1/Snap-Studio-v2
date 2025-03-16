@@ -3,32 +3,7 @@ import CreateNewModel from "@/Components/CreateNewMode"
 import CustomImageModelTrainForm from "@/Components/CustomImageModelTrainForm"
 import { useState } from "react"
 import { useModel } from "@/contexts/ModelContext"
-const models = [
-    {
-        status: "succeeded",
-        name: "Alex"
-    },
-    {
-        status: "training",
-        name: "Semwal"
-    },
-    {
-        status: "succeeded",
-        name: "Don"
-    },
-    {
-        status: "training",
-        name: "Dexter"
-    },
-    {
-        status: "succeeded",
-        name: "John"
-    },
-    {
-        status: "training",
-        name: "Alice"
-    },
-]
+
 function MyModels() {
     const [isTrainingFormOpen, setIsTrainingFormOpen] = useState(false)
     const {state:modelState}= useModel()

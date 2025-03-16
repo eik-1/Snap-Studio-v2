@@ -54,17 +54,17 @@ const NotificationCard = ({ notification }) => {
     return (
         <div className="w-full mx-auto">
             <div className="bg-white rounded-md shadow-sm border border-gray-100 flex items-center overflow-hidden transition-all duration-200 hover:bg-gray-50">
-                {/* Left border status indicator */}
+              
                 <div className={`h-full w-1 ${typeDetails.color}`}></div>
 
-                {/* Icon container */}
+             
                 <div
                     className={`p-2 m-2 rounded-full ${typeDetails.lightColor} ${typeDetails.textColor} flex-shrink-0 ring-1 ${typeDetails.ringColor}`}
                 >
                     {typeDetails.icon}
                 </div>
 
-                {/* Text content */}
+   
                 <div className="flex-grow py-2 pr-2">
                     <div className="flex justify-between items-baseline">
                         <h4 className="text-xs font-medium text-gray-800">
@@ -79,7 +79,7 @@ const NotificationCard = ({ notification }) => {
                     </p>
                 </div>
 
-                {/* Close button (optional) */}
+    
                 {notification.dismissible && (
                     <button
                         onClick={() => onNotificationDelete(notification.id)}

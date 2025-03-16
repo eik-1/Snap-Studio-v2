@@ -7,6 +7,7 @@ import { imagesToZipBlob } from "@/services/utils/zipUtils"
 import { useState } from "react"
 import { Info } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { RotatingLines } from "react-loader-spinner"
 
 function CustomImageModelTrainForm() {
     const {
@@ -23,6 +24,7 @@ function CustomImageModelTrainForm() {
 
     const [formDataValues, setFormDataValues] = useState(initialState)
     const [selectedImages, setSelectedImages] = useState([])
+    const [loader, setLoader] = useState(false)
 
     const { user } = useUser()
 
@@ -53,7 +55,12 @@ function CustomImageModelTrainForm() {
             formData.forEach((value, key) => {
                 console.log(`${key}: ${value}`);
               });
+            setLoader(true)
             const response = await startModelTraining(formData)
+            toast({
+                title: "Model Training Started",
+                description: "Your model training has started. You can logout and check back later",
+            })
         } catch (error) {
             console.log(error)
             toast({
@@ -64,7 +71,7 @@ function CustomImageModelTrainForm() {
             
             
         }
-
+        setLoader(false)
         setSelectedImages([])
         setFormDataValues(initialState)
     }
@@ -132,9 +139,19 @@ function CustomImageModelTrainForm() {
                     type="button"
                     onClick={handleSubmit}
                     disabled={selectedImages.length === 0 || modelState?.currentTrainingId}
-                    className="w-2/3 mx-auto"
+                    className="w-2/3 mx-auto flex justify-center items-center"
                 >
-                    Train Model
+                    {loader ? <div>
+                        <RotatingLines
+                                                    strokeWidth="4"
+                                                    animationDuration="0.75"
+                                                    strokeColor="white"
+                                                    height="16"
+                                                    width="16"
+                                                   
+                                                /> 
+                    </div> : <div>
+                       Start Training </div>}
                 </Button>
             </div>
         </div>

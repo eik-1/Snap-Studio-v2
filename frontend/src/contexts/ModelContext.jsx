@@ -70,7 +70,7 @@ function ModelProvider({ children }) {
     const { toast } = useToast()
 
     // Function to connect to SSE endpoint
-    function connectToSSE(modelId) {
+async  function connectToSSE(modelId) {
         if (eventSourceRef.current) {
             eventSourceRef.current.close()
         }
@@ -79,7 +79,7 @@ function ModelProvider({ children }) {
             `http://localhost:3000/sse/events/${userId}`,
         )
         console.log("Connected to SSE")
-        eventSource.onmessage = (event) => {
+        eventSource.onmessage = async (event) => {
             console.log("message from SSE:", event.data)
             try {
                 const data = JSON.parse(event.data)
@@ -109,7 +109,7 @@ function ModelProvider({ children }) {
                         payload: null,
                     })
 
-                    fetchModels()
+                    await fetchModels()
                 }
             } catch (error) {
                 console.error("Error processing SSE message:", error)
