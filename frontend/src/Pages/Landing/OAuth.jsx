@@ -18,6 +18,7 @@ function OAuth() {
             if (userError) {
                 throw new Error(userError.message)
             }
+            console.log("From OAuth page: ", user)
             const firstName = user.user_metadata.full_name.split(" ")[0]
             let lastName = user.user_metadata.full_name.split(" ")[1] || ""
             const userData = {
@@ -26,7 +27,6 @@ function OAuth() {
                 first_name: firstName,
                 last_name: lastName,
                 $id: user.id,
-                // refresh_token: session.refresh_token,
             }
             localStorage.setItem("userData", JSON.stringify(userData))
             setUser(userData)

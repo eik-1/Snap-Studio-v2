@@ -1,8 +1,8 @@
 import { GoogleOriginal, LinkedinOriginal } from "devicons-react"
 import { AlertCircle, Lock, Mail, UserSquare2 } from "lucide-react"
 import React, { useState } from "react"
-import { useLocation, useNavigate } from "react-router-dom"
 import { RotatingLines } from "react-loader-spinner"
+import { useLocation, useNavigate } from "react-router-dom"
 
 import { Alert, AlertDescription } from "@/Components/UI/alert"
 import { useUser } from "@/contexts/UserContext"
@@ -75,8 +75,7 @@ function Login() {
     }
 
     async function handleOAuthLogin(provider) {
-        const data = await loginWithOAuth(provider)
-        console.log("Data here", data)
+        await loginWithOAuth(provider)
     }
 
     async function handleSubmit(e) {
@@ -100,8 +99,7 @@ function Login() {
 
     return (
         <div className="w-full h-max py-6 flex justify-center items-center ">
-        <div className="w-full sm:w-1/2 max-w-lg p-6 mx-auto h-max    flex flex-col justify-center items-center border-[1px] rounded-lg bg-white ">
-           
+            <div className="w-full sm:w-1/2 max-w-lg p-6 mx-auto h-max    flex flex-col justify-center items-center border-[1px] rounded-lg bg-white ">
                 <div className="h-max w-full mx-auto flex flex-col justify-center gap-1">
                     <h2 className="text-2xl font-bold text-center text-purple-600   cursor-pointer">
                         SnapStudio
@@ -116,61 +114,59 @@ function Login() {
                 <form className="space-y-6 w-full" onSubmit={handleSubmit}>
                     {isSignup && (
                         <>
-                           
-                                <div>
-                                    <label className="block text-sm font-medium text-base-content mb-2">
-                                        First Name
-                                    </label>
-                                    <div className="relative">
-                                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                                            <UserSquare2 size={20} />
-                                        </span>
-                                        <input
-                                            type="text"
-                                            placeholder="First Name"
-                                            className={`w-full pl-10 pr-4 py-3 rounded-lg border ${
-                                                errors.firstName
-                                                    ? "border-error"
-                                                    : "border-gray-300"
-                                            }  transition-all duration-200`}
-                                            value={firstName}
-                                            onChange={(e) =>
-                                                setFirstName(e.target.value)
-                                            }
-                                        />
-                                    </div>
-                                    {errors.firstName && (
-                                        <Alert
-                                            variant="destructive"
-                                            className="mt-2"
-                                        >
-                                            <AlertCircle className="h-4 w-4" />
-                                            <AlertDescription>
-                                                {errors.firstName}
-                                            </AlertDescription>
-                                        </Alert>
-                                    )}
+                            <div>
+                                <label className="block text-sm font-medium text-base-content mb-2">
+                                    First Name
+                                </label>
+                                <div className="relative">
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                        <UserSquare2 size={20} />
+                                    </span>
+                                    <input
+                                        type="text"
+                                        placeholder="First Name"
+                                        className={`w-full pl-10 pr-4 py-3 rounded-lg border ${
+                                            errors.firstName
+                                                ? "border-error"
+                                                : "border-gray-300"
+                                        }  transition-all duration-200`}
+                                        value={firstName}
+                                        onChange={(e) =>
+                                            setFirstName(e.target.value)
+                                        }
+                                    />
                                 </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-base-content mb-2">
-                                        Last Name
-                                    </label>
-                                    <div className="relative">
-                                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                                            <UserSquare2 size={20} />
-                                        </span>
-                                        <input
-                                            type="text"
-                                            placeholder="Last Name"
-                                            className={`w-full pl-10 pr-4 py-3 rounded-lg border `}
-                                            value={lastName}
-                                            onChange={(e) =>
-                                                setLastName(e.target.value)
-                                            }
-                                        />
-                                    </div>
+                                {errors.firstName && (
+                                    <Alert
+                                        variant="destructive"
+                                        className="mt-2"
+                                    >
+                                        <AlertCircle className="h-4 w-4" />
+                                        <AlertDescription>
+                                            {errors.firstName}
+                                        </AlertDescription>
+                                    </Alert>
+                                )}
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-base-content mb-2">
+                                    Last Name
+                                </label>
+                                <div className="relative">
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                        <UserSquare2 size={20} />
+                                    </span>
+                                    <input
+                                        type="text"
+                                        placeholder="Last Name"
+                                        className={`w-full pl-10 pr-4 py-3 rounded-lg border `}
+                                        value={lastName}
+                                        onChange={(e) =>
+                                            setLastName(e.target.value)
+                                        }
+                                    />
                                 </div>
-                      
+                            </div>
                         </>
                     )}
                     <div>
@@ -224,14 +220,14 @@ function Login() {
                             />
                         </div>
 
-                     
-                        {!isSignup && <p
+                        {!isSignup && (
+                            <p
                                 className="text-sm font-normal mt-2 ml-1 cursor-pointer text-blue-600"
                                 onClick={() => navigate("/reset-password")}
                             >
                                 Forgot Password ?
-                            </p>}
-                       
+                            </p>
+                        )}
 
                         {errors.password && (
                             <Alert variant="destructive" className="mt-2">
@@ -254,60 +250,63 @@ function Login() {
                         disabled={loading}
                         onClick={handleSubmit}
                     >
-                        {loading? <RotatingLines
-                            strokeWidth="4"
-                            animationDuration="0.75"
-                            strokeColor="white"
-                            height="16"
-                            width="16"
-                           
-                        /> :isSignup ? "Sign Up" : "Login"}
-                        
+                        {loading ? (
+                            <RotatingLines
+                                strokeWidth="4"
+                                animationDuration="0.75"
+                                strokeColor="white"
+                                height="16"
+                                width="16"
+                            />
+                        ) : isSignup ? (
+                            "Sign Up"
+                        ) : (
+                            "Login"
+                        )}
                     </button>
                 </form>
                 <div className="w-full flex justify-center items-center mt-4 text-base gap-1">
-                <p className="text-gray-900 ">{isSignup?"Already have an account?":"New user?"}</p>
-                <button
-                    onClick={() => setIsSignup(!isSignup)}
-                    className="text-blue-600 hover:underline"
-                >
-                    {isSignup
-                        ? " Login"
-                        : "Create account"}
-                </button>
+                    <p className="text-gray-900 ">
+                        {isSignup ? "Already have an account?" : "New user?"}
+                    </p>
+                    <button
+                        onClick={() => setIsSignup(!isSignup)}
+                        className="text-blue-600 hover:underline"
+                    >
+                        {isSignup ? " Login" : "Create account"}
+                    </button>
                 </div>
-                
-          
-            <div className="flex items-center w-full my-4">
-                <hr className="w-1/2 h-tiny bg-gray-300 my-2" />
-                <span className="mx-4 text-gray-500">OR</span>
-                <hr className="w-1/2 h-tiny bg-gray-300 my-2" />
-            </div>
-            <div className="flex w-full flex-col space-y-4 text-base">
-                <button
-                    type="button"
-                    className="w-full py-3 bg-white text-black rounded-lg transition-colors border duration-200 flex items-center justify-center gap-5"
-                    onClick={() => handleOAuthLogin("google")}
-                >
-                    <GoogleOriginal size={20} />
-                    Continue with Google
-                </button>
-                <button
-                    type="button"
-                    className="w-full py-3 bg-white text-black rounded-lg border transition-colors duration-200 flex items-center justify-center gap-5"
-                    onClick={() => {
-                        loginWithOAuth("linkedin_oidc")
-                    }}
-                >
-                    <LinkedinOriginal size={20} />
-                    Continue with LinkedIn
-                </button>
-            </div>
 
-            <div className="mt-8 text-center text-sm text-gray-400">
-                © 2025 ALL RIGHTS RESERVED
+                <div className="flex items-center w-full my-4">
+                    <hr className="w-1/2 h-tiny bg-gray-300 my-2" />
+                    <span className="mx-4 text-gray-500">OR</span>
+                    <hr className="w-1/2 h-tiny bg-gray-300 my-2" />
+                </div>
+                <div className="flex w-full flex-col space-y-4 text-base">
+                    <button
+                        type="button"
+                        className="w-full py-3 bg-white text-black rounded-lg transition-colors border duration-200 flex items-center justify-center gap-5"
+                        onClick={() => handleOAuthLogin("google")}
+                    >
+                        <GoogleOriginal size={20} />
+                        Continue with Google
+                    </button>
+                    <button
+                        type="button"
+                        className="w-full py-3 bg-white text-black rounded-lg border transition-colors duration-200 flex items-center justify-center gap-5"
+                        onClick={() => {
+                            loginWithOAuth("linkedin_oidc")
+                        }}
+                    >
+                        <LinkedinOriginal size={20} />
+                        Continue with LinkedIn
+                    </button>
+                </div>
+
+                <div className="mt-8 text-center text-sm text-gray-400">
+                    © 2025 ALL RIGHTS RESERVED
+                </div>
             </div>
-        </div>
         </div>
     )
 }

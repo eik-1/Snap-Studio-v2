@@ -19,7 +19,6 @@ export const plans = {
             price: 15,
             originalPrice: 20,
             link: import.meta.env.VITE_BASICMONTHLY_URL,
-            priceId: import.meta.env.VITE_BASICMONTHLY_ID,
             features: [
                 "100 AI-generated images per month",
                 "1 AI model per month",
@@ -34,7 +33,6 @@ export const plans = {
             price: 35,
             originalPrice: 40,
             link: import.meta.env.VITE_PROMONTHLY_URL,
-            priceId: import.meta.env.VITE_PROMONTHLY_ID,
             features: [
                 "500 AI-generated images per month",
                 "3 AI models per month",
@@ -53,7 +51,6 @@ export const plans = {
             price: 12.5,
             originalPrice: 20,
             link: import.meta.env.VITE_BASICYEARLY_URL,
-            priceId: import.meta.env.VITE_BASICYEARLY_ID,
             features: [
                 "1200 AI-generated images per year",
                 "12 AI models per year",
@@ -68,7 +65,6 @@ export const plans = {
             price: 29,
             originalPrice: 40,
             link: import.meta.env.VITE_PROYEARLY_URL,
-            priceId: import.meta.env.VITE_PROYEARLY_ID,
             features: [
                 "6000 AI-generated images per year",
                 "36 AI models per year",
@@ -90,8 +86,6 @@ export default function PricingSection() {
 
     return (
         <div className="container mx-auto px-4 py-16 mt-24" id="pricing">
-          
-
             <div className="text-center mb-12 relative">
                 <div className="inline-flex items-center gap-1 bg-gradient-to-r from-amber-100 to-yellow-100 text-amber-700 rounded-full px-4 py-2 text-sm font-medium mb-6 shadow-sm">
                     <Sparkles className="h-4 w-4" />
@@ -137,7 +131,6 @@ export default function PricingSection() {
                     (plan, index) => {
                         const price = plan.price
                         const url = plan.link
-                        const priceId = plan.priceId
                         const totalAnnualPrice = Math.round(plan.price * 12)
                         const savings = (
                             ((plan.originalPrice - price) /
