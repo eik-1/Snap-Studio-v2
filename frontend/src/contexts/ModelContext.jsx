@@ -70,7 +70,7 @@ function ModelProvider({ children }) {
     const { toast } = useToast()
 
     // Function to connect to SSE endpoint
-async  function connectToSSE(modelId) {
+    async function connectToSSE(modelId) {
         if (eventSourceRef.current) {
             eventSourceRef.current.close()
         }

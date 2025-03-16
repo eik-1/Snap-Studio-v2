@@ -98,8 +98,14 @@ export async function getModelById(modelId) {
 }
 
 export async function getUserModels(req, res) {
-  const userId = req.header("userId");
-  console.log("User ID: ", userId);
+  const { userId } = req.body;
+  if (userId !== req.userId && !req.userId) {
+    return res.status(401).json(
+      new ApiResponse(401, "Unauthorized", {
+        error: "Unauthorized access",
+      })
+    );
+  }
 
   try {
     const { data, error } = await supabase

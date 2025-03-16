@@ -16,15 +16,9 @@ export async function startTraining(data) {
 //function to get all models created by the user
 export async function getUserModels(userId) {
     try {
-        const response = await apiRequest(
-            `/database/user-models`,
-            "GET",
-            {},
-            {
-                userId: userId,
-            },
-        )
-        console.log(response.data.models)
+        const response = await apiRequest(`/database/user-models`, "POST", {
+            userId,
+        })
         return response.data.models
     } catch (error) {
         throw error

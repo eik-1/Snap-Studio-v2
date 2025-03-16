@@ -14,7 +14,7 @@ import isUserAuthenticated from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.get("/user-models", isUserAuthenticated, getUserModels);
+router.post("/user-models", isUserAuthenticated, getUserModels);
 router.post("/update-model-ack", isUserAuthenticated, updateModelAck);
 
 router.post("/save-image", isUserAuthenticated, saveImage);
