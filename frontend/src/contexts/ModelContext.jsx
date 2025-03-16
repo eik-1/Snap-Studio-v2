@@ -76,7 +76,7 @@ async  function connectToSSE(modelId) {
         }
         console.log("Connecting to SSE")
         const eventSource = new EventSource(
-            `http://localhost:3000/sse/events/${userId}`,
+            `${import.meta.env.VITE_API_URL}/sse/events/${userId}`,
         )
         console.log("Connected to SSE")
         eventSource.onmessage = async (event) => {
@@ -183,6 +183,7 @@ async  function connectToSSE(modelId) {
 
     useEffect(() => {
         if (user && user.$id) {
+            console.log("Fetching models..")
             fetchModels()
         } else {
             dispatch({ type: Actions.SET_MODEL, payload: [] })
