@@ -177,7 +177,7 @@ async  function connectToSSE(modelId) {
                 })
             }
         } catch (error) {
-            console.log("Error fetching models")
+            console.log("Error fetching models", error)
         }
     }
 
