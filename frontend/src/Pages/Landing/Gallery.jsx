@@ -5,7 +5,7 @@ import { motion } from "framer-motion"
 import { ChevronLeft, ChevronRight, Copy, X } from "lucide-react"
 import { useState } from "react"
 
-import { img1, img2, img3, img4, img5, img6 } from "@/assets/headshot-images"
+import { bow, img10, nyc1, paris, skateboard } from "@/assets/images"
 
 const trs = {
     type: "spring",
@@ -15,28 +15,24 @@ const trs = {
 
 const galleryItems = [
     {
-        imageUrl: img1,
-        prompt: "SEMU male portrait with warm lighting, professional attire, urban background, neutral expression, professional headshot style.",
+        imageUrl: nyc1,
+        prompt: "Man standing in the middle of Times Square at night. He is wearing a stylish, modern outfit: a black leather jacket, white t-shirt. The lights reflect off the wet streets, adding a dynamic glow to the scene.",
     },
     {
-        imageUrl: img2,
-        prompt: "SEMU female portrait with soft side lighting, casual outfit, clean backdrop, slight smile, natural makeup, lifestyle photography style.",
+        imageUrl: bow,
+        prompt: "Man with a red cap posing with a bow and arrow. He is on an empty patch of land",
     },
     {
-        imageUrl: img3,
-        prompt: "SEMU male portrait with dramatic lighting, casual clothing, textured background, contemplative expression, cinematic style.",
+        imageUrl: img10,
+        prompt: "Man in pitch plack room. A single shaft of volumetric light slants across his face.",
     },
     {
-        imageUrl: img4,
-        prompt: "SEMU female portrait with soft diffused lighting, business casual attire, simple background, confident smile, contemporary portrait style.",
+        imageUrl: paris,
+        prompt: "Man standing in front of a beautifully lit eiffel tower, facing the camera. He is wearing a trenchcoat.",
     },
     {
-        imageUrl: img5,
-        prompt: "SEMU male portrait with natural outdoor lighting, casual street style, urban environment, relaxed posture, candid photography style.",
-    },
-    {
-        imageUrl: img6,
-        prompt: "SEMU female portrait with golden hour lighting, casual outfit, outdoor setting, genuine smile, warm color grading, lifestyle photography.",
+        imageUrl: skateboard,
+        prompt: "A high-speed action shot of a man mid-air performing a kickflip on his skateboard, wearing a loose hoodie and ripped jeans. His expression is focused as the city skyline glows behind him at sunset. cinematic lighting, vivid style.",
     },
 ]
 
@@ -126,7 +122,6 @@ function Gallery() {
                         >
                             <X size={24} />
                         </button>
-                      
 
                         <motion.div
                             layoutId={`container-${selectedIndex}`}
@@ -156,36 +151,34 @@ function Gallery() {
                                     className="w-full h-full object-cover rounded-lg"
                                     transition={trs}
                                 />
-                                
                             </div>
                             <div className="bg-gradient-to-br from-rose-50/65 to-orange-50/65 backdrop-blur-xl p-4 rounded-lg mt-4  z-40 ">
-                                    <div className="flex flex-col gap-2">
-                                        <div className="flex justify-between items-center">
-                                            <h2 className="text-black/80 font-semibold">
-                                                Prompt      
-                                            </h2>
-                                            <button
-                                                onClick={(e) => {
-                                                    e.stopPropagation()
-                                                    copyPromptToClipboard(
-                                                        galleryItems[
-                                                            selectedIndex
-                                                        ].prompt,
-                                                    )
-                                                }}
-                                                className="flex items-center gap-1 px-2 py-1 bg-black/10 hover:bg-black/20 transition-colors rounded-md text-black text-xs"
-                                                title="Copy prompt"
-                                            >
-                                                <Copy size={12} />
-                                                <span>Copy</span>
-                                            </button>
-                                        </div>
-
-                                        <p className="text-black/90 text-sm leading-relaxed">
-                                            {galleryItems[selectedIndex].prompt}
-                                        </p>
+                                <div className="flex flex-col gap-2">
+                                    <div className="flex justify-between items-center">
+                                        <h2 className="text-black/80 font-semibold">
+                                            Prompt
+                                        </h2>
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation()
+                                                copyPromptToClipboard(
+                                                    galleryItems[selectedIndex]
+                                                        .prompt,
+                                                )
+                                            }}
+                                            className="flex items-center gap-1 px-2 py-1 bg-black/10 hover:bg-black/20 transition-colors rounded-md text-black text-xs"
+                                            title="Copy prompt"
+                                        >
+                                            <Copy size={12} />
+                                            <span>Copy</span>
+                                        </button>
                                     </div>
+
+                                    <p className="text-black/90 text-sm leading-relaxed">
+                                        {galleryItems[selectedIndex].prompt}
+                                    </p>
                                 </div>
+                            </div>
                         </motion.div>
                     </div>
                 )}

@@ -86,7 +86,7 @@ export async function trainOstrisModel(req, res) {
       {
         destination: "snapxstudio/snapstudio",
         input: {
-          steps: 1000,
+          steps: 1500,
           lora_rank: 16,
           optimizer: "adamw8bit",
           batch_size: 1,
@@ -102,15 +102,11 @@ export async function trainOstrisModel(req, res) {
           wandb_sample_interval: 100,
           gradient_checkpointing: false,
         },
-        webhook:
-          "https://3058-2405-201-6804-8156-8ca5-5fe-7c7a-a0bd.ngrok-free.app/webhook/replicate",
+        webhook: "https://snapstudio-server.onrender.com/webhook/replicate",
         webhook_events_filter: ["start", "completed"],
       }
     );
 
-    console.log("Training started: ", training);
-
-    console.log("Creating model in DB");
     const createdModel = await createModel(
       userId,
       userEmail,
@@ -369,6 +365,7 @@ export async function runUserModel(req, res) {
         output_format: "png",
         output_quality: 100,
         num_outputs: numberOfImages,
+        guidance_scale: 3.5,
       },
     });
     const outputURL = [];
@@ -449,6 +446,7 @@ export async function runHeadshotUserModel(req, res) {
         output_format: "png",
         output_quality: 90,
         num_outputs: numberOfImages,
+        guidance_scale: 3.5,
       },
     });
     const outputURL = [];
