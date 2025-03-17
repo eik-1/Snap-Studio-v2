@@ -1,5 +1,7 @@
 name: Deploy Server to Azure VM
 
+
+
 on:
   push:
     branches:
