@@ -1,8 +1,8 @@
+import { img8 as afterImage } from "@/assets/images"
+import { img3 as beforeImage } from "@/assets/input-images"
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 import React, { useEffect, useRef, useState } from "react"
 import { useNavigation } from "react-router-dom"
-import { img1 as afterImage } from "@/assets/images"
-import { img4 as beforeImage } from "@/assets/input-images"
 
 export default function ImageComparisonSlider({
     beforeLabel = "Original",

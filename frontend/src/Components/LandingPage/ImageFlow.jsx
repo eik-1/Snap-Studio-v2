@@ -1,5 +1,6 @@
-import { img1, img2, img3, img4 } from "@/assets/images/index.js"
-import { Camera, Upload, Sparkles } from "lucide-react"
+import { img10 as output } from "@/assets/images/index.js"
+import { img10, img3, img4 } from "@/assets/input-images"
+import { Camera, Sparkles, Upload } from "lucide-react"
 
 const ImageFlow = () => {
     const steps = [
@@ -7,7 +8,7 @@ const ImageFlow = () => {
             title: "Upload few of your images",
             description: "Train the model with your images.",
             completed: true,
-            images: [img4, img2, img3],
+            images: [img10, img4, img3],
             icon: <Upload className="text-white" size={24} />,
         },
         {
@@ -23,7 +24,7 @@ const ImageFlow = () => {
             description:
                 "Get the photorealistic images and use them in your social and commercial applications",
             completed: false,
-            resultImage: img1,
+            resultImage: output,
             icon: <Camera className="text-white" size={24} />,
         },
     ]
@@ -95,8 +96,6 @@ const ImageFlow = () => {
                             ${i === 1 && "-translate-y-1 sm:-translate-y-4 rotate-12 border-2 border-white"}`}
                                                 />
                                             ))}
-
-                                           
                                         </div>
                                     )}
 

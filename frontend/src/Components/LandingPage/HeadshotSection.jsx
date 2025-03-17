@@ -1,4 +1,5 @@
-import { img1, img2 } from "@/assets/headshot-images"
+import { img1 } from "@/assets/headshot-images"
+import { img8 } from "@/assets/images"
 import { useNavigate } from "react-router-dom"
 
 export default function HeadshotSection() {
@@ -15,7 +16,6 @@ export default function HeadshotSection() {
                 <div className="flex flex-col md:flex-row items-center md:gap-16">
                     <div className="w-full lg:w-1/2 order-2 md:order-1">
                         <div className="max-w-xl">
-                         
                             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4 leading-tight">
                                 <span className="relative">
                                     Studio-Quality Headshots
@@ -59,7 +59,7 @@ export default function HeadshotSection() {
                             <div className="absolute right-6 top-20 sm:right-20 sm:top-16 md:right-4 md:bottom-12 md:top-auto rounded-2xl overflow-hidden shadow-2xl  rotate-[25deg] md:-rotate-12">
                                 <div className="relative group">
                                     <img
-                                        src={img2}
+                                        src={img8}
                                         alt="Professional female headshot"
                                         className="h-36 w-36 sm:w-52 sm:h-52 md:w-60 md:h-60 object-cover "
                                     />
