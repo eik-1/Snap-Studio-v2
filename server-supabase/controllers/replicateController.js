@@ -137,7 +137,7 @@ export async function trainOstrisModel(req, res) {
     client.captureException(err, userEmail);
     const errorOrNot = await updateModelCredits(
       userEmail,
-      creditsInfo.model_credits + 1
+      creditsInfo.model_credits
     );
     if (errorOrNot === 0) {
       return res.status(500).json(
