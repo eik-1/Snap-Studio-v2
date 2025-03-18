@@ -342,7 +342,7 @@ export async function runUserModel(req, res) {
     await updateCredits(userEmail, creditsInfo.credits - usedCredits);
   } catch (err) {
     console.log("Couldn't run the model. Error: ", err);
-    await updateCredits(userEmail, creditsInfo.credits + usedCredits);
+    await updateCredits(userEmail, creditsInfo.credits );
     return res
       .status(500)
       .json(
@@ -381,7 +381,7 @@ export async function runUserModel(req, res) {
     );
   } catch (err) {
     console.log("Couldn't run the model. Error: ", err);
-    await updateCredits(userEmail, creditsInfo.credits + usedCredits);
+    await updateCredits(userEmail, creditsInfo.credits );
     client.captureException(err, userEmail);
     return res.status(500).json(
       new ApiResponse(500, "Couldn't run the model", {
@@ -415,7 +415,7 @@ export async function runHeadshotUserModel(req, res) {
     await updateCredits(userEmail, creditsInfo.credits - usedCredits);
   } catch (err) {
     console.log("Couldn't run the model. Error: ", err);
-    await updateCredits(userEmail, creditsInfo.credits + usedCredits);
+    await updateCredits(userEmail, creditsInfo.credits );
     client.captureException(err, userEmail);
     return res.status(500).json(
       new ApiResponse(500, "Couldn't run the model", {
@@ -462,7 +462,7 @@ export async function runHeadshotUserModel(req, res) {
     );
   } catch (err) {
     console.log("Couldn't run the model. Error: ", err);
-    await updateCredits(userEmail, creditsInfo.credits + usedCredits);
+    await updateCredits(userEmail, creditsInfo.credits );
     client.captureException(err, userEmail);
     return res.status(500).json(
       new ApiResponse(500, "Couldn't run the model", {
