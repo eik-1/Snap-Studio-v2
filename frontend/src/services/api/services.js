@@ -4,7 +4,7 @@ import supabase from "../configs/supabase"
 //function to start model training
 export async function startTraining(data) {
     try {
-        const response = await apiRequest(`/models/train-test`, "POST", data, {
+        const response = await apiRequest(`/models/train`, "POST", data, {
             "Content-Type": "multipart/form-data",
         })
         return response.data
