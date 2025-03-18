@@ -394,6 +394,7 @@ export async function runUserModel(req, res) {
 
 export async function runHeadshotUserModel(req, res) {
   const { userId, modelName, numberOfImages, style, userEmail } = req.body;
+  console.log(req.body);
   let creditsInfo;
   let usedCredits;
   client.capture({
