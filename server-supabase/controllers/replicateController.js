@@ -435,7 +435,10 @@ export async function runHeadshotUserModel(req, res) {
     const modelTriggerWord = model[0].trigger_word;
     //const modelEthnicity = model[0].ethnicity;
     const prompt = styleAndPrompts.find((item) => {
-      return item.style === style && item.gender === modelGender;
+      return (
+        item.style.toLowerCase() === style.toLowerCase() &&
+        item.gender.toLowerCase() === modelGender.toLowerCase()
+      );
     });
     const enhancedPrompt = `${modelTriggerWord} ${modelGender}. ${prompt.prompt}`;
 
