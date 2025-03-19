@@ -31,7 +31,7 @@ function MyModels() {
                
             </div> }
 
-            <div className="sm:h-full pb-36 sm:pb-0 pt-8 px-4 sm:overflow-y-scroll">
+            <div className="sm:h-full pb-36 sm:pb-0 pt-8 px-4 sm:overflow-y-auto flex-grow">
                 <div className="w-full flex flex-row flex-grow justify-center md:justify-start flex-wrap gap-4 md:gap-8 md:px-12 md:py-10">
                     <CreateNewModel onClick={()=>setIsTrainingFormOpen(true)} />
                     {filteredModels.map((model, index) => (

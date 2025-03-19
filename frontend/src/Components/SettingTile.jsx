@@ -3,8 +3,8 @@ import { useState } from "react"
 import NameDialog from "./NameDialog"
 import EmailDialog from "./EmailDialog"
 function SettingTile({
-    title = "Email",
-    value = "abc@example.com",
+    title = "--",
+    value = "--",
     name,
     buttons,
     handlers,

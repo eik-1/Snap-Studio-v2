@@ -10,6 +10,8 @@ import {
     Images as NumImage,
     PenLine as PromptIcon,
     Stars,
+    ChevronDown,
+    ChevronUp,
     Coins,
 } from "lucide-react"
 import { useState } from "react"
@@ -18,31 +20,60 @@ import { Button } from "./UI/Button"
 function CustomImageForm() {
     const [selectedModel, setSelectedModel] = useState("")
     const [numberOfImages, setNumberOfImages] = useState(1)
-    const [error, setError] = useState({modelSelect: "", numberOfImages: "", prompt: ""})
+    const [error, setError] = useState({
+        modelSelect: "",
+        numberOfImages: "",
+        prompt: "",
+    })
     const [prompt, setPrompt] = useState("")
     const { user } = useUser()
     const { dispatch: imageDispatch, state: imageState } = useImage()
     const { dispatch: navDispatch } = useBackNavigation()
     const { state: modelState } = useModel()
-    const {updateCredits, subscription}=useSubscription()   
+    const { updateCredits, subscription } = useSubscription()
+
+    const trainedModels = modelState.models.filter(
+        (model) => model.status === "succeeded",
+    )
 
     /* const { data: fetchedModels = [] } = useQuery({
         queryKey: ["models", user],
         queryFn: () => getUserModels(user.$id),
+
+
     })*/
+
+    function increment() {
+        if (numberOfImages < 5) {
+            setNumberOfImages(numberOfImages + 1)
+            setError({ numberOfImages: "" })
+        } else {
+            setError({ numberOfImages: "Maximum value is 5" })
+        }
+    }
+
+    function decrement() {
+        if (numberOfImages > 1) {
+            setNumberOfImages(numberOfImages - 1)
+            setError({ numberOfImages: "" })
+        } else {
+            setError({ numberOfImages: "Minimum value is 1" })
+        }
+    }
     async function handleImageGeneration(userId, modelName, prompt, numImages) {
         imageDispatch({
             type: "SET_GENERATION_STATUS",
             payload: { status: "generating", message: "Generating Images" },
         })
-        subscription?.credits && updateCredits(subscription?.credits-numImages * 10, user?.email)
+        subscription?.credits &&
+            updateCredits(subscription?.credits - numImages * 10, user?.email)
         try {
             const data = await generateImage(
                 userId,
                 modelName,
                 prompt,
                 numImages,
-                user.email
+                user.email,
             )
             imageDispatch({
                 type: "SET_GENERATED_IMAGE_URLS",
@@ -89,18 +120,6 @@ function CustomImageForm() {
             },
         })
     }
-    function handleNumberOfImagesChange(e) {
-        if(e.target.value>5){
-            setError({...error,numberOfImages:"Number of images should be less than 5"})
-        
-
-        }
-        else
-        {
-            setError({...error,numberOfImages:""})
-        }
-        setNumberOfImages(e.target.value)
-    }
     return (
         <div className="w-full h-full mx-auto  bg-white border-r-[1px] relative">
             <div className="h-[90%] w-full m-0 px-4 py-4 sm:overflow-y-scroll oveflow-x-hidden">
@@ -112,7 +131,11 @@ function CustomImageForm() {
                         {"Generate images using your trained models "}
                     </p>
                 </div>
-                <form onSubmit={handleSubmit} className="mt-4" id="custom-image-form">
+                <form
+                    onSubmit={handleSubmit}
+                    className="mt-4"
+                    id="custom-image-form"
+                >
                     <div className="flex flex-col h-max  mt-3 pb-2 gap-1">
                         <div className="flex gap-2 w-max h-max text-gray-700  items-center justify-center">
                             <ModelIcon size={16} />
@@ -130,13 +153,13 @@ function CustomImageForm() {
                             className={`px-3 py-2 mt-2 block w-full  border border-gray-300 rounded-md  focus:ring-slate-500 focus:border-slate-500 text-xs ${modelState?.models?.length === 0 && "cursor-not-allowed"} `}
                             disabled={modelState?.models?.length === 0}
                         >
-                            <option value="" disabled >
-                                {modelState?.models?.length === 0
+                            <option value="" disabled>
+                                {!trainedModels
                                     ? "No trained models"
                                     : "Select Model"}
                             </option>
 
-                            {modelState?.models?.map((model, index) => (
+                            {trainedModels?.map((model, index) => (
                                 <option key={index} value={model.model_name}>
                                     {model.model_name}
                                 </option>
@@ -156,26 +179,47 @@ function CustomImageForm() {
                         </button>
                     </div>
                     <div className="flex flex-col h-max pb-2 mt-10 gap-1">
-                        <div className="flex gap-2 w-max h-max text-gray-700  items-center justify-center">
+                        <div className="flex gap-2 w-max h-max text-gray-700 items-center justify-center">
                             <NumImage size={16} />
                             <label className="block text-sm font-medium text-gray-700">
                                 Number of Images
                             </label>
                         </div>
-                        <p className="text-[0.675rem] font-regular tracking-tight text-gray-500">
+                        <p className="text-[0.675rem] font-regular tracking-tight text-gray-500 ">
                             {"Number of images to generate (min: 1, max: 5)"}
                         </p>
-                        <input
-                            type="number"
-                            required
-                            value={numberOfImages}
-                            onChange={handleNumberOfImagesChange}
-                            min="1"
-                            max="5"
-                            className="px-3 py-2 mt-2 block w-full border border-gray-300 rounded-md  focus:ring-slate-500 focus:border-slate-500 text-sm"
-                        />
+
+                        <div className="relative mt-2 flex flex-nowrap border  border-gray-300 rounded-md focus:border-slate-500 ">
+                            <input
+                                type="number"
+                                required
+                                value={numberOfImages}
+                                disabled
+                                min="1"
+                                max="5"
+                                className="px-3 py-2 block w-full  focus:ring-slate-500 active:border-transparent focus:border-transparent rounded-md  text-sm disabled:bg-white"
+                            />
+                            <div className=" flex flex-col border-l border-gray-300 rounded-r-sm">
+                                <button
+                                    type="button"
+                                    onClick={increment}
+                                    className="flex items-center justify-center h-1/2 px-2 text-gray-500 hover:bg-gray-100 rounded-tr-sm"
+                                >
+                                    <ChevronUp size={12} />
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={decrement}
+                                    className="flex items-center justify-center h-1/2 px-2 text-gray-500 hover:bg-gray-100 border-t border-gray-300 rounded-br-sm"
+                                >
+                                    <ChevronDown size={12} />
+                                </button>
+                            </div>
+                        </div>
+
                         <p className="text-[0.675rem] font-regular tracking-tight text-red-500">
-                            {error.numberOfImages}  </p>
+                            {error.numberOfImages}
+                        </p>
                     </div>
                     <div className="flex flex-col h-max pb-2 mt-6 gap-1">
                         <div className="flex gap-2 w-max h-max text-gray-700  items-center justify-center">
@@ -203,14 +247,15 @@ function CustomImageForm() {
                     type="submit"
                     form="custom-image-form"
                     className="w-2/3 text-xs sm:text-sm mx-auto bg-gradient-to-r from-rose-500 via-purple-500 to-cyan-500 "
-                    disabled={imageState.generationStatus.status === "generating"}
+                    disabled={
+                        imageState.generationStatus.status === "generating"
+                    }
                 >
                     <span>Generate Image</span>
                     <div className="flex items-center justify-center ">
-                      ~ ( <p>{numberOfImages*10}</p>
-                    <Coins/>)
+                        ~ ( <p>{numberOfImages * 10}</p>
+                        <Coins />)
                     </div>
-                 
                 </Button>
             </div>
         </div>

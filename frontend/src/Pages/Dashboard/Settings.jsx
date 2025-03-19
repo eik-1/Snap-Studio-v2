@@ -15,16 +15,18 @@ function Settings() {
     const STRIPE_USER_PORTAL = import.meta.env.VITE_STRIPE_USER_PORTAL
 
     function getBillingDate(cycle) {
-        if (cycle === "monthly") {
+
+        const billingCycle = cycle?.toLowerCase()
+        if (billingCycle === "monthly") {
             return addOneMonth(subscription?.start_time)
-        } else if (cycle === "Yearly") {
+        } else if (billingCycle=== "yearly") {
             return addOneYear(subscription?.start_time)
         }
     }
 
     const values = {
-        email: user?.email,
-        username: user?.first_name + " " + user?.last_name,
+        email: user?.email || "--",
+        username: user?.first_name + " " + user?.last_name|| "--",
         plan: subscription?.has_subscribed
             ? subscription?.plan_name
             : "Not Subscribed",
