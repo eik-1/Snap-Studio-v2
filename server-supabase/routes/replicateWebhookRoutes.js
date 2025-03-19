@@ -1,6 +1,6 @@
 import express from "express";
 
-import { replicateWebhook } from "../controllers/replicateController";
+import { replicateWebhook } from "../controllers/replicateController.js";
 
 const router = express.Router();
 
