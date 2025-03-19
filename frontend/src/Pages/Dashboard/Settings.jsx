@@ -15,9 +15,11 @@ function Settings() {
     const STRIPE_USER_PORTAL = import.meta.env.VITE_STRIPE_USER_PORTAL
 
     function getBillingDate(cycle) {
-        if (cycle === "Monthly") {
+
+        const billingCycle = cycle?.toLowerCase()
+        if (billingCycle === "monthly") {
             return addOneMonth(subscription?.start_time)
-        } else if (cycle === "Yearly") {
+        } else if (billingCycle=== "yearly") {
             return addOneYear(subscription?.start_time)
         }
     }
