@@ -6,6 +6,24 @@ import ApiResponse from "../utils/ApiResponse.js";
 
 /*MODELS TABLE*/
 
+export async function checkModelExists(userId, modelName) {
+  try {
+    const { data: models, error } = await supabase
+      .from("Models")
+      .select("*")
+      .eq("user_id", userId)
+      .eq("model_name", modelName);
+
+    if (error) {
+      throw error;
+    }
+    return models && models.length > 0;
+  } catch (err) {
+    console.log("Error checking model: ", err);
+    return false;
+  }
+}
+
 export async function createModel(
   userId,
   userEmail,
@@ -16,16 +34,6 @@ export async function createModel(
   gender,
   ethnicity
 ) {
-  const { data: pre_existModel } = await supabase
-    .from("Models")
-    .select("*")
-    .eq("model_id", userId)
-    .eq("model_name", modelName);
-
-  if (pre_existModel.length > 0) {
-    console.log("Model already exists: ", pre_existModel);
-    return 0;
-  }
   const model = {
     user_id: userId,
     email: userEmail,
@@ -43,9 +51,16 @@ export async function createModel(
       .from("Models")
       .insert(model)
       .select();
+
     if (error) {
-      return {};
+      console.error("Database error creating model:", error);
+      return {
+        model: null,
+        errorOrSuccessFlag: 0,
+        error: error.message,
+      };
     }
+
     console.log("Model created: ", data);
     return {
       model: model,
@@ -54,8 +69,9 @@ export async function createModel(
   } catch (err) {
     console.log("Error creating model: ", err);
     return {
-      model: model,
+      model: null,
       errorOrSuccessFlag: 0,
+      error: err.message,
     };
   }
 }
