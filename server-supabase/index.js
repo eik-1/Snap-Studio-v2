@@ -10,9 +10,11 @@ import stripeRoutes from "./routes/webhookRoutes.js";
 dotenv.config();
 
 const port = process.env.PORT || 3000;
-const allowedOrigins = "https://snapstudio.me";
+
+const allowedOrigins = process.env.ALLOWED_CLIENT_URL;
 
 const corsOptions = {
+  
   origin: (origin, callback) => {
     if (!origin || origin === allowedOrigins) {
       callback(null, true);
@@ -49,8 +51,8 @@ const verifyOrigin = (req, res, next) => {
   }
 
   if (
-    origin === "https://snapstudio.me" ||
-    (referer && referer.startsWith("https://snapstudio.me/"))
+    origin === process.env.ALLOWED_CLIENT_URL ||
+    (referer && referer.startsWith(`${process.env.ALLOWED_CLIENT_URL}/`))
   ) {
     next();
   } else {
