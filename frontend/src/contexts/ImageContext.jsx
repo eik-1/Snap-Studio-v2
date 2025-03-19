@@ -33,7 +33,7 @@ function imageReducer(state, action) {
         case Actions.SET_GENERATION_STATUS:
             return { ...state, generationStatus: action.payload }
         case Actions.SET_GENERATED_IMAGE_URLS:
-            return { ...state, generatedImageUrls: [...action.payload] }
+            return { ...state, generatedImageUrls: [...action.payload, ...state.generatedImageUrls] }
         case Actions.SET_IMAGE_SAVE_STATUS:
             return { ...state, imageSaveStatus: {
                 ...state.imageSaveStatus,
