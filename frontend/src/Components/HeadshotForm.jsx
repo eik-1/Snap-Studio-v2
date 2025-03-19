@@ -166,7 +166,7 @@ function HeadshotForm() {
                             disabled={trainedModels?.length === 0}
                         >
                             <option value="" disabled>
-                                {modelState?.models?.length === 0
+                                {!trainedModels
                                     ? "No trained models"
                                     : "Select Model"}
                             </option>

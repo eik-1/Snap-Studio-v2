@@ -24,7 +24,11 @@ function CustomImageForm() {
     const { dispatch: imageDispatch, state: imageState } = useImage()
     const { dispatch: navDispatch } = useBackNavigation()
     const { state: modelState } = useModel()
-    const {updateCredits, subscription}=useSubscription()   
+    const {updateCredits, subscription}=useSubscription()  
+    
+    const trainedModels = modelState.models.filter(
+        (model) => model.status === "succeeded",
+    )
 
     /* const { data: fetchedModels = [] } = useQuery({
         queryKey: ["models", user],
@@ -131,12 +135,12 @@ function CustomImageForm() {
                             disabled={modelState?.models?.length === 0}
                         >
                             <option value="" disabled >
-                                {modelState?.models?.length === 0
+                                {!trainedModels
                                     ? "No trained models"
                                     : "Select Model"}
                             </option>
 
-                            {modelState?.models?.map((model, index) => (
+                            {trainedModels?.map((model, index) => (
                                 <option key={index} value={model.model_name}>
                                     {model.model_name}
                                 </option>
