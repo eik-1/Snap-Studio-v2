@@ -5,8 +5,10 @@ import express from "express";
 import { client } from "./configs/posthog.js";
 import databaseRoutes from "./routes/databaseRoutes.js";
 import modelRoutes from "./routes/replicateRoutes.js";
+import replicateWebhookRoutes from "./routes/replicateWebhookRoutes.js";
 import sseRoutes from "./routes/sseRoutes.js";
-import stripeRoutes from "./routes/webhookRoutes.js";
+import stripeRoutes from "./routes/stripeWebhookRoutes.js";
+
 dotenv.config();
 
 const port = process.env.PORT || 3000;
@@ -14,7 +16,6 @@ const port = process.env.PORT || 3000;
 const allowedOrigins = process.env.ALLOWED_CLIENT_URL;
 
 const corsOptions = {
-  
   origin: (origin, callback) => {
     if (!origin || origin === allowedOrigins) {
       callback(null, true);
@@ -43,6 +44,10 @@ const verifyOrigin = (req, res, next) => {
   const referer = req.headers.referer;
 
   if (req.path.startsWith("/webhook")) {
+    return next();
+  }
+
+  if (req.path.startsWith("/replicateWebhook")) {
     return next();
   }
 
@@ -85,6 +90,7 @@ app.use("/models", modelRoutes);
 app.use("/database", databaseRoutes);
 app.use("/webhook", stripeRoutes);
 app.use("/sse", sseRoutes);
+app.use("/replicateWebhook", replicateWebhookRoutes);
 
 app.get("/", (req, res) => {
   res.status(200).json({

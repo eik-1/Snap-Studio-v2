@@ -4,6 +4,7 @@ import FormData from "form-data";
 import { v4 as uuidv4 } from "uuid";
 
 import {
+  checkModelExists,
   createModel,
   getCredits,
   getModel,
@@ -13,6 +14,7 @@ import {
   updateModelCredits,
 } from "./databaseController.js";
 
+import { validateWebhook } from "replicate";
 import { client } from "../configs/posthog.js";
 import { replicate } from "../configs/replicateConfig.js";
 import { sendEventToClients } from "../routes/sseRoutes.js";
@@ -20,15 +22,29 @@ import ApiResponse from "../utils/ApiResponse.js";
 import { styleAndPrompts } from "../utils/headshotPrompts.js";
 
 export async function trainOstrisModel(req, res) {
-  try {
-    const { modelName, userId, triggerWord, gender, ethnicity, userEmail } =
-      req.body;
+  const { modelName, userId, triggerWord, gender, ethnicity, userEmail } =
+    req.body;
 
-    const creditsInfo = await getCredits(userEmail);
+  let creditsInfo;
+  let creditsDeducted = false;
+
+  // Credit validation and deduction
+  try {
+    // Check if model name already exists
+    const modelExists = await checkModelExists(userId, modelName);
+    if (modelExists) {
+      return res.status(400).json(
+        new ApiResponse(400, "Model Name Already Exists", {
+          error: "Model Name Already Exists",
+        })
+      );
+    }
+
+    creditsInfo = await getCredits(userEmail);
 
     if (creditsInfo.model_credits <= 0) {
-      return res.status(500).json(
-        new ApiResponse(500, "You have exhausted your monthly model credits", {
+      return res.status(400).json(
+        new ApiResponse(400, "You have exhausted your monthly model credits", {
           error: "You have exhausted your monthly model credits",
         })
       );
@@ -47,6 +63,19 @@ export async function trainOstrisModel(req, res) {
       );
     }
 
+    creditsDeducted = true;
+  } catch (err) {
+    console.log("Error in credit processing:", err);
+    client.captureException(err, userEmail);
+    return res.status(500).json(
+      new ApiResponse(500, "Error processing model credits", {
+        error: err.message,
+      })
+    );
+  }
+
+  // Model Training Process
+  try {
     client.capture({
       distinctId: userEmail,
       event: "model_training started",
@@ -65,6 +94,7 @@ export async function trainOstrisModel(req, res) {
       filename: "images.zip",
       contentType: "application/zip",
     });
+
     const uploadResponse = await axios.post(
       "https://api.replicate.com/v1/files",
       formData,
@@ -77,6 +107,7 @@ export async function trainOstrisModel(req, res) {
         maxBodyLength: Infinity,
       }
     );
+
     const fileUrl = uploadResponse.data.urls.get;
 
     const training = await replicate.trainings.create(
@@ -102,7 +133,7 @@ export async function trainOstrisModel(req, res) {
           wandb_sample_interval: 100,
           gradient_checkpointing: false,
         },
-        webhook: "https://snapstudio-server.onrender.com/webhook/replicate",
+        webhook: process.env.REPLICATE_WEBHOOK_URL,
         webhook_events_filter: ["start", "completed"],
       }
     );
@@ -119,9 +150,22 @@ export async function trainOstrisModel(req, res) {
     );
 
     if (createdModel.errorOrSuccessFlag === 0) {
-      return res.status(500).json(
-        new ApiResponse(500, "Model Name Already Exists", {
-          error: "Model Name Already Exists",
+      // Cancel the training on Replicate
+      try {
+        await replicate.trainings.cancel(training.id);
+        console.log(`Training ${training.id} cancelled due to database error`);
+      } catch (cancelError) {
+        console.error(`Failed to cancel training ${training.id}:`, cancelError);
+      }
+
+      // Restore credit
+      if (creditsDeducted) {
+        await safelyRestoreCredits(userEmail, 1, true);
+      }
+
+      return res.status(400).json(
+        new ApiResponse(400, "Error in database", {
+          error: "Error in database",
         })
       );
     }
@@ -134,18 +178,14 @@ export async function trainOstrisModel(req, res) {
     );
   } catch (err) {
     console.log("Couldn't train the model. Error: ", err);
-    client.captureException(err, userEmail);
-    const errorOrNot = await updateModelCredits(
-      userEmail,
-      creditsInfo.model_credits
-    );
-    if (errorOrNot === 0) {
-      return res.status(500).json(
-        new ApiResponse(500, "We are having some issues", {
-          error: "We are having some issues",
-        })
-      );
+
+    // Restore credits if they were deducted
+    if (creditsDeducted) {
+      await safelyRestoreCredits(userEmail, 1, true);
     }
+
+    client.captureException(err, userEmail);
+
     return res.status(500).json(
       new ApiResponse(500, "Couldn't train the model", {
         error: "Couldn't train the model",
@@ -321,42 +361,93 @@ export async function getTriggerWord(req, res) {
   }
 }
 
+/* HELPER FUNCTION */
+async function safelyRestoreCredits(
+  userEmail,
+  amountToRestore,
+  isModelCredit = false
+) {
+  try {
+    if (!userEmail || amountToRestore <= 0) return false;
+
+    const creditsInfo = await getCredits(userEmail);
+
+    if (isModelCredit) {
+      return await updateModelCredits(
+        userEmail,
+        creditsInfo.model_credits + amountToRestore
+      );
+    } else {
+      return await updateCredits(
+        userEmail,
+        creditsInfo.credits + amountToRestore
+      );
+    }
+  } catch (error) {
+    console.error("Error restoring credits:", error);
+    return false;
+  }
+}
+
 export async function runUserModel(req, res) {
   const { userId, modelName, prompt, numberOfImages, userEmail } = req.body;
+
   let creditsInfo;
-  let usedCredits;
+  let usedCredits = 10 * numberOfImages;
+  let creditsDeducted = false;
+
   client.capture({
     distinctId: userEmail,
     event: "custom_image generated",
   });
+
+  // Create validation and deduction
   try {
     creditsInfo = await getCredits(userEmail);
-    if (creditsInfo.credits <= 0) {
-      return res.status(500).json(
-        new ApiResponse(500, "Insufficient credits to run the model", {
+    console.log(`Credits for ${userEmail} are ${creditsInfo.credits}`);
+    if (creditsInfo.credits < usedCredits) {
+      return res.status(400).json(
+        new ApiResponse(400, "Insufficient credits to run the model", {
           error: "Insufficient credits to run the model",
+          remainingCredits: creditsInfo.credits,
         })
       );
     }
-    usedCredits = 10 * numberOfImages;
+
     await updateCredits(userEmail, creditsInfo.credits - usedCredits);
+    creditsDeducted = true;
   } catch (err) {
-    console.log("Couldn't run the model. Error: ", err);
-    await updateCredits(userEmail, creditsInfo.credits );
+    client.captureException(err, userEmail);
     return res
       .status(500)
       .json(
-        new ApiResponse(500, "Couldn't run the model", { error: err.message })
+        new ApiResponse(500, "Error processing credits", { error: err.message })
       );
   }
 
+  // Model execution
   try {
     const model = await getModel(userId, modelName);
+
+    //Validate model exists
+    if (!model || model.length === 0) {
+      if (creditsDeducted) {
+        await safelyRestoreCredits(userEmail, usedCredits);
+      }
+      return res.status(404).json(
+        new ApiResponse(404, "Model not found", {
+          error: "The requested model was not found",
+          remainingCredits: creditsInfo.credits,
+        })
+      );
+    }
+
     const modelVersion = model[0].model_version;
     const modelGender = model[0].gender;
     const modelTriggerWord = model[0].trigger_word;
     const enhancedPrompt = `${modelTriggerWord} ${modelGender}. ${prompt}`;
 
+    // Run model
     const output = await replicate.run(`${modelVersion}`, {
       input: {
         model: "dev",
@@ -372,7 +463,7 @@ export async function runUserModel(req, res) {
     output.forEach((fileOutput) => {
       outputURL.push(fileOutput.url().href);
     });
-    console.log(outputURL);
+
     return res.status(200).json(
       new ApiResponse(200, "Model run successfully", {
         imageUrls: outputURL,
@@ -380,8 +471,9 @@ export async function runUserModel(req, res) {
       })
     );
   } catch (err) {
-    console.log("Couldn't run the model. Error: ", err);
-    await updateCredits(userEmail, creditsInfo.credits );
+    if (creditsDeducted) {
+      await safelyRestoreCredits(userEmail, usedCredits);
+    }
     client.captureException(err, userEmail);
     return res.status(500).json(
       new ApiResponse(500, "Couldn't run the model", {
@@ -394,54 +486,85 @@ export async function runUserModel(req, res) {
 
 export async function runHeadshotUserModel(req, res) {
   const { userId, modelName, numberOfImages, style, userEmail } = req.body;
-  console.log(req.body);
+
   let creditsInfo;
-  let usedCredits;
+  let usedCredits = 10 * numberOfImages;
+  let creditsDeducted = false;
+
   client.capture({
     distinctId: userEmail,
     event: "headshot generated",
   });
+
+  // Credit validation and deduction
   try {
     creditsInfo = await getCredits(userEmail);
-    console.log(creditsInfo);
-    if (creditsInfo.credits <= 0) {
-      return res.status(500).json(
-        new ApiResponse(500, "Insufficient credits to run the model", {
+    console.log(`Credits for ${userEmail} are ${creditsInfo.credits}`);
+    if (creditsInfo.credits < usedCredits) {
+      return res.status(400).json(
+        new ApiResponse(400, "Insufficient credits to run the model", {
           error: "Insufficient credits to run the model",
           remainingCredits: creditsInfo.credits,
         })
       );
     }
-    usedCredits = 10 * numberOfImages;
+
     await updateCredits(userEmail, creditsInfo.credits - usedCredits);
+    creditsDeducted = true;
   } catch (err) {
-    console.log("Couldn't run the model. Error: ", err);
-    await updateCredits(userEmail, creditsInfo.credits );
     client.captureException(err, userEmail);
     return res.status(500).json(
-      new ApiResponse(500, "Couldn't run the model", {
+      new ApiResponse(500, "Error processing credits", {
         error: err.message,
         remainingCredits: creditsInfo.credits,
       })
     );
   }
 
+  // Model execution
   try {
-    console.log(creditsInfo);
-    console.log(usedCredits);
     const model = await getModel(userId, modelName);
+
+    //Validate model exists
+    if (!model || model.length === 0) {
+      if (creditsDeducted) {
+        await safelyRestoreCredits(userEmail, usedCredits);
+      }
+      return res.status(404).json(
+        new ApiResponse(404, "Model not found", {
+          error: "The requested model was not found",
+          remainingCredits: creditsInfo.credits,
+        })
+      );
+    }
+
     const modelVersion = model[0].model_version;
     const modelGender = model[0].gender;
     const modelTriggerWord = model[0].trigger_word;
-    //const modelEthnicity = model[0].ethnicity;
+
     const prompt = styleAndPrompts.find((item) => {
       return (
         item.style.toLowerCase() === style.toLowerCase() &&
         item.gender.toLowerCase() === modelGender.toLowerCase()
       );
     });
+
+    // Validate prompt exists
+    if (!prompt) {
+      if (creditsDeducted) {
+        await safelyRestoreCredits(userEmail, usedCredits);
+      }
+      return res.status(400).json(
+        new ApiResponse(400, "Invalid style or gender combination", {
+          error: "No matching prompt found for the provided style and gender",
+          remainingCredits: creditsInfo.credits,
+        })
+      );
+    }
+
     const enhancedPrompt = `${modelTriggerWord} ${modelGender}. ${prompt.prompt}`;
 
+    // Run model
     const output = await replicate.run(`${modelVersion}`, {
       input: {
         model: "dev",
@@ -465,8 +588,9 @@ export async function runHeadshotUserModel(req, res) {
       })
     );
   } catch (err) {
-    console.log("Couldn't run the model. Error: ", err);
-    await updateCredits(userEmail, creditsInfo.credits );
+    if (creditsDeducted) {
+      await safelyRestoreCredits(userEmail, usedCredits);
+    }
     client.captureException(err, userEmail);
     return res.status(500).json(
       new ApiResponse(500, "Couldn't run the model", {
@@ -478,17 +602,33 @@ export async function runHeadshotUserModel(req, res) {
 }
 
 export async function replicateWebhook(req, res) {
+  const secret = process.env.REPLICATE_WEBHOOK_SECRET;
+  if (!secret) {
+    console.log(
+      "Skipping webhook validation. To validate webhooks, set REPLICATE_WEBHOOK_SIGNING_SECRET"
+    );
+    const body = await req.json();
+    console.log(body);
+    return res.json(
+      { detail: "Webhook received (but not validated)" },
+      { status: 200 }
+    );
+  }
+
+  const webhookIsValid = await validateWebhook(req, secret);
+  if (!webhookIsValid) {
+    return res.json({ detail: "Webhook is invalid" }, { status: 401 });
+  }
+
   const webhookData = JSON.parse(req.body.toString());
   const { id, output, status } = webhookData;
   console.log("From Replicate: ", id, status);
+
   const model = await getModelById(id);
   if (!model || model.length === 0) {
-    return res.status(404).json(
-      new ApiResponse(404, "Model not found", {
-        error: "The requested model is not found.",
-      })
-    );
+    return res.json({ detail: "Model not found" }, { status: 404 });
   }
+
   const userId = model[0].user_id;
   const userEmail = model[0].email;
   if (status === "failed" || status === "canceled") {
@@ -496,12 +636,22 @@ export async function replicateWebhook(req, res) {
     await updateModelCredits(userEmail, creditsInfo.model_credits + 1);
     await updateModel(id, status);
     sendEventToClients({ model_id: id, status: "failed" }, userId);
-    res.status(200).send("Webhook received");
+    return res.json(
+      { detail: "Webhook received but failed training" },
+      { status: 200 }
+    );
   } else if (status === "succeeded") {
     await updateModel(id, status, output.version);
     sendEventToClients({ model_id: id, status: "succeeded" }, userId);
-    res.status(200).send("Webhook received");
+    return res.json(
+      { detail: "Webhook received and succeeded" },
+      { status: 200 }
+    );
   } else {
     console.log("Don't care about this status");
+    return res.json(
+      { detail: "Webhook received but not handled" },
+      { status: 200 }
+    );
   }
 }
