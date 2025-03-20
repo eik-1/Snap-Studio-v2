@@ -36,11 +36,11 @@ function ImageResultSection(imageUrl) {
     }
     return (
         <>
-            <section className="relative w-full min-h-full  px-4 pt-4 bg-white flex flex-col items-center gap-6  sm:overflow-y-scroll">
+            <section className="relative w-full min-h-full pb-32 sm:pb-4 px-4 pt-4 bg-white flex flex-col items-center gap-6  sm:overflow-y-scroll">
                 <h2 className="text-lg font-semibold bg-clip-text text-transparent text-center bg-gradient-to-r from-rose-500 via-purple-500 to-cyan-500">
                     Your Generated Images
                 </h2>
-                <div className="w-full h-full relative pb-32 sm:pb-4 ">
+                <div className="w-full h-full relative  ">
                     <AnimatePresence>
                         {imageState.generationStatus.status ===
                             "generating" && (

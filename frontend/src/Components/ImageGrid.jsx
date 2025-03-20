@@ -169,6 +169,7 @@ function ImageGrid({ images, usedFor = "", className}) {
                                         alt={`Image ${selectedIndex + 1}`}
                                         className="w-full h-full object-contain rounded-lg"
                                         transition={trs}
+                                        loading="eager"
                                     />
                                 </motion.div>
                             </motion.div>
