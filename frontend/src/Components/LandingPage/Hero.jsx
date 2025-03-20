@@ -9,9 +9,9 @@ const Hero = () => {
         navigate("/app")
     }
     return (
-        <div className="relative h-max mt-16 md:mt-20 bg-gradient-to-r from-purple-50/50  to-indigo-50/50  py-16 rounded-2xl lg:rounded-3xl max-w-7xl mx-auto px-10">
+        <div className="relative max-w-7xl h-max mt-16 md:mt-20 bg-gradient-to-r from-purple-50/50  to-indigo-50/50  py-16 rounded-2xl lg:rounded-3xl  mx-auto px-10">
             <main className="max-w-full mx-auto gap-24 lg:gap-8  flex lg:flex-row flex-col items-center justify-center lg:justify-between">
-                <div className="max-w-lg">
+                <div className="max-w-[28rem]">
                     <div className="inline-flex items-center px-4 py-2 mb-8 rounded-full bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-100 shadow-sm">
                         <Sparkles className="h-4 w-4 mr-2 text-purple-500" />
                         <span className="text-sm font-medium text-purple-800">
@@ -19,7 +19,7 @@ const Hero = () => {
                         </span>
                     </div>
 
-                    <h1 className="text-5xl sm:text-6xl font-extrabold text-gray-900 leading-tight mb-6">
+                    <h1 className="text-4xl sm:text-6xl font-extrabold text-gray-900 leading-tight  mb-6">
                         Your{" "}
                         <span className="relative inline-block">
                             <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 via-indigo-600 to-fuchsia-500">
@@ -61,7 +61,7 @@ const Hero = () => {
                         Image Studio{" "}
                      
                     </h1>
-                    <p className="text-lg text-gray-600 leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0">
+                    <p className="text-base text-gray-600 leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0">
               Generate stunning AI-powered photos in any pose, place, or action—from professional Head shots to casual pictures—with just a simple prompt.
             </p>
 
@@ -89,7 +89,7 @@ const Hero = () => {
 
                     <div className="flex flex-col md:flex-row items-center gap-6">
                         <button
-                            className="group px-8 py-4 rounded-full bg-gradient-to-r from-purple-600 to-indigo-500  text-white font-medium text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
+                            className="group px-6 py-4 rounded-full bg-gradient-to-r from-purple-600 to-indigo-500  text-white font-medium text-base shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
                             onClick={handleClick}
                         >
                             <span className="flex items-center">

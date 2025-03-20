@@ -30,7 +30,7 @@ const ImageFlow = () => {
     ]
 
     return (
-        <div className=" mx-auto relative max-w-6xl lg:px-10 ">
+        <div className=" mx-auto relative max-w-6xl lg:px-10 scale-90 ">
             <div className="absolute -top-20 left-0  w-64 h-64 bg-purple-100 rounded-full blur-3xl"></div>
             <div className="absolute top-1/3 right-0  w-72 h-72 bg-indigo-100 rounded-full blur-3xl"></div>
             <div className="absolute bottom-0 left-1/4 w-64 h-64 bg-indigo-100 rounded-full blur-3xl"></div>

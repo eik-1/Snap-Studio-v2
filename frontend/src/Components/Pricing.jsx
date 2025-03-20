@@ -126,7 +126,7 @@ export default function PricingSection() {
                 </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto scale-90">
                 {(isAnnual ? plans.annual : plans.monthly).map(
                     (plan, index) => {
                         const price = plan.price

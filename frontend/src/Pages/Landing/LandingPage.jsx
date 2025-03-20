@@ -18,7 +18,7 @@ export default function LandingPage() {
         </Helmet>
         <div className="relative  mx-auto">
             <Hero />
-            <div className="max-w-full flex justify-center max-h-full mx-auto md:mt-36 mt-24">
+            <div className="max-w-[52rem] flex justify-center max-h-[32rem] mx-auto md:mt-36 mt-24">
             <Window>
                 <video
                     alt="app running"

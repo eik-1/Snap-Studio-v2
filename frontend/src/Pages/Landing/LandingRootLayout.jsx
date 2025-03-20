@@ -7,7 +7,7 @@ function LandingRootLayout() {
         window.scrollTo(0, 0)
     }, [location])
     return (
-        <div className="min-h-screen px-6 sm:px-8   mx-auto">
+        <div className="min-h-screen px-6 sm:px-16   mx-auto">
             <LandingNav />
             <Outlet />
         </div>

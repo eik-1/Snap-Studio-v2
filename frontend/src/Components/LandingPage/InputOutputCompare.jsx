@@ -87,7 +87,7 @@ export default function ImageComparisonSlider({
         <div className="w-max h-max p-1 bg-gradient-to-b from-purple-500 via-indigo-500 to-pink-500  rounded-lg">
             <div
                 ref={containerRef}
-                className="relative max-w-[16rem] max-h-[20rem] sm:max-h-[24rem] sm:max-w-[20rem]  md:max-w-[24rem] md:max-h-[26rem] overflow-hidden rounded-lg"
+                className="relative max-w-[16rem] max-h-[20rem] sm:max-h-[24rem] sm:max-w-[20rem]  md:max-w-[22rem] md:max-h-[24rem] overflow-hidden rounded-lg"
                 aria-label="Image comparison slider"
             >
                 <div className="relative h-full">
