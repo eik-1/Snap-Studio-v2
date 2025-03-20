@@ -10,8 +10,9 @@ import {
     Layers as ModelIcon,
     Images as NumImage,
     SquareUserRound as StyleIcon,
-    ChevronUp,
-    ChevronDown,
+    Plus,
+    Clock,
+    Minus,
 } from "lucide-react"
 import { useState } from "react"
 import { Button } from "./UI/Button"
@@ -85,7 +86,7 @@ function HeadshotForm() {
         }
     }
     function increment() {
-        if (numberOfImages < 5) {
+        if (numberOfImages < 4) {
             setNumberOfImages(numberOfImages + 1)
             setError({ numberOfImages: "" })
         } else {
@@ -206,7 +207,7 @@ function HeadshotForm() {
                             </label>
                         </div>
                         <p className="text-[0.675rem] font-regular tracking-tight text-gray-500">
-                            {"Number of images to generate (min: 1, max: 5)"}
+                            {"Number of images to generate (min: 1, max: 4)"}
                         </p>
                         <div className="relative mt-2 flex flex-nowrap border  border-gray-300 rounded-md focus:border-slate-500 ">
                             <input
@@ -215,7 +216,7 @@ function HeadshotForm() {
                                 value={numberOfImages}
                                 disabled
                                 min="1"
-                                max="5"
+                                max="4"
                                 className="px-3 py-2 block w-full  focus:ring-slate-500 active:border-transparent focus:border-transparent rounded-md  text-sm disabled:bg-white"
                             />
                             <div className=" flex flex-col border-l border-gray-300 rounded-r-sm">
@@ -224,20 +225,23 @@ function HeadshotForm() {
                                     onClick={increment}
                                     className="flex items-center justify-center h-1/2 px-2 text-gray-500 hover:bg-gray-100 rounded-tr-sm"
                                 >
-                                    <ChevronUp size={12} />
+                                    <Plus size={12} />
                                 </button>
                                 <button
                                     type="button"
                                     onClick={decrement}
                                     className="flex items-center justify-center h-1/2 px-2 text-gray-500 hover:bg-gray-100 border-t border-gray-300 rounded-br-sm"
                                 >
-                                    <ChevronDown size={12} />
+                                    <Minus size={12} />
                                 </button>
                             </div>
                         </div>
-                        <p className="text-[0.675rem] font-regular tracking-tight text-red-500">
-                            {error.numberOfImages}{" "}
-                        </p>
+                        <div className="flex items-center text-sm mt-2 gap-1 text-gray-500">
+                        <Coins size={12}/>
+                         <p>Credits - {numberOfImages * 10}</p>
+                        
+                    </div>
+                      
                     </div>
                     <div className="flex flex-col h-max pb-2 mt-6 gap-1">
                         <div className="flex gap-2 w-max h-max text-gray-700  items-center justify-center">
@@ -327,8 +331,9 @@ function HeadshotForm() {
                 >
                     <span>Generate Headshot</span>
                     <div className="flex items-center justify-center ">
-                        ~ ( <p>{numberOfImages * 10}</p>
-                        <Coins />)
+                        ~ ( <Clock size={12}  />
+                            <p>&nbsp;{numberOfImages * 15}s</p>
+                        )
                     </div>
                 </Button>
             </div>
