@@ -1,6 +1,7 @@
 import appImage from "@/assets/home.png"
 import Footer from "@/Components/LandingPage/Footer"
 import HeadshotSection from "@/Components/LandingPage/HeadshotSection"
+import CustomImageSection from "@/Components/LandingPage/CustomImageSection"
 import Hero from "@/Components/LandingPage/Hero"
 import ImageFlow from "@/Components/LandingPage/ImageFlow"
 import PricingSection from "@/Components/Pricing"
@@ -18,7 +19,7 @@ export default function LandingPage() {
         </Helmet>
         <div className="relative  mx-auto">
             <Hero />
-            <div className="max-w-[52rem] flex justify-center max-h-[32rem] mx-auto md:mt-36 mt-24">
+            <div className="max-w-5xl flex justify-center max-h-[32rem] mx-auto md:mt-32 mt-24">
             <Window>
                 <video
                     alt="app running"
@@ -33,7 +34,7 @@ export default function LandingPage() {
             </Window>
             </div>
            
-            <h1 className="relative z-[30] text-4xl  text-center mt-36 mb-24 font-bold p-2"
+            <h1 className="relative z-[30] text-4xl  text-center mt-24 md:mt-36 mb-24 font-bold p-2"
             id="howItWorks"
             >
             <span className=" bg-gradient-to-r from-black to-black/75 bg-clip-text text-transparent" >
@@ -50,7 +51,11 @@ export default function LandingPage() {
            
             </h1>
             <ImageFlow />
+            <div className="mt-24" id="features">
+            <CustomImageSection />
             <HeadshotSection />
+            </div>
+           
             <PricingSection />
             <FAQSection />
             <Footer />

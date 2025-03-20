@@ -8,15 +8,15 @@ export default function HeadshotSection() {
         navigate("/app")
     }
     return (
-        <div className="relative z-10 max-w-7xl mx-auto mt-36">
-            <div className="relative rounded-2xl lg:rounded-3xl overflow-hidden shadow-xl p-6 sm:p-8 md:p-12 lg:p-16 bg-gradient-to-br from-white to-purple-50">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-200 to-purple-300 opacity-30 rounded-full transform translate-x-12 -translate-y-12" />
+        <div className="relative z-10 max-w-7xl mx-auto mt-24" >
+            <div className="relative rounded-2xl lg:rounded-3xl overflow-hidden p-6 sm:p-8 md:p-12 lg:p-16 bg-gradient-to-b from-gray-50 to-sky-50/70">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-sky-200 to-sky-300 opacity-30 rounded-full transform translate-x-12 -translate-y-12" />
                 <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-slate-200 to-slate-300 opacity-30 rounded-full transform -translate-x-16 translate-y-12" />
 
                 <div className="flex flex-col md:flex-row items-center md:gap-16">
                     <div className="w-full lg:w-1/2 order-2 md:order-1">
                         <div className="max-w-xl">
-                            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4 leading-tight">
+                            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-4 leading-tight">
                                 <span className="relative">
                                     Studio-Quality Headshots
                                     <span className="absolute bottom-0 left-0 w-full h-2 bg-purple-200/50 -z-10 transform translate-y-2"></span>

@@ -102,7 +102,7 @@ function LandingNav() {
                       <span className=""></span>  Gallery
                     </NavLink>
                     <a
-                        href="#feat"
+                        href="#features"
                         className={  `bg-gradient-to-r hover:from-purple-600 hover:via-indigo-600 hover:to-pink-600 text-transparent bg-clip-text rounded-md px-3 py-2 transition-color duration-300   from-black/80 to-black/65`}
                     >
                         Features
