@@ -17,8 +17,12 @@ function FAQSection(){
           <div className="inline-block px-3 py-1 bg-indigo-100 text-indigo-600 rounded-full text-xs font-medium mb-4">
             Support
           </div>
-          <h2 className="text-3xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 mb-3">
-            Frequently asked questions
+          <h2 className="text-3xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-black to-black/75 mb-3">
+            Frequently asked 
+            <span
+            className='bg-gradient-to-r from-purple-600 to-indigo-600 text-transparent bg-clip-text'
+            >&nbsp;questions</span>
+
           </h2>
           <p className="text-gray-500 max-w-lg mx-auto">
             Everything you need to know about our product. Can't find the answer you're looking for? Reach out to our support team.

@@ -33,18 +33,18 @@ const ImageFlow = () => {
         <div className=" mx-auto relative max-w-6xl lg:px-10 ">
             <div className="absolute -top-20 left-0  w-64 h-64 bg-purple-100 rounded-full blur-3xl"></div>
             <div className="absolute top-1/3 right-0  w-72 h-72 bg-indigo-100 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 left-1/4 w-64 h-64 bg-rose-100 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 left-1/4 w-64 h-64 bg-indigo-100 rounded-full blur-3xl"></div>
 
             <div className="relative flex justify-center">
                 {/* Center Timeline */}
-                <div className="absolute top-0 bottom-0 rounded-md w-1.5 bg-gradient-to-b from-purple-500 via-indigo-500 to-rose-400"></div>
+                <div className="absolute top-0 bottom-0 rounded-md w-1.5 bg-gradient-to-b from-purple-500 via-indigo-500 to-indigo-400"></div>
 
                 <div className="relative w-full flex flex-col">
                     {steps.map((step, index) => (
                         <div key={index} className="mb-20">
                             <div className="flex justify-center">
                                 <div
-                                    className={`w-10 h-10 rounded-full bg-gradient-to-br ${index === 0 ? "from-purple-400 to-purple-600" : index === 1 ? "from-indigo-400 to-indigo-600" : "from-rose-400 to-rose-600"}
+                                    className={`w-10 h-10 rounded-full bg-gradient-to-br ${index === 0 ? "from-purple-400 to-purple-600" : index === 1 ? "from-indigo-400 to-indigo-600" : "from-indigo-400 to-indigo-600"}
                   relative z-10 flex items-center justify-center shadow-lg border-2 border-white`}
                                 >
                                     {step.icon}
@@ -74,7 +74,7 @@ const ImageFlow = () => {
                                                 ? "from-purple-500 to-purple-300"
                                                 : index === 1
                                                   ? "from-indigo-500 to-indigo-300"
-                                                  : "from-rose-500 to-rose-300"
+                                                  : "from-indigo-500 to-indigo-300"
                                         }`}
                                     ></div>
                                 </div>
@@ -116,7 +116,7 @@ const ImageFlow = () => {
                                                     <div className="space-x-1.5 hidden sm:flex">
                                                         <div className="w-2.5 h-2.5 rounded-full bg-indigo-400"></div>
                                                         <div className="w-2.5 h-2.5 rounded-full bg-purple-400"></div>
-                                                        <div className="w-2.5 h-2.5 rounded-full bg-rose-400"></div>
+                                                        <div className="w-2.5 h-2.5 rounded-full bg-purple-400"></div>
                                                     </div>
                                                 </div>
 
@@ -131,10 +131,10 @@ const ImageFlow = () => {
 
                                     {index === 2 && (
                                         <div className="mt-4 relative group">
-                                            <div className="absolute -inset-4 bg-rose-50/20 rounded-xl backdrop-blur-sm -z-10 transition-all duration-300"></div>
-                                            <div className="absolute w-full h-full -rotate-6 rounded-lg border-2 border-dashed border-rose-200/50 -z-10"></div>
+                                            <div className="absolute -inset-4 bg-purple-50/20 rounded-xl backdrop-blur-sm -z-10 transition-all duration-300"></div>
+                                            <div className="absolute w-full h-full -rotate-6 rounded-lg border-2 border-dashed border-purple-200/50 -z-10"></div>
 
-                                            <div className="absolute h-max w-max text-xs top-2 right-2 bg-gradient-to-r from-rose-400 to-purple-400 text-white px-3 py-1 rounded-full font-medium shadow-md border border-white/50">
+                                            <div className="absolute h-max w-max text-xs top-2 right-2 bg-gradient-to-r from-purple-400 to-purple-400 text-white px-3 py-1 rounded-full font-medium shadow-md border border-white/50">
                                                 AI Generated
                                             </div>
                                             <img
@@ -143,7 +143,7 @@ const ImageFlow = () => {
                                                 className="h-40 w-40 md:w-60 md:h-60 rounded-lg object-cover shadow-lg shadow-neutral-600/40 transition-all duration-300   border-2 border-white"
                                             />
 
-                                            <div className="absolute top-1/2 -right-6 w-6 h-6 rounded-full border border-dashed border-rose-300/80 transition-all duration-500"></div>
+                                            <div className="absolute top-1/2 -right-6 w-6 h-6 rounded-full border border-dashed border-purple-300/80 transition-all duration-500"></div>
                                         </div>
                                     )}
                                 </div>

@@ -68,7 +68,7 @@ function LandingNav() {
                     <p className="w-full pl-6 lg:pl-0 lg:w-max ">
                         <span
                             onClick={() => navigate("/")}
-                            className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-600"
+                            className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600"
                         >
                             SnapStudio
                         </span>

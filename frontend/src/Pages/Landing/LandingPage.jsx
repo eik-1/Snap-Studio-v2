@@ -6,7 +6,6 @@ import ImageFlow from "@/Components/LandingPage/ImageFlow"
 import PricingSection from "@/Components/Pricing"
 import Window from "@/Components/Window"
 import FAQSection from "@/Components/LandingPage/FAQSection"
-import { Sparkles } from "lucide-react"
 import { Helmet } from "react-helmet-async"
 export default function LandingPage() {
     return (
@@ -19,24 +18,34 @@ export default function LandingPage() {
         </Helmet>
         <div className="relative  mx-auto">
             <Hero />
-            <div className="max-w-full flex justify-center max-h-full mx-auto mt-48">
+            <div className="max-w-full flex justify-center max-h-full mx-auto md:mt-36 mt-24">
             <Window>
-                <img
-                    src={appImage}
+                <video
                     alt="app running"
                     className="h-full w-full object-fill"
-                />
+                    autoPlay
+                    muted
+                    loop
+                >
+                    <source src={`https://qlyojdnywhpjejyxukld.supabase.co/storage/v1/object/public/videos//headshot3%20(1).mp4`} type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
             </Window>
             </div>
            
-            <h1 className="relative z-[30] text-4xl text-center mt-36 mb-24 font-semibold p-2 bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-500 bg-clip-text text-transparent"
+            <h1 className="relative z-[30] text-4xl  text-center mt-36 mb-24 font-bold p-2"
             id="howItWorks"
             >
-            <span >
-            Upload, Train, and Create – Effortless Visual Magic.
+            <span className=" bg-gradient-to-r from-black to-black/75 bg-clip-text text-transparent" >
+            Upload, Train, and Create – Effortless Visual 
+            <span
+                className="bg-gradient-to-r from-purple-600 to-indigo-600 text-transparent bg-clip-text"
+            >
+            &nbsp;Magic
+            </span>
             </span>
         
-            <Sparkles size={32} className="text-purple-500 ml-4 inline" />
+            
         
            
             </h1>

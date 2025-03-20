@@ -9,7 +9,7 @@ const Hero = () => {
         navigate("/app")
     }
     return (
-        <div className="relative h-max mt-16 md:mt-20 bg-gradient-to-r from-purple-50  via-indigo-50 to-rose-50 py-16 rounded-2xl max-w-7xl mx-auto px-10">
+        <div className="relative h-max mt-16 md:mt-20 bg-gradient-to-r from-purple-50/50  to-indigo-50/50  py-16 rounded-2xl lg:rounded-3xl max-w-7xl mx-auto px-10">
             <main className="max-w-full mx-auto gap-24 lg:gap-8  flex lg:flex-row flex-col items-center justify-center lg:justify-between">
                 <div className="max-w-lg">
                     <div className="inline-flex items-center px-4 py-2 mb-8 rounded-full bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-100 shadow-sm">
@@ -22,7 +22,7 @@ const Hero = () => {
                     <h1 className="text-5xl sm:text-6xl font-extrabold text-gray-900 leading-tight mb-6">
                         Your{" "}
                         <span className="relative inline-block">
-                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
+                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 via-indigo-600 to-fuchsia-500">
                                 AI
                             </span>
                             <svg
@@ -89,7 +89,7 @@ const Hero = () => {
 
                     <div className="flex flex-col md:flex-row items-center gap-6">
                         <button
-                            className="group px-8 py-4 rounded-full bg-gradient-to-r from-purple-600 via-indigo-500 to-pink-500 text-white font-medium text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
+                            className="group px-8 py-4 rounded-full bg-gradient-to-r from-purple-600 to-indigo-500  text-white font-medium text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
                             onClick={handleClick}
                         >
                             <span className="flex items-center">
