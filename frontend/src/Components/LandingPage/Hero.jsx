@@ -9,7 +9,7 @@ const Hero = () => {
         navigate("/app")
     }
     return (
-        <div className="relative max-w-7xl h-max mt-16 md:mt-20 bg-gradient-to-r from-purple-50/50  to-indigo-50/50  py-16 rounded-2xl lg:rounded-3xl  mx-auto px-10">
+        <div className="relative max-w-7xl h-max mt-16 md:mt-20 bg-gradient-to-br from-gray-50 to-purple-50/80  py-16 rounded-2xl lg:rounded-3xl  mx-auto px-10">
             <main className="max-w-full mx-auto gap-24 lg:gap-8  flex lg:flex-row flex-col items-center justify-center lg:justify-between">
                 <div className="max-w-[28rem]">
                     <div className="inline-flex items-center px-4 py-2 mb-8 rounded-full bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-100 shadow-sm">
