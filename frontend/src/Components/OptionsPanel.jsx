@@ -9,6 +9,9 @@ function OptionPanel() {
     const {dispatch:imageDispatch} = useImage()
 
     const handleSelectOption = (option) => {
+        if(option==='fashionModel'){
+            return
+        }
         navDispatch({ type: "SET_TAB", payload: { tab: option } })
         imageDispatch({type:"SET_MODE", payload:option})
     }
