@@ -6,13 +6,13 @@ import { useUser } from "@/contexts/UserContext"
 import { headshotStyles } from "@/data/formData"
 import { generateHeadshot } from "@/services/api/services"
 import {
+    Clock,
     Coins,
+    Minus,
     Layers as ModelIcon,
     Images as NumImage,
-    SquareUserRound as StyleIcon,
     Plus,
-    Clock,
-    Minus,
+    SquareUserRound as StyleIcon,
 } from "lucide-react"
 import { useState } from "react"
 import { Button } from "./UI/Button"
@@ -104,7 +104,8 @@ function HeadshotForm() {
     }
     async function handleSubmit(e) {
         e.preventDefault()
-        //if (!validateForm(e)) return
+        /*New Changes*/
+        if (!validateForm(e)) return
         const numImages = parseInt(numberOfImages)
         // handle > 5 images
         console.log(selectedModel)
@@ -130,16 +131,19 @@ function HeadshotForm() {
             },
         })
     }
-    /*  function validateForm(e)
-    {
-        if (!selectedModel) {                    // check if model is selected
-            const selectElement = e.target.querySelector("select");
-            selectElement.setCustomValidity("Please select a model.");
-            selectElement.reportValidity();
+
+    /*New Changes*/
+    function validateForm() {
+        if (!selectedModel) {
+            setError({
+                ...error,
+                modelSelect: "Please select a model to generate headshots",
+            })
             return false
         }
-        return true;
-    }*/
+        return true
+    }
+
     return (
         <div className="w-full h-full mx-auto  bg-white border-r-[1px] relative">
             <div className="h-[90%] w-full m-0 px-4 py-4 sm:overflow-y-scroll oveflow-x-hidden">
@@ -186,18 +190,37 @@ function HeadshotForm() {
                                 </option>
                             ))}
                         </select>
+                        {/*New Changes*/}
+                        {error.modelSelect && (
+                            <p className="text-red-500 text-xs mt-1">
+                                {error.modelSelect}
+                            </p>
+                        )}
                     </div>
-                    <div className="flex">
+                    <div className="flex flex-col items-center">
                         <span className="text-sm font-medium text-neutral-500">
                             Or&nbsp;
                         </span>
-                        <button
-                            type="button"
-                            className="text-sm font-medium text-neutral-500 hover:text-emerald-600 transition-all duration-200 underline"
-                            onClick={handleCreateNewModel}
-                        >
-                            Train New Model
-                        </button>
+                        <div className="flex flex-row gap-2 items-center justify-around">
+                            <button
+                                type="button"
+                                className="text-sm font-medium text-neutral-500 hover:text-emerald-600 transition-all duration-200 underline"
+                                onClick={handleCreateNewModel}
+                            >
+                                Train New Model
+                            </button>
+                            {/*New Changes*/}
+                            {trainedModels?.length === 0 && (
+                                <div className="mt-4 p-2 bg-blue-50 text-blue-700 rounded-md text-xs">
+                                    <p className="font-medium">
+                                        No trained models available
+                                    </p>
+                                    <p className="text-xs mt-1">
+                                        Please train a model to generate images
+                                    </p>
+                                </div>
+                            )}
+                        </div>
                     </div>
                     <div className="flex flex-col h-max pb-2 mt-10 gap-1">
                         <div className="flex gap-2 w-max h-max text-gray-700  items-center justify-center">
@@ -237,11 +260,9 @@ function HeadshotForm() {
                             </div>
                         </div>
                         <div className="flex items-center text-sm mt-2 gap-1 text-gray-500">
-                        <Coins size={12}/>
-                         <p>Credits - {numberOfImages * 10}</p>
-                        
-                    </div>
-                      
+                            <Coins size={12} />
+                            <p>Credits - {numberOfImages * 10}</p>
+                        </div>
                     </div>
                     <div className="flex flex-col h-max pb-2 mt-6 gap-1">
                         <div className="flex gap-2 w-max h-max text-gray-700  items-center justify-center">
@@ -331,9 +352,8 @@ function HeadshotForm() {
                 >
                     <span>Generate Headshot</span>
                     <div className="flex items-center justify-center ">
-                        ~ ( <Clock size={12}  />
-                            <p>&nbsp;{numberOfImages * 15}s</p>
-                        )
+                        ~ ( <Clock size={12} />
+                        <p>&nbsp;{numberOfImages * 15}s</p>)
                     </div>
                 </Button>
             </div>
