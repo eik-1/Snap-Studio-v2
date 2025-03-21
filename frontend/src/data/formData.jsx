@@ -15,7 +15,10 @@ import {
     Edit3 as ModelName,
     Zap as TriggerWord,
 } from "lucide-react"
+
 const size = 16
+
+/* TRAINING FORM */
 const customImageTrainingField = [
     {
         name: "modelName",
@@ -36,24 +39,24 @@ const customImageTrainingField = [
         name: "gender",
         label: "Gender",
         description: " Choose your gender type",
-        type: "text",
+        type: "select",
+        options: [
+            { value: "male", label: "Male" },
+            { value: "female", label: "Female" },
+            { value: "other", label: "Other" },
+        ],
         Icon: <Gender size={size} />,
-    },
-    {
-        name: "ethnicity",
-        label: "Ethnicity",
-        description: " Choose your Ethnicity",
-        type: "text",
-        Icon: <Ethnicity size={size} />,
     },
     {
         name: "uploadImages",
         label: "Upload Images",
         description:
-            "For the best results, upload at least 5 images of yourself from different angles and poses.",
+            "For the best results, upload at least 7-8 images of yourself from different angles and poses.",
         Icon: <Image size={size} />,
     },
 ]
+
+/* HEADSHOT STYLES */
 const headshotStyles = [
     {
         id: "black",

@@ -3,10 +3,10 @@ import { Button } from "@/Components/UI/Button"
 import { useModel } from "@/contexts/ModelContext"
 import { useUser } from "@/contexts/UserContext"
 import { customImageTrainingField } from "@/data/formData"
-import { imagesToZipBlob } from "@/services/utils/zipUtils"
-import { useState } from "react"
-import { Info } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { imagesToZipBlob } from "@/services/utils/zipUtils"
+import { Info } from "lucide-react"
+import { useState } from "react"
 import { RotatingLines } from "react-loader-spinner"
 
 function CustomImageModelTrainForm() {
@@ -19,7 +19,6 @@ function CustomImageModelTrainForm() {
         modelName: "",
         triggerWord: "",
         gender: "",
-        ethnicity: "",
     }
 
     const [formDataValues, setFormDataValues] = useState(initialState)
@@ -36,7 +35,7 @@ function CustomImageModelTrainForm() {
         })
     }
 
-    const {toast} = useToast()
+    const { toast } = useToast()
     const handleSubmit = async (e) => {
         e.preventDefault()
         console.log(formDataValues)
@@ -51,25 +50,25 @@ function CustomImageModelTrainForm() {
             }
             formData.append("userId", user.$id)
             formData.append("userEmail", user.email)
-            console.log(formData);
+            console.log(formData)
             formData.forEach((value, key) => {
-                console.log(`${key}: ${value}`);
-              });
+                console.log(`${key}: ${value}`)
+            })
             setLoader(true)
             const response = await startModelTraining(formData)
             toast({
                 title: "Model Training Started",
-                description: "Your model training has started. You can logout and check back later",
+                description:
+                    "Your model training has started. You can logout and check back later",
             })
         } catch (error) {
             console.log(error)
             toast({
                 title: "Error",
-                description: "There was an error training the model. Please try again",
+                description:
+                    "There was an error training the model. Please try again",
                 variant: "destructive",
             })
-            
-            
         }
         setLoader(false)
         setSelectedImages([])
@@ -89,13 +88,13 @@ function CustomImageModelTrainForm() {
                     </p>
                     {modelState?.currentTrainingId && (
                         <div className="flex items-center gap-2 mt-4">
-                            <Info size={32} color="orange"/>
+                            <Info size={32} color="orange" />
 
                             <p className="text-xs font-regular tracking-tight text-gray-500">
-                                You have a model training in progress. Please wait
-                                for the training to complete to start a new one.
+                                You have a model training in progress. Please
+                                wait for the training to complete to start a new
+                                one.
                             </p>
-                           
                         </div>
                     )}
                 </div>
@@ -116,15 +115,37 @@ function CustomImageModelTrainForm() {
                                 <p className="text-[0.675rem]  tracking-tight text-gray-500">
                                     {field.description}
                                 </p>
-                                {field.name !== "uploadImages" && (
-                                    <input
-                                        type={field.type}
-                                        name={field.name}
-                                        value={formDataValues[field.name]}
-                                        onChange={handleChange}
-                                        className="px-3 py-2 mt-2  block w-full border border-gray-300 rounded-md  focus:ring-slate-500 focus:border-slate-500 text-sm"
-                                    />
-                                )}
+                                {field.name !== "uploadImages" &&
+                                    (field.type === "select" ? (
+                                        <select
+                                            name={field.name}
+                                            value={formDataValues[field.name]}
+                                            onChange={handleChange}
+                                            className="px-3 py-2 mt-2 block w-full border border-gray-300 rounded-md focus:ring-slate-500 focus:border-slate-500 text-sm"
+                                        >
+                                            <option value="" disabled>
+                                                Select {field.label}
+                                            </option>
+                                            {field.options.map(
+                                                (option, idx) => (
+                                                    <option
+                                                        key={idx}
+                                                        value={option.value}
+                                                    >
+                                                        {option.label}
+                                                    </option>
+                                                ),
+                                            )}
+                                        </select>
+                                    ) : (
+                                        <input
+                                            type={field.type}
+                                            name={field.name}
+                                            value={formDataValues[field.name]}
+                                            onChange={handleChange}
+                                            className="px-3 py-2 mt-2 block w-full border border-gray-300 rounded-md focus:ring-slate-500 focus:border-slate-500 text-sm"
+                                        />
+                                    ))}
                             </div>
                         )
                     })}
@@ -138,20 +159,25 @@ function CustomImageModelTrainForm() {
                 <Button
                     type="button"
                     onClick={handleSubmit}
-                    disabled={selectedImages.length === 0 || modelState?.currentTrainingId}
+                    disabled={
+                        selectedImages.length === 0 ||
+                        modelState?.currentTrainingId
+                    }
                     className="w-2/3 mx-auto flex justify-center items-center"
                 >
-                    {loader ? <div>
-                        <RotatingLines
-                                                    strokeWidth="4"
-                                                    animationDuration="0.75"
-                                                    strokeColor="white"
-                                                    height="16"
-                                                    width="16"
-                                                   
-                                                /> 
-                    </div> : <div>
-                       Start Training </div>}
+                    {loader ? (
+                        <div>
+                            <RotatingLines
+                                strokeWidth="4"
+                                animationDuration="0.75"
+                                strokeColor="white"
+                                height="16"
+                                width="16"
+                            />
+                        </div>
+                    ) : (
+                        <div>Start Training </div>
+                    )}
                 </Button>
             </div>
         </div>
