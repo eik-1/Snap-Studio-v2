@@ -187,9 +187,9 @@ export async function stripeWebhook(req, res) {
       default:
         break;
     }
-    res.json({ received: true });
+    res.status(200).json({ received: true });
   } catch (err) {
     console.log(`Webhook Error: ${err.message}`);
-    res.json({ received: true });
+    res.status(200).json({ received: true });
   }
 }
