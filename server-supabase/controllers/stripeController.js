@@ -102,6 +102,11 @@ export async function stripeWebhook(req, res) {
 
             if (error) {
               console.log("Error creating new user: ", error);
+              client.capture({
+                distinctId: customer.email,
+                event: "subscription_error",
+                properties: { error: error.message },
+              });
               throw error;
             }
           }
@@ -124,6 +129,11 @@ export async function stripeWebhook(req, res) {
 
         if (error) {
           console.log("Error updating subscription: ", error);
+          client.capture({
+            distinctId: customer.email,
+            event: "subscription_error",
+            properties: { error: error.message },
+          });
           throw error;
         }
 
@@ -163,6 +173,11 @@ export async function stripeWebhook(req, res) {
           .eq("customer_id", subscription.customer);
 
         if (error) {
+          client.capture({
+            distinctId: subscription.customer,
+            event: "subscription_error",
+            properties: { error: error.message },
+          });
           throw error;
         }
 
@@ -187,9 +202,14 @@ export async function stripeWebhook(req, res) {
       default:
         break;
     }
-    res.json({ received: true });
+    res.status(200).json({ received: true });
   } catch (err) {
     console.log(`Webhook Error: ${err.message}`);
-    res.json({ received: true });
+    client.capture({
+      distinctId: "server",
+      event: "webhook_error",
+      properties: { error: err.message },
+    });
+    res.status(200).json({ received: true });
   }
 }
