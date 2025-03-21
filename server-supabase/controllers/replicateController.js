@@ -134,7 +134,7 @@ export async function trainOstrisModel(req, res) {
           gradient_checkpointing: false,
         },
         webhook: process.env.REPLICATE_WEBHOOK_URL,
-        webhook_events_filter: ["start", "completed"],
+        webhook_events_filter: ["start", "completed", "output", "logs"],
       }
     );
 
