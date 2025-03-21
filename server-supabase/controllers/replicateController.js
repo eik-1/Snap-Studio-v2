@@ -443,7 +443,10 @@ export async function runUserModel(req, res) {
     }
 
     const modelVersion = model[0].model_version;
-    const modelGender = model[0].gender;
+    let modelGender = model[0].gender;
+    if (modelGender.toLowerCase() === "other") {
+      modelGender = " ";
+    }
     const modelTriggerWord = model[0].trigger_word;
     const enhancedPrompt = `${modelTriggerWord} ${modelGender}. ${prompt}`;
 

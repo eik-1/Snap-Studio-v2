@@ -12,6 +12,12 @@ export const styleAndPrompts = [
       "A corporate-style close-up portrait of a confident woman dressed in a navy blue blazer and a light gray top, smiling softly against a canary yellow background.",
   },
   {
+    style: "yellow",
+    gender: "other",
+    prompt:
+      "A corporate-style close-up portrait of a confident person dressed in a navy blue blazer and a light gray shirt, smiling softly against a canary yellow background.",
+  },
+  {
     style: "black",
     gender: "male",
     prompt:
@@ -21,7 +27,13 @@ export const styleAndPrompts = [
     style: "black",
     gender: "female",
     prompt:
-      "A high-quality corporate portrait of a woman with a poised and authoritative presence. She  wears a dark grey blazer over a light blue dress shirt. Her expression is confident yet approachable, with a slight smile. The black background is evenly lit, ensuring a professional and polished studio effect.",
+      "A high-quality corporate portrait of a woman wearing a dark grey blazer over a light blue dress shirt. Her expression is confident yet approachable, with a slight smile. The black background is evenly lit, ensuring a professional and polished studio effect.",
+  },
+  {
+    style: "black",
+    gender: "other",
+    prompt:
+      "A high-quality corporate portrait of a person wearing a dark grey blazer over a light blue shirt. Their expression is confident yet approachable, with a slight smile. The black background is evenly lit, ensuring a professional and polished studio effect.",
   },
   {
     style: "cityLights",
