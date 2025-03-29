@@ -7,10 +7,11 @@ import { ModelProvider } from "@/contexts/ModelContext"
 import { useToast } from "@/hooks/use-toast"
 import Settings from "@/Pages/Dashboard/Settings"
 import Error from "./Components/Error"
+import SendFashionModel from "./Components/SendFashionModel"
 import { NavigationProvider } from "./contexts/NavigationContext"
+import { NotificationProvider } from "./contexts/NotificationContext"
 import { SubscriptionProvider } from "./contexts/SubscriptionContext"
 import { UserProvider, useUser } from "./contexts/UserContext"
-import { NotificationProvider } from "./contexts/NotificationContext"
 import Home from "./Pages/Dashboard/Home"
 import MyImages from "./Pages/Dashboard/MyImages"
 import MyModels from "./Pages/Dashboard/MyModels"
@@ -92,6 +93,10 @@ function App() {
             errorElement: <Error />,
         },
         {
+            path: "/fashionai",
+            element: <SendFashionModel />,
+        },
+        {
             path: "/app",
             element: (
                 <QueryClientProvider client={queryClient}>
@@ -100,9 +105,9 @@ function App() {
                             <ImageProvider>
                                 <ModelProvider>
                                     <NotificationProvider>
-                                    <NavigationProvider>
-                                        <RootLayout />
-                                    </NavigationProvider>
+                                        <NavigationProvider>
+                                            <RootLayout />
+                                        </NavigationProvider>
                                     </NotificationProvider>
                                 </ModelProvider>
                             </ImageProvider>

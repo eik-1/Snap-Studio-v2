@@ -421,6 +421,7 @@ export async function deleteImage(req, res) {
 }
 
 /*SUBSCRIPTION TABLE*/
+
 // export async function checkCredits(req, res) {
 //   const { email } = req.body;
 //   try {
@@ -491,7 +492,7 @@ export async function getCredits(userEmail) {
   try {
     const { data, error } = await supabase
       .from("Subscription")
-      .select("credits", "model_credits")
+      .select("credits, model_credits ,fashion_credits")
       .eq("email", userEmail);
     console.log("Credits: ", data);
     if (error) {
@@ -517,6 +518,24 @@ export async function updateCredits(userEmail, credits) {
     }
   } catch (err) {
     throw err;
+  }
+}
+
+export async function updateFashionCredits(userEmail, fashionCredits) {
+  try {
+    const { error } = await supabase
+      .from("Subscription")
+      .update({
+        fashion_credits: fashionCredits,
+      })
+      .eq("email", userEmail);
+
+    if (error) {
+      return 0;
+    }
+    return 1;
+  } catch (err) {
+    return 0;
   }
 }
 
