@@ -492,7 +492,7 @@ export async function getCredits(userEmail) {
   try {
     const { data, error } = await supabase
       .from("Subscription")
-      .select("credits", "model_credits", "fashion_credits")
+      .select("credits, model_credits ,fashion_credits")
       .eq("email", userEmail);
     console.log("Credits: ", data);
     if (error) {
