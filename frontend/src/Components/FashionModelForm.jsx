@@ -268,6 +268,7 @@ function FashionModelForm() {
                                 selectedImages={clothesImages}
                                 setSelectedImages={setClothesImages}
                                 maxImages={1}
+                                id="clothes-images"
                             />
                             {error.clothesImages && (
                                 <p className="text-red-500 text-xs mt-1">
@@ -294,6 +295,7 @@ function FashionModelForm() {
                                 selectedImages={modelImages}
                                 setSelectedImages={setModelImages}
                                 maxImages={1}
+                                id="model-images"
                             />
                             {error.modelImages && (
                                 <p className="text-red-500 text-xs mt-1">

@@ -1,7 +1,7 @@
 import { Upload } from "lucide-react";
 import { useState } from "react";
 
-function ImageInputBox({ selectedImages, setSelectedImages, maxImages = 25 }) {
+function ImageInputBox({ selectedImages, setSelectedImages, maxImages = 25, id='images' }) {
     const [isDragging, setIsDragging] = useState(false);
 
     function handleDragOver(e) {
@@ -44,13 +44,13 @@ function ImageInputBox({ selectedImages, setSelectedImages, maxImages = 25 }) {
                 <p className="text-sm text-gray-500">
                     Drag your file(s) or {" "}
                     <label
-                        htmlFor="images"
+                        htmlFor={id}
                         className="text-blue-500 cursor-pointer hover:underline hover:text-blue-600"
                     >
                         browse
                         <input
                             type="file"
-                            id="images"
+                            id={id}
                             onChange={handleFileChange}
                             multiple
                             accept="image/*"
@@ -64,13 +64,13 @@ function ImageInputBox({ selectedImages, setSelectedImages, maxImages = 25 }) {
                 <p className="text-sm text-gray-600 mb-2 py-2">
                     Selected images: {selectedImages.length} / {maxImages}
                 </p>
-                <div className="max-h-28 grid grid-cols-3 gap-2 ">
+                <div className="max-h-28 grid grid-cols-3 gap-2  ">
                     {selectedImages.map((file, index) => (
                         <div key={index} className="relative">
                             <img
                                 src={URL.createObjectURL(file)}
                                 alt={`Preview ${index + 1}`}
-                                className="w-full h-28 object-cover rounded"
+                                className="w-full h-28 object-contain rounded"
                             />
                             <button
                                 type="button"
