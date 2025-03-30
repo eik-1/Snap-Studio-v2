@@ -3,6 +3,7 @@ import ModelTrainForm from "@/Components/ModelTrainFormOld";
 import CustomImageForm from "@/Components/CustomImageForm";
 import { useNavigation } from "@/contexts/NavigationContext";
 import CustomImageModelTrainForm from "./CustomImageModelTrainForm";
+import FashionModelForm from "./FashionModelForm";
 import HeadshotForm from "./HeadshotForm";
 
 function SidePanel({ children }) {
@@ -11,7 +12,7 @@ function SidePanel({ children }) {
   const modeComponents = {
     headshot: <HeadshotForm />,
     customImage: <CustomImageForm />,
-    fashionModel: <ModelTrainForm />,
+    fashionModel: <FashionModelForm />,
     newCustomModelTrainForm: <CustomImageModelTrainForm />,
 
   };

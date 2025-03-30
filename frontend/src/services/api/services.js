@@ -83,6 +83,18 @@ export async function generateHeadshot(
     )
     return response.data
 }
+export async function generateFashionImages(formData) {
+    const response = await apiRequest(
+        `/fal/fashion`,
+        "POST",
+        formData,
+        {
+            "Content-Type": "multipart/form-data",
+        },
+    )
+    return response.data
+
+}
 
 export async function saveHeadshot(userId, fileUrl) {
     const response = await apiRequest(

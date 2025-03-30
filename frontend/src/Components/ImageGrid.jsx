@@ -160,7 +160,7 @@ function ImageGrid({ images, usedFor = "", className}) {
 
                                 <motion.div
                                     layoutId={`container-${selectedIndex}`}
-                                    className="h-full w-full aspect-square flex items-center justify-center"
+                                    className="h-full w-full aspect-square flex items-center justify-center rounded-lg"
                                     transition={trs}
                                 >
                                     <motion.img
