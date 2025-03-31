@@ -140,8 +140,7 @@ function CreditsTab() {
               </div>
             </div>
             
-           
-            {maxFashionCredits > 0 && (
+            {(subscription!==undefined && subscription?.plan_name==='Pro') && (
               <div className="flex items-center py-2">
                 <div className="w-10 h-10 rounded-full flex items-center justify-center border border-purple-200">
                   <Shirt size={18} className="text-gray-500" />
