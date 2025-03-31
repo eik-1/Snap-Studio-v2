@@ -85,12 +85,12 @@ function LandingNav() {
                 <div
                     className={` hidden lg:flex items-center space-x-3 text-lg font-medium ${user ? "ml-24" : "ml-8"}`}
                 >
-                    <a
+                    {location.pathname==='/' && <a
                         href="#pricing"
                         className={  `bg-gradient-to-r hover:from-purple-600 hover:via-indigo-600 hover:to-pink-600 text-transparent bg-clip-text rounded-md px-3 py-2 transition-color duration-300   from-black/80 to-black/65`}
                     >
                         Pricing
-                    </a>
+                    </a>}
 
                     <NavLink
                         to="/gallery"
@@ -101,12 +101,12 @@ function LandingNav() {
                     >
                       <span className=""></span>  Gallery
                     </NavLink>
-                    <a
+                    {location.pathname==='/' && <a
                         href="#features"
                         className={  `bg-gradient-to-r hover:from-purple-600 hover:via-indigo-600 hover:to-pink-600 text-transparent bg-clip-text rounded-md px-3 py-2 transition-color duration-300   from-black/80 to-black/65`}
                     >
                         Features
-                    </a>
+                    </a>}
                 </div>
 
                 <div className="gap-4 hidden lg:flex">
