@@ -12,6 +12,7 @@ import {
     Images as NumImage,
     Plus,
     Tags as CategoryIcon,
+    AlertCircle
    
 } from "lucide-react"
 import { PiPants as PantsIcon,
@@ -41,11 +42,7 @@ function FashionModelForm() {
     const { user } = useUser()
     const { dispatch: imageDispatch, state: imageState } = useImage()
     const { dispatch: navDispatch } = useBackNavigation()
-    const { state: modelState } = useModel()
-    const { updateCredits, subscription } = useSubscription()
-    const trainedModels = modelState.models.filter(
-        (model) => model.status === "succeeded",
-    )
+    const { updateFashionCredits, subscription } = useSubscription()
 
     const categories = [
         { id: "tops", label: "Top", icon: ShirtIcon },
@@ -64,8 +61,8 @@ function FashionModelForm() {
                 message: "Generating Fashion Model Images",
             },
         })
-       /* subscription?.credits &&
-            updateCredits(subscription?.credits - numberOfImages * 10, user?.email)*/
+        subscription?.fashion_credits &&
+            updateFashionCredits(subscription?.fashion_credits - numberOfImages * 10, user?.email)
     
         try {
             const data = await generateFashionImages(
@@ -83,7 +80,7 @@ function FashionModelForm() {
                     message: "Images generated successfully",
                 },
             })
-            //updateCredits(data.remainingCredits, user?.email)
+            updateFashionCredits(data.remainingCredits, user?.email)
         } catch (error) {
             console.log("error occured while generating fashion images")
             imageDispatch({
@@ -93,7 +90,7 @@ function FashionModelForm() {
                     message: "Error generating images",
                 },
             })
-            updateCredits(error.data.remainingCredits, user?.email)
+            updateFashionCredits(error.data.remainingCredits, user?.email)
             console.log("Error generating images")
         }
     }
@@ -183,6 +180,25 @@ function FashionModelForm() {
                             "Try on clothes virtually with our AI model."
                         }
                     </p>
+                   
+{subscription && subscription?.plan_name === 'Basic' && (
+  <div className="mt-3 p-4 border border-orange-100 rounded-md bg-orange-50/50 ">
+    <div className="flex items-center justify-center gap-3 ">
+        <div className="">
+        <AlertCircle size={20} className="text-orange-500" />
+        </div>
+       
+      <p className="text-xs text-gray-600 leading-snug">
+        You are currently on the Basic plan. Upgrade to the Pro plan to use this feature.
+      </p>
+    </div>
+    <button className="mt-4 px-4 py-2 w-full bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700  text-white text-xs font-medium rounded-md transition-colors"
+    onClick={()=>window.location.href=`${import.meta.env.VITE_STRIPE_USER_PORTAL}`}
+    >
+      Upgrade Now
+    </button>
+  </div>
+)}
                 </div>
                 <form
                     onSubmit={handleSubmit}
@@ -362,6 +378,7 @@ function FashionModelForm() {
                     form="fashion-model-form"
                     className="w-2/3 text-xs sm:text-sm mx-auto bg-gradient-to-r from-rose-500 via-purple-500 to-cyan-500"
                     disabled={
+                        subscription?.plan_name === 'Basic'||
                         imageState.generationStatus.status === "generating" ||
                         selectedCategory === "" ||
                         clothesImages.length === 0 ||

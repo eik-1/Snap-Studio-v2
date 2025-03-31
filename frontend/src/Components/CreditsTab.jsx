@@ -198,7 +198,9 @@ function CreditsTab() {
      
         <div className="bg-gradient-to-bl from-purple-50/20 to-rose-50/50 px-4 py-3  rounded-lg">
           <div className="flex items-center gap-2">
-            <button className="flex-1 px-3 py-2 rounded-lg text-xs font-medium bg-gradient-to-r from-indigo-600 to-purple-600 text-white transition-all">
+            <button className="flex-1 px-3 py-2 rounded-lg text-xs font-medium bg-gradient-to-r from-indigo-600 to-purple-600 text-white transition-all"
+            onClick={() => {window.location.href=`${import.meta.env.VITE_STRIPE_USER_PORTAL}`}}
+            >
               {subscription?.plan_name === 'Pro' ? 'Manage' : 'Upgrade'} Plan
             </button>
            
