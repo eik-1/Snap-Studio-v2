@@ -52,7 +52,7 @@ function FashionModelForm() {
 
     async function handleImageGeneration(
         formData,
-        numberOfImages,
+        numImages
     ) {
         imageDispatch({
             type: "SET_GENERATION_STATUS",
@@ -61,8 +61,9 @@ function FashionModelForm() {
                 message: "Generating Fashion Model Images",
             },
         })
+        console.log("Remaining Fashion Credits",subscription?.fashion_credits - numImages * 10)
         subscription?.fashion_credits &&
-            updateFashionCredits(subscription?.fashion_credits - numberOfImages * 10, user?.email)
+            updateFashionCredits(subscription?.fashion_credits - numImages * 10, user?.email)
     
         try {
             const data = await generateFashionImages(
@@ -130,6 +131,8 @@ function FashionModelForm() {
 
         await handleImageGeneration(
           formData,
+            numImages,
+
         )
 
         if (imageState.generationStatus.status === "success") {
