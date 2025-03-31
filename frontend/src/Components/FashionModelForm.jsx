@@ -121,6 +121,8 @@ function FashionModelForm() {
         if (!validateForm()) return
 
         const numImages = parseInt(numberOfImages)
+        console.log(clothesImages[0])
+        console.log(modelImages[0])
         const formData = new FormData()
         formData.append("dressImg", clothesImages[0])
         formData.append("modelImg", modelImages[0])

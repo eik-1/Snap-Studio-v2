@@ -1,6 +1,6 @@
 import NavigationBackButton from "./NavigationBackButton"
 import Profile from "./Profile"
-import CreditsTab from "@/Components/CreditsTab"
+import Credits from "@/Components/CreditsTab"
 import NotificationButton from "@/Components/Notification"
 
 function Header() {
@@ -12,7 +12,7 @@ function Header() {
 
             <div className="h-full w-max flex gap-4 sm:gap-6 mr-4 items-center justify-center p-2  ">
                
-                <CreditsTab />
+                <Credits />
                 <NotificationButton />
                 <Profile />
             </div>
