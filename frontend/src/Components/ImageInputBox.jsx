@@ -1,29 +1,37 @@
-import { Upload } from "lucide-react"
-import { useState } from "react"
-function ImageInputBox({ selectedImages, setSelectedImages }) {
-    const [isDragging, setIsDragging] = useState(false)
+import { Upload } from "lucide-react";
+import { useState } from "react";
+
+function ImageInputBox({ selectedImages, setSelectedImages, maxImages = 25, id='images' }) {
+    const [isDragging, setIsDragging] = useState(false);
 
     function handleDragOver(e) {
-        e.preventDefault()
-        setIsDragging(true)
+        e.preventDefault();
+        setIsDragging(true);
     }
     function handleDragLeave(e) {
-        e.preventDefault()
-        setIsDragging(false)
+        e.preventDefault();
+        setIsDragging(false);
     }
     function handleDrop(e) {
-        e.preventDefault()
-        setIsDragging(false)
-        const droppedImage = e.dataTransfer.files[0]
-        setSelectedImages((prevImages) => [...prevImages, droppedImage])
+        e.preventDefault();
+        setIsDragging(false);
+        const files = Array.from(e.dataTransfer.files);
+        addImages(files);
     }
     function handleFileChange(e) {
-        const files = Array.from(e.target.files)
-        setSelectedImages((prevFiles) => [...prevFiles, ...files])
+        const files = Array.from(e.target.files);
+        addImages(files);
+    }
+    function addImages(files) {
+        if (selectedImages.length + files.length > maxImages) {
+            alert(`You can only upload up to ${maxImages} images.`);
+            return;
+        }
+        setSelectedImages((prevFiles) => [...prevFiles, ...files]);
     }
     const removeFile = (index) => {
-        setSelectedImages((prevFiles) => prevFiles.filter((_, i) => i !== index))
-    }
+        setSelectedImages((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    };
     return (
         <>
             <div
@@ -34,35 +42,35 @@ function ImageInputBox({ selectedImages, setSelectedImages }) {
             >
                 <Upload className="w-8 h-8 text-gray-400 mb-2" />
                 <p className="text-sm text-gray-500">
-                    Drag your file(s) or{" "}
+                    Drag your file(s) or {" "}
                     <label
-                        htmlFor="images"
+                        htmlFor={id}
                         className="text-blue-500 cursor-pointer hover:underline hover:text-blue-600"
                     >
                         browse
                         <input
                             type="file"
-                            id="images"
-                      
+                            id={id}
                             onChange={handleFileChange}
                             multiple
                             accept="image/*"
                             className="hidden"
+                            disabled={selectedImages.length >= maxImages}
                         />
                     </label>
                 </p>
             </div>
             <div>
                 <p className="text-sm text-gray-600 mb-2 py-2">
-                    Selected images: {selectedImages.length}
+                    Selected images: {selectedImages.length} / {maxImages}
                 </p>
-                <div className="max-h-28 grid grid-cols-3 gap-2 ">
+                <div className="max-h-28 grid grid-cols-3 gap-2  ">
                     {selectedImages.map((file, index) => (
                         <div key={index} className="relative">
                             <img
                                 src={URL.createObjectURL(file)}
                                 alt={`Preview ${index + 1}`}
-                                className="w-full h-28 object-cover rounded"
+                                className="w-full h-28 object-contain rounded"
                             />
                             <button
                                 type="button"
@@ -76,6 +84,6 @@ function ImageInputBox({ selectedImages, setSelectedImages }) {
                 </div>
             </div>
         </>
-    )
+    );
 }
-export default ImageInputBox
+export default ImageInputBox;

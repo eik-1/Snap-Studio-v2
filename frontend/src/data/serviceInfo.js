@@ -1,5 +1,6 @@
 import { img1, img2, img3, img4, img5, img6, GoldenHour, CitySkyline, Black } from "@/assets/images/index"
 import { FashionIcon, HeadshotIcon, ImageIcon } from "@/data/Icons"
+import { PiDressBold, PiTShirtBold } from "react-icons/pi"
 
 const services = [
     {
@@ -27,14 +28,12 @@ const services = [
     {
         serviceType: "fashionModel",
         name:"Fashion Model",
-        title: "Create AI Fashion Model",
-        description: "Create your own AI fashion model for your shopify store",
+        title: "AI Fashion Try-On",
+        description: "Try on clothes virtually with our AI model.",
         images: [img3, img4],
-        labelText: "Coming Soon",
-        labelStyle: "text-rose-600",
         className:
             "bg-servicethree text-white/90 hover:shadow-lg hover:shadow-rose-200",
-        icon: FashionIcon,
+        icon: PiTShirtBold,
     },
 ]
 export { services }

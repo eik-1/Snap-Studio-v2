@@ -138,7 +138,7 @@ export async function generateFashionImage(req, res) {
     // Return successful response
     return res.status(200).json(
       new ApiResponse(200, "Fashion image generated successfully", {
-        images: outputUrls,
+        imageUrls: outputUrls,
         remainingCredits: creditsInfo.fashion_credits,
       })
     );

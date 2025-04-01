@@ -21,9 +21,15 @@ function SubscriptionProvider({ children }) {
           return { ...oldData, credits: newCredits };
         });
       };
+    function updateFashionCredits(newCredits, email) {
+        queryClient.setQueryData(["subscription", email], (oldData) => {
+          if (!oldData) return oldData;
+          return { ...oldData, fashion_credits: newCredits };
+        });
+      }
 
     return (
-        <SubscriptionContext.Provider value={{ subscription, error, updateCredits }}>
+        <SubscriptionContext.Provider value={{ subscription, error, updateCredits, updateFashionCredits }}>
             {children}
         </SubscriptionContext.Provider>
     )

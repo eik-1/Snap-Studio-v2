@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react"
 import { User2Icon, LogOut } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { useNavigate } from "react-router-dom"
+import {motion, AnimatePresence} from "motion/react"
 function Profile() {
     const { user, logoutUser } = useUser()
     const { toast } = useToast()
@@ -58,8 +59,16 @@ function Profile() {
             >
                 <User2Icon size="20" />
             </div>
+            <AnimatePresence>
+
+           
             {isProfileMenuOpen && (
-                <div className="absolute top-10 right-0 bg-white/75 backdrop-blur-2xl w-max  h-max p-4 gap-3 flex flex-col  justify-center border-[1px] shadow-md rounded-lg">
+                <motion.div className="absolute top-10 right-0 bg-white/75 backdrop-blur-2xl w-max  h-max p-4 gap-3 flex flex-col  justify-center border-[1px] shadow-md rounded-lg"
+                initial={{ opacity: 0, y: -50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -50 }}
+                transition={{ type: "spring", stiffness: 300, damping: 18 }}
+                >
                     <div className="flex items-center gap-1 text-gray-700">
                         <User2Icon size="20" round={true} />
                         <h3 className="text-sm ">
@@ -73,8 +82,9 @@ function Profile() {
                         <LogOut size="20" />
                         <p className="text-sm text-rose-500 ">Logout</p>
                     </div>
-                </div>
+                </motion.div>
             )}
+             </AnimatePresence>
         </div>
     )
 }
