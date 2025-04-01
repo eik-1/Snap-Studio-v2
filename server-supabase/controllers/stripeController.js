@@ -74,7 +74,7 @@ export async function stripeWebhook(req, res) {
           planType = "Monthly";
         } else if (plan.title === "ProMonth") {
           planCredits = 5000;
-          fashionCredits = 25;
+          fashionCredits = 250;
           modelCredits = 3;
           planName = "Pro";
           planType = "Monthly";
@@ -86,7 +86,7 @@ export async function stripeWebhook(req, res) {
           planType = "Yearly";
         } else if (plan.title === "ProYear") {
           planCredits = 60000;
-          fashionCredits = 300;
+          fashionCredits = 3000;
           modelCredits = 36;
           planName = "Pro";
           planType = "Yearly";

@@ -31,7 +31,7 @@ export async function generateFashionImage(req, res) {
   const { userId, category, userEmail, numberOfImages } = req.body;
 
   let creditsInfo;
-  let creditsUsed = numberOfImages || 1;
+  let creditsUsed = numberOfImages * 10 || 10;
   let creditsDeducted = false;
 
   // Credit validation and deduction
@@ -78,6 +78,8 @@ export async function generateFashionImage(req, res) {
     if (creditsDeducted) {
       await safelyRestoreCredits(userEmail, usedCredits);
     }
+
+    creditsInfo = await getCredits(userEmail);
 
     return res.status(400).json(
       new ApiResponse(400, "Missing required images", {
@@ -147,6 +149,8 @@ export async function generateFashionImage(req, res) {
     if (creditsDeducted) {
       await safelyRestoreCredits(userEmail, usedCredits);
     }
+
+    creditsInfo = await getCredits(userEmail);
 
     client.captureException(err, userEmail);
 
