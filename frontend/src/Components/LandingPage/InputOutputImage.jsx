@@ -1,7 +1,7 @@
 import { MoveRight, MoveDown } from "lucide-react"
 import HandDrawnArrow from "@/Components/UI/HandDrawnArrow"
-import { img1 as outputImage } from "@/assets/images"
-import { img1, img2, img3, img4 } from "@/assets/input-images"
+import { img1 as outputImage } from "@/assets/image"
+import { img1, img5, img6, img4 } from "@/assets/image"
 
 function InputOutputImage() {
     return (
@@ -50,14 +50,14 @@ function InputOutputImage() {
                         </div>
                         <div className="rounded-2xl overflow-hidden aspect-square">
                             <img
-                                src={img2}
+                                src={img5}
                                 alt="Restaurant"
                                 className="w-full h-full object-cover"
                             />
                         </div>
                         <div className="rounded-2xl overflow-hidden aspect-square">
                             <img
-                                src={img3}
+                                src={img6}
                                 alt="Street"
                                 className="w-full h-full object-cover"
                             />

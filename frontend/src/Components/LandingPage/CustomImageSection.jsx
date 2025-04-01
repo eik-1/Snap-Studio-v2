@@ -1,5 +1,3 @@
-import { img1 } from "@/assets/headshot-images"
-import { img8 } from "@/assets/images"
 import { useNavigate } from "react-router-dom"
 
 export default function CustomImageSection() {

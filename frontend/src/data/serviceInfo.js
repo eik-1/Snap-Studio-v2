@@ -1,4 +1,4 @@
-import { img1, img2, img3, img4, img5, img6, GoldenHour, CitySkyline, Black } from "@/assets/images/index"
+import { img2, img3, img6, img4,   GoldenHour, CitySkyline, Black } from "@/assets/image"
 import { FashionIcon, HeadshotIcon, ImageIcon } from "@/data/Icons"
 import { PiDressBold, PiTShirtBold } from "react-icons/pi"
 
@@ -19,7 +19,7 @@ const services = [
         name:"Images",
         title: "Create Custom Images",
         description: "Create custom images of your choice with just a prompt",
-        images: [img1, img2],
+        images: [img3, img2],
         className:
             "bg-servicetwo text-white/90 hover:shadow-lg hover:shadow-blue-200",
         icon: ImageIcon,
@@ -30,7 +30,7 @@ const services = [
         name:"Fashion Model",
         title: "AI Fashion Try-On",
         description: "Try on clothes virtually with our AI model.",
-        images: [img3, img4],
+        images: [img6, img4],
         className:
             "bg-servicethree text-white/90 hover:shadow-lg hover:shadow-rose-200",
         icon: PiTShirtBold,

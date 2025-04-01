@@ -1,5 +1,5 @@
-import { img10 as output } from "@/assets/images/index.js"
-import { img10, img3, img4 } from "@/assets/input-images"
+import { david7 as output } from "@/assets/image"
+import { david2, david3, david4 } from "@/assets/image"
 import { Camera, Sparkles, Upload } from "lucide-react"
 
 const ImageFlow = () => {
@@ -8,7 +8,7 @@ const ImageFlow = () => {
             title: "Upload few of your images",
             description: "Train the model with your images.",
             completed: true,
-            images: [img10, img4, img3],
+            images: [david2, david4, david3],
             icon: <Upload className="text-white" size={24} />,
         },
         {
@@ -16,7 +16,7 @@ const ImageFlow = () => {
             description:
                 "Provide a suitable prompt to define the way you want your image",
             completed: true,
-            prompt: "Generate image of myself posing with a camera in hand and wearing a jacket and a cap, with Eiffel tower in the background",
+            prompt: "Generate image of a man sitting in a restraunt and posing with a drink",
             icon: <Sparkles className="text-white" size={24} />,
         },
         {
