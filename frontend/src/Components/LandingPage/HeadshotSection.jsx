@@ -1,5 +1,5 @@
-import { img1 } from "@/assets/headshot-images"
-import { img8 } from "@/assets/images"
+import { CityLights } from "@/assets/image"
+import { david6 } from "@/assets/image"
 import { useNavigate } from "react-router-dom"
 
 export default function HeadshotSection() {
@@ -49,7 +49,7 @@ export default function HeadshotSection() {
                             <div className="absolute left-6 top-20 sm:left-20 sm:top-16 md:left-18 md:top-4 rounded-2xl overflow-hidden shadow-2xl  -rotate-[25deg] md:rotate-12">
                                 <div className="relative group">
                                     <img
-                                        src={img1}
+                                        src={CityLights}
                                         alt="Professional male headshot"
                                         className="h-36 w-36 sm:w-52 sm:h-52 md:w-60 md:h-60 object-cover"
                                     />
@@ -59,7 +59,7 @@ export default function HeadshotSection() {
                             <div className="absolute right-6 top-20 sm:right-20 sm:top-16 md:right-4 md:bottom-12 md:top-auto rounded-2xl overflow-hidden shadow-2xl  rotate-[25deg] md:-rotate-12">
                                 <div className="relative group">
                                     <img
-                                        src={img8}
+                                        src={david6}
                                         alt="Professional female headshot"
                                         className="h-36 w-36 sm:w-52 sm:h-52 md:w-60 md:h-60 object-cover "
                                     />

@@ -5,7 +5,7 @@ import { motion } from "framer-motion"
 import { ChevronLeft, ChevronRight, Copy, X } from "lucide-react"
 import { useState } from "react"
 
-import { bow, img10, nyc1, paris, skateboard } from "@/assets/images"
+import { bow, img10, nyc1, paris, skateboard } from "@/assets/image"
 
 const trs = {
     type: "spring",

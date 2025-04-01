@@ -7,7 +7,7 @@ import {
     UrbanStreet,
     WhiteStudio,
     Yellow,
-} from "@/assets/images/index"
+} from "@/assets/image"
 import {
     Globe2 as Ethnicity,
     Users2 as Gender,
