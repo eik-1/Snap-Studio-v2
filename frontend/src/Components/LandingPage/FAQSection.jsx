@@ -68,7 +68,7 @@ function FAQSection(){
         
         <div className="mt-10 flex justify-center">
           <a 
-            href="#" 
+            href="mailto:help@snapstudio.me" 
             className="flex items-center text-indigo-600 font-medium hover:text-indigo-700 transition-colors"
           >
             <span>Contact support</span>
