@@ -1,5 +1,4 @@
 import { useModel } from "@/contexts/ModelContext"
-import { BellDot } from "lucide-react"
 import NotificationButton from "./Notification"
 function TrainingStatus() {
     const stateColor = {

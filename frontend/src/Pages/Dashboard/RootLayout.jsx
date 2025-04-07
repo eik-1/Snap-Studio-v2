@@ -2,7 +2,6 @@ import AppNavbar from "@/Components/AppNavbar"
 import Header from "@/Components/Header"
 import { Outlet } from "react-router-dom"
 
-import { NavigationProvider } from "@/contexts/NavigationContext"
 
 function RootLayout() {
     return (

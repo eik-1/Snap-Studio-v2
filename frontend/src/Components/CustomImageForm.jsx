@@ -3,11 +3,11 @@ import {
     Coins,
     Minus,
     Layers as ModelIcon,
-    PlusCircle as NewModel,
+    
     Images as NumImage,
     Plus,
     PenLine as PromptIcon,
-    Stars,
+   
 } from "lucide-react"
 import { useState } from "react"
 

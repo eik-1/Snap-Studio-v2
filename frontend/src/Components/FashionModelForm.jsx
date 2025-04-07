@@ -1,5 +1,4 @@
 import { useImage } from "@/contexts/ImageContext"
-import { useModel } from "@/contexts/ModelContext"
 import { useNavigation as useBackNavigation } from "@/contexts/NavigationContext"
 import { useSubscription } from "@/contexts/SubscriptionContext"
 import { useUser } from "@/contexts/UserContext"
@@ -8,7 +7,6 @@ import {
     Clock,
     Coins,
     Minus,
-    Layers as ModelIcon,
     Images as NumImage,
     Plus,
     Tags as CategoryIcon,

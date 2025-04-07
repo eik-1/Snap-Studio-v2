@@ -1,4 +1,4 @@
-import appImage from "@/assets/home.png"
+
 import Footer from "@/Components/LandingPage/Footer"
 import HeadshotSection from "@/Components/LandingPage/HeadshotSection"
 import CustomImageSection from "@/Components/LandingPage/CustomImageSection"

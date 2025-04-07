@@ -1,5 +1,4 @@
 import OptionPanel from "@/Components/OptionsPanel";
-import ModelTrainForm from "@/Components/ModelTrainFormOld";
 import CustomImageForm from "@/Components/CustomImageForm";
 import { useNavigation } from "@/contexts/NavigationContext";
 import CustomImageModelTrainForm from "./CustomImageModelTrainForm";

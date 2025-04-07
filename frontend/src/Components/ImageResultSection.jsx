@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "motion/react"
 import { useImage } from "@/contexts/ImageContext"
 import ImageGrid from "@/Components/ImageGrid"
 import { cn } from "@/lib/utils"
-import { saveHeadshot, saveCustomImage } from "@/services/api/services"
 import { useUser } from "@/contexts/UserContext"
 //incomplete component: multiple features and functionalities are missing, to be implemented
 

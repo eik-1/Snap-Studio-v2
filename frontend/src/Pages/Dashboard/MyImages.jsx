@@ -2,9 +2,7 @@ import SavedServiceCard from "@/Components/SavedServiceCard"
 import { services } from "@/data/serviceInfo"
 
 function MyImages() {
-    function handleServiceClick(serviceType) {
-        
-    }
+  
 
     return (
         <div className="w-full h-full bg-white relative flex flex-col md:flex-row md:items-center">

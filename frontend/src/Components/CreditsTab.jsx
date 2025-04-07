@@ -3,7 +3,7 @@ import { RotatingLines } from "react-loader-spinner"
 import { useSubscription } from "@/contexts/SubscriptionContext"
 import { CoinsIcon } from "@/data/Icons"
 import { useState, useEffect, useRef } from "react"
-import { Plus, Camera, Shirt, Box, CreditCard } from "lucide-react"
+import {  Camera, Shirt, Box,  } from "lucide-react"
 import { AnimatePresence, motion } from "motion/react"
 
 function Credits() {

@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { Download, Bookmark, Trash2 } from "lucide-react"
+import { Download } from "lucide-react"
 import SaveImageButton from "./SaveImageButton"
 import DeleteImageButton from "./DeleteImageButton"
 import { downloadImageFromReplicate } from "@/services/utils/downloadImage"
