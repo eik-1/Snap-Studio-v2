@@ -8,6 +8,7 @@ import PricingSection from "@/Components/Pricing"
 import Window from "@/Components/Window"
 import FAQSection from "@/Components/LandingPage/FAQSection"
 import { Helmet } from "react-helmet-async"
+
 export default function LandingPage() {
     return (
         <>
@@ -27,6 +28,8 @@ export default function LandingPage() {
                     autoPlay
                     muted
                     loop
+                    playsInline
+                    
                 >
                     <source src={`https://qlyojdnywhpjejyxukld.supabase.co/storage/v1/object/public/videos//snapstudio-head-scst%20(1)%20(1).mp4`} type="video/mp4" />
                     Your browser does not support the video tag.

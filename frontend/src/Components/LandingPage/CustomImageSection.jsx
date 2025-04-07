@@ -38,6 +38,9 @@ export default function CustomImageSection() {
                             autoPlay
                             muted
                             loop
+                            playsInline
+                          
+
                         >
                             <source
                                 src={`https://qlyojdnywhpjejyxukld.supabase.co/storage/v1/object/public/videos//snapstudio-custom.mp4`}

@@ -3,7 +3,7 @@ import ErrorIndicator from "@/Components/ErrorIndicator"
 import { RotatingLines } from "react-loader-spinner"
 import { useParams } from "react-router-dom"
 import { useEffect, useState, useCallback } from "react"
-import { getSavedHeadshots, getSavedImages } from "@/services/api/services"
+import { getSavedHeadshots, getSavedImages, getFashionImages } from "@/services/api/services"
 import { useUser } from "@/contexts/UserContext"
 import { useImage } from "@/contexts/ImageContext"
 
@@ -20,7 +20,7 @@ function SavedImages() {
             let data =
                 category === "headshots"
                     ? await getSavedHeadshots(user.$id)
-                    : await getSavedImages(user.$id)
+                    : category==="custom-images"? await getSavedImages(user.$id): await getFashionImages(user.$id)
 
             const images = data.map((item) => {
                 return {

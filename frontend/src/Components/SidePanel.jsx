@@ -12,7 +12,7 @@ function SidePanel({ children }) {
   const modeComponents = {
     headshot: <HeadshotForm />,
     customImage: <CustomImageForm />,
-    fashionModel: <FashionModelForm />,
+    fashion: <FashionModelForm />,
     newCustomModelTrainForm: <CustomImageModelTrainForm />,
 
   };

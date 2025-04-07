@@ -1,6 +1,6 @@
 const Window = ({ children, title = "SnapStudio" }) => {
     return (
-      <div className="flex flex-col rounded-xl shadow-xl w-full max-w-5xl overflow-hidden border border-gray-200">
+      <div className="flex flex-col rounded-xl shadow-xl w-full max-w-5xl overflow-hidden border border-gray-200 shadow-purple-50">
        
         <div className="flex items-center px-2 sm:px-4 py-1 sm:py-2 bg-gradient-to-br bg-purple-50/70 to-indigo-50/70 border-b border-gray-200">
          

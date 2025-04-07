@@ -392,7 +392,7 @@ function FashionModelForm() {
                     <span>Generate Image</span>
                     <div className="flex items-center justify-center">
                         ~ ( <Clock size={12} />
-                        <p>&nbsp;{numberOfImages * 15}s</p>)
+                        <p>&nbsp;{numberOfImages * 25}s</p>)
                     </div>
                 </Button>
             </div>

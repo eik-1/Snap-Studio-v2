@@ -1,9 +1,10 @@
 import { Bookmark, BookmarkCheck } from "lucide-react";
 import { RotatingLines } from "react-loader-spinner";
-import { saveHeadshot, saveCustomImage } from "@/services/api/services";
+import { saveHeadshot, saveCustomImage, saveFashionImage } from "@/services/api/services";
 import { useUser } from "@/contexts/UserContext";
 import { useImage } from "@/contexts/ImageContext";
 import { useToast } from "@/hooks/use-toast";
+
 
 function SaveImageButton({imageUrl, size})
 {
@@ -30,6 +31,11 @@ function SaveImageButton({imageUrl, size})
                 console.log(response)
                
             } 
+            else
+            {
+                const response = await saveFashionImage(userId, src)
+                console.log(response)
+            }
             imageDispatch({type:"SET_IMAGE_SAVE_STATUS", payload:{url:src, status:"saved"}})
             toast({
                 description: "Image saved", })

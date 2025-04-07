@@ -26,14 +26,15 @@ const services = [
         route:"custom-images"
     },
     {
-        serviceType: "fashionModel",
-        name:"Fashion Model",
+        serviceType: "fashion",
+        name:"Fashion Images",
         title: "AI Fashion Try-On",
         description: "Try on clothes virtually with our AI model.",
         images: [img6, img4],
         className:
             "bg-servicethree text-white/90 hover:shadow-lg hover:shadow-rose-200",
         icon: PiTShirtBold,
+        route:"fashion-images"
     },
 ]
 export { services }

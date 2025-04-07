@@ -154,6 +154,34 @@ export async function getSavedImages(userId) {
     return response.data.imageUrls
 }
 
+export async function saveFashionImage(userId, fileUrl) {
+    const response = await apiRequest(
+        `/database/save-fashion-image`,
+        "POST",
+        {
+            userId,
+            fileUrl,
+        },
+        {
+            "Content-Type": "application/json",
+        },
+    )
+    return response.data
+}
+export async function getFashionImages(userId) {
+    const response = await apiRequest(
+        `/database/get-saved-fashion-images`,
+        "POST",
+        {
+            userId,
+        },
+        {
+            "Content-Type": "application/json",
+        },
+    )
+    return response.data.imageUrls
+}
+
 export async function deleteSavedImage(userId, imageUrl) {
     const response = await apiRequest(
         `/database/delete-image`,
