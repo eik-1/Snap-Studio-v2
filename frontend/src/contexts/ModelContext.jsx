@@ -31,7 +31,7 @@ function modelReducer(state, action) {
             }
 
         case Actions.ACKNOWLEDGE_MODEL:
-            console.log("Acknowledging model: ", action.payload)
+            
             return {
                 ...state,
                 models: state.models.map((model) =>
@@ -74,16 +74,16 @@ function ModelProvider({ children }) {
         if (eventSourceRef.current) {
             eventSourceRef.current.close()
         }
-        console.log("Connecting to SSE")
+        
         const eventSource = new EventSource(
             `${import.meta.env.VITE_API_URL}/sse/events/${userId}`,
         )
-        console.log("Connected to SSE")
+        
         eventSource.onmessage = async (event) => {
-            console.log("message from SSE:", event.data)
+            
             try {
                 const data = JSON.parse(event.data)
-                console.log("message from SSE:", data)
+                
 
                 dispatch({
                     type: Actions.UPDATE_MODEL_STATUS,
@@ -142,7 +142,7 @@ function ModelProvider({ children }) {
     }, [])
 
     useEffect(() => {
-        console.log("Current Training ID:", state.currentTrainingId)
+        
         if (state.currentTrainingId) {
             connectToSSE(state.currentTrainingId)
         } else {
@@ -159,7 +159,7 @@ function ModelProvider({ children }) {
             if (!user || !user.$id) return
 
             const models = await getUserModels(user.$id)
-            console.log(models)
+            
             dispatch({ type: Actions.SET_MODEL, payload: models })
 
             const ongoingTrainings = models.filter(
@@ -170,14 +170,14 @@ function ModelProvider({ children }) {
 
             if (ongoingTrainings.length > 0 && !state.currentTrainingId) {
                 const trainingToConnect = ongoingTrainings[0]
-                console.log("Current Training ID:", state.currentTrainingId)
+                
                 dispatch({
                     type: Actions.SET_CURRENT_TRAINING,
                     payload: trainingToConnect.model_id,
                 })
             }
         } catch (error) {
-            console.log("Error fetching models", error)
+            
         }
     }
 
@@ -211,7 +211,7 @@ function ModelProvider({ children }) {
             }
             return data
         } catch (error) {
-            console.log("Error starting model training", error)
+            
             throw error
         }
     }
