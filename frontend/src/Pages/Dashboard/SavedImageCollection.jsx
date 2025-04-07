@@ -16,13 +16,13 @@ function SavedImageCollection()
     useEffect(()=>{
         async function fetchSavedImages()
         {
-            console.log("fetching saved images")
+         
             try
             {
                 const response=await axios.post(`${import.meta.env.VITE_API_URL}/database/get-saved-images`,{
                     userId:user.$id
                 })
-                console.log(response.data.data)
+            
                 setSavedImages(response.data.data.imageUrls)
                 setIsLoading(false);
             }

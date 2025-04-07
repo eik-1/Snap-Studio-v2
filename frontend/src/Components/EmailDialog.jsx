@@ -22,7 +22,7 @@ function EmailDialog({ isOpen , handleClose }) {
             setIsSubmitting(true)
             try {
                 const newUser = await changeUserEmail(email)
-                console.log(newUser)
+                
                 const updatedUser = {
                     ...user,
                     email: newUser.new_email,

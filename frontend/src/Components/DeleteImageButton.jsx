@@ -8,18 +8,18 @@ function DeleteImageButton({ imageUrl, size }) {
     const { user } = useUser()
     const { toast } = useToast()
     const { state: imageState, dispatch: imageDispatch } = useImage()
-    console.log(imageUrl)
+    
     async function handleDeleteImage(src) {
         const userId = user?.$id
 
-        console.log("deleting image...")
+        
         imageDispatch({
             type: "SET_IMAGE_DELETE_STATUS",
             payload: { url: src, status: "deleting" },
         })
         try {
             const response = await deleteSavedImage(userId, src)
-            console.log(response)
+            
             const latestSavedImages = imageState.savedImages.filter(
                 (image) => image.imageUrl !== src,
             )
@@ -27,7 +27,7 @@ function DeleteImageButton({ imageUrl, size }) {
                 type: "SET_SAVED_IMAGES",
                 payload: latestSavedImages,
             })
-            console.log("image deleted & updated")
+            
             toast({
                 description: "Image deleted",
             })

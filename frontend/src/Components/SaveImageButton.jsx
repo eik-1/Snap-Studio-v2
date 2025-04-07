@@ -17,7 +17,7 @@ function SaveImageButton({imageUrl, size})
         const userId = user?.$id
         if(imageState?.imageSaveStatus && imageState.imageSaveStatus.hasOwnProperty(src) && (imageState.imageSaveStatus[src]==="saving" || imageState.imageSaveStatus[src]==="saved"))
         {
-            console.log("already saving or saved")
+            
             return
         }
         
@@ -25,16 +25,16 @@ function SaveImageButton({imageUrl, size})
         try {
             if (imageState.mode === "headshot") {
                 const response = await saveHeadshot(userId, src)
-                console.log(response)
+                
             } else if (imageState.mode === "customImage") {
                 const response = await saveCustomImage(userId, src)
-                console.log(response)
+                
                
             } 
             else
             {
                 const response = await saveFashionImage(userId, src)
-                console.log(response)
+                
             }
             imageDispatch({type:"SET_IMAGE_SAVE_STATUS", payload:{url:src, status:"saved"}})
             toast({

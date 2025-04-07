@@ -26,7 +26,7 @@ async function handleChangeName(){
             setIsSubmitting(true);
             try {
                 const newUser = await changeUserName(firstName, lastName);
-                console.log(newUser);
+                
                 const updatedUser = {
                     ...user,
                     first_name: newUser.user_metadata.first_name,

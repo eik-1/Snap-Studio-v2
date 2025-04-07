@@ -3,7 +3,7 @@ import { services } from "@/data/serviceInfo"
 
 function MyImages() {
     function handleServiceClick(serviceType) {
-        console.log(serviceType)
+        
     }
 
     return (

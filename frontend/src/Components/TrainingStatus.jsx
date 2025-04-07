@@ -13,7 +13,7 @@ function TrainingStatus() {
         dispatch: modelDispatch,
         currentTrainings,
     } = useModel()
-    console.log(currentTrainings)
+    
 
     return (
         <>

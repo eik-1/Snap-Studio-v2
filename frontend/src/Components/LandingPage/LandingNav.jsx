@@ -85,12 +85,14 @@ function LandingNav() {
                 <div
                     className={` hidden lg:flex items-center space-x-3 text-lg font-medium ${user ? "ml-24" : "ml-8"}`}
                 >
-                    {location.pathname==='/' && <a
-                        href="#pricing"
-                        className={  `bg-gradient-to-r hover:from-purple-600 hover:via-indigo-600 hover:to-pink-600 text-transparent bg-clip-text rounded-md px-3 py-2 transition-color duration-300   from-black/80 to-black/65`}
-                    >
-                        Pricing
-                    </a>}
+                    {location.pathname === "/" && (
+                        <a
+                            href="#pricing"
+                            className={`bg-gradient-to-r hover:from-purple-600 hover:via-indigo-600 hover:to-pink-600 text-transparent bg-clip-text rounded-md px-3 py-2 transition-color duration-300   from-black/80 to-black/65`}
+                        >
+                            Pricing
+                        </a>
+                    )}
 
                     <NavLink
                         to="/gallery"
@@ -99,26 +101,30 @@ function LandingNav() {
                             `hover:bg-gradient-to-r hover:from-purple-600 hover:via-indigo-600 hover:to-pink-600 text-transparent bg-clip-text rounded-md px-3 py-2 transition-color duration-300 ${isActive ? "bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-600 transition-all duration-300" : "bg-gradient-to-r from-black/80 to-black/65"}`
                         }
                     >
-                      <span className=""></span>  Gallery
+                        <span className=""></span> Gallery
                     </NavLink>
-                    {location.pathname==='/' && <a
-                        href="#features"
-                        className={  `bg-gradient-to-r hover:from-purple-600 hover:via-indigo-600 hover:to-pink-600 text-transparent bg-clip-text rounded-md px-3 py-2 transition-color duration-300   from-black/80 to-black/65`}
-                    >
-                        Features
-                    </a>}
+                    {location.pathname === "/" && (
+                        <a
+                            href="#features"
+                            className={`bg-gradient-to-r hover:from-purple-600 hover:via-indigo-600 hover:to-pink-600 text-transparent bg-clip-text rounded-md px-3 py-2 transition-color duration-300   from-black/80 to-black/65`}
+                        >
+                            Features
+                        </a>
+                    )}
                 </div>
 
                 <div className="gap-4 hidden lg:flex">
                     {!user ? (
                         <NavLink
                             to="/login"
-                            className={  `bg-gradient-to-r hover:from-purple-600 hover:via-indigo-600 hover:to-pink-600 text-transparent bg-clip-text rounded-md  py-2 transition-color duration-300   from-black/80 to-black/65`}
+                            className={`bg-gradient-to-r hover:from-purple-600 hover:via-indigo-600 hover:to-pink-600 text-transparent bg-clip-text rounded-md  py-2 transition-color duration-300   from-black/80 to-black/65`}
                         >
                             Login
                         </NavLink>
                     ) : (
-                        <span className={  `bg-gradient-to-r hover:from-purple-600 hover:via-indigo-600 hover:to-pink-600 text-transparent bg-clip-text rounded-md px-3 py-2 transition-color duration-300   from-black/80 to-black/65`}>
+                        <span
+                            className={`bg-gradient-to-r hover:from-purple-600 hover:via-indigo-600 hover:to-pink-600 text-transparent bg-clip-text rounded-md px-3 py-2 transition-color duration-300   from-black/80 to-black/65`}
+                        >
                             Hii {user.first_name}
                         </span>
                     )}

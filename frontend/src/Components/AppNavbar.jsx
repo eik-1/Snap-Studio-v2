@@ -76,7 +76,7 @@ function SideNavbar() {
                                                 : "hover:text-purple-600"
                                         }`
                                     }
-                                    end={item.route!=="myimages"}
+                                    end={item.route !== "myimages"}
                                 >
                                     <div>{item.icon}</div>
                                     {isHovered && (
@@ -145,7 +145,6 @@ function MobileNavbar() {
                             isActive ? " text-purple-500" : "text-gray-500 "
                         }`
                     }
-                
                 >
                     <BookImage size={20} />
                     <p className="text-xs">My Images</p>

@@ -15,7 +15,7 @@ function SavedImages() {
 
     const { category } = useParams()
     const fetchImages = useCallback(async () => {
-        console.log("fetching images")
+        
         try {
             let data =
                 category === "headshots"
@@ -28,8 +28,8 @@ function SavedImages() {
                     deleteState: "notDeleted",
                 }
             })
-            console.log(data)
-            console.log(images)
+            
+            
             imageDispatch({ type: "SET_SAVED_IMAGES", payload: images })
         } catch (error) {
             console.error(error)
@@ -48,7 +48,7 @@ function SavedImages() {
     }
 
     let content = null
-    console.log(imageState?.savedImages)
+    
 
     if (isLoading) {
         content = (

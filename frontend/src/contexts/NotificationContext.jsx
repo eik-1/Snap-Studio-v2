@@ -84,7 +84,7 @@ function NotificationProvider({ children }) {
             newNotifications.sort(
                 (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
             )
-            console.log({ newNotifications })
+           
         })
         dispatch({
             type: Actions.SET_NOTIFICATIONS,

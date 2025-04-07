@@ -59,7 +59,7 @@ function imageReducer(state, action) {
 
 function ImageProvider({ children }) {
     const [state, dispatch] = useReducer(imageReducer, imageState)
-    console.log(state.mode)
+    
     return (
         <ImageContext.Provider
             value={{

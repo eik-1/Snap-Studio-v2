@@ -82,7 +82,7 @@ function HeadshotForm() {
                 },
             })
             updateCredits(error.data.remainingCredits, user?.email)
-            console.log("Error generating images")
+            
         }
     }
     function increment() {
@@ -108,7 +108,7 @@ function HeadshotForm() {
         if (!validateForm(e)) return
         const numImages = parseInt(numberOfImages)
         // handle > 5 images
-        console.log(selectedModel)
+        
         await handleImageGeneration(
             user.$id,
             selectedModel,

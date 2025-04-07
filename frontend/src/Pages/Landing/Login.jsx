@@ -36,7 +36,7 @@ function Login() {
                     "Sign Up Successful. Please check your email to verify your account",
             })
         } catch (error) {
-            console.log(error)
+       
             setErrorMessage(error.message || "Failed to create account")
         }
     }

@@ -17,7 +17,7 @@ function ResetPassword() {
             newErrors.email = "Email is invalid"
         }
         setErrors(newErrors)
-        console.log(newErrors)
+    
         return Object.keys(newErrors).length === 0
     }
 

@@ -18,7 +18,7 @@ function OAuth() {
             if (userError) {
                 throw new Error(userError.message)
             }
-            console.log("From OAuth page: ", user)
+            
             const firstName = user.user_metadata.full_name.split(" ")[0]
             let lastName = user.user_metadata.full_name.split(" ")[1] || ""
             const userData = {

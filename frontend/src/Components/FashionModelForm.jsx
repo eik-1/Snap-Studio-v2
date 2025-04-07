@@ -12,14 +12,13 @@ import {
     Images as NumImage,
     Plus,
     Tags as CategoryIcon,
-    AlertCircle
-   
+    AlertCircle,
 } from "lucide-react"
-import { PiPants as PantsIcon,
+import {
+    PiPants as PantsIcon,
     PiTShirt as ShirtIcon,
-    PiDress as Dress } from "react-icons/pi"
-
-
+    PiDress as Dress,
+} from "react-icons/pi"
 
 import { useState } from "react"
 import { Button } from "./UI/Button"
@@ -50,10 +49,7 @@ function FashionModelForm() {
         { id: "one-pieces", label: "One Piece", icon: Dress },
     ]
 
-    async function handleImageGeneration(
-        formData,
-        numImages
-    ) {
+    async function handleImageGeneration(formData, numImages) {
         imageDispatch({
             type: "SET_GENERATION_STATUS",
             payload: {
@@ -61,15 +57,16 @@ function FashionModelForm() {
                 message: "Generating Fashion Model Images",
             },
         })
-        console.log("Remaining Fashion Credits",subscription?.fashion_credits - numImages * 10)
+
         subscription?.fashion_credits &&
-            updateFashionCredits(subscription?.fashion_credits - numImages * 10, user?.email)
-    
-        try {
-            const data = await generateFashionImages(
-              formData,
+            updateFashionCredits(
+                subscription?.fashion_credits - numImages * 10,
+                user?.email,
             )
-            console.log("Fashion image generation response: ", data)
+
+        try {
+            const data = await generateFashionImages(formData)
+
             imageDispatch({
                 type: "SET_GENERATED_IMAGE_URLS",
                 payload: data.imageUrls,
@@ -83,7 +80,6 @@ function FashionModelForm() {
             })
             updateFashionCredits(data.remainingCredits, user?.email)
         } catch (error) {
-            console.log("error occured while generating fashion images")
             imageDispatch({
                 type: "SET_GENERATION_STATUS",
                 payload: {
@@ -92,7 +88,6 @@ function FashionModelForm() {
                 },
             })
             updateFashionCredits(error.data.remainingCredits, user?.email)
-            console.log("Error generating images")
         }
     }
 
@@ -119,8 +114,7 @@ function FashionModelForm() {
         if (!validateForm()) return
 
         const numImages = parseInt(numberOfImages)
-        console.log(clothesImages[0])
-        console.log(modelImages[0])
+
         const formData = new FormData()
         formData.append("dressImg", clothesImages[0])
         formData.append("modelImg", modelImages[0])
@@ -129,14 +123,9 @@ function FashionModelForm() {
         formData.append("userEmail", user.email)
         formData.append("numberOfImages", numImages)
 
-        await handleImageGeneration(
-          formData,
-            numImages,
-
-        )
+        await handleImageGeneration(formData, numImages)
 
         if (imageState.generationStatus.status === "success") {
-  
         } else if (imageState.generationStatus.status === "error") {
             //handle error to be implemented
         }
@@ -179,29 +168,34 @@ function FashionModelForm() {
                         AI Fashion Try-On
                     </h1>
                     <p className="text-xs font-regular tracking-tight text-gray-500">
-                        {
-                            "Try on clothes virtually with our AI model."
-                        }
+                        {"Try on clothes virtually with our AI model."}
                     </p>
-                   
-{subscription && subscription?.plan_name === 'Basic' && (
-  <div className="mt-3 p-4 border border-orange-100 rounded-md bg-orange-50/50 ">
-    <div className="flex items-center justify-center gap-3 ">
-        <div className="">
-        <AlertCircle size={20} className="text-orange-500" />
-        </div>
-       
-      <p className="text-xs text-gray-600 leading-snug">
-        You are currently on the Basic plan. Upgrade to the Pro plan to use this feature.
-      </p>
-    </div>
-    <button className="mt-4 px-4 py-2 w-full bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700  text-white text-xs font-medium rounded-md transition-colors"
-    onClick={()=>window.location.href=`${import.meta.env.VITE_STRIPE_USER_PORTAL}`}
-    >
-      Upgrade Now
-    </button>
-  </div>
-)}
+
+                    {subscription && subscription?.plan_name === "Basic" && (
+                        <div className="mt-3 p-4 border border-orange-100 rounded-md bg-orange-50/50 ">
+                            <div className="flex items-center justify-center gap-3 ">
+                                <div className="">
+                                    <AlertCircle
+                                        size={20}
+                                        className="text-orange-500"
+                                    />
+                                </div>
+
+                                <p className="text-xs text-gray-600 leading-snug">
+                                    You are currently on the Basic plan. Upgrade
+                                    to the Pro plan to use this feature.
+                                </p>
+                            </div>
+                            <button
+                                className="mt-4 px-4 py-2 w-full bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700  text-white text-xs font-medium rounded-md transition-colors"
+                                onClick={() =>
+                                    (window.location.href = `${import.meta.env.VITE_STRIPE_USER_PORTAL}`)
+                                }
+                            >
+                                Upgrade Now
+                            </button>
+                        </div>
+                    )}
                 </div>
                 <form
                     onSubmit={handleSubmit}
@@ -277,10 +271,7 @@ function FashionModelForm() {
                             </label>
                         </div>
                         <p className="text-[0.675rem] font-regular tracking-tight text-gray-500">
-                            {
-                                "Upload images of the clothes you want to try on."
-
-                            }
+                            {"Upload images of the clothes you want to try on."}
                             <br />
                             {"jpeg, png or wepb supported, max 5MB"}
                         </p>
@@ -307,7 +298,9 @@ function FashionModelForm() {
                             </label>
                         </div>
                         <p className="text-[0.675rem] font-regular tracking-tight text-gray-500">
-                            {"Upload image of fashion model or yourself to try on the clothes. Full body image is recommended."}
+                            {
+                                "Upload image of fashion model or yourself to try on the clothes. Full body image is recommended."
+                            }
                             <br />
                             {"jpeg, png or wepb supported, max 5MB"}
                         </p>
@@ -381,12 +374,12 @@ function FashionModelForm() {
                     form="fashion-model-form"
                     className="w-2/3 text-xs sm:text-sm mx-auto bg-gradient-to-r from-rose-500 via-purple-500 to-cyan-500"
                     disabled={
-                        subscription?.plan_name === 'Basic'||
+                        subscription?.plan_name === "Basic" ||
                         imageState.generationStatus.status === "generating" ||
                         selectedCategory === "" ||
                         clothesImages.length === 0 ||
                         modelImages.length === 0 ||
-                        numberOfImages === 0  
+                        numberOfImages === 0
                     }
                 >
                     <span>Generate Image</span>

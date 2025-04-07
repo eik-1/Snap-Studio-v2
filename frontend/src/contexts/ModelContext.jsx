@@ -183,7 +183,7 @@ function ModelProvider({ children }) {
 
     useEffect(() => {
         if (user && user.$id) {
-            console.log("Fetching models..")
+          
             fetchModels()
         } else {
             dispatch({ type: Actions.SET_MODEL, payload: [] })
@@ -199,10 +199,10 @@ function ModelProvider({ children }) {
     async function startModelTraining(modelData) {
         try {
             const data = await startTraining(modelData)
-            console.log(data)
+           
 
             if (data) {
-                console.log("setting current training id")
+           
                 dispatch({
                     type: Actions.SET_CURRENT_TRAINING,
                     payload: data.model.model_id,
@@ -236,7 +236,7 @@ function ModelProvider({ children }) {
                 (model) => model.status === "failed" && !model.status_ack,
             ) || null,
     }
-    console.log(trainings)
+
 
     return (
         <ModelContext.Provider

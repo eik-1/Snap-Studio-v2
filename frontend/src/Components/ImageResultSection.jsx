@@ -13,7 +13,7 @@ function ImageResultSection(imageUrl) {
 
 
 
-    console.log(imageState)
+    
     let content
     switch (imageState.generationStatus.status) {
         case "idle":

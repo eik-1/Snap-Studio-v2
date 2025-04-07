@@ -1,37 +1,44 @@
-import { Upload } from "lucide-react";
-import { useState } from "react";
+import { Upload } from "lucide-react"
+import { useState } from "react"
 
-function ImageInputBox({ selectedImages, setSelectedImages, maxImages = 25, id='images' }) {
-    const [isDragging, setIsDragging] = useState(false);
+function ImageInputBox({
+    selectedImages,
+    setSelectedImages,
+    maxImages = 25,
+    id = "images",
+}) {
+    const [isDragging, setIsDragging] = useState(false)
 
     function handleDragOver(e) {
-        e.preventDefault();
-        setIsDragging(true);
+        e.preventDefault()
+        setIsDragging(true)
     }
     function handleDragLeave(e) {
-        e.preventDefault();
-        setIsDragging(false);
+        e.preventDefault()
+        setIsDragging(false)
     }
     function handleDrop(e) {
-        e.preventDefault();
-        setIsDragging(false);
-        const files = Array.from(e.dataTransfer.files);
-        addImages(files);
+        e.preventDefault()
+        setIsDragging(false)
+        const files = Array.from(e.dataTransfer.files)
+        addImages(files)
     }
     function handleFileChange(e) {
-        const files = Array.from(e.target.files);
-        addImages(files);
+        const files = Array.from(e.target.files)
+        addImages(files)
     }
     function addImages(files) {
         if (selectedImages.length + files.length > maxImages) {
-            alert(`You can only upload up to ${maxImages} images.`);
-            return;
+            alert(`You can only upload up to ${maxImages} images.`)
+            return
         }
-        setSelectedImages((prevFiles) => [...prevFiles, ...files]);
+        setSelectedImages((prevFiles) => [...prevFiles, ...files])
     }
     const removeFile = (index) => {
-        setSelectedImages((prevFiles) => prevFiles.filter((_, i) => i !== index));
-    };
+        setSelectedImages((prevFiles) =>
+            prevFiles.filter((_, i) => i !== index),
+        )
+    }
     return (
         <>
             <div
@@ -42,7 +49,7 @@ function ImageInputBox({ selectedImages, setSelectedImages, maxImages = 25, id='
             >
                 <Upload className="w-8 h-8 text-gray-400 mb-2" />
                 <p className="text-sm text-gray-500">
-                    Drag your file(s) or {" "}
+                    Drag your file(s) or{" "}
                     <label
                         htmlFor={id}
                         className="text-blue-500 cursor-pointer hover:underline hover:text-blue-600"
@@ -84,6 +91,6 @@ function ImageInputBox({ selectedImages, setSelectedImages, maxImages = 25, id='
                 </div>
             </div>
         </>
-    );
+    )
 }
-export default ImageInputBox;
+export default ImageInputBox

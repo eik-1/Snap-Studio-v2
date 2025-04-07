@@ -38,7 +38,7 @@ function Settings() {
     }
     const handlers = {
         updateEmail: () => {
-            console.log("update email")
+          
             if (user) {
                 const newUser = changeUserEmail("newEmail")
                 const updatedUser = { ...user, email: newUser.email }
@@ -46,7 +46,7 @@ function Settings() {
             }
         },
         updateName: () => {
-            console.log("update name")
+          
             if (user) {
                 const newUser = changeUserName("newName") //pass the new name here
                 const first_name = newUser.name.split(" ")[0]
@@ -61,19 +61,19 @@ function Settings() {
             }
         },
         resetPassword: () => {
-            console.log("reset password")
+        
             navigate("/reset-password")
         },
         upgradePlan: () => {
-            console.log("upgrade plan")
+         
             window.location.href=`${import.meta.env.VITE_STRIPE_USER_PORTAL}`
         },
         upgradePlanCycle: () => {
-            console.log("upgrade plan cycle")
+      
             window.location.href=`${import.meta.env.VITE_STRIPE_USER_PORTAL}`
         },
         cancelSubscription: () => {
-            console.log("cancel subscription")
+          
             window.location.href=`${import.meta.env.VITE_STRIPE_USER_PORTAL}`
         }
     }

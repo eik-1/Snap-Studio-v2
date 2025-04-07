@@ -1,11 +1,6 @@
 import { useState, useCallback, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import {
-    X,
-    ChevronLeft,
-    ChevronRight,
-    Download,
-} from "lucide-react"
+import { X, ChevronLeft, ChevronRight, Download } from "lucide-react"
 import { downloadImageFromReplicate } from "@/services/utils/downloadImage"
 import ImageThumbnail from "./ImageThumbnail"
 import { saveHeadshot, saveCustomImage } from "@/services/api/services"
@@ -21,9 +16,9 @@ const trs = {
     damping: 30,
 }
 
-function ImageGrid({ images, usedFor = "", className}) {
+function ImageGrid({ images, usedFor = "", className }) {
     const [selectedIndex, setSelectedIndex] = useState(null)
- 
+
     const { user } = useUser()
     const { state: imageState } = useImage()
     const { toast } = useToast()
@@ -69,7 +64,6 @@ function ImageGrid({ images, usedFor = "", className}) {
         [handlePrev, handleNext, closeModal],
     )
 
-
     useEffect(() => {
         if (selectedIndex !== null) {
             window.addEventListener("keydown", handleKeydown)
@@ -88,7 +82,6 @@ function ImageGrid({ images, usedFor = "", className}) {
                             index={index}
                             onClick={() => setSelectedIndex(index)}
                             usedFor={usedFor}
-
                         />
                     </>
                 ))}
@@ -133,12 +126,14 @@ function ImageGrid({ images, usedFor = "", className}) {
                                             <Download color="white" size={16} />
                                         </button>
                                         {usedFor === "generatedImage" ? (
-                                  <SaveImageButton imageUrl={ images[selectedIndex]} size="16"/>
+                                            <SaveImageButton
+                                                imageUrl={images[selectedIndex]}
+                                                size="16"
+                                            />
                                         ) : (
                                             <DeleteImageButton
                                                 imageUrl={images[selectedIndex]}
                                                 size="16"
-                                               
                                             />
                                         )}
                                     </div>

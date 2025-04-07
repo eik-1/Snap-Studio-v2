@@ -1,4 +1,3 @@
-
 import ImageComparisonSlider from "./InputOutputCompare"
 import { ArrowRight, Sparkles, Check } from "lucide-react"
 import { useNavigate } from "react-router-dom"
@@ -59,33 +58,39 @@ const Hero = () => {
                             </svg>
                         </span>{" "}
                         Image Studio{" "}
-                     
                     </h1>
                     <p className="text-base text-gray-600 leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0">
-              Generate stunning AI-powered photos in any pose, place, or action—from professional Head shots to casual pictures—with just a simple prompt.
-            </p>
+                        Generate stunning AI-powered photos in any pose, place,
+                        or action—from professional Head shots to casual
+                        pictures—with just a simple prompt.
+                    </p>
 
-           
-            <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 mb-8">
-              <div className="flex items-center">
-                <span className="flex items-center justify-center w-5 h-5 rounded-full bg-green-100 mr-2">
-                  <Check className="h-3 w-3 text-green-600" />
-                </span>
-                <span className="text-sm text-gray-600">Instant Generation</span>
-              </div>
-              <div className="flex items-center">
-                <span className="flex items-center justify-center w-5 h-5 rounded-full bg-green-100 mr-2">
-                  <Check className="h-3 w-3 text-green-600" />
-                </span>
-                <span className="text-sm text-gray-600">Studio Quality</span>
-              </div>
-              <div className="flex items-center">
-                <span className="flex items-center justify-center w-5 h-5 rounded-full bg-green-100 mr-2">
-                  <Check className="h-3 w-3 text-green-600" />
-                </span>
-                <span className="text-sm text-gray-600">Multiple Styles</span>
-              </div>
-            </div>
+                    <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 mb-8">
+                        <div className="flex items-center">
+                            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-green-100 mr-2">
+                                <Check className="h-3 w-3 text-green-600" />
+                            </span>
+                            <span className="text-sm text-gray-600">
+                                Instant Generation
+                            </span>
+                        </div>
+                        <div className="flex items-center">
+                            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-green-100 mr-2">
+                                <Check className="h-3 w-3 text-green-600" />
+                            </span>
+                            <span className="text-sm text-gray-600">
+                                Studio Quality
+                            </span>
+                        </div>
+                        <div className="flex items-center">
+                            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-green-100 mr-2">
+                                <Check className="h-3 w-3 text-green-600" />
+                            </span>
+                            <span className="text-sm text-gray-600">
+                                Multiple Styles
+                            </span>
+                        </div>
+                    </div>
 
                     <div className="flex flex-col md:flex-row items-center gap-6">
                         <button
@@ -109,7 +114,6 @@ const Hero = () => {
                 <div className="">
                     <ImageComparisonSlider />
                 </div>
-               
             </main>
         </div>
     )
