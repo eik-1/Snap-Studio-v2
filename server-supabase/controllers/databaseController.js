@@ -225,7 +225,11 @@ export async function saveHeadshot(req, res) {
       .upload(fileName, blob);
 
     if (error) {
-      throw error;
+      return res.status(500).json(
+        new ApiResponse(500, "Error uploading image", {
+          error: error.message,
+        })
+      );
     }
 
     const imageUrl = `${supabaseUrl}/storage/v1/object/public/images/${fileName}`;
@@ -239,7 +243,62 @@ export async function saveHeadshot(req, res) {
         type: "headshot",
       });
     if (dbError) {
-      throw dbError;
+      return res.status(500).json(
+        new ApiResponse(500, "Error saving image", {
+          error: dbError.message,
+        })
+      );
+    }
+
+    return res.status(200).json(
+      new ApiResponse(200, "Image saved", {
+        response,
+      })
+    );
+  } catch (err) {
+    return res.status(500).json(
+      new ApiResponse(500, "Error saving image", {
+        error: err.message,
+      })
+    );
+  }
+}
+
+export async function saveFashionImage(req, res) {
+  const { userId, fileUrl } = req.body;
+  try {
+    const blob = await fetch(fileUrl).then((r) => r.blob());
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const fileName = `ai-fashion-${Date.now()}.png`;
+
+    const { error } = await supabase.storage
+      .from("images")
+      .upload(fileName, blob);
+
+    if (error) {
+      return res.status(500).json(
+        new ApiResponse(500, "Error uploading image", {
+          error: error.message,
+        })
+      );
+    }
+
+    const imageUrl = `${supabaseUrl}/storage/v1/object/public/images/${fileName}`;
+
+    /* Create image document in database */
+    const { data: response, error: dbError } = await supabase
+      .from("Images")
+      .insert({
+        image_url: imageUrl,
+        user_id: userId,
+        type: "fashion",
+      });
+    if (dbError) {
+      return res.status(500).json(
+        new ApiResponse(500, "Error saving image", {
+          error: dbError.message,
+        })
+      );
     }
 
     return res.status(200).json(
@@ -315,6 +374,44 @@ export async function getImages(req, res) {
       .select("image_url")
       .eq("user_id", userId)
       .eq("type", "custom");
+
+    if (error) {
+      throw error;
+    }
+
+    let imageUrls = [];
+    data.forEach((image) => {
+      imageUrls.push(image.image_url);
+    });
+    console.log("Images fetched: ", imageUrls);
+    return res
+      .status(200)
+      .json(new ApiResponse(200, "Images fetched", { imageUrls }));
+  } catch (err) {
+    return res
+      .status(500)
+      .json(
+        new ApiResponse(500, "Error fetching images", { error: err.message })
+      );
+  }
+}
+
+export async function getFashionImages(req, res) {
+  const { userId } = req.body;
+  if (userId !== req.userId && !req.userId) {
+    return res.status(401).json(
+      new ApiResponse(401, "Unauthorized", {
+        error: "Unauthorized access",
+      })
+    );
+  }
+  try {
+    /* Get images from database */
+    const { data, error } = await supabase
+      .from("Images")
+      .select("image_url")
+      .eq("user_id", userId)
+      .eq("type", "fashion");
 
     if (error) {
       throw error;
