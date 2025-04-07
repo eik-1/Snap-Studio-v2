@@ -208,7 +208,7 @@ export async function getUserSub(email) {
                 "Content-Type": "application/json",
             },
         )
-        console.log("Sub data: ", response.data.subscription)
+        
         return response.data.subscription
     } catch (err) {
         throw err
@@ -237,7 +237,7 @@ export async function changeUserName(firstName, lastName) {
                 last_name: lastName,
             },
         })
-        console.log(data)
+        
         if (error) {
             throw error
         }

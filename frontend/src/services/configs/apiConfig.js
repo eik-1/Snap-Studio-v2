@@ -20,7 +20,7 @@ async function getToken() {
         await handleSessionInvalid()
         return null
     }
-    console.log("Session Data:", data)
+    
 
     // No active session
     if (data.session === null) {
@@ -35,7 +35,7 @@ async function getToken() {
                 await supabase.auth.refreshSession()
             if (refreshedError) throw refreshedError
 
-            console.log("Refreshed Session Data:", refreshedData)
+            
             return refreshedData.session?.access_token || null
         } catch (refreshError) {
             console.error("Error refreshing session", refreshError)
@@ -43,7 +43,7 @@ async function getToken() {
             return null
         }
     }
-    console.log("Session Data:", data)
+    
     return data.session?.access_token
 }
 

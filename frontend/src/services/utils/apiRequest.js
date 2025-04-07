@@ -15,7 +15,6 @@ export const apiRequest = async (
             data,
             headers: { ...apiConfig.defaultHeaders, ...headers },
         })
-        console.log("API Request Success:", response.data)
         return response.data
     } catch (error) {
         console.error("API Request Error:", error.response || error.message)

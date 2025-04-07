@@ -7,7 +7,7 @@ async function login(email, password) {
     if (!data.user) {
         throw new Error("Incorrect Email or Password")
     }
-    console.log(data.user)
+    
     const userData = {
         email: data.user.email,
         name: data.user.user_metadata.name,
@@ -38,7 +38,7 @@ async function signUp(email, password, first_name, last_name) {
 }
 
 async function loginWithOAuth(provider) {
-    console.log("From loginWithOAuth: ", provider)
+    
     const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
