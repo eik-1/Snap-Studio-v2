@@ -31,7 +31,7 @@ export default function LandingPage() {
                     playsInline
                     
                 >
-                    <source src={`https://qlyojdnywhpjejyxukld.supabase.co/storage/v1/object/public/videos//snapstudio-head-scst%20(1)%20(1).mp4`} type="video/mp4" />
+                    <source src={`https://qlyojdnywhpjejyxukld.supabase.co/storage/v1/object/public/videos//headshot.mp4`} type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
             </Window>
