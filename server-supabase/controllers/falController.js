@@ -3,7 +3,7 @@ import dotenv from "dotenv/config";
 
 import { client } from "../configs/posthog.js";
 import ApiResponse from "../utils/ApiResponse.js";
-import { getCredits, updateFashionCredits } from "./databaseController.js";
+import { checkModelExists, getCredits, updateFashionCredits, updateModelCredits } from "./databaseController.js";
 
 fal.config({
   credentials: process.env.FAL_API_KEY,
@@ -160,6 +160,102 @@ export async function generateFashionImage(req, res) {
         remainingCredits: creditsInfo.fashion_credits,
       })
     );
+  }
+}
+
+export async function trainFluxModel(req, res) {
+  const {modelName, userId, triggerWord, gender, ethnicity, userEmail} = req.body;
+
+  let creditsInfo;
+  let creditsDeducted = false;
+
+  //Credits validation and deduction
+  try {
+    const modelExists = checkModelExists(userId, modelName);
+    if(modelExists) {
+      return res.status(400).json(
+        new ApiResponse(400, "Model name already exists", {
+          error: "Model name already exists",
+        })
+      )
+    }
+
+    creditsInfo = await getCredits(userEmail);
+
+    if (creditsInfo.model_credits <= 0) {
+      return res.status(400).json(
+        new ApiResponse(400, "You have exhausted your monthly model credits", {
+          error: "You have exhausted your monthly model credits",
+        })
+      );
+    }
+
+    const errorOrNot = await updateModelCredits(
+      userEmail,
+      creditsInfo.model_credits - 1
+    )
+
+    if (errorOrNot === 0) {
+      return res.status(500).json(
+        new ApiResponse(500, "We are having some issues", {
+          error: "We are having some issues",
+        })
+      );
+    }
+
+    creditsDeducted = true;
+
+  } catch(err) {
+    console.log("Error in credit processing:", err);
+    client.captureException(err, userEmail);
+    return res.status(500).json(
+      new ApiResponse(500, "Error processing model credits", {
+        error: err.message,
+      })
+    );
+  }
+
+  // Model training process
+  try {
+    client.capture({
+      distinctId: userEmail,
+      event: "model_training started",
+      properties: {
+        model_name: modelName,
+        trigger_word: triggerWord,
+        gender: gender,
+      },
+    });
+
+    const zipBuffer = req.file.buffer;
+
+    const formData = new FormData();
+    formData.append("content", zipBuffer, {
+      filename: "images.zip",
+      contentType: "application/zip",
+    })
+
+    const uploadResponse = await axios.post(
+      "https://api.replicate.com/v1/files",
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.REPLICATE_API_TOKEN}`,
+          ...formData.getHeaders(),
+        },
+        maxContentLength: Infinity,
+        maxBodyLength: Infinity,
+      }
+    );  
+
+    const fileUrl = uploadResponse.data.urls.get;
+
+    const result = await fal.subscribe("fal-ai/turbo-flux-trainer", {
+      input: {
+        images_data_url: fileUrl
+      }
+    })
+  
   }
 }
 
