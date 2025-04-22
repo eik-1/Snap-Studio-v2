@@ -4,9 +4,14 @@ import supabase from "../configs/supabase"
 //function to start model training
 export async function startTraining(data) {
     try {
-        const response = await apiRequest(`/models/train`, "POST", data, {
-            "Content-Type": "multipart/form-data",
-        })
+        const response = await apiRequest(
+            `/fal/trainImageModel`,
+            "POST",
+            data,
+            {
+                "Content-Type": "multipart/form-data",
+            },
+        )
         return response.data
     } catch (error) {
         throw error
@@ -44,7 +49,7 @@ export async function generateImage(
     userEmail,
 ) {
     const response = await apiRequest(
-        `/models/run`,
+        `/fal/run-custom-prompt`,
         "POST",
         {
             userId,
@@ -68,7 +73,7 @@ export async function generateHeadshot(
     userEmail,
 ) {
     const response = await apiRequest(
-        `/models/run-headshots`,
+        `/fal/run-headshot`,
         "POST",
         {
             userId,
@@ -84,16 +89,10 @@ export async function generateHeadshot(
     return response.data
 }
 export async function generateFashionImages(formData) {
-    const response = await apiRequest(
-        `/fal/fashion`,
-        "POST",
-        formData,
-        {
-            "Content-Type": "multipart/form-data",
-        },
-    )
+    const response = await apiRequest(`/fal/fashion`, "POST", formData, {
+        "Content-Type": "multipart/form-data",
+    })
     return response.data
-
 }
 
 export async function saveHeadshot(userId, fileUrl) {
@@ -208,7 +207,7 @@ export async function getUserSub(email) {
                 "Content-Type": "application/json",
             },
         )
-        
+
         return response.data.subscription
     } catch (err) {
         throw err
@@ -237,7 +236,7 @@ export async function changeUserName(firstName, lastName) {
                 last_name: lastName,
             },
         })
-        
+
         if (error) {
             throw error
         }

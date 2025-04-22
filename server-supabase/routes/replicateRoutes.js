@@ -20,7 +20,6 @@ router.post(
 );
 // router.post("/status", isUserAuthenticated, getTrainingStatus);
 router.post("/run", isUserAuthenticated, runUserModel);
-router.post("/get-trigger-word", isUserAuthenticated, getTriggerWord);
 router.post("/run-headshots", isUserAuthenticated, runHeadshotUserModel);
 router.post("/train-test", upload.single("file"), trainingTest);
 
