@@ -585,21 +585,15 @@ export async function falWebhook(req, res) {
 
     await updateModel(request_id, "succeeded", url);
     sendEventToClients({ request_id: request_id, status: "succeeded" }, userId);
-    return res.json(
-      { detail: "Webhook received and succeeded" },
-      { status: 200 }
-    );
+    return res.status(200).json({ detail: "Webhook received and succeeded" });
   } else if (status === "ERROR") {
     const creditsInfo = await getCredits(userEmail);
     await updateModelCredits(userEmail, creditsInfo.model_credits + 1);
     await updateModel(request_id, "failed");
     sendEventToClients({ request_id: request_id, status: "failed" }, userId);
-    return res.json({ detail: "Webhook received and failed" }, { status: 200 });
+    return res.status(200).json({ detail: "Webhook received and failed" });
   } else {
-    return res.json(
-      { detail: "Webhook received but failed training" },
-      { status: 200 }
-    );
+    return res.status(200).json({ detail: "Webhook received but not handled" });
   }
 }
 
