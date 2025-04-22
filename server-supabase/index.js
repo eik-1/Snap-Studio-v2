@@ -9,6 +9,7 @@ import modelRoutes from "./routes/replicateRoutes.js";
 import replicateWebhookRoutes from "./routes/replicateWebhookRoutes.js";
 import sseRoutes from "./routes/sseRoutes.js";
 import stripeRoutes from "./routes/stripeWebhookRoutes.js";
+import falWebhookRoutes from "./routes/falWebhookRoutes.js";
 
 dotenv.config();
 
@@ -56,6 +57,10 @@ const verifyOrigin = (req, res, next) => {
     return next();
   }
 
+  if (req.path.startsWith("/falWebhook")) {
+    return next();
+  }
+
   if (
     origin === process.env.ALLOWED_CLIENT_URL ||
     (referer && referer.startsWith(`${process.env.ALLOWED_CLIENT_URL}/`))
@@ -91,8 +96,9 @@ app.use(verifyOrigin);
 app.use("/models", modelRoutes);
 app.use("/database", databaseRoutes);
 app.use("/webhook", stripeRoutes);
-app.use("/sse", sseRoutes);
 app.use("/replicateWebhook", replicateWebhookRoutes);
+app.use("/falWebhook", falWebhookRoutes);
+app.use("/sse", sseRoutes);
 app.use("/fal", falRoutes);
 
 app.get("/", (req, res) => {
