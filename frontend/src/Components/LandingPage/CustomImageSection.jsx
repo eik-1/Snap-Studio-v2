@@ -43,7 +43,7 @@ export default function CustomImageSection() {
 
                         >
                             <source
-                                src={`https://qlyojdnywhpjejyxukld.supabase.co/storage/v1/object/public/videos//snapstudio-custom.mp4`}
+                                src={`https://res.cloudinary.com/doac8yyie/video/upload/f_auto:video,q_auto/ndeu8lph0ovuwzh0ekot`}
                                 type="video/mp4"
                             />
                             Your browser does not support the video tag.
