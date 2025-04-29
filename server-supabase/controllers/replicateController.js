@@ -149,6 +149,7 @@ export async function trainOstrisModel(req, res) {
       ethnicity
     );
 
+    // If the model creation failed
     if (createdModel.errorOrSuccessFlag === 0) {
       // Cancel the training on Replicate
       try {

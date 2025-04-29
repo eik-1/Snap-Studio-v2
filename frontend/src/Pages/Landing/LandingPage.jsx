@@ -31,7 +31,7 @@ export default function LandingPage() {
                     playsInline
                     
                 >
-                    <source src={`https://qlyojdnywhpjejyxukld.supabase.co/storage/v1/object/public/videos//headshot.mp4`} type="video/mp4" />
+                    <source src={`https://res.cloudinary.com/doac8yyie/video/upload/f_auto:video,q_auto/qwws1afgwc3pb6xdv5mp`} type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
             </Window>

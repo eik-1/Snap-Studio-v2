@@ -27,17 +27,17 @@ export async function checkModelExists(userId, modelName) {
 export async function createModel(
   userId,
   userEmail,
+  requestId,
   modelName,
   triggerWord,
   status,
-  modelId,
   gender,
   ethnicity
 ) {
   const model = {
     user_id: userId,
     email: userEmail,
-    model_id: modelId,
+    request_id: requestId,
     model_name: modelName,
     trigger_word: triggerWord,
     status: status,
@@ -96,12 +96,12 @@ export async function getModel(userId, modelName) {
 }
 
 // To identify the model in replicate webhook
-export async function getModelById(modelId) {
+export async function getModelById(requestId) {
   try {
     const { data, error } = await supabase
       .from("Models")
       .select("*")
-      .eq("model_id", modelId);
+      .eq("request_id", requestId);
 
     if (error) {
       throw error;
@@ -146,15 +146,15 @@ export async function getUserModels(req, res) {
   }
 }
 
-export async function updateModel(modelId, status, modelVersion = null) {
+export async function updateModel(requestId, status, modelPath = null) {
   try {
     const { data, error } = await supabase
       .from("Models")
       .update({
-        model_version: modelVersion,
+        model_path: modelPath,
         status: status,
       })
-      .eq("model_id", modelId)
+      .eq("request_id", requestId)
       .select();
     if (error) {
       throw error;

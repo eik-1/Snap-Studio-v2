@@ -3,13 +3,27 @@ import dotenv from "dotenv/config";
 
 import { client } from "../configs/posthog.js";
 import ApiResponse from "../utils/ApiResponse.js";
-import { checkModelExists, getCredits, updateFashionCredits, updateModelCredits } from "./databaseController.js";
+import {
+  checkModelExists,
+  createModel,
+  getCredits,
+  getModel,
+  getModelById,
+  updateCredits,
+  updateFashionCredits,
+  updateModel,
+  updateModelCredits,
+} from "./databaseController.js";
+import axios from "axios";
+import FormData from "form-data";
+import { styleAndPrompts } from "../utils/headshotPrompts.js";
+import { sendEventToClients } from "../routes/sseRoutes.js";
 
 fal.config({
   credentials: process.env.FAL_API_KEY,
 });
 
-async function safelyRestoreCredits(userEmail, amountToRestore) {
+async function safelyRestoreCredits(userEmail, amountToRestore, type) {
   try {
     if (!userEmail || amountToRestore <= 0) {
       return false;
@@ -17,10 +31,17 @@ async function safelyRestoreCredits(userEmail, amountToRestore) {
 
     const creditsInfo = await getCredits(userEmail);
 
-    return await updateFashionCredits(
-      userEmail,
-      creditsInfo.fashion_credits + amountToRestore
-    );
+    if (type === "model") {
+      return await updateModelCredits(
+        userEmail,
+        creditsInfo.model_credits + amountToRestore
+      );
+    } else if (type === "fashion") {
+      return await updateFashionCredits(
+        userEmail,
+        creditsInfo.fashion_credits + amountToRestore
+      );
+    }
   } catch (error) {
     console.error("Error restoring credits:", error);
     return false;
@@ -76,7 +97,7 @@ export async function generateFashionImage(req, res) {
   if (!req.files || !req.files.modelImg || !req.files.dressImg) {
     // Restore credits if they were deducted
     if (creditsDeducted) {
-      await safelyRestoreCredits(userEmail, usedCredits);
+      await safelyRestoreCredits(userEmail, usedCredits, "fashion");
     }
 
     creditsInfo = await getCredits(userEmail);
@@ -112,7 +133,7 @@ export async function generateFashionImage(req, res) {
 
     let outputUrls = [];
 
-    const result = await fal.subscribe("fashn/tryon", {
+    const result = await fal.subscribe("fal-ai/fashn/tryon/v1.5", {
       input: {
         model_image: modelUrl,
         garment_image: dressUrl,
@@ -147,7 +168,7 @@ export async function generateFashionImage(req, res) {
 
     // Restore credits if they were deducted
     if (creditsDeducted) {
-      await safelyRestoreCredits(userEmail, usedCredits);
+      await safelyRestoreCredits(userEmail, usedCredits, "fashion");
     }
 
     creditsInfo = await getCredits(userEmail);
@@ -164,20 +185,21 @@ export async function generateFashionImage(req, res) {
 }
 
 export async function trainFluxModel(req, res) {
-  const {modelName, userId, triggerWord, gender, ethnicity, userEmail} = req.body;
+  const { modelName, userId, triggerWord, gender, ethnicity, userEmail } =
+    req.body;
 
   let creditsInfo;
   let creditsDeducted = false;
 
   //Credits validation and deduction
   try {
-    const modelExists = checkModelExists(userId, modelName);
-    if(modelExists) {
+    const modelExists = await checkModelExists(userId, modelName);
+    if (modelExists) {
       return res.status(400).json(
         new ApiResponse(400, "Model name already exists", {
           error: "Model name already exists",
         })
-      )
+      );
     }
 
     creditsInfo = await getCredits(userEmail);
@@ -190,10 +212,11 @@ export async function trainFluxModel(req, res) {
       );
     }
 
+    // Deduct model_credits
     const errorOrNot = await updateModelCredits(
       userEmail,
       creditsInfo.model_credits - 1
-    )
+    );
 
     if (errorOrNot === 0) {
       return res.status(500).json(
@@ -204,8 +227,7 @@ export async function trainFluxModel(req, res) {
     }
 
     creditsDeducted = true;
-
-  } catch(err) {
+  } catch (err) {
     console.log("Error in credit processing:", err);
     client.captureException(err, userEmail);
     return res.status(500).json(
@@ -228,54 +250,370 @@ export async function trainFluxModel(req, res) {
     });
 
     const zipBuffer = req.file.buffer;
+    const zipBlob = new Blob([zipBuffer], { type: "application/zip" });
 
-    const formData = new FormData();
-    formData.append("content", zipBuffer, {
-      filename: "images.zip",
-      contentType: "application/zip",
-    })
+    // const formData = new FormData();
+    // formData.append("content", zipBlob, "images.zip");
 
-    const uploadResponse = await axios.post(
-      "https://api.replicate.com/v1/files",
-      formData,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.REPLICATE_API_TOKEN}`,
-          ...formData.getHeaders(),
-        },
-        maxContentLength: Infinity,
-        maxBodyLength: Infinity,
-      }
-    );  
+    // Upload images to Fal
+    const uploadUrl = await fal.storage.upload(zipBlob);
 
-    const fileUrl = uploadResponse.data.urls.get;
-
-    const result = await fal.subscribe("fal-ai/turbo-flux-trainer", {
+    const result = await fal.queue.submit("fal-ai/turbo-flux-trainer", {
       input: {
-        images_data_url: fileUrl
+        images_data_url: uploadUrl,
+        trigger_phrase: triggerWord,
+        steps: 1000,
+        learning_rate: 0.00115,
+        face_crop: true,
+        training_style: "subject",
+      },
+      webhookUrl: process.env.FAL_WEBHOOK_URL,
+    });
+
+    console.log("Model training started");
+
+    const createdModel = await createModel(
+      userId,
+      userEmail,
+      result.request_id,
+      modelName,
+      triggerWord,
+      "started",
+      gender,
+      ethnicity
+    );
+
+    if (createdModel.errorOrSuccessFlag === 0) {
+      // Restore credit
+      if (creditsDeducted) {
+        await safelyRestoreCredits(userEmail, 1, "model");
       }
-    })
-  
+      return res.status(400).json(
+        new ApiResponse(400, "Error in database", {
+          error: "Error in database",
+        })
+      );
+    }
+
+    // Everything went well
+    return res.status(200).json(
+      new ApiResponse(200, "Model training started", {
+        status: "started",
+        model: createdModel.model,
+      })
+    );
+  } catch (err) {
+    console.log("Couldn't train the model. Error: ", err);
+
+    await fal.queue.cancel("fal-ai/turbo-flux-trainer", {
+      requestId: result.request_id,
+    });
+
+    // Restore credits if they were deducted
+    if (creditsDeducted) {
+      await safelyRestoreCredits(userEmail, 1, "model");
+    }
+    client.captureException(err, userEmail);
+    return res.status(500).json(
+      new ApiResponse(500, "Couldn't train the model", {
+        error: "Couldn't train the model",
+      })
+    );
+  }
+}
+
+// Example of a request from Fal AI
+// {
+//   status: 'IN_QUEUE',
+//   request_id: '7d4a54ce-11a0-4705-90e6-b0cb934a7199',
+//   response_url: 'https://queue.fal.run/fal-ai/turbo-flux-trainer/requests/7d4a54ce-11a0-4705-90e6-b0cb934a7199',
+//   status_url: 'https://queue.fal.run/fal-ai/turbo-flux-trainer/requests/7d4a54ce-11a0-4705-90e6-b0cb934a7199/status',
+//   cancel_url: 'https://queue.fal.run/fal-ai/turbo-flux-trainer/requests/7d4a54ce-11a0-4705-90e6-b0cb934a7199/cancel',
+//   logs: null,
+//   metrics: {},
+//   queue_position: 0
+// }
+
+export async function runPromptFluxImage(req, res) {
+  const { userId, modelName, prompt, numberOfImages, userEmail } = req.body;
+
+  let creditsInfo;
+  let usedCredits = 10 * numberOfImages;
+  let creditsDeducted = false;
+
+  client.capture({
+    distinctId: userEmail,
+    event: "custom_image generated",
+  });
+
+  // Create validation and deduction
+  try {
+    creditsInfo = await getCredits(userEmail);
+    console.log(`Credits for ${userEmail} are ${creditsInfo.credits}`);
+    if (creditsInfo.credits < usedCredits) {
+      return res.status(400).json(
+        new ApiResponse(400, "Insufficient credits to run the model", {
+          error: "Insufficient credits to run the model",
+          remainingCredits: creditsInfo.credits,
+        })
+      );
+    }
+
+    await updateCredits(userEmail, creditsInfo.credits - usedCredits);
+    creditsDeducted = true;
+  } catch (err) {
+    client.captureException(err, userEmail);
+    return res
+      .status(500)
+      .json(
+        new ApiResponse(500, "Error processing credits", { error: err.message })
+      );
+  }
+
+  // Model execution
+  try {
+    const model = await getModel(userId, modelName);
+
+    //Validate model exists
+    if (!model || model.length === 0) {
+      if (creditsDeducted) {
+        await safelyRestoreCredits(userEmail, usedCredits);
+      }
+      return res.status(404).json(
+        new ApiResponse(404, "Model not found", {
+          error: "The requested model was not found",
+          remainingCredits: creditsInfo.credits,
+        })
+      );
+    }
+
+    const modelUrl = model[0].model_path;
+    let modelGender = model[0].gender;
+    if (modelGender.toLowerCase() === "other") {
+      modelGender = " ";
+    }
+    const modelTriggerWord = model[0].trigger_word;
+    const enhancedPrompt = `${modelTriggerWord} ${modelGender}. ${prompt}`;
+
+    // Run model
+    const result = await fal.subscribe("fal-ai/flux-lora", {
+      input: {
+        prompt: enhancedPrompt,
+        image_size: "square_hd",
+        loras: [
+          {
+            path: modelUrl,
+            scale: 1,
+          },
+        ],
+        num_inference_steps: 28,
+        guidance_scale: 3.5,
+        num_images: numberOfImages,
+        enable_safety_checker: false,
+        output_format: "png",
+        sync_mode: true,
+      },
+    });
+
+    const outputURL = [];
+    result.data.images.forEach((image) => {
+      outputURL.push(image.url);
+    });
+
+    return res.status(200).json(
+      new ApiResponse(200, "Model run successfully", {
+        imageUrls: outputURL,
+        remainingCredits: creditsInfo.credits - usedCredits,
+      })
+    );
+  } catch (err) {
+    if (creditsDeducted) {
+      await safelyRestoreCredits(userEmail, usedCredits);
+    }
+    client.captureException(err, userEmail);
+    return res.status(500).json(
+      new ApiResponse(500, "Couldn't run the model", {
+        error: err.message,
+        remainingCredits: creditsInfo.credits,
+      })
+    );
+  }
+}
+
+export async function runHeadshotFluxImage(req, res) {
+  const { userId, modelName, numberOfImages, style, userEmail } = req.body;
+
+  let creditsInfo;
+  let usedCredits = 10 * numberOfImages;
+  let creditsDeducted = false;
+
+  client.capture({
+    distinctId: userEmail,
+    event: "headshot generated",
+  });
+
+  // Create validation and deduction
+  try {
+    creditsInfo = await getCredits(userEmail);
+    console.log(`Credits for ${userEmail} are ${creditsInfo.credits}`);
+    if (creditsInfo.credits < usedCredits) {
+      return res.status(400).json(
+        new ApiResponse(400, "Insufficient credits to run the model", {
+          error: "Insufficient credits to run the model",
+          remainingCredits: creditsInfo.credits,
+        })
+      );
+    }
+
+    await updateCredits(userEmail, creditsInfo.credits - usedCredits);
+    creditsDeducted = true;
+  } catch (err) {
+    client.captureException(err, userEmail);
+    return res
+      .status(500)
+      .json(
+        new ApiResponse(500, "Error processing credits", { error: err.message })
+      );
+  }
+
+  // Model execution
+  try {
+    const model = await getModel(userId, modelName);
+
+    //Validate model exists
+    if (!model || model.length === 0) {
+      if (creditsDeducted) {
+        await safelyRestoreCredits(userEmail, usedCredits);
+      }
+      return res.status(404).json(
+        new ApiResponse(404, "Model not found", {
+          error: "The requested model was not found",
+          remainingCredits: creditsInfo.credits,
+        })
+      );
+    }
+
+    const modelUrl = model[0].model_path;
+    const modelGender = model[0].gender;
+    const modelTriggerWord = model[0].trigger_word;
+
+    const prompt = styleAndPrompts.find((item) => {
+      return (
+        item.style.toLowerCase() === style.toLowerCase() &&
+        item.gender.toLowerCase() === modelGender.toLowerCase()
+      );
+    });
+
+    // Validate prompt exists
+    if (!prompt) {
+      if (creditsDeducted) {
+        await safelyRestoreCredits(userEmail, usedCredits);
+      }
+      return res.status(400).json(
+        new ApiResponse(400, "Invalid style or gender combination", {
+          error: "No matching prompt found for the provided style and gender",
+          remainingCredits: creditsInfo.credits,
+        })
+      );
+    }
+
+    const enhancedPrompt = `${modelTriggerWord} ${modelGender}. ${prompt.prompt}`;
+
+    // Run model
+    const result = await fal.subscribe("fal-ai/flux-lora", {
+      input: {
+        prompt: enhancedPrompt,
+        image_size: "square_hd",
+        loras: [
+          {
+            path: modelUrl,
+            scale: 1,
+          },
+        ],
+        num_inference_steps: 28,
+        guidance_scale: 3.5,
+        num_images: numberOfImages,
+        enable_safety_checker: false,
+        output_format: "png",
+        sync_mode: true,
+      },
+    });
+
+    const outputURL = [];
+    result.data.images.forEach((image) => {
+      outputURL.push(image.url);
+    });
+
+    return res.status(200).json(
+      new ApiResponse(200, "Model run successfully", {
+        imageUrls: outputURL,
+        remainingCredits: creditsInfo.credits - usedCredits,
+      })
+    );
+  } catch (err) {
+    if (creditsDeducted) {
+      await safelyRestoreCredits(userEmail, usedCredits);
+    }
+    client.captureException(err, userEmail);
+    return res.status(500).json(
+      new ApiResponse(500, "Couldn't run the model", {
+        error: err.message,
+        remainingCredits: creditsInfo.credits,
+      })
+    );
+  }
+}
+
+export async function falWebhook(req, res) {
+  console.log("Received webhook from Fal AI");
+  console.log(req.body);
+
+  const { request_id, status, payload } = req.body;
+
+  const model = await getModelById(request_id);
+
+  if (!model || model.length === 0) {
+    return res.json({ detail: "Model not found" }, { status: 404 });
+  }
+
+  const userId = model[0].user_id;
+  const userEmail = model[0].email;
+
+  if (status === "OK") {
+    const { diffusers_lora_file } = payload;
+    const { url } = diffusers_lora_file;
+
+    await updateModel(request_id, "succeeded", url);
+    sendEventToClients({ request_id: request_id, status: "succeeded" }, userId);
+    return res.status(200).json({ detail: "Webhook received and succeeded" });
+  } else if (status === "ERROR") {
+    const creditsInfo = await getCredits(userEmail);
+    await updateModelCredits(userEmail, creditsInfo.model_credits + 1);
+    await updateModel(request_id, "failed");
+    sendEventToClients({ request_id: request_id, status: "failed" }, userId);
+    return res.status(200).json({ detail: "Webhook received and failed" });
+  } else {
+    return res.status(200).json({ detail: "Webhook received but not handled" });
   }
 }
 
 // {
-//   images: [
-//     {
-//       url: 'https://v3.fal.media/files/zebra/4-O1N9o4y3Mi_xEKhXqSd_db05f5dc15d54290a57b6b1918667274.png',
-//       content_type: 'image/png',
-//       file_name: 'db05f5dc15d54290a57b6b1918667274.png',
-//       file_size: 671511,
-//       width: 567,
-//       height: 864
+//   request_id: '5b25097d-c4f4-4460-a15c-467cca3aaf2e',
+//   gateway_request_id: '5b25097d-c4f4-4460-a15c-467cca3aaf2e',
+//   status: 'OK',
+//   error: null,
+//   payload: {
+//     diffusers_lora_file: {
+//       url: 'https://v3.fal.media/files/lion/HCxFT01QJeAJ0Ma9KjGXM_pytorch_lora_weights.safetensors',
+//       content_type: 'application/octet-stream',
+//       file_name: 'pytorch_lora_weights.safetensors',
+//       file_size: 129184944
 //     },
-//     {
-//       url: 'https://v3.fal.media/files/lion/hyXg3__GpN410hgqOf8lT_57c089168694400aba36da307b732c69.png',
-//       content_type: 'image/png',
-//       file_name: '57c089168694400aba36da307b732c69.png',
-//       file_size: 681921,
-//       width: 567,
-//       height: 864
+//     config_file: {
+//       url: 'https://v3.fal.media/files/zebra/LE8q19r4AuahfKgR6SlyN_config.json',
+//       content_type: 'application/octet-stream',
+//       file_name: 'config.json',
+//       file_size: 1232
 //     }
-//   ]
+//   }
 // }
