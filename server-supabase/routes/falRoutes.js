@@ -3,6 +3,7 @@ import {
   generateFashionImage,
   runHeadshotFluxImage,
   runPromptFluxImage,
+  runStyleImages,
   trainFluxModel,
 } from "../controllers/falController.js";
 import upload from "../middlewares/uploadMiddleware.js";
@@ -26,5 +27,11 @@ router.post(
 );
 router.post("/run-custom-prompt", isUserAuthenticated, runPromptFluxImage);
 router.post("/run-headshot", isUserAuthenticated, runHeadshotFluxImage);
+router.post(
+  "/run-styles",
+  isUserAuthenticated,
+  upload.single("file"),
+  runStyleImages
+);
 
 export default router;
