@@ -37,14 +37,14 @@ function Credits() {
             ref={creditsTabRef}
         >
             <div
-                className="h-max min-w-16 w-max flex items-center justify-center py-1 px-2 rounded-lg border-[1px] gap-2 cursor-pointer relative font-sans"
+                className="h-max  min-w-16 w-max flex items-center justify-center py-2 px-4 rounded-full border shadow-sm hover:shadow-md gap-2 cursor-pointer relative font-sans bg-white/80 backdrop-blur-md"
                 onClick={() => setIsVisible(!isVisible)}
             >
                 <div className="w-max h-max flex items-center justify-center gap-2">
-                    <CoinsIcon className="w-5 h-5" />
+                    <CoinsIcon className="w-4 h-4" />
                 </div>
                 <div>
-                    <p className="text-xs text-gray-500 font-semibold flex items-center justify-center ">
+                    <p className="text-xs text-black/80  font-semibold flex items-center justify-center ">
                         {typeof subscription?.credits !== "undefined" ? (
                             subscription.credits
                         ) : (
@@ -98,12 +98,12 @@ function CreditsTab() {
     return (
         <motion.div
             className="absolute  -right-10 sm:right-0 top-12 mt-2 w-72 bg-white rounded-xl shadow-xl border border-gray-100 p-2 z-10 overflow-hidden animate-fadeIn"
-            initial={{ opacity: 0, y: -50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -50 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
             transition={{ type: "spring", stiffness: 300, damping: 18 }}
         >
-            <div className="bg-gradient-to-br from-rose-50/50 to-purple-50/20 px-6 py-4  rounded-lg">
+            <div className="bg-gray-50 px-6 py-4  rounded-lg">
                 <div className="flex items-center gap-4 ">
                     <div>
                         <CoinsIcon className="w-6 h-6" />
@@ -125,7 +125,7 @@ function CreditsTab() {
                 <div className="space-y-4">
                     {/* Image credits */}
                     <div className="flex items-center py-2">
-                        <div className="w-10 h-10 rounded-full border flex items-center justify-center border-indigo-200">
+                        <div className="w-10 h-10 rounded-full border flex items-center justify-center shadow-sm">
                             <Camera size={18} className="text-gray-500" />
                         </div>
                         <div className="ml-3 flex-1">
@@ -156,7 +156,7 @@ function CreditsTab() {
                     {subscription !== undefined &&
                         subscription?.plan_name === "Pro" && (
                             <div className="flex items-center py-2">
-                                <div className="w-10 h-10 rounded-full flex items-center justify-center border border-purple-200">
+                                <div className="w-10 h-10 rounded-full flex items-center justify-center border shadow-sm">
                                     <Shirt
                                         size={18}
                                         className="text-gray-500"
@@ -190,7 +190,7 @@ function CreditsTab() {
 
                     {/* Models remaining */}
                     <div className="flex items-center py-2 rounded-lg">
-                        <div className="w-10 h-10 rounded-full border flex items-center justify-center border-emerald-200">
+                        <div className="w-10 h-10 rounded-full border flex items-center justify-center shadow-sm">
                             <Box size={18} className="text-gray-500" />
                         </div>
                         <div className="ml-3 flex-1">
@@ -220,7 +220,7 @@ function CreditsTab() {
                 </div>
             </div>
 
-            <div className="bg-gradient-to-bl from-purple-50/20 to-rose-50/50 px-4 py-3  rounded-lg">
+            <div className="bg-gray-50 px-4 py-3  rounded-lg">
                 <div className="flex items-center gap-2">
                     <button
                         className="flex-1 px-3 py-2 rounded-lg text-xs font-medium bg-gradient-to-r from-indigo-600 to-purple-600 text-white transition-all"

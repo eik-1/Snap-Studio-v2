@@ -5,6 +5,7 @@ import { PiDressBold, PiTShirtBold } from "react-icons/pi"
 const services = [
     {
         serviceType: "headshot",
+        path: "/app/headshot",
         name:"Headshots",
         title: "Generate HeadShots",
         description: "Transform your photos into studio-quality headshots.",
@@ -16,8 +17,9 @@ const services = [
     },
     {
         serviceType: "customImage",
+        path: "/app/custom-image",
         name:"Images",
-        title: "Create Custom Images",
+        title: "Create Your Image",
         description: "Create custom images of your choice with just a prompt",
         images: [img3, img2],
         className:
@@ -27,6 +29,7 @@ const services = [
     },
     {
         serviceType: "fashion",
+        path: "/app/fashion-try-on",
         name:"Fashion Images",
         title: "AI Fashion Try-On",
         description: "Try on clothes virtually with our AI model.",

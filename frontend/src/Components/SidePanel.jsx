@@ -1,9 +1,9 @@
 import OptionPanel from "@/Components/OptionsPanel";
-import CustomImageForm from "@/Components/CustomImageForm";
+import CustomImageForm from "@/Components/CustomImageActionDock";
 import { useNavigation } from "@/contexts/NavigationContext";
 import CustomImageModelTrainForm from "./CustomImageModelTrainForm";
 import FashionModelForm from "./FashionModelForm";
-import HeadshotForm from "./HeadshotForm";
+import HeadshotForm from "./HeadshotFormOld";
 
 function SidePanel({ children }) {
   const { state } = useNavigation();

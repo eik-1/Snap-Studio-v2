@@ -8,6 +8,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@property --gradient-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
 html,
 body {
     scroll-behavior: smooth !important;
@@ -37,7 +42,14 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
     -moz-appearance: textfield;
 }
-
+@keyframes rotate-gradient {
+  0% {
+    --gradient-angle: 0deg;
+  }
+  100% {
+    --gradient-angle: 360deg;
+  }
+}
 @layer base {
     :root {
         --radius: 0.5rem;
@@ -49,6 +61,15 @@ input[type="number"] {
 @layer components {
   .bg-text-gradient{
     @apply bg-gradient-to-r from-sky-500 via-purple-500 to-rose-500;
+  }
+
+}
+@layer utilities {
+   .animate-gradient-rotation {
+    animation: rotate-gradient 3s linear infinite;
+  }
+  .bg-image-grad{
+    background: linear-gradient(var(--gradient-angle), rgb(174, 216, 255),  rgb(255, 198, 176), rgb(248, 221, 255));
   }
 }
 

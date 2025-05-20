@@ -1,9 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 const config = {
-    darkMode:'class',
+    darkMode: "class",
     content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx,html}"],
-    
-    theme: {    
+
+    theme: {
         extend: {
             fontFamily: {
                 sans: ["Poppins", "sans-serif"],
@@ -17,25 +17,42 @@ const config = {
             },
             colors: {
                 palette: {
-                  light: "#FFEBA5", 
-                  lavender: "#A15FFF", 
-                  purpleLight: "#8548E0", 
-                  purpleDark: "#6C3DD0", 
-                  darkText: "#1A1A1A",
+                    light: "#FFEBA5",
+                    lavender: "#A15FFF",
+                    purpleLight: "#8548E0",
+                    purpleDark: "#6C3DD0",
+                    darkText: "#1A1A1A",
                     lightText: "#F2F2F2",
                 },
-              },
-              backgroundImage:{
-                serviceone:"linear-gradient(125deg, #FFD47F 16.7%, #FDFABB 71.47%)",
-                servicetwo:" linear-gradient(125deg, #0067CF 2.79%, #A4FFFF 98.19%)",
-                servicethree:"linear-gradient(125deg, #FF3F6F -6.78%, #FFA0EC 107.12%)",
-                imageSec:"  linear-gradient(100.05deg, #F5EEFF 1.21%, #EADCFF 100%);",
-                gen:"  linear-gradient(99.27deg, #FF7F95 0.92%, #A749FF 27.63%, #51E8FF 46.39%, #53E7FC 62.14%, #FF9D62 75.04%, #FF9277 87.16%, #FFD1D8 100%);"
-              },
-              screens:{
-                s:"480px"
-              },
+            },
+            backgroundImage: {
+                serviceone:
+                    "linear-gradient(125deg, #FFD47F 16.7%, #FDFABB 71.47%)",
+                servicetwo:
+                    " linear-gradient(125deg, #0067CF 2.79%, #A4FFFF 98.19%)",
+                servicethree:
+                    "linear-gradient(125deg, #FF3F6F -6.78%, #FFA0EC 107.12%)",
+                imageSec:
+                    "  linear-gradient(100.05deg, #F5EEFF 1.21%, #EADCFF 100%);",
+                gen: "  linear-gradient(99.27deg, #FF7F95 0.92%, #A749FF 27.63%, #51E8FF 46.39%, #53E7FC 62.14%, #FF9D62 75.04%, #FF9277 87.16%, #FFD1D8 100%);",
+                imgCreate:
+                    "linear-gradient(var(--gradient-angle), blue, purple, red, orange);",
+            },
+            boxShadow: {
+                serviceDock: "0px 2px 40px rgba(0, 0, 0, 0.1);",
+            },
+            screens: {
+                s: "480px",
+            },
             keyframes: {
+                rotation: {
+                    "0%": {
+                        "var(--gradient-angle)": "0deg",
+                    },
+                    "100%": {
+                        "var(--gradient-angle)": "360deg",
+                    },
+                },
                 marquee: {
                     from: {
                         transform: "translateX(0)",
@@ -53,30 +70,28 @@ const config = {
                     },
                 },
                 gradient: {
-                    '0%': { 'background-position': '0% 50%' },
-                    '50%': { 'background-position': '100% 50%' },
-                    '100%': { 'background-position': '0% 50%' }
-                  },
-                  shimmer: {
+                    "0%": { "background-position": "0% 50%" },
+                    "50%": { "background-position": "100% 50%" },
+                    "100%": { "background-position": "0% 50%" },
+                },
+                shimmer: {
                     "0%": { backgroundPosition: "-200% 0" },
                     "100%": { backgroundPosition: "200% 0" },
-                  },
-                
+                },
             },
             animation: {
                 marquee: "marquee var(--duration) infinite linear",
                 "marquee-vertical":
                     "marquee-vertical var(--duration) linear infinite",
-                gradient: 'gradient 2s ease-out infinite',
+                gradient: "gradient 2s ease-out infinite",
                 shimmer: "shimmer 2s infinite",
-               
+                rotation: "rotation 1s linear infinite",
             },
         },
     },
     plugins: [
         require("tailwindcss-animate"),
         require("@tailwindcss/typography"),
-        
     ],
 }
 

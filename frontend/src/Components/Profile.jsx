@@ -1,12 +1,12 @@
 import { useUser } from "@/contexts/UserContext"
 import { useState, useEffect, useRef } from "react"
 import { User2Icon, LogOut } from "lucide-react"
-import { useToast } from "@/hooks/use-toast"
+import { toast} from "sonner"
 import { useNavigate } from "react-router-dom"
 import {motion, AnimatePresence} from "motion/react"
 function Profile() {
     const { user, logoutUser } = useUser()
-    const { toast } = useToast()
+   
     const navigate = useNavigate()
     const menuRef = useRef(null)
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
@@ -42,31 +42,29 @@ function Profile() {
     }
     async function handleLogout() {
         await logoutUser()
-        toast({
-            description: "Logged out successfully",
-        })
+        toast.success("Logged out successfully")
         navigate("/")
     }
     return (
         <div
-            className="flex relative sm:hidden items-center gap-2"
+            className="flex relative  items-center gap-2"
             ref={menuRef}
         >
             <div
-                className=" relative  flex flex-col items-center justify-center h-full text-gray-500 hover:text-gray-700 cursor-pointer transition-all duration-75"
+                 className="relative h-max w-max bg-white/80 backdrop-blur-md border shadow-sm hover:shadow-md  rounded-full p-2  text-black/80 hover:text-black cursor-pointer transition-all duration-75"
                 role="button"
                 onClick={handleClick}
             >
-                <User2Icon size="20" />
+                <User2Icon size="16" />
             </div>
             <AnimatePresence>
 
            
             {isProfileMenuOpen && (
-                <motion.div className="absolute top-10 right-0 bg-white/75 backdrop-blur-2xl w-max  h-max p-4 gap-3 flex flex-col  justify-center border-[1px] shadow-md rounded-lg"
-                initial={{ opacity: 0, y: -50 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -50 }}
+                <motion.div className="absolute top-12 right-0 bg-white/75 backdrop-blur-2xl w-max  h-max p-4 gap-3 flex flex-col  justify-center border-[1px] shadow-md rounded-lg"
+              initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ type: "spring", stiffness: 300, damping: 18 }}
                 >
                     <div className="flex items-center gap-1 text-gray-700">

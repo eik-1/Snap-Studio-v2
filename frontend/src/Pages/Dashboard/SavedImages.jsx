@@ -84,18 +84,8 @@ function SavedImages() {
     }
 
     return (
-        <div className="w-full h-full bg-white relative flex flex-col md:flex-row md:items-center pb-48 md:pb-0 overflow-scroll md:overflow-hidden custom-scrollbar">
-            <div className="w-[95%] flex-shrink-0   mx-auto md:mx-0 min-h-36  md:h-[95%] md:my-auto md:w-80  border-b-[1px] md:border-r-[1px] md:border-b-0 border-neutral-200 md:border-b-none ">
-                <div className="flex flex-col p-6  items-center mt-10 md:mt-32 gap-2 ">
-                    <h2 className="text-3xl leading-relaxed text-center font-semibold ">
-                      <span className="bg-clip-text text-transparent  bg-text-gradient">{`Your saved ${category}`}</span>  
-                    </h2>
-                    <p className="text-gray-500 text-sm">
-                        Explore your saved images
-                    </p>
-                </div>
-            </div>
-
+        <div className="w-full pl-16 h-full bg-white relative flex flex-col md:flex-row md:items-center pb-48 md:pb-0 overflow-scroll md:overflow-hidden custom-scrollbar">
+           
             <div className="relative md:h-full flex-grow pt-8 px-4 md:overflow-y-scroll md:custom-scrollbar ">
                 {content}
             </div>

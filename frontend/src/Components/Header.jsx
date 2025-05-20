@@ -1,16 +1,19 @@
-import NavigationBackButton from "./NavigationBackButton"
 import Profile from "./Profile"
 import Credits from "@/Components/CreditsTab"
 import NotificationButton from "@/Components/Notification"
+import BackButton from "./BackButton"
+import CurrentTabTitle from "./CurrentTabTitle"
 
 function Header() {
     return (
-        <header className="flex justify-between h-[3rem] w-full sm:w-[calc(100dvw-4rem)] sm:ml-16  bg-white border-b-[1px]  fixed top-0 z-[80]">
-            <div className="flex items-center space-x-3">
-                <NavigationBackButton />
+        <header className="flex justify-between h-[3rem]  w-full px-4 fixed top-0 z-[100] ">
+            <div className="flex items-center gap-4">
+                <BackButton />
+                <CurrentTabTitle />
+              
             </div>
 
-            <div className="h-full w-max flex gap-4 sm:gap-6 mr-4 items-center justify-center p-2  ">
+            <div className="h-full w-max flex gap-3  items-center justify-center p-2  ">
                
                 <Credits />
                 <NotificationButton />

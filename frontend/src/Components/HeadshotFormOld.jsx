@@ -1,39 +1,37 @@
-import {
-    Clock,
-    Coins,
-    Minus,
-    Layers as ModelIcon,
-    
-    Images as NumImage,
-    Plus,
-    PenLine as PromptIcon,
-   
-} from "lucide-react"
-import { useState } from "react"
-
 import { useImage } from "@/contexts/ImageContext"
 import { useModel } from "@/contexts/ModelContext"
 import { useNavigation as useBackNavigation } from "@/contexts/NavigationContext"
 import { useSubscription } from "@/contexts/SubscriptionContext"
 import { useUser } from "@/contexts/UserContext"
-import { generateImage } from "@/services/api/services"
+import { headshotStyles } from "@/data/formData"
+import { generateHeadshot } from "@/services/api/services"
+import {
+    Clock,
+    Coins,
+    Minus,
+    Layers as ModelIcon,
+    Images as NumImage,
+    Plus,
+    SquareUserRound as StyleIcon,
+} from "lucide-react"
+import { useState } from "react"
 import { Button } from "./UI/Button"
 
-function CustomImageForm() {
+function HeadshotForm() {
     const [selectedModel, setSelectedModel] = useState("")
     const [numberOfImages, setNumberOfImages] = useState(1)
+    const [selectedStyle, setSelectedStyle] = useState(null)
     const [error, setError] = useState({
         modelSelect: "",
         numberOfImages: "",
-        prompt: "",
+        style: "",
     })
-    const [prompt, setPrompt] = useState("")
+
     const { user } = useUser()
     const { dispatch: imageDispatch, state: imageState } = useImage()
     const { dispatch: navDispatch } = useBackNavigation()
     const { state: modelState } = useModel()
     const { updateCredits, subscription } = useSubscription()
-
     const trainedModels = modelState.models.filter(
         (model) => model.status === "succeeded",
     )
@@ -42,38 +40,13 @@ function CustomImageForm() {
         queryKey: ["models", user],
         queryFn: () => getUserModels(user.$id),
     })*/
-
-    function increment() {
-        if (numberOfImages < 4) {
-            setNumberOfImages(numberOfImages + 1)
-            setError({ numberOfImages: "" })
-        } else {
-            setError({ numberOfImages: "Maximum value is 5" })
-        }
-    }
-
-    function decrement() {
-        if (numberOfImages > 1) {
-            setNumberOfImages(numberOfImages - 1)
-            setError({ numberOfImages: "" })
-        } else {
-            setError({ numberOfImages: "Minimum value is 1" })
-        }
-    }
-
-    /*New Changes*/
-    function validateForm() {
-        if (!selectedModel) {
-            setError({
-                ...error,
-                modelSelect: "Please select a model to generate custom images",
-            })
-            return false
-        }
-        return true
-    }
-
-    async function handleImageGeneration(userId, modelName, prompt, numImages) {
+    async function handleImageGeneration(
+        userId,
+        modelName,
+        style,
+        numImages,
+        email,
+    ) {
         imageDispatch({
             type: "SET_GENERATION_STATUS",
             payload: { status: "generating", message: "Generating Images" },
@@ -81,12 +54,12 @@ function CustomImageForm() {
         subscription?.credits &&
             updateCredits(subscription?.credits - numImages * 10, user?.email)
         try {
-            const data = await generateImage(
+            const data = await generateHeadshot(
                 userId,
                 modelName,
-                prompt,
                 numImages,
-                user.email,
+                style,
+                email,
             )
             imageDispatch({
                 type: "SET_GENERATED_IMAGE_URLS",
@@ -109,18 +82,39 @@ function CustomImageForm() {
                 },
             })
             updateCredits(error.data.remainingCredits, user?.email)
-            console.log("Error generating images")
+        }
+    }
+    function increment() {
+        if (numberOfImages < 4) {
+            setNumberOfImages(numberOfImages + 1)
+            setError({ numberOfImages: "" })
+        } else {
+            setError({ numberOfImages: "Maximum value is 5" })
         }
     }
 
+    function decrement() {
+        if (numberOfImages > 1) {
+            setNumberOfImages(numberOfImages - 1)
+            setError({ numberOfImages: "" })
+        } else {
+            setError({ numberOfImages: "Minimum value is 1" })
+        }
+    }
     async function handleSubmit(e) {
         e.preventDefault()
         /*New Changes*/
-        if (!validateForm()) return
+        if (!validateForm(e)) return
         const numImages = parseInt(numberOfImages)
         // handle > 5 images
-        console.log(selectedModel)
-        await handleImageGeneration(user.$id, selectedModel, prompt, numImages)
+
+        await handleImageGeneration(
+            user.$id,
+            selectedModel,
+            selectedStyle,
+            numImages,
+            user.email,
+        )
         if (imageState.generationStatus.status === "success") {
             //reset form state or just leave it as it is
         } else if (imageState.generationStatus.status === "error") {
@@ -137,21 +131,35 @@ function CustomImageForm() {
         })
     }
 
+    /*New Changes*/
+    function validateForm() {
+        if (!selectedModel) {
+            setError({
+                ...error,
+                modelSelect: "Please select a model to generate headshots",
+            })
+            return false
+        }
+        return true
+    }
+
     return (
         <div className="w-full h-full mx-auto  bg-white border-r-[1px] relative">
             <div className="h-[90%] w-full m-0 px-4 py-4 sm:overflow-y-scroll oveflow-x-hidden">
                 <div className="font-sans flex flex-col gap-1 h-max pb-6 border-b-[1px] ">
                     <h1 className="font-sans w-max h-max font-semibold tracking-tight text-lg bg-clip-text bg-text-gradient text-transparent">
-                        Generate Image
+                        Generate Headshot
                     </h1>
                     <p className="text-xs font-regular tracking-tight text-gray-500">
-                        {"Generate images using your trained models "}
+                        {
+                            "Generate professional headshots using your trained models"
+                        }
                     </p>
                 </div>
                 <form
                     onSubmit={handleSubmit}
                     className="mt-4"
-                    id="custom-image-form"
+                    id="headshot-form"
                 >
                     <div className="flex flex-col h-max  mt-3 pb-2 gap-1">
                         <div className="flex gap-2 w-max h-max text-gray-700  items-center justify-center">
@@ -164,11 +172,10 @@ function CustomImageForm() {
                             Choose from your trained models
                         </p>
                         <select
-                            required
                             value={selectedModel}
                             onChange={(e) => setSelectedModel(e.target.value)}
                             className={`px-3 py-2 mt-2 block w-full  border border-gray-300 rounded-md  focus:ring-slate-500 focus:border-slate-500 text-xs ${modelState?.models?.length === 0 && "cursor-not-allowed"} `}
-                            disabled={modelState?.models?.length === 0}
+                            disabled={trainedModels?.length === 0}
                         >
                             <option value="" disabled>
                                 {!trainedModels
@@ -215,16 +222,15 @@ function CustomImageForm() {
                         </div>
                     </div>
                     <div className="flex flex-col h-max pb-2 mt-10 gap-1">
-                        <div className="flex gap-2 w-max h-max text-gray-700 items-center justify-center">
+                        <div className="flex gap-2 w-max h-max text-gray-700  items-center justify-center">
                             <NumImage size={16} />
                             <label className="block text-sm font-medium text-gray-700">
-                                Number of Images
+                                Number of Headshots
                             </label>
                         </div>
-                        <p className="text-[0.675rem] font-regular tracking-tight text-gray-500 ">
+                        <p className="text-[0.675rem] font-regular tracking-tight text-gray-500">
                             {"Number of images to generate (min: 1, max: 4)"}
                         </p>
-
                         <div className="relative mt-2 flex flex-nowrap border  border-gray-300 rounded-md focus:border-slate-500 ">
                             <input
                                 type="number"
@@ -252,7 +258,6 @@ function CustomImageForm() {
                                 </button>
                             </div>
                         </div>
-
                         <div className="flex items-center text-sm mt-2 gap-1 text-gray-500">
                             <Coins size={12} />
                             <p>Credits - {numberOfImages * 10}</p>
@@ -260,35 +265,91 @@ function CustomImageForm() {
                     </div>
                     <div className="flex flex-col h-max pb-2 mt-6 gap-1">
                         <div className="flex gap-2 w-max h-max text-gray-700  items-center justify-center">
-                            <PromptIcon size={16} />
-                            <label className="block text-sm font-medium text-gray-700">
-                                Write a prompt
-                            </label>
+                            <StyleIcon size={16} />
+                            <p className="block text-sm font-medium text-gray-700">
+                                Select Headshot Style
+                            </p>
                         </div>
                         <p className="text-[0.675rem] font-regular tracking-tight text-gray-500">
-                            {"Describe the image you want to generate"}
+                            {"Choose a style for your headshot"}
                         </p>
-
-                        <textarea
-                            type="text"
-                            required
-                            value={prompt}
-                            onChange={(e) => setPrompt(e.target.value)}
-                            className="px-3 py-2 mt-2 min-h-36 block w-full border border-gray-300 rounded-md  focus:ring-slate-500 focus:border-slate-500 text-sm"
-                        />
+                        <div className="grid grid-cols-[repeat(auto-fit,_minmax(6rem,_1fr))] justify-items-center  gap-4 mt-4">
+                            {headshotStyles.map((style) => (
+                                <div key={style.id} className="relative group">
+                                    <input
+                                        type="radio"
+                                        required
+                                        id={style.id}
+                                        name="headshotStyle"
+                                        value={style.id}
+                                        checked={selectedStyle === style.id}
+                                        onClick={(e) =>
+                                            selectedStyle === style.id
+                                                ? setSelectedStyle(null)
+                                                : setSelectedStyle(style.id)
+                                        }
+                                        className="absolute opacity-0 w-full h-full cursor-pointer z-10"
+                                    />
+                                    <label
+                                        htmlFor={style.id}
+                                        className={`block w-28  rounded-xl overflow-hidden transition-all duration-300 cursor-pointer
+                transform hover:-translate-y-1 bg-white
+                ${
+                    selectedStyle === style.id
+                        ? "ring-2 ring-blue-500 ring-offset-4 opacity-100 scale-105 shadow-lg"
+                        : "drop-shadow-sm border-2 " +
+                          (selectedStyle && selectedStyle !== style.id
+                              ? " opacity-40"
+                              : " opacity-100")
+                }`}
+                                    >
+                                        <div className="w-28 h-28 relative overflow-hidden">
+                                            <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent z-10" />
+                                            <img
+                                                src={style.image}
+                                                alt={style.label}
+                                                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                                            />
+                                            {selectedStyle === style.id && (
+                                                <div className="absolute top-2 right-2 z-20 bg-blue-500 rounded-full p-1.5">
+                                                    <svg
+                                                        className="w-3 h-3 text-white"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        stroke="currentColor"
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth={3}
+                                                            d="M5 13l4 4L19 7"
+                                                        />
+                                                    </svg>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="p-2  flex justify-center items-center">
+                                            <h3 className="font-normal text-[0.675rem] text-gray-700 ">
+                                                {style.label}
+                                            </h3>
+                                        </div>
+                                    </label>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </form>
             </div>
             <div className="z-50 w-full bg-white h-[10%]  fixed bottom-16 sm:bottom-0 sm:relative flex justify-center items-center border-t-[1px]">
                 <Button
                     type="submit"
-                    form="custom-image-form"
+                    form="headshot-form"
                     className="w-2/3 text-xs sm:text-sm mx-auto bg-gradient-to-r from-rose-500 via-purple-500 to-cyan-500 "
                     disabled={
                         imageState.generationStatus.status === "generating"
                     }
                 >
-                    <span>Generate Image</span>
+                    <span>Generate Headshot</span>
                     <div className="flex items-center justify-center ">
                         ~ ( <Clock size={12} />
                         <p>&nbsp;{numberOfImages * 15}s</p>)
@@ -298,4 +359,4 @@ function CustomImageForm() {
         </div>
     )
 }
-export default CustomImageForm
+export default HeadshotForm

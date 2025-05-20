@@ -1,10 +1,9 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import React from "react"
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom"
-
+import {toast} from "sonner"
 import { ImageProvider } from "@/contexts/ImageContext"
 import { ModelProvider } from "@/contexts/ModelContext"
-import { useToast } from "@/hooks/use-toast"
 import Settings from "@/Pages/Dashboard/Settings"
 import Error from "./Components/Error"
 import SendFashionModel from "./Components/SendFashionModel"
@@ -26,10 +25,13 @@ import PrivacyPolicy from "./Pages/Landing/Privacy"
 import TermsOfService from "./Pages/Landing/TermsOfService"
 import ChangePassword from "./Pages/ResetPassword/ChangePassword"
 import ResetPassword from "./Pages/ResetPassword/ResetPassword"
+import CustomImageServicePage from "./Pages/ServicePage/CustomImage"
+import HeadshotServicePage from "./Pages/ServicePage/Headshot"
+import FashionTryOnPage from "./Pages/ServicePage/FashionTryOn"
 
 function ProtectedRoute({ children }) {
     const { user } = useUser()
-    const { toast } = useToast()
+
 
     if (!user) {
         toast({ description: "You need to be logged in to access this page" })
@@ -140,6 +142,21 @@ function App() {
                     element: <Settings />,
                     errorElement: <Error />,
                 },
+                {
+                    path:"custom-image",
+                    element:<CustomImageServicePage/>,
+                    errorElement:<Error/>
+                },
+                {
+                    path:"headshot",
+                    element:<HeadshotServicePage/>,
+                    errorElement:<Error/>
+                },
+                {
+                    path: "fashion",
+                    element: <FashionTryOnPage />,
+                    errorElement: <Error />
+                }
             ],
         },
     ])

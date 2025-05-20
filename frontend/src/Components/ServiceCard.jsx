@@ -1,71 +1,64 @@
-import { cn } from "@/lib/utils";
-import { motion } from "motion/react";
-import { ChevronRightIcon } from "lucide-react";
 import { useState } from "react";
-const ServiceCard=({ 
-  title = '', 
-  description = '',
-  Icon = null,
-  images = [],
-  labelText = null,
-  labelStyle=null,
-  handleClick,
-  className=''
-}) => {
-  const [isHovering, setIsHovering] = useState(false);
+
+function ServiceCard({ service, onNavigate }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleNavigate = () => {
+    if (onNavigate) {
+      onNavigate(service?.path);
+    }
+  };
 
   return (
-    <div
-      className={cn(`relative rounded-2xl h-max px-4 py-8  max-w-xs  flex items-center   cursor-pointer hover:scale-105 transition-all duration-300 active:scale-[0.98] ${className}   `)}
-      onClick={handleClick}
-      role="button"
-      onMouseEnter={() => {setIsHovering(true)}} onMouseLeave={() => {setIsHovering(false)}}
+    <div 
+      className="relative group mx-2"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-       {labelText && <div className={cn(`absolute right-2 top-2 z-[100] w-max h-max p-1 bg-white/60 rounded-full backdrop-blur-md text-[0.5rem] leading-tight tracking-tighter drop-shadow-sm ${labelStyle}`)}>
-              {labelText}
-          </div>}
-          <motion.div className="absolute bottom-2 right-2"
-          initial={{x: 10, opacity: 0}}
-          animate={{x: isHovering ? 0 : 10, opacity: isHovering ? 1 : 0}}
-         
-
-          >
-          <ChevronRightIcon size={24} />
-          </motion.div>
-      <div className=" flex justify-between items-center">
-        <div className="max-w-[50%] flex flex-col gap-2">
-          <div>
-            {Icon && <Icon className={`w-6 h-6 ${title==="Generate HeadShots"?"text-black/70":"text-white/80"}` }/>}
+      <div
+        onClick={handleNavigate}
+        className={`
+          w-40 h-48 rounded-2xl overflow-hidden cursor-pointer bg-white
+          transition-all duration-300 transform flex flex-col
+          ${isHovered ? 'scale-105 shadow-lg' : 'shadow-md'}
+        `}
+      >
+        {/* Image container */}
+        <div className="w-full h-32 p-3 flex items-center justify-center">
+          <div className="w-full h-full rounded-xl overflow-hidden bg-gray-50 flex items-center justify-center">
+            <img
+              src={service?.images[0]}
+              alt={service?.title}
+              className="w-full h-full object-contain"
+            />
           </div>
-          <h2 className="text-[1.1rem]  font-semibold leading-tight">
-            {title}
-          </h2>
-         
-        { /* <p className="text-[0.575rem] font-normal leading-tight opacity-80">
-            {description}
-          </p>*/}
         </div>
-
-  
-       <div className={`relative flex gap-4 h-max items-center `}>
-         
-          {images.map((image, index) => (
-            <div
-              key={index}
-              className={`w-[4rem] h-[4rem] sm:h-[3rem]  sm:w-[3rem] lg:h-[4rem] lg:w-[4rem] rounded-xl overflow-hidden shadow-lg drop-shadow-md z-10 transform ${
-                (index %2=== 0 && images.length>1) ? 'rotate-[-20deg] translate-x-4' : 'rotate-[20deg] -translate-x-4'
-              }`}
-            >
-              <img
-                src={image}
-                alt={`service pic ${index + 1}`}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          ))}
+        
+        {/* Title area */}
+        <div className="px-3 pb-3 pt-1 flex-grow flex items-center justify-center">
+          <p className="text-gray-800 font-medium text-center text-sm">
+            {service?.title}
+          </p>
         </div>
       </div>
     </div>
   );
-};
+}
+
+// Optional wrapper component for the carousel effect
+function ServiceCarousel({ services, onNavigate }) {
+  return (
+    <div className="flex overflow-x-auto scrollbar-hide py-4 px-3 -mx-2">
+      {services?.map((service, index) => (
+        <ServiceCard
+          key={index}
+          service={service}
+          onNavigate={onNavigate}
+        />
+      ))}
+    </div>
+  );
+}
+
+export { ServiceCard, ServiceCarousel };
 export default ServiceCard;

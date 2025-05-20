@@ -3,7 +3,7 @@ import { RotatingLines } from "react-loader-spinner";
 import { saveHeadshot, saveCustomImage, saveFashionImage } from "@/services/api/services";
 import { useUser } from "@/contexts/UserContext";
 import { useImage } from "@/contexts/ImageContext";
-import { useToast } from "@/hooks/use-toast";
+import {toast} from "sonner"
 
 
 function SaveImageButton({imageUrl, size})
@@ -11,7 +11,7 @@ function SaveImageButton({imageUrl, size})
    
     const { user } = useUser()
     const { state: imageState, dispatch:imageDispatch } = useImage()
-    const { toast } = useToast()
+   
     
     async function handleSaveImage(src) {
         const userId = user?.$id
@@ -37,12 +37,10 @@ function SaveImageButton({imageUrl, size})
                 
             }
             imageDispatch({type:"SET_IMAGE_SAVE_STATUS", payload:{url:src, status:"saved"}})
-            toast({
-                description: "Image saved", })
+            toast.success("Image saved")
         } catch (error) {
             imageDispatch({type:"SET_IMAGE_SAVE_STATUS", payload:{url:src, status:"notSaved"}})
-            toast({
-                description: "Error saving image", })
+            toast.error("Error saving image")
             console.error("Error saving image:", error)
         }
     }

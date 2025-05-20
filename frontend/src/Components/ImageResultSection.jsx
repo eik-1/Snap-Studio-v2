@@ -78,7 +78,7 @@ function ImageResultEmptyState() {
 function ImageResultLoading() {
     return (
         <div className="w-full h-full flex flex-col items-center justify-center gap-4">
-            <p className="h-max w-max text-lg font-medium text-transparent bg-clip-text bg-gradient-to-r from-rose-500 via-violet-500 to-cyan-500 bg-[length:200%_100%] animate-gradient ">
+            <p className="h-max w-max text-lg font-medium text-transparent bg-clip-text bg-gradient-to-r from-rose-500 via-violet-500 to-cyan-500 bg-[length:200%_100%] animate ">
                 Generating Your Images..
             </p>
         </div>
