@@ -543,7 +543,7 @@ export async function runHeadshotFluxImage(req, res) {
     result.data.images.forEach((image) => {
       outputURL.push(image.url);
     });
-
+    console.log("Generated image URLs:", outputURL);
     return res.status(200).json(
       new ApiResponse(200, "Model run successfully", {
         imageUrls: outputURL,

@@ -34,10 +34,10 @@ const AvatarDropdown = ({
     const isDisabled = trainedModels.length === 0
 
     return (
-        <div className="relative " ref={dropdownRef}>
+        <div className="relative z-40" ref={dropdownRef}>
             <div
                 onClick={() => !isDisabled && setIsOpen(!isOpen)}
-                className={`min-w-32 w-max h-10 max-w-1/2 text-xs px-3 py-2  text-black font-medium rounded-full cursor-pointer bg-gray-100 flex justify-between items-center gap-2 ${
+                className={`min-w-32 w-max h-10 max-w-1/2 text-xs px-3 py-2   text-black font-medium rounded-full cursor-pointer bg-gray-100 flex justify-between items-center gap-2 ${
                     isDisabled
                         ? "opacity-50 cursor-not-allowed"
                         : "hover:bg-[rgba(0,0,0,0.08)]"
@@ -56,7 +56,7 @@ const AvatarDropdown = ({
 
             {/* Dropdown options (open upward) */}
             {isOpen && !isDisabled && (
-                <div className="min-w-44 max-w-56 absolute bottom-full mb-2 p-1  bg-white border border-gray-200 rounded-xl drop-shadow-lg z-10 h-max overflow-y-auto text-xs flex flex-col">
+                <div className="min-w-44 max-w-56 absolute bottom-full mb-2 p-1  bg-white border border-gray-200 rounded-xl drop-shadow-lg  h-max overflow-y-auto text-xs flex flex-col">
                     <div
                             key={"newModel"}
                             

@@ -28,7 +28,7 @@ function CurrentTabTitle() {
 
     return (
         <>
-         {path!=="app" && <h2 className="text-black/80 py-2 px-4 bg-white/80 backdrop-blur-md  rounded-full">{title}</h2>}
+         {path!=="app" && title && <h2 className="text-black/80 hidden md:block py-2 px-4 bg-white/80 backdrop-blur-md  rounded-full">{title}</h2>}
         </>
     )
 }

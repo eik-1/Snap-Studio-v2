@@ -5,6 +5,8 @@ import { useSubscription } from "@/contexts/SubscriptionContext"
 import { useUser } from "@/contexts/UserContext"
 import { headshotStyles } from "@/data/formData"
 import { generateHeadshot } from "@/services/api/services"
+import { IoIosPerson as StyleIcon } from "react-icons/io";
+
 import {
     Clock,
     Coins,
@@ -12,15 +14,17 @@ import {
     Layers as ModelIcon,
     Images as NumImage,
     Plus,
-    SquareUserRound as StyleIcon,
+   SwitchCamera as ChangeIcon
     
 } from "lucide-react"
 import { useState } from "react"
 import { Button } from "./UI/Button"
 import AvatarDropdown from "./AvatarDropdown"
+import GlowingAnimation from "./GlowingAnimation"
+import NumberOfImages from "./NumberOfImages"
 import { toast } from "sonner"
 
-function HeadshotActionDock({selectedStyle, setSelectedStyle}) {
+function HeadshotActionDock({selectedStyle, setSelectedStyle, isDrawerOpen, setIsDrawerOpen}) {
       const [selectedModel, setSelectedModel] = useState("")
       const [numberOfImages, setNumberOfImages] = useState(1) 
       const [error, setError] = useState({
@@ -63,6 +67,7 @@ function HeadshotActionDock({selectedStyle, setSelectedStyle}) {
                   style,
                   email,
               )
+            console.log("Generated Image URLs:", data.imageUrls)
               imageDispatch({
                   type: "SET_GENERATED_IMAGE_URLS",
                   payload: data.imageUrls,
@@ -95,30 +100,16 @@ function HeadshotActionDock({selectedStyle, setSelectedStyle}) {
               
           }
       }
-      function increment() {
-          if (numberOfImages < 4) {
-              setNumberOfImages(numberOfImages + 1)
-              setError({ numberOfImages: "" })
-          } else {
-              setError({ numberOfImages: "Maximum value is 5" })
-          }
-      }
-  
-      function decrement() {
-          if (numberOfImages > 1) {
-              setNumberOfImages(numberOfImages - 1)
-              setError({ numberOfImages: "" })
-          } else {
-              setError({ numberOfImages: "Minimum value is 1" })
-          }
-      }
+   
       async function handleSubmit(e) {
           e.preventDefault()
           /*New Changes*/
           if (!validateForm(e)) return
           const numImages = parseInt(numberOfImages)
           // handle > 5 images
-          
+          console.log("Selected Model:", selectedModel)
+            console.log("Selected Style:", selectedStyle)
+            console.log("Number of Images:", numImages)
           await handleImageGeneration(
               user.$id,
               selectedModel,
@@ -151,18 +142,45 @@ function HeadshotActionDock({selectedStyle, setSelectedStyle}) {
               })
               return false
           }
+          if(!selectedStyle) {
+              setError({
+                  ...error,
+                  style: "Please select a style to generate headshots",
+              })
+              toast.error("Please select a style to generate headshots")
+              return false
+          }
           return true
       }
 
     return (
-        <div className="w-11/12 z-50 left-1/2 -translate-x-1/2  bg-white/85 backdrop-blur-lg border rounded-3xl px-4 py-3 shadow-md absolute bottom-4 h-max">
+        <>
+          
+        <div className="w-11/12  left-1/2 -translate-x-1/2 h-max  fixed md:absolute bottom-4  z-50 ">
+        
+        <div className="w-full h-full relative">
+              <button
+                        key="expand-button"
+                       
+                        onClick={() => setIsDrawerOpen(true)}
+                        className="absolute left-1/2 -translate-x-1/2 -top-12  bg-white/90 backdrop-blur-lg border  rounded-3xl px-4 py-2 shadow-sm hover:bg-white transition-all duration-200 hover:shadow-lg flex items-center justify-center md:hidden gap-1"
+                        aria-label="Expand Drawer"
+                    >
+
+                        {selectedStyle ? <ChangeIcon className="text-gray-600" size={18} /> : <StyleIcon className="text-gray-600" size={18} />}
+                        <div className="text-xs text-gray-600">{selectedStyle ? "Change Style" : "Select Style"}</div>
+                    </button>
+            {imageState?.generationStatus?.status === "generating" && <GlowingAnimation className="-z-10 absolute  h-full w-full   rounded-lg"/>}
+           <div className="w-full h-full bg-white/85 backdrop-blur-lg border rounded-3xl px-4 py-3 shadow-md ">
+
+
             <form
                 onSubmit={handleSubmit}
                 id="custom-image-form"
                 className="flex flex-col gap-3 "
             >
               
-                <div className="flex items-center justify-between text-xs mt-1  text-gray-500">
+                <div className="flex items-center gap-4  flex-wrap justify-between text-xs mt-1  text-gray-500">
                     <div className="flex gap-4 ">
                         {/* Model Selection */}
                        
@@ -175,39 +193,22 @@ function HeadshotActionDock({selectedStyle, setSelectedStyle}) {
 
                             {/* Number of Images */}
 
-                            <div className="w-24 h-10  p-1 flex-shrink-0 flex items-center justify-between  rounded-full bg-gray-100">
-                                <button
-                                    type="button"
-                                    onClick={decrement}
-                                    className="w-7 h-7 flex items-center justify-center text-gray-500 hover:bg-[rgba(0,0,0,0.1)] rounded-full transition"
-                                >
-                                    <Minus size={12} />
-                                </button>
-
-                                <div className="text-sm font-medium text-gray-800">
-                                    {numberOfImages}
-                                </div>
-
-                                <button
-                                    type="button"
-                                    onClick={increment}
-                                    className="w-7 h-7 flex items-center justify-center text-gray-500 hover:bg-[rgba(0,0,0,0.1)] rounded-full transition"
-                                >
-                                    <Plus size={12} />
-                                </button>
-                            </div>
+                           <NumberOfImages
+                                numberOfImages={numberOfImages}
+                                setNumberOfImages={setNumberOfImages}
+                            />
                         </div>
                
 
                     {/* Generate Button */}
-                    <div>
+                    <div className="flex">
                         <Button
                             type="submit"
                             form="custom-image-form"
-                            className="h-10 px-6 text-sm rounded-3xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white flex items-center justify-center gap-2"
+                            className="h-10 px-6  text-sm rounded-3xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white flex items-center justify-center gap-2"
                             disabled={
                                 imageState.generationStatus.status ===
-                                "generating"
+                                "generating" 
                             }
                         >
                             <span>Generate</span>
@@ -219,7 +220,10 @@ function HeadshotActionDock({selectedStyle, setSelectedStyle}) {
                     </div>
                 </div>
             </form>
+            </div>
         </div>
+        </div>
+        </>
     )
 }
 export default HeadshotActionDock

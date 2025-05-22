@@ -1,7 +1,7 @@
 import React from 'react';
 import { SquareUserRound as StyleIcon } from "lucide-react";
-import HeadshotStyleCard from "./HeadshotStyleCard";
 import { headshotStyles } from "@/data/formData"
+import HeadshotStyles from './HeadshotStyles';
 
 function HeadshotSidebar({ headshot, selectedStyle, setSelectedStyle }) {
   return (
@@ -10,20 +10,8 @@ function HeadshotSidebar({ headshot, selectedStyle, setSelectedStyle }) {
         <StyleIcon className="text-gray-800" size={20} />
         <h2 className="text-base font-medium text-gray-800">Select Style</h2>
       </div>
-      
-      <div className="overflow-y-auto flex-grow pr-1 -mr-1">
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 px-1 pt-1">
-          {headshotStyles.map((style) => (
-            <HeadshotStyleCard
-              key={style.id}
-              style={style}
-              selectedStyle={selectedStyle}
-              setSelectedStyle={setSelectedStyle}
-            />
-          ))}
-        </div>
-      </div>
-      
+     <HeadshotStyles selectedStyle={selectedStyle} setSelectedStyle={setSelectedStyle} />
+
       {selectedStyle && (
         <div className="mt-4 pt-4 border-t border-gray-100">
           <p className="text-sm text-gray-500">

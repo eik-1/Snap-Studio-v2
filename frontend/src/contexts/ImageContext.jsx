@@ -5,7 +5,7 @@ const tempData = []
 const imageState = {
     mode: "headshot",
     generationStatus: {
-        status: "idle",
+        status: "idle",  //states--idle, generating, generated
         message: "",
         numberOfImages: 0,
     },

@@ -23,7 +23,7 @@ function ContentPanel()
     ]
     const [activeTab, setActiveTab] = useState(0);
 
-    return(<section className="w-full h-full ">
+    return(<section className="w-full min-h-full flex flex-col items-center justify-center relative ">
         <div className="w-full h-max flex justify-center items-center ">
             <TabSwitcher
                 tabs={tabs}
@@ -32,7 +32,7 @@ function ContentPanel()
                 setActiveTab={setActiveTab}
             />
         </div>
-        <div className="w-full h-full  flex flex-col items-center justify-center">
+        <div className="w-full grow  flex flex-col items-center justify-center ">
             {tabs[activeTab].content}
         </div>
 

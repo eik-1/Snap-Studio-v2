@@ -3,6 +3,8 @@ import { useNavigation as useBackNavigation } from "@/contexts/NavigationContext
 import { useSubscription } from "@/contexts/SubscriptionContext"
 import { useUser } from "@/contexts/UserContext"
 import FashionCategorySelector from "./FashionCategorySelector"
+import NumberOfImages from "./NumberOfImages"
+import GlowingAnimation from "./GlowingAnimation"
 
 import {
     Clock,
@@ -80,23 +82,7 @@ function FashionActionDock({clothesImages, modelImages}) {
         }
     }
 
-    function increment() {
-        if (numberOfImages < 4) {
-            setNumberOfImages(numberOfImages + 1)
-            setError({ ...error, numberOfImages: "" })
-        } else {
-            setError({ ...error, numberOfImages: "Maximum value is 4" })
-        }
-    }
-
-    function decrement() {
-        if (numberOfImages > 1) {
-            setNumberOfImages(numberOfImages - 1)
-            setError({ ...error, numberOfImages: "" })
-        } else {
-            setError({ ...error, numberOfImages: "Minimum value is 1" })
-        }
-    }
+    
 
     async function handleSubmit(e) {
         e.preventDefault()
@@ -150,7 +136,10 @@ function FashionActionDock({clothesImages, modelImages}) {
     }
 
     return (
-           <div className="w-11/12 z-50 left-1/2 -translate-x-1/2  bg-white/85 backdrop-blur-lg border rounded-3xl px-4 py-3 shadow-md absolute bottom-4 h-max">
+        <div className="w-11/12  left-1/2 -translate-x-1/2 h-max   absolute bottom-4  z-50 ">
+        <div className="w-full h-full relative">
+            {imageState?.generationStatus?.status === "generating" && <GlowingAnimation className="-z-10 absolute  h-full w-full   rounded-lg"/>}
+           <div className="w-full h-full bg-white/85 backdrop-blur-lg border rounded-3xl px-4 py-3 shadow-md ">
             <form
                 onSubmit={handleSubmit}
                 id="custom-image-form"
@@ -168,29 +157,11 @@ function FashionActionDock({clothesImages, modelImages}) {
 
                             {/* Number of Images */}
 
-                            <div className="w-24 h-10  p-1 flex-shrink-0 flex items-center justify-between  rounded-full bg-gray-100">
-                                <button
-                                    type="button"
-                                    onClick={decrement}
-                                    className="w-7 h-7 flex items-center justify-center text-gray-500 hover:bg-[rgba(0,0,0,0.1)] rounded-full transition"
-                                >
-                                    <Minus size={12} />
-                                </button>
-
-                                <div className="text-sm font-medium text-gray-800">
-                                    {numberOfImages}
-                                </div>
-
-                                <button
-                                    type="button"
-                                    onClick={increment}
-                                    className="w-7 h-7 flex items-center justify-center text-gray-500 hover:bg-[rgba(0,0,0,0.1)] rounded-full transition"
-                                >
-                                    <Plus size={12} />
-                                </button>
-                            </div>
+                            <NumberOfImages
+                                numberOfImages={numberOfImages}
+                                setNumberOfImages={setNumberOfImages}
+                            />
                         </div>
-               
 
                     {/* Generate Button */}
                     <div>
@@ -212,6 +183,8 @@ function FashionActionDock({clothesImages, modelImages}) {
                     </div>
                 </div>
             </form>
+        </div>
+        </div>
         </div>
     )
 }

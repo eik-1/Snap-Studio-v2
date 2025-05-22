@@ -15,7 +15,7 @@ function ImageThumbnail({ src, index, onClick, usedFor,imageDeleteState, setImag
         <motion.div
             layoutId={`container-${index}`}
             onClick={onClick}
-            className="cursor-pointer overflow-hidden rounded-lg   relative"
+            className=" overflow-hidden rounded-lg   relative  cursor-zoom-in"
             whileHover={{ scale: 1.03 }}
             transition={trs}
             onMouseEnter={() => setIsHovering(true)}

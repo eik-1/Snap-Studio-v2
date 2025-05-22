@@ -18,6 +18,8 @@ import { useUser } from "@/contexts/UserContext"
 import { generateImage } from "@/services/api/services"
 import { Button } from "./UI/Button"
 import { toast } from "sonner"
+import GlowingAnimation from "./GlowingAnimation"
+import NumberOfImages from "./NumberOfImages"
 
 function CustomImageActionDock() {
     const [selectedModel, setSelectedModel] = useState("")
@@ -51,23 +53,7 @@ function CustomImageActionDock() {
         queryFn: () => getUserModels(user.$id),
     })*/
 
-    function increment() {
-        if (numberOfImages < 4) {
-            setNumberOfImages(numberOfImages + 1)
-            setError({ numberOfImages: "" })
-        } else {
-            setError({ numberOfImages: "Maximum value is 5" })
-        }
-    }
 
-    function decrement() {
-        if (numberOfImages > 1) {
-            setNumberOfImages(numberOfImages - 1)
-            setError({ numberOfImages: "" })
-        } else {
-            setError({ numberOfImages: "Minimum value is 1" })
-        }
-    }
 
     /*New Changes*/
     function validateForm() {
@@ -155,7 +141,12 @@ function CustomImageActionDock() {
     }
 
     return (
-        <div className="w-11/12 lg:w-4/6 left-1/2 -translate-x-1/2 z-50  bg-white/85 backdrop-blur-lg border rounded-3xl px-4 py-3 shadow-md absolute bottom-4 h-max">
+     
+              
+        <div className="w-11/12 lg:w-4/6  left-1/2 -translate-x-1/2 h-max   absolute bottom-4  z-50 ">
+        <div className="w-full h-full relative">
+            {imageState?.generationStatus?.status === "generating" && <GlowingAnimation className="-z-10 absolute  h-full w-full   rounded-lg"/>}
+           <div className="w-full h-full bg-white/85 backdrop-blur-lg border rounded-3xl px-4 py-3 shadow-md ">
             <form
                 onSubmit={handleSubmit}
                 id="custom-image-form"
@@ -186,30 +177,12 @@ function CustomImageActionDock() {
                             />
 
                             {/* Number of Images */}
-
-                            <div className="w-24  p-1 flex-shrink-0 flex items-center justify-between  rounded-full bg-gray-100">
-                                <button
-                                    type="button"
-                                    onClick={decrement}
-                                    className="w-6 h-6 flex items-center justify-center text-gray-500 hover:bg-[rgba(0,0,0,0.1)] rounded-full transition"
-                                >
-                                    <Minus size={12} />
-                                </button>
-
-                                <div className="text-sm font-medium text-gray-800">
-                                    {numberOfImages}
-                                </div>
-
-                                <button
-                                    type="button"
-                                    onClick={increment}
-                                    className="w-6 h-6 flex items-center justify-center text-gray-500 hover:bg-[rgba(0,0,0,0.1)] rounded-full transition"
-                                >
-                                    <Plus size={12} />
-                                </button>
-                            </div>
+                            <NumberOfImages
+                                numberOfImages={numberOfImages}
+                                setNumberOfImages={setNumberOfImages}
+                            />
                         </div>
-               
+
 
                     {/* Generate Button */}
                     <div>
@@ -232,6 +205,9 @@ function CustomImageActionDock() {
                 </div>
             </form>
         </div>
+        </div>
+        </div>
+
     )
 }
 export default CustomImageActionDock

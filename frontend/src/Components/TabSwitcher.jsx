@@ -13,7 +13,7 @@ const TabSwitcher = ({ tabs, activeTab, setActiveTab  }) => {
         <button
           key={index}
           className={`
-            flex-1 py-2 px-4 text-center text-sm font-medium transition-all duration-200 ease-in-out
+            flex-1 py-2 px-4 text-center text-xs md:text-sm font-medium transition-all duration-200 ease-in-out
             flex items-center justify-center gap-2 cursor-pointer 
             ${activeTab === index 
               ? "bg-white rounded-full shadow-sm text-black" 
