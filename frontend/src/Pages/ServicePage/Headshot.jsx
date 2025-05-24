@@ -39,9 +39,7 @@ function HeadshotServicePage() {
                     <motion.section
                         key="sidebar"
                         initial={false}
-                        animate={{ 
-                            
-                        }}
+                       
                         exit={{ 
                           
                             opacity: 0 

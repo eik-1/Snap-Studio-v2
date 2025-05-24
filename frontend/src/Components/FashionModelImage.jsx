@@ -9,15 +9,15 @@ function FashionModelImage({ modelImage, setModelImage }) {
                     Upload Model Image
                 </h2>
             </div>
-                       <div className="flex-grow flex items-center justify-center">
-                <div className="overflow-y-auto flex-grow pr-1 -mr-1">
+                      
+                <div className="overflow-y-auto pr-1 -mr-1">
                     <FashionImageInputBox
                         selectedImage={modelImage}
                         setSelectedImage={setModelImage}
                         id="model-image"
                     />
                 </div>
-                </div>
+ 
           
         </div>
     )

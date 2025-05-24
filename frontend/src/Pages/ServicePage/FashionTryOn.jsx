@@ -29,17 +29,24 @@ const [dressImage, setDressImage] = useState(null)
 
     }, [isSidebarCollapsed]);
     return (
-        <div className="sm:w-[calc(100%-4rem)] h-[calc(100vh-3rem)] mt-12 sm:ml-16 flex flex-col  md:flex-row relative overflow-hidden  ">
+        <div className="sm:w-[calc(100%-4rem)] h-[calc(100vh-3rem)] mt-12  sm:ml-16 flex flex-col  md:flex-row relative overflow-hidden  ">
             {/* Sidebar Section */}
+            <AnimatePresence mode="sync">
+                {!isSidebarCollapsed && (
             <motion.section
                 initial={false}
-                animate={{ 
+                key={"sidebar"}
+              animate={{
                     width: isSidebarCollapsed ? "0%" : "25%",
                     opacity: isSidebarCollapsed ? 0 : 1
                 }}
-                transition={{ 
-                    duration: 0.4, 
-                    ease: [0.4, 0, 0.2, 1] 
+                transition={{
+                    duration: 0.4,
+                    ease: [0.4, 0, 0.2, 1]
+                }}
+                exit={{
+                  
+                    opacity: 0
                 }}
                 className="h-full py-4 overflow-hidden relative"
             >
@@ -62,6 +69,8 @@ const [dressImage, setDressImage] = useState(null)
                     <ChevronsLeftIcon className="text-gray-600" size={16} />
                 </button>
             </motion.section>
+                )}
+            </AnimatePresence>
 
             {/* Main Content Section */}
             <motion.section
@@ -73,21 +82,20 @@ const [dressImage, setDressImage] = useState(null)
                     duration: 0.4, 
                     ease: [0.4, 0, 0.2, 1] 
                 }}
-                className="h-full  relative pt-4"
+                className="h-full flex-shrink-0 relative pt-4 "
             >
                
                 <div className=" w-full h-full flex flex-col items-center justify-center overflow-hidden">
                     <ContentPanel />
                 </div>
-  <FashionActionDock
+                <FashionActionDock
                     dressImage={dressImage}
-                    modelImage={modelImage}
                     setDressImage={setDressImage}
-                    setModelImage={setModelImage}
-                />
-             
+                    modelImage={modelImage}
+                    setModelImage={setModelImage}   />
+
             </motion.section>
-                  
+
             {/* Expand Button - shows when sidebar is collapsed */}
             <AnimatePresence>
                 {isSidebarCollapsed && (

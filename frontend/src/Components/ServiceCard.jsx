@@ -87,7 +87,7 @@ const ServiceCard = ({
     
         <div className="
           absolute inset-0 rounded-xl border border-transparent
-          bg-gradient-to-r from-purple-200/50 via-transparent to-blue-200/50
+          bg-gradient-to-r from-purple-100/50 via-transparent to-blue-100/50
           opacity-0 group-hover:opacity-100 transition-opacity duration-500
           pointer-events-none
         " />

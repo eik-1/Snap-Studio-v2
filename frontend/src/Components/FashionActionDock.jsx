@@ -140,10 +140,10 @@ function FashionActionDock({dressImage, modelImage, setDressImage, setModelImage
     }
 
     return (
-        <div className="w-11/12 max-w-3xl left-1/2 -translate-x-1/2 h-max   absolute bottom-4  z-50 ">
+         <div className="w-11/12 max-w-3xl  left-1/2 -translate-x-1/2 h-max  fixed md:absolute bottom-4  z-50 ">
         <div className="w-full h-full relative">
             <div
-                className="absolute left-1/2 -translate-x-1/2 -top-12 flex flex-row gap-4 w-max "
+                className="absolute left-1/2 -translate-x-1/2 -top-12 flex flex-row gap-4 w-max md:hidden "
             >
                 <UploadButton setImage={setDressImage}
                     image={dressImage}

@@ -10,15 +10,15 @@ function FashionClothImage({ dressImage, setDressImage }) {
                 </h2>
             </div>
             
-            <div className="flex-grow flex items-center justify-center">
-                <div className="overflow-y-auto flex-grow pr-1 -mr-1">
+           
+                <div className="overflow-y-auto pr-1 -mr-1">
                     <FashionImageInputBox
                         selectedImage={dressImage}
                         setSelectedImage={setDressImage}
                         id="dress-image"
                     />
                 </div>
-            </div>
+            
 
         </div>
     )

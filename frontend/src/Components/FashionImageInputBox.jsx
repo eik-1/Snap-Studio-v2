@@ -70,7 +70,9 @@ function FashionImageInputBox({
                     <img
                         src={previewUrl}
                         alt={`selected ${id}`}
-                        className="w-full h-64 object-contain"
+                        draggable="false"
+                        loading="eager"
+                        className="w-full h-64 object-fill transform"
                     />
                     
                     {/* Subtle overlay that appears on hover */}
