@@ -1,23 +1,21 @@
-import React from 'react';
-
 import FashionModelImage from './FashionModelImage';
 import FashionClothImage from './FashionClothImage';
 
 function FashionSidebar({
-  clothesImages,
-  setClothesImages,
-  modelImages,
-  setModelImages
+  dressImage,
+  setDressImage,
+  modelImage,
+  setModelImage
 }) {
   return (
     <div className="w-full h-full flex flex-col gap-4 ">
       <FashionModelImage
-        modelImages={modelImages}
-        setModelImages={setModelImages}
+        modelImage={modelImage}
+        setModelImage={setModelImage}
       />
       <FashionClothImage
-        clothesImages={clothesImages}
-        setClothesImages={setClothesImages}
+        dressImage={dressImage}
+        setDressImage={setDressImage}
       />
     </div>
   );

@@ -11,6 +11,7 @@ function HeadshotStyleCard({ style, selectedStyle, setSelectedStyle }) {
                 name="headshotStyle"
                 value={style.id}
                 checked={isSelected}
+                onChange={() => {}}
                 onClick={(e) =>
                                             selectedStyle === style.id
                                                 ? setSelectedStyle(null)

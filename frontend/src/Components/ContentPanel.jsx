@@ -32,7 +32,7 @@ function ContentPanel()
                 setActiveTab={setActiveTab}
             />
         </div>
-        <div className="w-full grow  flex flex-col items-center justify-center ">
+        <div className="w-full grow  flex flex-col items-center justify-center overflow-y-auto p-4">
             {tabs[activeTab].content}
         </div>
 

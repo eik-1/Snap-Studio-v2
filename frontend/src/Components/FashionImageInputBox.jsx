@@ -2,16 +2,13 @@ import { Camera, X } from "lucide-react"
 import { useState, useEffect } from "react"
 
 function FashionImageInputBox({
-    selectedImages,
-    setSelectedImages,
+    selectedImage,
+    setSelectedImage,
     id = "image-upload"
 }) {
     const [isDragging, setIsDragging] = useState(false)
     const [previewUrl, setPreviewUrl] = useState(null)
-    
-    // Handle single image from array for compatibility
-    const selectedImage = selectedImages && selectedImages.length > 0 ? selectedImages[0] : null
-    
+
     useEffect(() => {
         // Create preview URL whenever image changes
         if (selectedImage) {
@@ -59,13 +56,13 @@ function FashionImageInputBox({
         }
         
         // Update the array for compatibility with parent component
-        setSelectedImages([file])
+        setSelectedImage(file)
     }
     
     function removeImage() {
-        setSelectedImages([])
+        setSelectedImage(null)
     }
-    
+
     if (selectedImage && previewUrl) {
         return (
             <div className="relative w-full">
@@ -73,7 +70,7 @@ function FashionImageInputBox({
                     <img
                         src={previewUrl}
                         alt={`selected ${id}`}
-                        className="w-full h-64 object-cover"
+                        className="w-full h-64 object-contain"
                     />
                     
                     {/* Subtle overlay that appears on hover */}

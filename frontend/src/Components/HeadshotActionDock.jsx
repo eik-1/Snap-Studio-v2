@@ -156,7 +156,7 @@ function HeadshotActionDock({selectedStyle, setSelectedStyle, isDrawerOpen, setI
     return (
         <>
           
-        <div className="w-11/12  left-1/2 -translate-x-1/2 h-max  fixed md:absolute bottom-4  z-50 ">
+        <div className="w-11/12 max-w-3xl  left-1/2 -translate-x-1/2 h-max  fixed md:absolute bottom-4  z-50 ">
         
         <div className="w-full h-full relative">
               <button
@@ -170,8 +170,8 @@ function HeadshotActionDock({selectedStyle, setSelectedStyle, isDrawerOpen, setI
                         {selectedStyle ? <ChangeIcon className="text-gray-600" size={18} /> : <StyleIcon className="text-gray-600" size={18} />}
                         <div className="text-xs text-gray-600">{selectedStyle ? "Change Style" : "Select Style"}</div>
                     </button>
-            {imageState?.generationStatus?.status === "generating" && <GlowingAnimation className="-z-10 absolute  h-full w-full   rounded-lg"/>}
-           <div className="w-full h-full bg-white/85 backdrop-blur-lg border rounded-3xl px-4 py-3 shadow-md ">
+            {imageState?.generationStatus?.status==='generating'  && <GlowingAnimation className="-z-10 absolute  h-full w-full   rounded-lg"/>}
+           <div className="w-full h-full bg-white/90 backdrop-blur-lg border rounded-3xl px-4 py-3 shadow-md ">
 
 
             <form
@@ -180,7 +180,7 @@ function HeadshotActionDock({selectedStyle, setSelectedStyle, isDrawerOpen, setI
                 className="flex flex-col gap-3 "
             >
               
-                <div className="flex items-center gap-4  flex-wrap justify-between text-xs mt-1  text-gray-500">
+               <div className="flex flex-col gap-4 sm:gap-4 sm:flex-row sm:items-center sm:flex-wrap sm:justify-between text-xs mt-1  text-gray-500">
                     <div className="flex gap-4 ">
                         {/* Model Selection */}
                        
@@ -197,26 +197,31 @@ function HeadshotActionDock({selectedStyle, setSelectedStyle, isDrawerOpen, setI
                                 numberOfImages={numberOfImages}
                                 setNumberOfImages={setNumberOfImages}
                             />
+                              <div className="flex items-center justify-center gap-1">   
+                               <Coins className="w-4 h-4"  ></Coins>
+                               <p>{numberOfImages*10}</p>
+                            </div>
                         </div>
                
 
                     {/* Generate Button */}
-                    <div className="flex">
-                        <Button
+                     <div className="flex">
+                        <button
                             type="submit"
                             form="custom-image-form"
-                            className="h-10 px-6  text-sm rounded-3xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white flex items-center justify-center gap-2"
+                            className="w-full sm:w-max h-10 px-6 gap-2 flex items-center justify-center  text-sm rounded-full sm:rounded-3xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white "
                             disabled={
                                 imageState.generationStatus.status ===
-                                "generating" 
+                                "generating"
                             }
                         >
-                            <span>Generate</span>
-                            <div className="flex items-center justify-center ml-2">
+                            <span className="">Generate</span>
+                           <div className="flex items-center justify-center ml-2">
                                 <Clock size={12} />
                                 <p className="ml-1">{numberOfImages * 15}s</p>
                             </div>
-                        </Button>
+                            
+                        </button>
                     </div>
                 </div>
             </form>

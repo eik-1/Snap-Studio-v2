@@ -69,9 +69,9 @@ export default function NotificationButton() {
                     setNotificationTrayOpen((prev) => !prev)
                 }}
             >
-                <BellIcon size={16} />
+                <BellIcon className="w-3 h-3 sm:h-4 sm:w-4" />
             </div>
-            <div className="absolute top-2 right-3 bg-green-400 shadow-md  w-[6px] h-[6px] rounded-full"></div>
+          
             <AnimatePresence>
                 {notificationTrayOpen && (
                     <>

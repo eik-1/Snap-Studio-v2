@@ -55,7 +55,7 @@ function Profile() {
                 role="button"
                 onClick={handleClick}
             >
-                <User2Icon size="16" />
+                <User2Icon className="h-3 w-3 sm:h-4 sm:w-4" />
             </div>
             <AnimatePresence>
 

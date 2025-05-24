@@ -3,6 +3,7 @@ import {
    
     Minus,
     Plus,
+    Coins
  
    
 } from "lucide-react"
@@ -20,6 +21,7 @@ import { Button } from "./UI/Button"
 import { toast } from "sonner"
 import GlowingAnimation from "./GlowingAnimation"
 import NumberOfImages from "./NumberOfImages"
+import { FaArrowRight as StartIcon } from "react-icons/fa6";
 
 function CustomImageActionDock() {
     const [selectedModel, setSelectedModel] = useState("")
@@ -165,7 +167,7 @@ function CustomImageActionDock() {
                         ref={textAreaRef}
                     ></textarea>
                 </div>
-                <div className="flex items-center justify-between text-xs mt-1  text-gray-500">
+                <div className="flex flex-col gap-4 sm:gap-0 sm:flex-row sm:items-center sm:justify-between text-xs mt-1  text-gray-500">
                     <div className="flex gap-4 ">
                         {/* Model Selection */}
                        
@@ -181,26 +183,31 @@ function CustomImageActionDock() {
                                 numberOfImages={numberOfImages}
                                 setNumberOfImages={setNumberOfImages}
                             />
+                            <div className="flex items-center justify-center gap-1">   
+                               <Coins className="w-4 h-4"  ></Coins>
+                               <p>{numberOfImages*10}</p>
+                            </div>
                         </div>
 
 
                     {/* Generate Button */}
-                    <div>
-                        <Button
+                    <div className="flex">
+                        <button
                             type="submit"
                             form="custom-image-form"
-                            className="h-10 px-6 text-sm rounded-3xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white flex items-center justify-center gap-2"
+                            className="w-full sm:w-max h-10 px-6 gap-2 flex items-center justify-center  text-sm rounded-full sm:rounded-3xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white "
                             disabled={
                                 imageState.generationStatus.status ===
                                 "generating"
                             }
                         >
-                            <span>Generate</span>
-                            <div className="flex items-center justify-center ml-2">
+                            <span className="">Generate</span>
+                           <div className="flex items-center justify-center ml-2">
                                 <Clock size={12} />
                                 <p className="ml-1">{numberOfImages * 15}s</p>
                             </div>
-                        </Button>
+                            
+                        </button>
                     </div>
                 </div>
             </form>

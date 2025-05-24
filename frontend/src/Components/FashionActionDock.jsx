@@ -5,6 +5,9 @@ import { useUser } from "@/contexts/UserContext"
 import FashionCategorySelector from "./FashionCategorySelector"
 import NumberOfImages from "./NumberOfImages"
 import GlowingAnimation from "./GlowingAnimation"
+import UploadButton from "./UploadButton"
+import { PiTShirtBold as ClothIcon } from "react-icons/pi";
+import { FaPerson as ModelIcon} from "react-icons/fa6";
 
 import {
     Clock,
@@ -21,7 +24,7 @@ import { Button } from "./UI/Button"
 
 import { generateFashionImages } from "@/services/api/services"
 
-function FashionActionDock({clothesImages, modelImages}) {
+function FashionActionDock({dressImage, modelImage, setDressImage, setModelImage, className}) {
 
     const defaultCategory = "tops"
     const [numberOfImages, setNumberOfImages] = useState(1)
@@ -30,13 +33,12 @@ function FashionActionDock({clothesImages, modelImages}) {
         modelSelect: "",
         numberOfImages: "",
         category: "",
-        clothesImages: "",
+        dressImage: "",
         modelImages: "",
     })
 
     const { user } = useUser()
     const { dispatch: imageDispatch, state: imageState } = useImage()
-    const { dispatch: navDispatch } = useBackNavigation()
     const { updateFashionCredits, subscription } = useSubscription()
 
 
@@ -89,10 +91,12 @@ function FashionActionDock({clothesImages, modelImages}) {
         if (!validateForm()) return
 
         const numImages = parseInt(numberOfImages)
+        console.log("dress Url:", URL.createObjectURL(dressImage))
+        console.log("model Url:", URL.createObjectURL(modelImage))
 
         const formData = new FormData()
-        formData.append("dressImg", clothesImages)
-        formData.append("modelImg", modelImages)
+        formData.append("dressImg", dressImage)
+        formData.append("modelImg", modelImage)
         formData.append("category", selectedCategory)
         formData.append("userId", user.$id)
         formData.append("userEmail", user.email)
@@ -112,7 +116,7 @@ function FashionActionDock({clothesImages, modelImages}) {
             modelSelect: "",
             numberOfImages: "",
             category: "",
-            clothesImages: "",
+            dressImage: "",
             modelImages: "",
         }
 
@@ -121,12 +125,12 @@ function FashionActionDock({clothesImages, modelImages}) {
             isValid = false
         }
 
-        if (clothesImages.length === 0) {
-            newErrors.clothesImages = "Please upload at least one clothes image"
+        if (dressImage.length === 0) {
+            newErrors.dressImage = "Please upload at least one clothes image"
             isValid = false
         }
 
-        if (modelImages.length === 0) {
+        if (modelImage.length === 0) {
             newErrors.modelImages = "Please upload at least one model image"
             isValid = false
         }
@@ -136,8 +140,25 @@ function FashionActionDock({clothesImages, modelImages}) {
     }
 
     return (
-        <div className="w-11/12  left-1/2 -translate-x-1/2 h-max   absolute bottom-4  z-50 ">
+        <div className="w-11/12 max-w-3xl left-1/2 -translate-x-1/2 h-max   absolute bottom-4  z-50 ">
         <div className="w-full h-full relative">
+            <div
+                className="absolute left-1/2 -translate-x-1/2 -top-12 flex flex-row gap-4 w-max "
+            >
+                <UploadButton setImage={setDressImage}
+                    image={dressImage}
+                    icon={<ClothIcon className="w-4 h-4" />}
+                    text="Upload Clothes"
+                    id='dress-image'
+                />
+                <UploadButton setImage={setModelImage}
+                
+                    image={modelImage}
+                    icon={<ModelIcon className="w-4 h-4" />}
+                    text="Upload Model"
+                    id='model-image'
+                />
+            </div>
             {imageState?.generationStatus?.status === "generating" && <GlowingAnimation className="-z-10 absolute  h-full w-full   rounded-lg"/>}
            <div className="w-full h-full bg-white/85 backdrop-blur-lg border rounded-3xl px-4 py-3 shadow-md ">
             <form

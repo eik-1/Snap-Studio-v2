@@ -1,6 +1,6 @@
 import FashionImageInputBox from "./FashionImageInputBox"
 import { FaPerson as ModelIcon } from "react-icons/fa6"
-function FashionModelImage({ modelImages, setModelImages }) {
+function FashionModelImage({ modelImage, setModelImage }) {
     return (
         <div className="w-full h-1/2 bg-white/90 backdrop-blur-lg border rounded-2xl p-5 shadow-md flex flex-col">
             <div className="flex items-center gap-2 mb-4">
@@ -9,14 +9,16 @@ function FashionModelImage({ modelImages, setModelImages }) {
                     Upload Model Image
                 </h2>
             </div>
-
-            <div className="overflow-y-auto flex-grow pr-1 -mr-1">
-                <FashionImageInputBox
-                    selectedImages={modelImages}
-                    setSelectedImages={setModelImages}
-                    id="model-images"
-                />
-            </div>
+                       <div className="flex-grow flex items-center justify-center">
+                <div className="overflow-y-auto flex-grow pr-1 -mr-1">
+                    <FashionImageInputBox
+                        selectedImage={modelImage}
+                        setSelectedImage={setModelImage}
+                        id="model-image"
+                    />
+                </div>
+                </div>
+          
         </div>
     )
 }

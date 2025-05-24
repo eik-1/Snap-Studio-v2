@@ -29,7 +29,7 @@ const services = [
     },
     {
         serviceType: "fashion",
-        path: "/app/fashion-try-on",
+        path: "/app/fashion",
         name:"Fashion Images",
         title: "AI Fashion Try-On",
         description: "Try on clothes virtually with our AI model.",

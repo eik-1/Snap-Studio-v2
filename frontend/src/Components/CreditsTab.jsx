@@ -41,7 +41,7 @@ function Credits() {
                 onClick={() => setIsVisible(!isVisible)}
             >
                 <div className="w-max h-max flex items-center justify-center gap-2">
-                    <CoinsIcon className="w-4 h-4" />
+                    <CoinsIcon className="h-3 w-3 sm:w-4 sm:h-4" />
                 </div>
                 <div>
                     <p className="text-xs text-black/80  font-semibold flex items-center justify-center ">
@@ -52,8 +52,8 @@ function Credits() {
                                 strokeWidth="4"
                                 animationDuration="0.75"
                                 strokeColor="grey"
-                                height="16"
-                                width="16"
+                                height="12"
+                                width="12"
                             />
                         )}
                     </p>

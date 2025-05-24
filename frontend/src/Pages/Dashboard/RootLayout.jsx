@@ -5,15 +5,15 @@ import { Outlet } from "react-router-dom"
 
 function RootLayout() {
     return (
-        <>
+        <div className="h-screen w-screen overflow-hidden">
             <AppNavbar />
             <Header />
             <ProgressiveBlur />
 
-            <main className="relative min-h-screen min-w-screen overflow-hidden  font-sans">
+            <main className="relative h-full w-full overflow-hidden  font-sans">
                 <Outlet />
             </main>
-        </>
+        </div>
     )
 }
 export default RootLayout
