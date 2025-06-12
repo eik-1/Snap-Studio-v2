@@ -41,6 +41,11 @@ async function safelyRestoreCredits(userEmail, amountToRestore, type) {
         userEmail,
         creditsInfo.fashion_credits + amountToRestore
       );
+    } else if (type === "normal") {
+      return await updateCredits(
+        userEmail,
+        creditsInfo.credits + amountToRestore
+      );
     }
   } catch (error) {
     console.error("Error restoring credits:", error);
@@ -377,7 +382,7 @@ export async function runPromptFluxImage(req, res) {
     //Validate model exists
     if (!model || model.length === 0) {
       if (creditsDeducted) {
-        await safelyRestoreCredits(userEmail, usedCredits);
+        await safelyRestoreCredits(userEmail, usedCredits, "normal");
       }
       return res.status(404).json(
         new ApiResponse(404, "Model not found", {
@@ -428,7 +433,7 @@ export async function runPromptFluxImage(req, res) {
     );
   } catch (err) {
     if (creditsDeducted) {
-      await safelyRestoreCredits(userEmail, usedCredits);
+      await safelyRestoreCredits(userEmail, usedCredits, "normal");
     }
     client.captureException(err, userEmail);
     return res.status(500).json(
@@ -483,7 +488,7 @@ export async function runHeadshotFluxImage(req, res) {
     //Validate model exists
     if (!model || model.length === 0) {
       if (creditsDeducted) {
-        await safelyRestoreCredits(userEmail, usedCredits);
+        await safelyRestoreCredits(userEmail, usedCredits, "normal");
       }
       return res.status(404).json(
         new ApiResponse(404, "Model not found", {
@@ -507,7 +512,7 @@ export async function runHeadshotFluxImage(req, res) {
     // Validate prompt exists
     if (!prompt) {
       if (creditsDeducted) {
-        await safelyRestoreCredits(userEmail, usedCredits);
+        await safelyRestoreCredits(userEmail, usedCredits, "normal");
       }
       return res.status(400).json(
         new ApiResponse(400, "Invalid style or gender combination", {
@@ -543,7 +548,7 @@ export async function runHeadshotFluxImage(req, res) {
     result.data.images.forEach((image) => {
       outputURL.push(image.url);
     });
-    console.log("Generated image URLs:", outputURL);
+
     return res.status(200).json(
       new ApiResponse(200, "Model run successfully", {
         imageUrls: outputURL,
@@ -552,7 +557,7 @@ export async function runHeadshotFluxImage(req, res) {
     );
   } catch (err) {
     if (creditsDeducted) {
-      await safelyRestoreCredits(userEmail, usedCredits);
+      await safelyRestoreCredits(userEmail, usedCredits, "normal");
     }
     client.captureException(err, userEmail);
     return res.status(500).json(
@@ -561,6 +566,184 @@ export async function runHeadshotFluxImage(req, res) {
         remainingCredits: creditsInfo.credits,
       })
     );
+  }
+}
+
+export async function runStyleImages(req, res) {
+  const { userId, userEmail, style } = req.body;
+
+  let creditsInfo;
+  let creditsUsed = 10;
+  let creditsDeducted = false;
+
+  // Credit validation and deduction
+  try {
+    creditsInfo = await getCredits(userEmail);
+    console.log(`Credits for ${userEmail} are ${creditsInfo.credits}`);
+
+    if (creditsInfo.credits < creditsUsed) {
+      return res.status(400).json(
+        new ApiResponse(
+          400,
+          "Insufficient credits for style image generation",
+          {
+            error: "Insufficient credits for style image generation",
+            remainingCredits: creditsInfo.credits,
+          }
+        )
+      );
+    }
+
+    await updateCredits(userEmail, creditsInfo.credits - creditsUsed);
+    creditsDeducted = true;
+
+    client.capture({
+      distinctId: userEmail,
+      event: "style_image_generated",
+    });
+  } catch (err) {
+    client.captureException(err, userEmail);
+    return res.status(500).json(
+      new ApiResponse(500, "Error processing credits", {
+        error: err.message,
+        remainingCredits: creditsInfo?.credits || 0,
+      })
+    );
+  }
+
+  // Validate required image
+  if (!req.file) {
+    if (creditsDeducted) {
+      await safelyRestoreCredits(userEmail, usedCredits, "normal");
+    }
+
+    creditsInfo = await getCredits(userEmail);
+
+    return res.status(400).json(
+      new ApiResponse(400, "Missing required image", {
+        error: "Missing required image",
+        remainingCredits: creditsInfo.credits,
+      })
+    );
+  }
+
+  // Upload image to Fal
+  const imageFile = req.file;
+  const imageBlob = new Blob([imageFile.buffer], {
+    type: imageFile.mimetype,
+  });
+  imageBlob.name = imageFile.originalname;
+
+  // Run the styles
+  try {
+    const imageUrl = await fal.storage.upload(imageBlob);
+
+    let output;
+
+    switch (style) {
+      case "ghibli":
+        output = await runStyle(
+          imageUrl,
+          "Turn this image into a Ghibli style image"
+        );
+        break;
+      case "simpsons":
+        output = await runStyle(
+          imageUrl,
+          "Turn this image into a Simpsons style image"
+        );
+        break;
+      case "southpark":
+        output = await runStyle(
+          imageUrl,
+          "Turn this image into a Southpark style image"
+        );
+        break;
+      case "rickandmorty":
+        output = await runStyle(
+          imageUrl,
+          "Turn this image into a Rick and Morty style image"
+        );
+        break;
+      case "manga":
+        output = await runStyle(
+          imageUrl,
+          "Turn this image into a black & white manga panel"
+        );
+        break;
+      case "pixar":
+        output = await runStyle(
+          imageUrl,
+          "Turn this image into a Pixar style image"
+        );
+        break;
+      case "samurai":
+        output = await runStyle(imageUrl, "Turn this person into a samurai");
+        break;
+      case "knight":
+        output = await runStyle(
+          imageUrl,
+          "Turn this person into a Medieval Knight"
+        );
+        break;
+      case "genderswap":
+        output = await runStyle(
+          imageUrl,
+          "Turn this person into the opposite gender"
+        );
+        break;
+      default:
+        if (creditsDeducted) {
+          await safelyRestoreCredits(userEmail, creditsUsed, "normal");
+        }
+        return res.status(400).json(
+          new ApiResponse(400, "Invalid style", {
+            error: "Invalid style",
+          })
+        );
+    }
+
+    if (!output) {
+      throw new Error("No output from style");
+    }
+
+    // Return successful response
+    return res.status(200).json(
+      new ApiResponse(200, "Styles image generated successfully", {
+        imageUrls: output,
+        remainingCredits: creditsInfo.credits,
+      })
+    );
+  } catch (err) {
+    // Restore credits if they were deducted
+    if (creditsDeducted) {
+      await safelyRestoreCredits(userEmail, creditsUsed, "normal");
+    }
+    client.captureException(err, userEmail);
+    return res.status(500).json(
+      new ApiResponse(500, "Error generating styles image", {
+        error: err.message,
+        remainingCredits: creditsInfo.credits,
+      })
+    );
+  }
+}
+
+async function runStyle(imageUrl, prompt) {
+  try {
+    const result = await fal.subscribe("fal-ai/flux-pro/kontext/max", {
+      input: {
+        image_url: imageUrl,
+        prompt: prompt,
+        safety_tolerance: 5,
+        output_format: "png",
+      },
+      logs: true,
+    });
+    return result.data.images[0].url;
+  } catch (err) {
+    console.error("Error running style:", err);
+    return null;
   }
 }
 
