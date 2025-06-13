@@ -13,12 +13,26 @@ function HeadshotSidebar({ headshot, selectedStyle, setSelectedStyle }) {
      <HeadshotStyles selectedStyle={selectedStyle} setSelectedStyle={setSelectedStyle} />
 
       {selectedStyle && (
-        <div className="mt-4 pt-4 border-t border-gray-100">
+        <div className="mt-3 pt-3 border-t border-gray-100 ">
+          <div className='flex gap-4 items-center'>
+            <div className='h-max w-max p-[2px] border shadow-md rounded-[10px]'>
+
+            
+            <div className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden shadow-sm">
+               <img
+              src={headshotStyles.find(s => s.id === selectedStyle)?.image}
+              alt={headshotStyles.find(s => s.id === selectedStyle)?.label}
+              className="w-full h-full object-contain rounded-lg shadow-sm"
+            />
+            </div>
+            </div>
+           
           <p className="text-sm text-gray-500">
-            Selected: <span className="font-medium text-gray-700">
+            <span className="font-medium text-gray-700">
               {headshotStyles.find(s => s.id === selectedStyle)?.label}
-            </span>
+            </span> Selected
           </p>
+        </div>
         </div>
       )}
     </div>

@@ -1,0 +1,187 @@
+import { useState } from "react";
+import { Home, BookImage, Layers, Settings, ChevronDown, Plus, Camera, Image, Palette, Shirt } from "lucide-react";
+
+function DynamicNavigation() {
+    const [isExpanded, setIsExpanded] = useState(false);
+    const [isCreateExpanded, setIsCreateExpanded] = useState(false);
+    const [currentPath, setCurrentPath] = useState("app");
+
+    const createItems = [
+        { icon: <Camera size={18} />, label: "Headshot", route: "headshot" },
+        { icon: <Image size={18} />, label: "Custom Image", route: "custom-image" },
+        { icon: <Palette size={18} />, label: "Styles", route: "style" },
+        { icon: <Shirt size={18} />, label: "Fashion Try-On", route: "fashion" },
+    ];
+
+    const navData = [
+        { icon: <Home size={20} />, label: "Home", route: "app" },
+        { 
+            icon: <Plus size={20} />, 
+            label: "Create", 
+            route: "create",
+            isExpandable: true,
+            children: createItems
+        },
+        { icon: <BookImage size={20} />, label: "My Images", route: "myimages" },
+        { icon: <Layers size={20} />, label: "My Models", route: "mymodels" },
+        { icon: <Settings size={20} />, label: "Settings", route: "settings" },
+    ];
+
+   
+    const getCurrentTitle = () => {
+        switch (currentPath) {
+            case "app":
+                return "Home";
+            case "headshot":
+                return "Generate Headshot";
+            case "fashion":
+                return "AI Fashion Try-On";
+            case "style":
+                return "Style Generation";
+            case "custom-image":
+                return "Custom Image Generation";
+            case "myimages":
+                return "My Images";
+            case "mymodels":
+                return "My Models";
+            case "settings":
+                return "Settings";
+            default:
+                return "Navigation";
+        }
+    };
+
+    const handleNavClick = (route, isExpandable = false) => {
+        if (isExpandable) {
+            setIsCreateExpanded(!isCreateExpanded);
+        } else {
+            setCurrentPath(route);
+            setIsExpanded(false);
+            setIsCreateExpanded(false);
+        }
+    };
+
+    const handleCreateItemClick = (route) => {
+        setCurrentPath(route);
+        setIsExpanded(false);
+        setIsCreateExpanded(false);
+    };
+
+    const title = getCurrentTitle();
+
+    const isCreateItemActive = () => {
+        const createPaths = ["headshot", "fashion", "style", "custom-image"];
+        return createPaths.includes(currentPath);
+    };
+
+    return (
+        <div className="font-sans relative max-w-xs mx-auto mt-8">
+            {/* Main Button */}
+            <button
+                onClick={() => setIsExpanded(!isExpanded)}
+                className="flex items-center gap-2 text-black/80 py-2 px-4 bg-white/80 backdrop-blur-md text-sm font-medium rounded-full hover:bg-white/90 transition-all duration-200 min-w-fit shadow-sm"
+            >
+                <span className="text-nowrap">{title}</span>
+                <div
+                    className={`transition-transform duration-200 ${isExpanded ? 'rotate-180' : 'rotate-0'}`}
+                >
+                    <ChevronDown size={16} />
+                </div>
+            </button>
+
+            {/* Expanded Menu */}
+            {isExpanded && (
+                <div className="absolute w-[280px] top-full left-0 right-0 mt-2 bg-white/90 backdrop-blur-md rounded-2xl shadow-lg border border-white/20 overflow-hidden z-50">
+                    <div className="p-2">
+                        {navData.map((item, index) => {
+                            const isActive = 
+                                (item.route === "app" && currentPath === "app") ||
+                                (item.route !== "app" && currentPath === item.route) ||
+                                (item.route === "create" && isCreateItemActive());
+                            
+                            return (
+                                <div key={item.route}>
+                                    <button
+                                        onClick={() => handleNavClick(item.route, item.isExpandable)}
+                                        className={`
+                                            w-full flex items-center gap-3 p-3 rounded-xl text-sm font-medium transition-all duration-200
+                                            ${isActive 
+                                                ? 'bg-black/5 text-black' 
+                                                : 'text-black/70 hover:bg-black/5 hover:text-black'
+                                            }
+                                        `}
+                                    >
+                                        <span className={isActive ? 'text-black' : 'text-black/60'}>
+                                            {item.icon}
+                                        </span>
+                                        <span>{item.label}</span>
+                                        {item.isExpandable && (
+                                            <div
+                                                className={`ml-auto transition-transform duration-200 ${isCreateExpanded ? 'rotate-180' : 'rotate-0'}`}
+                                            >
+                                                <ChevronDown size={14} />
+                                            </div>
+                                        )}
+                                        {isActive && !item.isExpandable && (
+                                            <div className="ml-auto w-2 h-2 bg-black rounded-full" />
+                                        )}
+                                    </button>
+
+                                    {/* Create submenu */}
+                                    {item.isExpandable && isCreateExpanded && (
+                                        <div className="ml-6 mt-1 border-l border-black/10">
+                                            {createItems.map((createItem, createIndex) => {
+                                                const isCreateActive = currentPath === createItem.route;
+                                                
+                                                return (
+                                                    <button
+                                                        key={createItem.route}
+                                                        onClick={() => handleCreateItemClick(createItem.route)}
+                                                        className={`
+                                                            w-full flex items-center gap-3 p-2 pl-4 text-sm transition-all duration-200 rounded-lg
+                                                            ${isCreateActive 
+                                                                ? 'text-black font-medium bg-black/5' 
+                                                                : 'text-black/60 hover:text-black/80 hover:bg-black/5'
+                                                            }
+                                                        `}
+                                                    >
+                                                        <span className={isCreateActive ? 'text-black' : 'text-black/50'}>
+                                                            {createItem.icon}
+                                                        </span>
+                                                        <span>{createItem.label}</span>
+                                                        {isCreateActive && (
+                                                            <div className="ml-auto w-1.5 h-1.5 bg-black rounded-full" />
+                                                        )}
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            )}
+
+            {/* Backdrop to close menu */}
+            {isExpanded && (
+                <div
+                    className="fixed inset-0 z-40"
+                    onClick={() => {
+                        setIsExpanded(false);
+                        setIsCreateExpanded(false);
+                    }}
+                />
+            )}
+
+            {/* Demo section to show current selection */}
+            <div className="mt-8 p-4 bg-gray-50 rounded-lg">
+                <h3 className="font-medium text-gray-800 mb-2">Current Selection:</h3>
+                <p className="text-gray-600">{title}</p>
+            </div>
+        </div>
+    );
+}
+
+export default DynamicNavigation;

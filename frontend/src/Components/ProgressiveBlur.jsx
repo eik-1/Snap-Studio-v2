@@ -23,7 +23,7 @@ function ProgressiveBlurDesktop() {
   ];
 
   return (
-    <div className="fixed rotate-180 top-0 inset-x-0  w-full h-12 z-40 hidden s:block">
+    <div className="fixed rotate-180 top-0 inset-x-0  w-full h-16 z-40 hidden s:block">
       {blurLevels.map((level, index) => (
         <div
           key={index}
@@ -46,7 +46,7 @@ function ProgressiveBlurMobile() {
   ];
 
   return (
-    <div className="fixed bottom-0 inset-x-0 w-full h-[10dvh] z-40 s:hidden">
+    <div className="fixed rotate-180 top-0 inset-x-0 w-full h-16 z-40 s:hidden">
       {blurLevels.map((level, index) => (
         <div
           key={index}

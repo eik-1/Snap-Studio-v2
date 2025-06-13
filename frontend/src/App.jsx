@@ -21,6 +21,7 @@ import ResetPassword from "./Pages/ResetPassword/ResetPassword"
 import CustomImageServicePage from "./Pages/ServicePage/CustomImage"
 import HeadshotServicePage from "./Pages/ServicePage/Headshot"
 import FashionTryOnPage from "./Pages/ServicePage/FashionTryOn"
+import ImageStylesPage from "./Pages/ServicePage/ImageStyles"
 import { NavigationProvider } from "./contexts/NavigationContext"
 import { NotificationProvider } from "./contexts/NotificationContext"
 import { SubscriptionProvider } from "./contexts/SubscriptionContext"
@@ -157,6 +158,10 @@ function App() {
                     path: "fashion",
                     element: <FashionTryOnPage />,
                     errorElement: <Error />
+                },
+                {
+                    path:"image-styles",
+                    element:<ImageStylesPage/>
                 }
             ],
         },

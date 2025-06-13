@@ -32,7 +32,7 @@ function HeadshotServicePage() {
 
     }, [isSidebarCollapsed]);
     return (
-        <div className="sm:w-[calc(100%-4rem)] h-[calc(100vh-3rem)] mt-12 sm:ml-16 flex flex-col  md:flex-row relative overflow-hidden  ">
+        <div className="w-full h-[calc(100vh-3rem)] mt-12  flex flex-col  md:flex-row relative overflow-hidden  ">
             {/* Sidebar Section */}
             <AnimatePresence mode="wait">
                 {!isSidebarCollapsed && (
@@ -106,7 +106,7 @@ function HeadshotServicePage() {
                             delay: 0.2 
                         }}
                         onClick={toggleSidebar}
-                        className="absolute top-1/2 -translate-y-2/3 left-0 hidden  bg-white/90 backdrop-blur-lg border  rounded-full px-3 py-4 shadow-md hover:bg-white transition-all duration-200 hover:shadow-lg z-50 md:flex flex-col gap-3"
+                        className="absolute top-1/2 -translate-y-2/3 left-4 hidden  bg-white/90 backdrop-blur-lg border  rounded-full px-3 py-4 shadow-md hover:bg-white transition-all duration-200 hover:shadow-lg z-50 md:flex flex-col gap-3"
                         aria-label="Expand sidebar"
                     >
                         <ExpandIcon className="text-gray-600" size={18} />

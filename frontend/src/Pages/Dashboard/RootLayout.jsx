@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom"
 function RootLayout() {
     return (
         <div className="h-screen w-screen overflow-hidden">
-            <AppNavbar />
+         
             <Header />
             <ProgressiveBlur />
 

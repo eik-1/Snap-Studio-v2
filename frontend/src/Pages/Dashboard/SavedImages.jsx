@@ -17,10 +17,8 @@ function SavedImages() {
     const fetchImages = useCallback(async () => {
         
         try {
-            let data =
-                category === "headshots"
-                    ? await getSavedHeadshots(user.$id)
-                    : category==="custom-images"? await getSavedImages(user.$id): await getFashionImages(user.$id)
+            let data =  await getSavedImages(user.$id)
+                    //: category==="custom-images"? await getSavedImages(user.$id): await getFashionImages(user.$id)
 
             const images = data.map((item) => {
                 return {
@@ -28,6 +26,7 @@ function SavedImages() {
                     deleteState: "notDeleted",
                 }
             })
+            console.log("Fetched images:", images)
             
             
             imageDispatch({ type: "SET_SAVED_IMAGES", payload: images })
@@ -36,7 +35,7 @@ function SavedImages() {
             setIsError(error)
         }
         setIsLoading(false)
-    }, [category, user.$id])
+    }, [ user.$id])
     useEffect(() => {
         fetchImages()
     }, [fetchImages])
@@ -84,8 +83,8 @@ function SavedImages() {
     }
 
     return (
-        <div className="w-full pl-16 h-full bg-white relative flex flex-col md:flex-row md:items-center pb-48 md:pb-0 overflow-scroll md:overflow-hidden custom-scrollbar">
-           
+        <div className="w-full h-full bg-white relative flex flex-col md:flex-row md:items-center pb-48 md:pb-0 overflow-scroll md:overflow-hidden custom-scrollbar border">
+
             <div className="relative md:h-full flex-grow pt-8 px-4 md:overflow-y-scroll md:custom-scrollbar ">
                 {content}
             </div>
