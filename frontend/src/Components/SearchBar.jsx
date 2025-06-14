@@ -97,7 +97,7 @@ function SearchBar({ onNavigate }) {
             <motion.div
                 ref={containerRef}
                 layout
-                className="bg-white/85 backdrop-blur-md text-black/80 shadow-md  overflow-hidden  rounded-3xl"
+                className="bg-white/85 backdrop-blur-md text-black/80 border shadow-md  overflow-hidden  rounded-3xl"
                 animate={{ height: isOpen ? "18rem" : "3rem" }}
                  transition={{
                             type: "spring",
@@ -157,7 +157,7 @@ function SearchBar({ onNavigate }) {
                                                 w-full px-4 py-2.5 flex items-center gap-3 text-left transition-colors
                                                 rounded-[22px]
                                                 ${index === selectedIndex 
-                                                    ? 'bg-gray-800' 
+                                                    ? 'bg-black/10' 
                                                     : 'hover:bg-black/5'
                                                 }
                                             `}
