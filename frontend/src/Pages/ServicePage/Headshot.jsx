@@ -1,4 +1,3 @@
-import HeadShotSidebar from "@/Components/HeadshotSidebar";
 import HeadshotActionDock from "@/Components/HeadshotActionDock";
 import StyleSidebar from "@/Components/StyleSidebar";
 import { useEffect, useState } from "react";   
