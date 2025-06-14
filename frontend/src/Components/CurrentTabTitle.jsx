@@ -50,7 +50,7 @@ function DynamicNavigation() {
             route: "myimages",
         },
         { icon: <Layers size={20} />, label: "My Models", route: "mymodels" },
-        { icon: <Settings size={20} />, label: "Settings", route: "settings" },
+       
     ]
 
     const getCurrentTitle = () => {
@@ -95,7 +95,7 @@ function DynamicNavigation() {
             {/* Main Button */}
             <motion.button
                 onClick={() => setIsExpanded(!isExpanded)}
-                className="flex items-center gap-2 text-black/80 md:flex py-2 px-4 bg-white/80 backdrop-blur-md text-xs sm:text-sm font-medium rounded-full border shadow-sm min-w-fit"
+                className="flex items-center gap-2 text-black/85 md:flex py-2 px-4 bg-white/80 backdrop-blur-md text-xs sm:text-sm font-medium rounded-full border shadow-sm min-w-fit"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
             >

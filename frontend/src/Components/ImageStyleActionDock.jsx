@@ -157,8 +157,8 @@ function ImageStyleActionDock({
                     )}
                     <div className="w-full h-full bg-white/90 backdrop-blur-lg border rounded-3xl px-4 py-3 shadow-md ">
                         {uploadedImage && (
-                            <div className="absolute left-4 top-4 sm:-top-12">
-                                <div className="w-24 h-24 sm:h-28 sm:w-28 rounded-xl overflow-hidden border border-gray-200   bg-white p-1 shadow-md">
+                            <div className="absolute left-4 top-4 sm:-top-8">
+                                <div className="w-16 h-16 sm:h-24 sm:w-24 rounded-xl overflow-hidden border border-gray-200   bg-white p-1 shadow-md">
                                     <img
                                         src={URL.createObjectURL(uploadedImage)}
                                         alt="Uploaded"

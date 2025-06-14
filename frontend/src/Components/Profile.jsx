@@ -1,13 +1,16 @@
 import { useUser } from "@/contexts/UserContext"
 import { useState, useEffect, useRef } from "react"
-import { User2Icon, LogOut } from "lucide-react"
+import { User2Icon, LogOut,
+    Settings, HelpCircle,
+ 
+ } from "lucide-react"
 import { toast} from "sonner"
 import { useNavigate } from "react-router-dom"
 import {motion, AnimatePresence} from "motion/react"
+import { cn } from "@/lib/utils"
 function Profile() {
-    const { user, logoutUser } = useUser()
+ 
    
-    const navigate = useNavigate()
     const menuRef = useRef(null)
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
     function handleClickOutside(e) {
@@ -40,11 +43,7 @@ function Profile() {
         e.stopPropagation()
         setIsProfileMenuOpen((prev) => !prev)
     }
-    async function handleLogout() {
-        await logoutUser()
-        toast.success("Logged out successfully")
-        navigate("/")
-    }
+   
     return (
         <div
             className="flex relative  items-center gap-2"
@@ -61,29 +60,129 @@ function Profile() {
 
            
             {isProfileMenuOpen && (
-                <motion.div className="absolute top-12 right-0 bg-white/75 backdrop-blur-2xl w-max  h-max p-4 gap-3 flex flex-col  justify-center border-[1px] shadow-md rounded-lg"
-              initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ type: "spring", stiffness: 300, damping: 18 }}
-                >
-                    <div className="flex items-center gap-1 text-gray-700">
-                        <User2Icon size="20" round={true} />
-                        <h3 className="text-sm ">
-                            {user.first_name + " " + user.last_name}
-                        </h3>
-                    </div>
-                    <div
-                        className="flex items-center gap-1 cursor-pointer text-gray-700 "
-                        onClick={handleLogout}
-                    >
-                        <LogOut size="20" />
-                        <p className="text-sm text-rose-500 ">Logout</p>
-                    </div>
-                </motion.div>
+               <ProfileMenu
+                   setIsProfileMenuOpen={setIsProfileMenuOpen}
+               />
             )}
              </AnimatePresence>
         </div>
+    )
+}
+function ProfileMenu({ setIsProfileMenuOpen })
+{
+    
+    const { user, logoutUser } = useUser()
+    const navigate = useNavigate()
+    async function handleLogout() {
+        await logoutUser()
+        toast.success("Logged out successfully")
+        navigate("/")
+    }
+    async function handleMenuItemClick(action) {
+        switch (action) {
+            case "settings":
+                navigate("/app/settings")
+                setIsProfileMenuOpen(false)
+                break
+            case "help":
+                navigate("/help")
+                break
+            case "logout":
+                await handleLogout()
+                break
+            default:
+                console.warn("Unknown action:", action)
+        }
+    }
+   const getInitials = () => {
+        return `${user.first_name?.[0] || ''}${user.last_name?.[0] || ''}`.toUpperCase();
+    };
+
+    const menuItems = [
+        {
+            icon: <Settings size={18} />,
+            label: "Settings",
+            action: "settings",
+          
+
+        },
+        {
+            icon: <HelpCircle size={18} />,
+            label: "Help & Support",
+            action: "help",
+        },
+        {
+            icon: <LogOut size={18} />,
+            label: "Logout",
+            action: "logout",
+            className: "hover:text-red-600",
+      
+         
+      
+        }
+    ];
+    return(
+             <motion.div 
+                            className="absolute top-full right-0 mt-2  bg-white/85 backdrop-blur-md border border-white/30 shadow-lg rounded-2xl overflow-hidden z-50 font-sans"
+                             initial={{ opacity: 0, scale: 0.9, y: -10 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.9, y: -10 }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 200,
+                            damping: 20,
+                        }}
+                        >
+                        {/* User Info Header */}
+                        <div className="p-4 ">
+                            <div className="flex items-center gap-3">
+                                {user.avatar ? (
+                                    <img
+                                        src={user.avatar}
+                                        alt="Profile"
+                                        className="w-12 h-12 rounded-full object-cover"
+                                    />
+                                ) : (
+                                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold">
+                                        {getInitials()}
+                                    </div>
+                                )}
+                                <div className="flex-1 min-w-0">
+                                    <h3 className="text-sm font-semibold text-gray-900 truncate">
+                                        {user.first_name} {user.last_name}
+                                    </h3>
+                                    <p className="text-xs text-gray-500 truncate">
+                                        {user.email}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Menu Items */}
+                        <div className="p-2">
+                            {menuItems.map((item, index) => (
+                                <button
+                                    key={index}
+                                    onClick={item.onClick || (() => handleMenuItemClick(item.action))}
+                                    disabled={item.disabled}
+                                    className={cn(`
+                                        w-full flex items-center gap-3 p-3 rounded-xl text-sm text-black/70 hover:text-black hover:bg-black/5 font-medium transition-all duration-200
+                                     
+                                           ${item?.className || ''}`)
+                                          
+
+                                      
+                                    }>
+                                        <span className="flex-shrink-0">
+                                            {item.icon}
+                                        </span>
+                                        <span className="flex-1 text-left">{item.label}</span>
+                                    </button>
+                            ))}
+                        </div>
+
+                       
+                    </motion.div>
     )
 }
 export default Profile
