@@ -1,11 +1,14 @@
 import HeadShotSidebar from "@/Components/HeadshotSidebar";
 import HeadshotActionDock from "@/Components/HeadshotActionDock";
+import StyleSidebar from "@/Components/StyleSidebar";
 import { useEffect, useState } from "react";   
 import { motion, AnimatePresence } from "framer-motion";
 import {  ChevronsLeftIcon, ChevronsRightIcon } from "lucide-react";
 import ContentPanel from "@/Components/ContentPanel";
 import { IoIosPerson as ExpandIcon } from "react-icons/io";
 import StyleSelectDrawer from "@/Components/StyleSelectDrawer";
+import { headshotStyles } from "@/data/formData";
+
 
 function HeadshotServicePage() {
     const [selectedStyle, setSelectedStyle] = useState(null);
@@ -51,9 +54,10 @@ function HeadshotServicePage() {
                         className="h-full  py-4 overflow-hidden relative"
                     >
                         <div className="w-full h-full px-4">
-                            <HeadShotSidebar 
+                            <StyleSidebar 
                                 selectedStyle={selectedStyle} 
                                 setSelectedStyle={setSelectedStyle} 
+                                styles={headshotStyles}
                             />
                         </div>
                         
@@ -116,11 +120,13 @@ function HeadshotServicePage() {
             </AnimatePresence>
            
                     <StyleSelectDrawer
+                    styles={headshotStyles}
                         isOpen={isDrawerOpen}
                         setIsOpen={setIsDrawerOpen}
                         selectedStyle={selectedStyle}
-                        setSelectedStyle={setSelectedStyle}/>
-        
+                        setSelectedStyle={setSelectedStyle}
+                    />
+
         </div>
     );
 }
