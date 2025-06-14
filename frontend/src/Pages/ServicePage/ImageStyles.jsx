@@ -1,11 +1,12 @@
-import HeadShotSidebar from "@/Components/HeadshotSidebar";
-import HeadshotActionDock from "@/Components/HeadshotActionDock";
 import { useEffect, useState } from "react";   
 import { motion, AnimatePresence } from "framer-motion";
 import {  ChevronsLeftIcon, ChevronsRightIcon } from "lucide-react";
 import ContentPanel from "@/Components/ContentPanel";
 import { IoIosPerson as ExpandIcon } from "react-icons/io";
 import StyleSelectDrawer from "@/Components/StyleSelectDrawer";
+import ImageStyleActionDock from "@/Components/ImageStyleActionDock";
+import StyleSidebar from "@/Components/StyleSidebar";
+import { ImageStyles } from "@/data/formData";
 
 function ImageStylesPage() {
     const [selectedStyle, setSelectedStyle] = useState(null);
@@ -51,9 +52,10 @@ function ImageStylesPage() {
                         className="h-full  py-4 overflow-hidden relative"
                     >
                         <div className="w-full h-full px-4">
-                            <HeadShotSidebar 
-                                selectedStyle={selectedStyle} 
-                                setSelectedStyle={setSelectedStyle} 
+                            <StyleSidebar
+                                selectedStyle={selectedStyle}
+                                setSelectedStyle={setSelectedStyle}
+                                styles={ImageStyles}
                             />
                         </div>
                         
@@ -85,7 +87,7 @@ function ImageStylesPage() {
                     <ContentPanel />
                 </div>
 
-                <HeadshotActionDock 
+                <ImageStyleActionDock
                     selectedStyle={selectedStyle}
                     setSelectedStyle={setSelectedStyle}
                     setIsDrawerOpen={setIsDrawerOpen}
@@ -106,7 +108,7 @@ function ImageStylesPage() {
                             delay: 0.2 
                         }}
                         onClick={toggleSidebar}
-                        className="absolute top-1/2 -translate-y-2/3 left-0 hidden  bg-white/90 backdrop-blur-lg border  rounded-full px-3 py-4 shadow-md hover:bg-white transition-all duration-200 hover:shadow-lg z-50 md:flex flex-col gap-3"
+                        className="absolute top-1/2 -translate-y-2/3 left-4 hidden  bg-white/90 backdrop-blur-lg border  rounded-full px-3 py-4 shadow-md hover:bg-white transition-all duration-200 hover:shadow-lg z-50 md:flex flex-col gap-3"
                         aria-label="Expand sidebar"
                     >
                         <ExpandIcon className="text-gray-600" size={18} />
@@ -116,6 +118,7 @@ function ImageStylesPage() {
             </AnimatePresence>
            
                     <StyleSelectDrawer
+                    styles={ImageStyles}
                         isOpen={isDrawerOpen}
                         setIsOpen={setIsDrawerOpen}
                         selectedStyle={selectedStyle}

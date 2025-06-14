@@ -99,5 +99,60 @@ const headshotStyles = [
         image: UrbanStreet,
     },
 ]
+const ImageStyles= [
+    {
+        id:"ghibli",
+        label:"Ghibli",
+        image:"https://picsum.photos/id/25/400/400"
 
-export { customImageTrainingField, headshotStyles }
+    },
+    {
+        id:"anime",
+        label:"Anime",
+        image:"https://picsum.photos/id/24/400/400"
+    },
+    {
+        id:"simpsons",
+        label:"Simpsons",
+        image:"https://picsum.photos/id/26/400/400"
+       
+    },
+    {
+        id:"southpark",
+        label:"South Park",
+        image:"https://picsum.photos/id/27/400/400"
+    },
+    {
+        id:"rickandmorty",
+        label:"Rick and Morty",
+        image:"https://picsum.photos/id/28/400/400"
+    },
+    {
+        id:"manga",
+        label:"Manga",
+        image:"https://picsum.photos/id/29/400/400"
+    },  
+    {
+        id:"pixar",
+        label:"Pixar",
+        image:"https://picsum.photos/id/30/400/400"
+    },
+    {
+        id:"samurai",
+        label:"Samurai",
+        image:"https://picsum.photos/id/31/400/400"
+    },
+    {
+        id:"Knight",
+        label:"Knight",
+        image:"https://picsum.photos/id/32/400/400"
+    },
+    {
+        id:"genderswap",
+        label:"Gender Swap",
+        image:"https://picsum.photos/id/33/400/400"
+    }
+
+]
+
+export { customImageTrainingField, headshotStyles, ImageStyles }

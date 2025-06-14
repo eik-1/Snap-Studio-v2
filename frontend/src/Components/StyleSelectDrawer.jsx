@@ -1,10 +1,9 @@
 import {motion, AnimatePresence} from "motion/react"
-import { useEffect, useState } from "react"
 import { X } from "lucide-react"
 import { IoIosPerson as StyleIcon } from "react-icons/io";
-import HeadshotStyles from "./HeadshotStyles"
+import StyleGrid from "./StyleGrid";
 
-function StyleSelectDrawer({isOpen,setIsOpen, selectedStyle, setSelectedStyle})
+function StyleSelectDrawer({isOpen,setIsOpen, selectedStyle, setSelectedStyle, styles})
 {
     return(
         <>
@@ -32,7 +31,7 @@ function StyleSelectDrawer({isOpen,setIsOpen, selectedStyle, setSelectedStyle})
                     <StyleIcon className="text-gray-800 inline-block mr-2" size={20} />
                     <h2>Select a style</h2>
                       </div>
-               <HeadshotStyles selectedStyle={selectedStyle} setSelectedStyle={setSelectedStyle} />
+               <StyleGrid selectedStyle={selectedStyle} setSelectedStyle={setSelectedStyle} styles={styles} />
             </motion.div>
         </motion.div>
             </>
