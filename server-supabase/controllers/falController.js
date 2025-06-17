@@ -665,12 +665,6 @@ export async function runStyleImages(req, res) {
           "Turn this image into a Rick and Morty style image"
         );
         break;
-      case "anime":
-        output = await runStyle(
-          imageUrl,
-          "Turn this image into a anime style image"
-        );
-        break;
       case "manga":
         output = await runStyle(
           imageUrl,
@@ -737,12 +731,12 @@ export async function runStyleImages(req, res) {
 
 async function runStyle(imageUrl, prompt) {
   try {
-    const result = await fal.subscribe("fal-ai/gpt-image-1/edit-image/byok", {
+    const result = await fal.subscribe("fal-ai/flux-pro/kontext/max", {
       input: {
-        image_urls: [imageUrl],
+        image_url: imageUrl,
         prompt: prompt,
-        openai_api_key: process.env.OPENAI_KEY,
-        quality: "medium",
+        safety_tolerance: 5,
+        output_format: "png",
       },
       logs: true,
     });
