@@ -6,6 +6,7 @@ function ResultSection() {
     const { state: imageState } = useImage()
     const { generationStatus } = imageState
     let content
+    console.log(imageState.generatedImageUrls)
     if (generationStatus.status === "idle") {
         content = (
             <div className="flex  h-full items-center ">

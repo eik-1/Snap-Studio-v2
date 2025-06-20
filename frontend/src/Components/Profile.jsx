@@ -124,9 +124,9 @@ function ProfileMenu({ setIsProfileMenuOpen })
     return(
              <motion.div 
                             className="absolute top-full right-0 mt-2  bg-white/85 backdrop-blur-md border border-white/30 shadow-lg rounded-2xl overflow-hidden z-50 font-sans"
-                             initial={{ opacity: 0, scale: 0.9, y: -10 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.9, y: -10 }}
+                           initial={{ opacity: 0, scale: 0.9, y: -10, filter: "blur(10px)" }}
+                        animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
+                        exit={{ opacity: 0, scale: 0.9, y: -10, filter: "blur(10px)" }}
                         transition={{
                             type: "spring",
                             stiffness: 200,

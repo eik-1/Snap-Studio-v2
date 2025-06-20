@@ -96,7 +96,7 @@ export async function generateFashionImages(formData) {
 }
 export async function generateStyleImage(data)
 {
-    const response = await apiRequest(`/fal/generate-style-image`, "POST", data, {
+    const response = await apiRequest(`/fal/run-styles`, "POST", data, {
         "Content-Type": "multipart/form-data",
     })
     return response.data

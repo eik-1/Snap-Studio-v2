@@ -9,7 +9,7 @@ const services = [
         name:"Headshots",
         title: "Generate HeadShots",
         description: "Transform your photos into studio-quality headshots.",
-        images: [Black, CitySkyline],
+        images: [GoldenHour, CitySkyline],
         className:
             "bg-serviceone text-black/70 hover:shadow-lg hover:shadow-amber-100 ",
         icon: HeadshotIcon,
@@ -21,7 +21,7 @@ const services = [
         name:"Images",
         title: "Create Your Image",
         description: "Create custom images of your choice with just a prompt",
-        images: [img3, img2],
+        images: [img2, img2],
         className:
             "bg-servicetwo text-white/90 hover:shadow-lg hover:shadow-blue-200",
         icon: ImageIcon,
@@ -39,5 +39,15 @@ const services = [
         icon: PiTShirtBold,
         route:"fashion-images"
     },
+    {
+        serviceType: "styles",
+        path: "/app/image-styles",
+        name:"Styles",
+        title: "Image Styles",
+        description: "Apply unique styles to your images.",
+        images: [CitySkyline, img2],
+        icon: PiDressBold,
+        route:"image-styles",
+    }
 ]
 export { services }

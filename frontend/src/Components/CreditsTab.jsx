@@ -104,9 +104,9 @@ function CreditsTab() {
     return (
         <motion.div
             className="absolute  -right-10 sm:right-0 top-12 mt-2 w-72 bg-white/85 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 p-2 z-10 overflow-hidden animate-fadeIn"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
+           initial={{ opacity: 0, scale: 0.9, y: -10, filter: "blur(10px)" }}
+                        animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
+                        exit={{ opacity: 0, scale: 0.9, y: -10, filter: "blur(10px)" }}
             transition={{ type: "spring", stiffness: 300, damping: 18 }}
         >
                 {/* Header Section */}

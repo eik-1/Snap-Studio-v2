@@ -66,6 +66,7 @@ function ImageStyleActionDock({
                     numberOfImages: numberOfImages,
                 },
             })
+            console.log(imageState.generatedImageUrls)
             updateCredits(data.remainingCredits, user?.email)
         } catch (error) {
             imageDispatch({
@@ -94,10 +95,13 @@ function ImageStyleActionDock({
         formData.append("userId", user.$id)
         formData.append("style", selectedStyle)
         formData.append("numImages", numImages)
-        formData.append("email", user.email)
-        if (uploadedImage) {
-            formData.append("image", uploadedImage)
+        formData.append("userEmail", user.email)
+        if (!uploadedImage) {
+            toast.error("Please upload an image to generate styles")
+            return
         }
+        formData.append("file", uploadedImage)
+        
         await handleImageGeneration(formData)
         if (imageState.generationStatus.status === "success") {
             //reset form state or just leave it as it is
@@ -140,7 +144,7 @@ function ImageStyleActionDock({
                     <button
                         key="expand-button"
                         onClick={() => setIsDrawerOpen(true)}
-                        className="absolute left-1/2 -translate-x-1/2 -top-12  bg-white/90 backdrop-blur-lg border  rounded-3xl px-4 py-2 shadow-sm hover:bg-white transition-all duration-200 hover:shadow-lg flex items-center justify-center md:hidden gap-1"
+                        className="absolute left-1/2 -translate-x-1/2 -top-12  bg-white/85 backdrop-blur-md border  rounded-3xl px-4 py-2 shadow-sm hover:bg-white transition-all duration-200 hover:shadow-lg flex items-center justify-center md:hidden gap-1"
                         aria-label="Expand Drawer"
                     >
                         {selectedStyle ? (
@@ -155,7 +159,7 @@ function ImageStyleActionDock({
                     {imageState?.generationStatus?.status === "generating" && (
                         <GlowingAnimation className="-z-10 absolute  h-full w-full   rounded-lg" />
                     )}
-                    <div className="w-full h-full bg-white/90 backdrop-blur-lg border rounded-3xl px-4 py-3 shadow-md ">
+                    <div className="w-full h-full bg-white/85 backdrop-blur-md border rounded-3xl px-4 py-3 shadow-md ">
                         {uploadedImage && (
                             <div className="absolute left-4 top-4 sm:-top-8">
                                 <div className="w-16 h-16 sm:h-24 sm:w-24 rounded-xl overflow-hidden border border-gray-200   bg-white p-1 shadow-md">

@@ -13,11 +13,11 @@ function NumberOfImages({ numberOfImages, setNumberOfImages }) {
         }
     }
     return (
-        <div className="w-24 h-10  p-1 flex-shrink-0 flex items-center justify-between  rounded-full bg-gray-100">
+        <div className="w-24 h-10   p-1 flex-shrink-0 flex items-center justify-between  rounded-full bg-white border border-gray-100 shadow-sm">
             <button
                 type="button"
                 onClick={decrement}
-                className="w-7 h-7 flex items-center justify-center text-gray-500 disabled:text-gray-300 hover:bg-[rgba(0,0,0,0.1)] disabled:hover:bg-transparent rounded-full transition"
+                className="w-7 h-7 flex items-center justify-center text-gray-500 disabled:text-gray-300 hover:bg-gray-100 disabled:hover:bg-transparent rounded-full transition"
                 disabled={numberOfImages <= 1}
             >
                 <Minus size={12} />
@@ -30,7 +30,7 @@ function NumberOfImages({ numberOfImages, setNumberOfImages }) {
             <button
                 type="button"
                 onClick={increment}
-                className="w-7 h-7 flex items-center justify-center text-gray-500 disabled:text-gray-300 hover:bg-[rgba(0,0,0,0.1)] disabled:hover:bg-transparent rounded-full transition"
+                className="w-7 h-7 flex items-center justify-center text-gray-500 disabled:text-gray-300 hover:bg-gray-100 disabled:hover:bg-transparent rounded-full transition"
                 disabled={numberOfImages >= 4}
             >
                 <Plus size={12} />

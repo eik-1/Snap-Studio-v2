@@ -37,10 +37,10 @@ const AvatarDropdown = ({
         <div className="relative z-40" ref={dropdownRef}>
             <div
                 onClick={() => !isDisabled && setIsOpen(!isOpen)}
-                className={`min-w-32 w-max h-10 max-w-1/2 text-xs px-3 py-2   text-black font-medium rounded-full cursor-pointer bg-gray-100 flex justify-between items-center gap-2 ${
+                className={`min-w-32 w-max h-10 max-w-1/2 text-xs px-3 py-2   text-black font-medium rounded-full cursor-pointer bg-white border border-gray-100 shadow-sm flex justify-between items-center gap-2 ${
                     isDisabled
                         ? "opacity-50 cursor-not-allowed"
-                        : "hover:bg-[rgba(0,0,0,0.08)]"
+                        : "hover:bg-gray-100 hover:shadow-none transition-all"
                 }`}
             >
                 <div>
