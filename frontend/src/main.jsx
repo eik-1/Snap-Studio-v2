@@ -4,7 +4,7 @@ import App from "./App.jsx"
 import "./index.css"
 import { UserProvider } from "./contexts/UserContext.jsx"
 import { HelmetProvider } from "react-helmet-async"
-import { Toaster } from "@/Components/UI/toaster"
+import { Toaster } from "sonner"
 
 export default function RootLayout({ children }) {
   return (
@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
       <head />
       <body>
         <main>{children}</main>
-        <Toaster />
+        <Toaster  />
       </body>
     </html>
   )

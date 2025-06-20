@@ -1,71 +1,71 @@
-import { cn } from "@/lib/utils";
-import { motion } from "motion/react";
-import { ChevronRightIcon } from "lucide-react";
-import { useState } from "react";
-const ServiceCard=({ 
-  title = '', 
-  description = '',
-  Icon = null,
-  images = [],
-  labelText = null,
-  labelStyle=null,
-  handleClick,
-  className=''
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { cn } from "@/lib/utils"; // Optional class combiner
+
+const ServiceCard = ({
+  icon: Icon,
+  title,
+  path,
+  image,
+  isNew = false,
+  className = ""
 }) => {
-  const [isHovering, setIsHovering] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div
-      className={cn(`relative rounded-2xl h-max px-4 py-8  max-w-xs  flex items-center   cursor-pointer hover:scale-105 transition-all duration-300 active:scale-[0.98] ${className}   `)}
-      onClick={handleClick}
-      role="button"
-      onMouseEnter={() => {setIsHovering(true)}} onMouseLeave={() => {setIsHovering(false)}}
+      onClick={() => navigate(path)}
+      className={cn(
+        `
+        relative group cursor-pointer overflow-hidden
+        rounded-2xl shadow-md
+        transition-all duration-300 ease-in-out
+        hover:scale-[1.03] hover:shadow-2xl
+        h-40 w-40 sm:h-44 sm:w-44
+        ring-1 ring-white/10 hover:ring-white/20
+        bg-zinc-900/50 backdrop-blur-md
+        `,
+        className
+      )}
     >
-       {labelText && <div className={cn(`absolute right-2 top-2 z-[100] w-max h-max p-1 bg-white/60 rounded-full backdrop-blur-md text-[0.5rem] leading-tight tracking-tighter drop-shadow-sm ${labelStyle}`)}>
-              {labelText}
-          </div>}
-          <motion.div className="absolute bottom-2 right-2"
-          initial={{x: 10, opacity: 0}}
-          animate={{x: isHovering ? 0 : 10, opacity: isHovering ? 1 : 0}}
-         
+      {/* Background Image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+        style={{ backgroundImage: `url(${image})` }}
+      />
 
-          >
-          <ChevronRightIcon size={24} />
-          </motion.div>
-      <div className=" flex justify-between items-center">
-        <div className="max-w-[50%] flex flex-col gap-2">
-          <div>
-            {Icon && <Icon className={`w-6 h-6 ${title==="Generate HeadShots"?"text-black/70":"text-white/80"}` }/>}
+      {/* Progressive Blur Layer */}
+      <div className="absolute bottom-0 left-0 right-0 h-20 z-10">
+        <div
+          className="absolute inset-0 blur-md"
+          style={{ backgroundImage: `url(${image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
+      </div>
+
+      {/* Glowing Border on Hover */}
+      <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-white/10 group-hover:shadow-[0_0_20px_2px_rgba(255,255,255,0.08)] transition-all z-10" />
+
+      {/* Content (above blur) */}
+      <div className="relative z-20 flex flex-col justify-end h-full p-4">
+        <div className="flex items-center gap-3 text-white">
+          <div className="flex items-center justify-center">
+            <Icon className=" w-4 h-4" strokeWidth={2} />
           </div>
-          <h2 className="text-[1.1rem]  font-semibold leading-tight">
-            {title}
-          </h2>
-         
-        { /* <p className="text-[0.575rem] font-normal leading-tight opacity-80">
-            {description}
-          </p>*/}
-        </div>
-
-  
-       <div className={`relative flex gap-4 h-max items-center `}>
-         
-          {images.map((image, index) => (
-            <div
-              key={index}
-              className={`w-[4rem] h-[4rem] sm:h-[3rem]  sm:w-[3rem] lg:h-[4rem] lg:w-[4rem] rounded-xl overflow-hidden shadow-lg drop-shadow-md z-10 transform ${
-                (index %2=== 0 && images.length>1) ? 'rotate-[-20deg] translate-x-4' : 'rotate-[20deg] -translate-x-4'
-              }`}
-            >
-              <img
-                src={image}
-                alt={`service pic ${index + 1}`}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          ))}
+          <h3 className=" font-semibold text-sm">{title}</h3>
         </div>
       </div>
+
+      {/* New Badge */}
+      {isNew && (
+        <div className="absolute top-3 right-3 z-20">
+          <span className="px-2 py-0.5 text-[10px] uppercase font-semibold tracking-wide bg-pink-600 text-white rounded-full shadow-md">
+            New
+          </span>
+        </div>
+      )}
     </div>
   );
 };
+
 export default ServiceCard;

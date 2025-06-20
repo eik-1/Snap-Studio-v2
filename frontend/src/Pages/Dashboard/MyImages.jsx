@@ -1,39 +1,36 @@
-import SavedServiceCard from "@/Components/SavedServiceCard"
-import { services } from "@/data/serviceInfo"
-
+import { useState } from "react"
+import FilterSelector from "@/Components/FilterSelector"
+import SavedImages from "./SavedImages"
 function MyImages() {
+  const [activeService, setActiveService] = useState(1)
+  const handleServiceChange = (serviceId) => {
+    setActiveService(serviceId)
   
+  }
+  const services=[
+    { id: 1, name: "All" },
+    { id: 2, name: "Headshots" },
+    { id: 3, name: "Fashion" },
+    { id: 4, name: "Styles" },
+    { id: 5, name: "Custom" }
+  ]
 
     return (
-        <div className="w-full h-full bg-white relative flex flex-col md:flex-row md:items-center">
-            {/* Sidebar */}
-            <div className="w-[95%] flex-shrink-0 mx-auto md:mx-0 h-36 md:h-[95%] md:my-auto md:w-80 border-b-[1px] md:border-r-[1px] md:border-b-0 border-neutral-200">
-                <div className="flex flex-col items-center mt-10 md:mt-32 gap-2">
-                    <h2 className="text-3xl leading-relaxed text-center font-semibold bg-clip-text text-transparent bg-text-gradient">
-                        My Images
-                    </h2>
-                    <p className="text-gray-500 text-sm">Explore your saved images</p>
-                </div>
+        <div className="sm:w-full h-screen flex flex-col   relative overflow-hidden  ">
+              <div className="absolute bottom-2    px-4 py-1 rounded-full  left-1/2 transform -translate-x-1/2 z-[120]   flex flex-col gap-4">
+            <div className="flex items-center  gap-4 h-[3rem]">
+               {services.map((service) => (
+                <FilterSelector 
+                  key={service.id} 
+                  label={service.name} 
+                  isActive={service.id === activeService} 
+                  onClick={() => handleServiceChange(service.id)}
+                />
+              ))}
             </div>
-
-            {/* Grid section */}
-            <div className="md:h-full pt-8 px-4 w-full">
-                <div className="flex flex-wrap gap-4 md:gap-6 w-4/5">
-                    {services.map((service, index) => (
-                        <div
-                            key={index}
-                            className="flex-shrink-0 px-2"
-                        >
-                            <SavedServiceCard
-                                serviceName={service.name}
-                                Icon={service.icon}
-                                route={service.route}
-                                className={service.className}
-                            />
-                        </div>
-                    ))}
-                </div>
-            </div>
+            
+          </div>
+          <SavedImages /> 
         </div>
     )
 }

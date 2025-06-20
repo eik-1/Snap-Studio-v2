@@ -10,10 +10,10 @@ function NotificationTray({ isVisible = false }) {
     const { state: notificationState } = useNotification()
     return (
         <motion.div
-            className="absolute z-30 top-12 -right-8 sm:right-2 w-[20rem] h-[30rem] border-[1px] bg-gradient-to-br from-purple-50/60 to-white/60 backdrop-blur-xl shadow-md rounded-xl p-4"
-            initial={{ opacity: 0, y: -50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -50 }}
+            className="absolute z-30 top-12 -right-8 sm:right-2 w-[20rem] h-[30rem] border-[1px] bg-white/85 backdrop-blur-lg  shadow-md rounded-xl p-4"
+           initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
             transition={{ type: "spring", stiffness: 300, damping: 18 }}
         >
             <div className="flex justify-between border-b-[1px] pb-2">
@@ -64,14 +64,14 @@ export default function NotificationButton() {
             ref={notificationTrayRef}
         >
             <div
-                className="h-max w-max  text-gray-500 hover:text-gray-700 cursor-pointer transition-all duration-75"
+                className="h-max w-max border shadow-sm bg-white/80 backdrop-blur-md hover:shadow-md  rounded-full p-2  text-black/80 hover:text-black cursor-pointer transition-all duration-75"
                 onClick={() => {
                     setNotificationTrayOpen((prev) => !prev)
                 }}
             >
-                <BellIcon size={20} />
+                <BellIcon className="w-3 h-3 sm:h-4 sm:w-4" />
             </div>
-            <div className="absolute top-2 right-3 bg-green-400 shadow-md  w-[6px] h-[6px] rounded-full"></div>
+          
             <AnimatePresence>
                 {notificationTrayOpen && (
                     <>

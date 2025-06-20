@@ -5,6 +5,7 @@ import {
   runPromptFluxImage,
   runStyleImages,
   trainFluxModel,
+  runStyleImages,
 } from "../controllers/falController.js";
 import upload from "../middlewares/uploadMiddleware.js";
 import isUserAuthenticated from "../middlewares/authMiddleware.js";

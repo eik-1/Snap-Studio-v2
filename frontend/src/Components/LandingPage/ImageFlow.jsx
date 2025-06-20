@@ -56,7 +56,10 @@ const ImageFlow = () => {
                             >
                                 <div
                                     className={`w-1/2 flex flex-col ${index % 2 === 0 ? "md:items-end" : "md:items-start"}`}
+
                                 >
+                                    <div>
+                                    <h2 className="text-xl">{`Step ${index+1}`}</h2>
                                     <h3
                                         className={`text-xl md:text-3xl font-bold mb-2 bg-gradient-to-r  bg-clip-text text-transparent from-black to-black/75`}
                                     >
@@ -67,9 +70,8 @@ const ImageFlow = () => {
                                     >
                                         {step.description}
                                     </p>
-
                                     <div
-                                        className={`h-1 w-24 mt-4 rounded-full bg-gradient-to-r ${
+                                        className={`h-1 w-full mt-4 rounded-full bg-gradient-to-r ${
                                             index === 0
                                                 ? "from-purple-500 to-purple-300"
                                                 : index === 1
@@ -77,6 +79,11 @@ const ImageFlow = () => {
                                                   : "from-indigo-500 to-indigo-300"
                                         }`}
                                     ></div>
+
+                                    </div>
+                                   
+
+                                  
                                 </div>
 
                                 <div className="w-1/2 flex justify-center">

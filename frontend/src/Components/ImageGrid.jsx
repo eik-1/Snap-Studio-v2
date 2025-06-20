@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast"
 import { cn } from "@/lib/utils"
 import SaveImageButton from "./SaveImageButton"
 import DeleteImageButton from "./DeleteImageButton"
+import ImageSkeleton from "./ImageSkeleton"
 const trs = {
     type: "spring",
     stiffness: 250,
@@ -71,8 +72,9 @@ function ImageGrid({ images, usedFor = "", className }) {
     }, [selectedIndex, handleKeydown])
 
     return (
-        <div className="p-2 sm:p-4 sm:pt-8">
+        <div className="relative w-full h-full">
             <div className={cn(className)}>
+              
                 {images.map((imageUrl, index) => (
                     <>
                         <ImageThumbnail

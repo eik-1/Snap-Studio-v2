@@ -1,17 +1,14 @@
-import ImageResultSection from "@/Components/ImageResultSection"
-import SidePanel from "@/Components/SidePanel"
-
+import HomeHeader from "@/Components/HomeHeader"
+import ServiceDock from "@/Components/ServiceDock"
 function Home() {
     return (
-        <div className="h-full w-full sm:flex sm:flex-row overflow-y-auto ">
-            <div className="relative mb-12 sm:mb-0 sm:flex-shrink-0 h-max sm:h-full w-full sm:w-80 lg:w-[26rem] flex flex-col items-center   bg-gray-200 overflow-hidden">
-                <SidePanel />
-            </div>
+       <div className="relative w-full h-full   overflow-auto p-4">
+        <div className="h-2/5 w-full absolute top-0 left-0 bg-gradient-to-b from-sky-100/80 via-sky-50 -z-10 px-6  ">
 
-            <div className="h-screen pb-8 sm:pb-0 sm:h-full w-full sm:flex-grow flex flex-col gap-4 sm:overflow-hidden ">
-                <ImageResultSection />
-            </div>
         </div>
+                <HomeHeader/>
+                <ServiceDock/>
+       </div>
     )
 }
 export default Home

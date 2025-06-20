@@ -1,12 +1,13 @@
 import { Trash2 } from "lucide-react"
 import { RotatingLines } from "react-loader-spinner"
 import { useUser } from "@/contexts/UserContext"
-import { useToast } from "@/hooks/use-toast"
+
+import {toast} from "sonner"
 import { deleteSavedImage } from "@/services/api/services"
 import { useImage } from "@/contexts/ImageContext"
 function DeleteImageButton({ imageUrl, size }) {
     const { user } = useUser()
-    const { toast } = useToast()
+   
     const { state: imageState, dispatch: imageDispatch } = useImage()
     
     async function handleDeleteImage(src) {
@@ -28,17 +29,13 @@ function DeleteImageButton({ imageUrl, size }) {
                 payload: latestSavedImages,
             })
             
-            toast({
-                description: "Image deleted",
-            })
+            toast.success("Image deleted")
         } catch (error) {
             imageDispatch({
                 type: "SET_IMAGE_DELETE_STATUS",
                 payload: { url: src, status: "notDeleted" },
             })
-            toast({
-                description: "Error deleting image, try again",
-            })
+            toast.error("Error deleting image, try again")
             console.error("Error deleting image:", error)
         }
     }

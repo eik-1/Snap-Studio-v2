@@ -3,7 +3,7 @@ import { Button } from "@/Components/UI/Button"
 import { useModel } from "@/contexts/ModelContext"
 import { useUser } from "@/contexts/UserContext"
 import { customImageTrainingField } from "@/data/formData"
-import { useToast } from "@/hooks/use-toast"
+import {toast} from "sonner"
 import { imagesToZipBlob } from "@/services/utils/zipUtils"
 import { Info } from "lucide-react"
 import { useState } from "react"
@@ -35,7 +35,6 @@ function CustomImageModelTrainForm() {
         })
     }
 
-    const { toast } = useToast()
     const handleSubmit = async (e) => {
         e.preventDefault()
 
@@ -59,12 +58,8 @@ function CustomImageModelTrainForm() {
                     "Your model training has started. You can logout and check back later",
             })
         } catch (error) {
-            toast({
-                title: "Error",
-                description:
-                    "There was an error training the model. Please try again",
-                variant: "destructive",
-            })
+            toast.error("There was an error training the model. Please try again")
+             
         }
         setLoader(false)
         setSelectedImages([])
