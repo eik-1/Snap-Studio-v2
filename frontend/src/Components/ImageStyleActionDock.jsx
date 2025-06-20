@@ -139,7 +139,9 @@ function ImageStyleActionDock({
     }
     return (
         <>
-            <div className="w-11/12 max-w-3xl  left-1/2 -translate-x-1/2 h-max  fixed md:absolute bottom-[2dvh] md:bottom-4  z-50 ">
+            <div className="w-11/12 max-w-3xl  left-1/2 -translate-x-1/2 h-max  fixed md:absolute bottom-4  z-50 "
+            style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+            >
                 <div className="w-full h-full relative">
                     <button
                         key="expand-button"
