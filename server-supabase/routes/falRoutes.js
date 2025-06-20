@@ -3,6 +3,7 @@ import {
   generateFashionImage,
   runHeadshotFluxImage,
   runPromptFluxImage,
+  runStyleImages,
   trainFluxModel,
   runStyleImages,
 } from "../controllers/falController.js";
