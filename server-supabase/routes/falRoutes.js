@@ -4,6 +4,7 @@ import {
   runHeadshotFluxImage,
   runPromptFluxImage,
   trainFluxModel,
+  runStyleImages,
 } from "../controllers/falController.js";
 import upload from "../middlewares/uploadMiddleware.js";
 import isUserAuthenticated from "../middlewares/authMiddleware.js";
@@ -26,5 +27,11 @@ router.post(
 );
 router.post("/run-custom-prompt", isUserAuthenticated, runPromptFluxImage);
 router.post("/run-headshot", isUserAuthenticated, runHeadshotFluxImage);
+router.post(
+  "/run-styles",
+  isUserAuthenticated,
+  upload.single("file"),
+  runStyleImages
+);
 
 export default router;
