@@ -1,7 +1,7 @@
 import { createContext, useContext, useReducer } from "react"
 
 const ImageContext = createContext()
-const tempData = ["https://fal.media/files/rabbit/XnhtI5tlL-PMZ_crlnNAV_194da74d6a3f4345a6e7cdc828985a1a.png","https://fal.media/files/rabbit/XnhtI5tlL-PMZ_crlnNAV_194da74d6a3f4345a6e7cdc828985a1a.png","https://fal.media/files/rabbit/XnhtI5tlL-PMZ_crlnNAV_194da74d6a3f4345a6e7cdc828985a1a.png","https://fal.media/files/rabbit/XnhtI5tlL-PMZ_crlnNAV_194da74d6a3f4345a6e7cdc828985a1a.png","https://fal.media/files/rabbit/XnhtI5tlL-PMZ_crlnNAV_194da74d6a3f4345a6e7cdc828985a1a.png"]
+const tempData = []
 const imageState = {
     mode: "headshot",
     generationStatus: {

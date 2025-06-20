@@ -37,13 +37,13 @@ function Credits() {
             ref={creditsTabRef}
         >
             <div
-                className="h-max  min-w-16 w-max flex items-center justify-center py-2 px-4 rounded-full border shadow-sm hover:shadow-md gap-2 cursor-pointer relative font-sans bg-white/80 backdrop-blur-md"
+                className="h-max  sm:min-w-16 w-max flex items-center justify-center p-2 sm:py-2 sm:px-4 rounded-full border shadow-sm hover:shadow-md gap-2 cursor-pointer relative font-sans bg-white/80 backdrop-blur-md"
                 onClick={() => setIsVisible(!isVisible)}
             >
                 <div className="w-max h-max flex items-center justify-center gap-2">
                     <CoinsIcon className="h-3 w-3 sm:w-4 sm:h-4" />
                 </div>
-                <div>
+                <div className="sm:block hidden">
                     <p className="text-xs text-black/80  font-semibold flex items-center justify-center ">
                         {typeof subscription?.credits !== "undefined" ? (
                             subscription.credits
