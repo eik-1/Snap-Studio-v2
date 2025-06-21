@@ -21,7 +21,7 @@ const ServiceCard = ({
         rounded-2xl shadow-md
         transition-all duration-300 ease-in-out
         hover:scale-[1.03] hover:shadow-2xl
-        h-40 w-40 sm:h-44 sm:w-44
+        max-h-40 max-w-40 aspect-square
         ring-1 ring-white/10 hover:ring-white/20
         bg-zinc-900/50 backdrop-blur-md
         `,
@@ -35,7 +35,7 @@ const ServiceCard = ({
       />
 
       {/* Progressive Blur Layer */}
-      <div className="absolute bottom-0 left-0 right-0 h-20 z-10">
+      <div className="absolute bottom-0 left-0 right-0 h-16 sm:h-20 z-10">
         <div
           className="absolute inset-0 blur-md"
           style={{ backgroundImage: `url(${image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
@@ -52,7 +52,7 @@ const ServiceCard = ({
           <div className="flex items-center justify-center">
             <Icon className=" w-4 h-4" strokeWidth={2} />
           </div>
-          <h3 className=" font-semibold text-sm">{title}</h3>
+          <h3 className=" font-semibold text-xs sm:text-sm">{title}</h3>
         </div>
       </div>
 

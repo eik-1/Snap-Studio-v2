@@ -3,7 +3,7 @@ import { services } from "@/data/serviceInfo"
 function ServiceDock()
 {
     return(
-        <div className="w-full md:w-max h-max bg-white/85 backdrop-blur-md shadow-serviceDock w-xl rounded-3xl p-6 flex flex-wrap items-center justify-center gap-6 mx-auto border mt-12">
+        <div className=" max-w-6xl w-full sm:w-max  px-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4  bg-white/85 backdrop-blur-md shadow-serviceDock rounded-3xl p-6   gap-4 mx-auto border mt-20">
           {services.map((service) => (
             <ServiceCard
                 key={service.id}
