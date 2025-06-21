@@ -1,25 +1,11 @@
 const Window = ({ children, title = "SnapStudio" }) => {
     return (
-      <div className="flex flex-col rounded-xl shadow-xl w-full max-w-5xl overflow-hidden border border-gray-200 shadow-purple-50">
+      
+      <div className="flex flex-col relative z-30 rounded-3xl  w-full max-w-5xl  overflow-hidden border-[12px] border-white ">
+        
        
-        <div className="flex items-center px-2 sm:px-4 py-1 sm:py-2 bg-gradient-to-br bg-purple-50/70 to-indigo-50/70 border-b border-gray-200">
-         
-          <div className="flex space-x-1 sm:space-x-2 mr-2 sm:mr-4">
-            <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-red-500 hover:bg-red-600"></div>
-            <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-yellow-500 hover:bg-yellow-600"></div>
-            <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-green-500 hover:bg-green-600"></div>
-          </div>
-  
-          <div className="text-xs sm:text-xs text-center text-gray-600 font-medium flex-grow truncate">
-            {title}
-          </div>
-          
-          
-          <div className="w-8 sm:w-16"></div>
-        </div>
-        
-        
-        <div className="bg-white p-0 flex-grow">
+       
+      <div className="bg-white p-0 flex-grow">
           {children}
         </div>
       </div>
