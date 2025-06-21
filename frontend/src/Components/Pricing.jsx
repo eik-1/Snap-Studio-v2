@@ -92,15 +92,17 @@ export default function PricingSection() {
                     <span>Launch discount — 25% OFF</span>
                     <Sparkles className="h-4 w-4" />
                 </div>
-
-                <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-black to-black/85 bg-clip-text text-transparent">
-                    Unleash Your Creativity with <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">AI</span>
+       <div className="text-center mb-12 flex flex-col gap-4">
+      
+                <h1   className="text-2xl sm:text-3xl lg:text-4xl font-semibold leading-tight">
+                    Unleash Your Creativity with <span className="bg-clip-text text-transparent bg-gradient-to-r from-sky-600 to-purple-600">AI</span>
                 </h1>
 
-                <p className="text-lg text-gray-600 mb-10 max-w-2xl mx-auto">
+                <p   className="text-base text-gray-500 max-w-2xl mx-auto">
                     Generate stunning images with our cutting-edge AI
                     technology. Choose the plan that fits your creative journey.
                 </p>
+                  </div>
 
                 <div className="flex items-center justify-center space-x-4 bg-gray-50 p-3 rounded-full w-max mx-auto shadow-sm">
                     <label

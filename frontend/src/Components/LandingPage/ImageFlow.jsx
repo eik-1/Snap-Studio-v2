@@ -83,19 +83,19 @@ const ImageFlow = () => {
     }
 
     return (
-        <div className="w-full max-w-7xl mx-auto px-6 lg:px-8 mt-32 lg:py-8">
+        <div className="w-full max-w-7xl mx-auto px-6 lg:px-8 mt-32 lg:pt-8">
             {/* Header */}
-            <div className="text-center mb-16">
+            <div className="text-center mb-16 flex flex-col gap-4">
                 <motion.h2 
-                    className="text-3xl lg:text-4xl font-semibold text-gray-900 mb-4"
+                    className="text-2xl sm:text-3xl lg:text-4xl font-semibold leading-tight"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
                 >
-                    How It Works
+                    How It  <span className="bg-gradient-to-r from-sky-600 to-purple-500 bg-clip-text text-transparent">Works</span>
                 </motion.h2>
                 <motion.p 
-                    className="text-lg text-gray-600 max-w-2xl mx-auto"
+                    className="text-base text-gray-500 max-w-2xl mx-auto"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.1 }}
@@ -144,10 +144,10 @@ const ImageFlow = () => {
 
                                 {/* Content */}
                                 <div className="mb-8">
-                                    <h3 className="text-xl font-bold text-gray-900 mb-3">
+                                    <h3 className="text-xl font-semibold text-gray-900 mb-3">
                                         {step.title}
                                     </h3>
-                                    <p className="text-gray-600 leading-relaxed">
+                                    <p className="text-gray-600 text-sm leading-relaxed">
                                         {step.description}
                                     </p>
                                 </div>
@@ -198,7 +198,7 @@ const ImageFlow = () => {
                                                         <img
                                                             src={img}
                                                             alt={`Upload ${i + 1}`}
-                                                            className="w-16 h-20 object-cover rounded-xl shadow-lg border-2 border-white"
+                                                            className="w-20 h-24 object-cover rounded-xl shadow-lg border-2 border-white"
                                                         />
                                                     </motion.div>
                                                 ))}

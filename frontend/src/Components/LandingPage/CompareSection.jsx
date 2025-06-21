@@ -10,7 +10,7 @@ function CompareSection() {
   ];
 
   return (
-    <section className="relative w-full mt-32 lg:py-8 px-6 sm:px-8 overflow-hidden max-w-7xl mx-auto ">
+    <section className="relative w-full mt-32 lg:pt-8 px-6 sm:px-8 overflow-hidden max-w-7xl mx-auto ">
 
       <div className="relative">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-16 flex-wrap-reverse">

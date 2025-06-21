@@ -69,7 +69,7 @@ export default function FullPageScrollLayout() {
   }, []);
 
   return (
-    <div className="flex flex-col md:flex-row h-max max-w-6xl mx-auto mt-32 md:gap-12  ">
+    <div className="flex flex-col md:flex-row h-max max-w-6xl mx-auto mt-32 lg:pt-12 md:gap-12  ">
       {/* Sticky Sidebar */}
       <aside className="hidden md:flex   sticky top-32  h-full bg-white  p-4 flex-col gap-6">
         
