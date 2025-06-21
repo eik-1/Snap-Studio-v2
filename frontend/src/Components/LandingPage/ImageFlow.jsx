@@ -83,11 +83,11 @@ const ImageFlow = () => {
     }
 
     return (
-        <div className="w-full max-w-7xl mx-auto px-6 lg:px-8 mt-32 lg:py-12">
+        <div className="w-full max-w-7xl mx-auto px-6 lg:px-8 mt-32 lg:py-8">
             {/* Header */}
             <div className="text-center mb-16">
                 <motion.h2 
-                    className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4"
+                    className="text-3xl lg:text-4xl font-semibold text-gray-900 mb-4"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
@@ -106,13 +106,7 @@ const ImageFlow = () => {
 
             {/* Cards Container */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-6 relative">
-                {/* Connection Lines - Desktop */}
-                <div className="hidden lg:block absolute top-1/2 left-1/3 w-1/3 h-0.5 bg-gradient-to-r from-gray-200 to-gray-300 -translate-y-1/2 z-0">
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-gray-300 rounded-full"></div>
-                </div>
-                <div className="hidden lg:block absolute top-1/2 right-1/3 w-1/3 h-0.5 bg-gradient-to-r from-gray-200 to-gray-300 -translate-y-1/2 z-0">
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-gray-300 rounded-full"></div>
-                </div>
+              
 
                 {steps.map((step, index) => {
                     const colors = colorMap[step.color]
@@ -127,7 +121,7 @@ const ImageFlow = () => {
                         >
                             {/* Card */}
                             <motion.div 
-                                className="bg-gray-50 border-white border-[6px] rounded-3xl p-8 shadow-lg    group relative overflow-hidden"
+                                className="bg-gray-50 border-white border-[6px] rounded-3xl p-8 shadow-lg h-[32rem]   group relative overflow-hidden"
                                 
                                
                             >
@@ -410,16 +404,13 @@ const ImageFlow = () => {
             </div>
 
             {/* Call to Action */}
-            <motion.div 
-                className="text-center mt-16"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.8 }}
-            >
-                <button className="group relative px-6 py-4 bg-gray-900 text-sm lg:text-base text-white font-semibold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1">
-                    <span className="relative z-10">Start Creating</span>
-                  </button>
-            </motion.div>
+             <div className="w-full justify-center flex mt-12" >
+                             <button className="group relative px-6 py-4 flex gap-2 bg-gray-900 text-sm  text-white font-semibold rounded-2xl  hover:shadow-lg transition-all duration-300 transform hover:scale-105 hover:-translate-y-1">
+                           Start Creating Now
+                           <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                         </button>
+                       </div>
+                     
         </div>
     )
 }

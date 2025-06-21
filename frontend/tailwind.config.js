@@ -9,6 +9,7 @@ const config = {
                 sans: ["Poppins", "sans-serif"],
                 display: ["Fahkwang", "sans-serif"],
                 heading: ["Arima", "sans-serif"],
+                
             },
             borderRadius: {
                 lg: "var(--radius)",

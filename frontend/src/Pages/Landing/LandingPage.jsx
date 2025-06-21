@@ -10,6 +10,7 @@ import { Helmet } from "react-helmet-async"
 import {home} from "@/assets/image"
 import CompareSection from "@/Components/LandingPage/CompareSection"
 import ImageComparisonSlider from "@/Components/LandingPage/InputOutputCompare"
+import AnimatedSidebarLayout from "@/Components/LandingPage/Features"
 
 export default function LandingPage() {
     return (
@@ -25,11 +26,11 @@ export default function LandingPage() {
                     content="AI headshot generator, AI photo editor, AI image generator AI marketing poster, AI clothing model"
                 />
             </Helmet>
-            <div className="relative  mx-auto">
+            <div className="relative  mx-auto font-sans">
                 <Hero />
                 <div className="max-w-5xl flex justify-center max-h-[48rem] mx-auto md:mt-12 relative rounded-3xl border">
                     <div className="z-10 absolute h-32 w-40 md:h-60 md:w-96 left-1/2 -translate-x-1/2 bg-gradient-to-r from-sky-300 to-purple-300 p-4 blur-[80px]"></div>
-                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 h-40 w-screen  bg-gradient-to-t from-white via-white/90 to-transparent z-40"></div>
+                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 h-10 md:h-20 w-screen  bg-gradient-to-t from-white via-white/90 to-transparent z-40"></div>
                     
                    
                     
@@ -48,17 +49,15 @@ export default function LandingPage() {
                             />
                             Your browser does not support the video tag.
                         </video>*/}
-                        <img src={home} alt="df" className="h-full w-full object-cover border" />
+                        <img src={home} alt="df" className="h-full w-full object-cover " />
                     </Window>
                 </div>
 
              <CompareSection/>
+             <AnimatedSidebarLayout/>
 
                 <ImageFlow />
-                <div className="mt-24" id="features">
-                    <CustomImageSection />
-                    <HeadshotSection />
-                </div>
+             
 
                 <PricingSection />
                 <FAQSection />

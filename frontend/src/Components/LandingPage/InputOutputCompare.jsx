@@ -83,7 +83,7 @@ export default function ImageComparisonSlider({
     }
 
     return (
-        <div className="w-max h-max p-2 bg-white shadow-2xl border rounded-2xl">
+        <div className="w-max h-max p-2 bg-white drop-shadow-lg border rounded-2xl">
             <div
                 ref={containerRef}
                 className="relative max-w-[16rem] max-h-[20rem] sm:max-h-[24rem] sm:max-w-[20rem]  md:max-w-[22rem] md:max-h-[24rem] overflow-hidden rounded-xl"

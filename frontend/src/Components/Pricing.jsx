@@ -85,7 +85,7 @@ export default function PricingSection() {
     const { user } = useUser()
 
     return (
-        <div className="container mx-auto px-4 py-16 mt-24" id="pricing">
+        <div className="container mx-auto px-4 py-8 mt-32" id="pricing">
             <div className="text-center mb-12 relative">
                 <div className="inline-flex items-center gap-1 bg-sky-50 text-sky-700 rounded-full px-4 py-2 text-sm font-medium mb-6 shadow-sm">
                     <Sparkles className="h-4 w-4" />
