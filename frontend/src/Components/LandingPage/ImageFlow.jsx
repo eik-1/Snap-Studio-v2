@@ -1,164 +1,425 @@
 import { david7 as output } from "@/assets/image"
 import { david2, david3, david4 } from "@/assets/image"
-import { Camera, Sparkles, Upload } from "lucide-react"
+import { Camera, Sparkles, Upload, ArrowRight } from "lucide-react"
+import { motion, AnimatePresence } from "motion/react"
+import { useState, useEffect } from "react"
 
 const ImageFlow = () => {
+    const [typewriterText, setTypewriterText] = useState("")
+    const [showCursor, setShowCursor] = useState(true)
+    const [isTypingComplete, setIsTypingComplete] = useState(false)
+    
+    const fullPrompt = "Generate image of a man sitting in a restaurant and posing with a drink"
+    
+    useEffect(() => {
+        let index = 0
+        const timer = setInterval(() => {
+            if (index < fullPrompt.length) {
+                setTypewriterText(fullPrompt.slice(0, index + 1))
+                index++
+            } else {
+                setIsTypingComplete(true)
+                clearInterval(timer)
+            }
+        }, 80)
+        
+        return () => clearInterval(timer)
+    }, [])
+    
+    useEffect(() => {
+        const cursorTimer = setInterval(() => {
+            setShowCursor(prev => !prev)
+        }, 500)
+        
+        return () => clearInterval(cursorTimer)
+    }, [])
+
     const steps = [
         {
-            title: "Upload few of your images",
-            description: "Train the model with your images.",
+            title: "Upload Your Photos",
+            description: "Upload a few high-quality photos to train your personalized AI model",
             completed: true,
             images: [david2, david4, david3],
-            icon: <Upload className="text-white" size={24} />,
+            icon: <Upload className="text-white" size={20} />,
+            color: "purple",
         },
         {
-            title: "Write your Prompt",
-            description:
-                "Provide a suitable prompt to define the way you want your image",
+            title: "Craft Your Prompt", 
+            description: "Describe the scene you want to create with natural language",
             completed: true,
-            prompt: "Generate image of a man sitting in a restraunt and posing with a drink",
-            icon: <Sparkles className="text-white" size={24} />,
+            prompt: fullPrompt,
+            icon: <Sparkles className="text-white" size={20} />,
+            color: "indigo",
         },
         {
-            title: "Get your AI generated Images",
-            description:
-                "Get the photorealistic images and use them in your social and commercial applications",
+            title: "Get AI Magic",
+            description: "Receive stunning, photorealistic images ready for any use case",
             completed: false,
             resultImage: output,
-            icon: <Camera className="text-white" size={24} />,
+            icon: <Camera className="text-white" size={20} />,
+            color: "violet",
         },
     ]
 
+    const colorMap = {
+        purple: {
+            gradient: "from-purple-500 to-purple-600",
+            light: "from-purple-50 to-purple-100/50",
+            accent: "purple-500",
+            ring: "ring-purple-100",
+        },
+        indigo: {
+            gradient: "from-indigo-500 to-indigo-600", 
+            light: "from-indigo-50 to-indigo-100/50",
+            accent: "indigo-500",
+            ring: "ring-indigo-100",
+        },
+        violet: {
+            gradient: "from-violet-500 to-violet-600",
+            light: "from-violet-50 to-violet-100/50", 
+            accent: "violet-500",
+            ring: "ring-violet-100",
+        }
+    }
+
     return (
-        <div className=" mx-auto relative max-w-6xl lg:px-10 scale-90 ">
-            <div className="absolute -top-20 left-0  w-64 h-64 bg-purple-100 rounded-full blur-3xl"></div>
-            <div className="absolute top-1/3 right-0  w-72 h-72 bg-indigo-100 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 left-1/4 w-64 h-64 bg-indigo-100 rounded-full blur-3xl"></div>
+        <div className="w-full max-w-7xl mx-auto px-6 lg:px-8 mt-32 lg:py-12">
+            {/* Header */}
+            <div className="text-center mb-16">
+                <motion.h2 
+                    className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                >
+                    How It Works
+                </motion.h2>
+                <motion.p 
+                    className="text-lg text-gray-600 max-w-2xl mx-auto"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.1 }}
+                >
+                    Create stunning AI-generated photos of yourself in just three simple steps
+                </motion.p>
+            </div>
 
-            <div className="relative flex justify-center">
-                {/* Center Timeline */}
-                <div className="absolute top-0 bottom-0 rounded-md w-1.5 bg-gradient-to-b from-purple-500 via-indigo-500 to-indigo-400"></div>
+            {/* Cards Container */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-6 relative">
+                {/* Connection Lines - Desktop */}
+                <div className="hidden lg:block absolute top-1/2 left-1/3 w-1/3 h-0.5 bg-gradient-to-r from-gray-200 to-gray-300 -translate-y-1/2 z-0">
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-gray-300 rounded-full"></div>
+                </div>
+                <div className="hidden lg:block absolute top-1/2 right-1/3 w-1/3 h-0.5 bg-gradient-to-r from-gray-200 to-gray-300 -translate-y-1/2 z-0">
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-gray-300 rounded-full"></div>
+                </div>
 
-                <div className="relative w-full flex flex-col">
-                    {steps.map((step, index) => (
-                        <div key={index} className="mb-20">
-                            <div className="flex justify-center">
-                                <div
-                                    className={`w-10 h-10 rounded-full bg-gradient-to-br ${index === 0 ? "from-purple-400 to-purple-600" : index === 1 ? "from-indigo-400 to-indigo-600" : "from-indigo-400 to-indigo-600"}
-                  relative z-10 flex items-center justify-center shadow-lg border-2 border-white`}
-                                >
-                                    {step.icon}
-                                </div>
-                            </div>
-
-                            <div
-                                className={`flex w-full gap-8 justify-between items-center mt-12 ${index % 2 === 0 ? "flex-row-reverse" : "flex-row"}`}
+                {steps.map((step, index) => {
+                    const colors = colorMap[step.color]
+                    
+                    return (
+                        <motion.div
+                            key={index}
+                            className="relative z-10"
+                            initial={{ opacity: 0, y: 40 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: index * 0.2 }}
+                        >
+                            {/* Card */}
+                            <motion.div 
+                                className="bg-gray-50 border-white border-[6px] rounded-3xl p-8 shadow-lg    group relative overflow-hidden"
+                                
+                               
                             >
-                                <div
-                                    className={`w-1/2 flex flex-col ${index % 2 === 0 ? "md:items-end" : "md:items-start"}`}
-
-                                >
-                                    <div>
-                                    <h2 className="text-xl">{`Step ${index+1}`}</h2>
-                                    <h3
-                                        className={`text-xl md:text-3xl font-bold mb-2 bg-gradient-to-r  bg-clip-text text-transparent from-black to-black/75`}
+                                {/* Step Number & Icon */}
+                                <div className="flex items-center justify-between mb-6">
+                                    <motion.div 
+                                        className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${colors.gradient} flex items-center justify-center shadow-lg`}
+                                        whileHover={{ 
+                                            scale: 1.1,
+                                            rotate: 5,
+                                        }}
+                                        transition={{ duration: 0.2 }}
                                     >
+                                        {step.icon}
+                                    </motion.div>
+                                    <div className="text-sm font-bold text-gray-400">
+                                        0{index + 1}
+                                    </div>
+                                </div>
+
+                                {/* Content */}
+                                <div className="mb-8">
+                                    <h3 className="text-xl font-bold text-gray-900 mb-3">
                                         {step.title}
                                     </h3>
-                                    <p
-                                        className={`text-gray-600  text-base leading-relaxed max-w-md`}
-                                    >
+                                    <p className="text-gray-600 leading-relaxed">
                                         {step.description}
                                     </p>
-                                    <div
-                                        className={`h-1 w-full mt-4 rounded-full bg-gradient-to-r ${
-                                            index === 0
-                                                ? "from-purple-500 to-purple-300"
-                                                : index === 1
-                                                  ? "from-indigo-500 to-indigo-300"
-                                                  : "from-indigo-500 to-indigo-300"
-                                        }`}
-                                    ></div>
-
-                                    </div>
-                                   
-
-                                  
                                 </div>
 
-                                <div className="w-1/2 flex justify-center">
+                                {/* Visual Content */}
+                                <div className="min-h-[200px] flex items-center justify-center">
+                                    {/* Step 1: Upload Images with Bounce Effect */}
                                     {index === 0 && (
-                                        <div className="flex flex-col sm:flex-row justify-center relative">
-                                            <div className="absolute -inset-4 bg-purple-50/30 rounded-xl backdrop-blur-sm -z-10"></div>
-                                            <div className="absolute -right-4 -bottom-4 w-16 h-16 rounded-full border border-dashed border-purple-300 -z-10"></div>
-
-                                            {step.images.map((img, i) => (
-                                                <img
-                                                    key={i}
-                                                    src={img}
-                                                    alt={`Training ${i + 1}`}
-                                                    className={`w-20 h-20 md:w-28 md:h-28 object-cover shadow-lg shadow-neutral-500/20 rounded-lg transform 
-                            ${i === 0 && "-rotate-[30deg] translate-y-4 sm:-translate-y-2 border-2 border-white"} 
-                            ${i === 2 && "rotate-[30deg] -translate-y-2 sm:-translate-y-4  border-2 border-white"} 
-                            ${i === 1 && "-translate-y-1 sm:-translate-y-4 rotate-12 border-2 border-white"}`}
-                                                />
-                                            ))}
+                                        <div className="relative">
+                                            <div className="flex space-x-3">
+                                                {step.images.map((img, i) => (
+                                                    <motion.div
+                                                        key={i}
+                                                        className="relative cursor-pointer"
+                                                        initial={{ 
+                                                            opacity: 0, 
+                                                            scale: 0.8, 
+                                                            rotate: 0,
+                                                            y: 20
+                                                        }}
+                                                        animate={{ 
+                                                            opacity: 1, 
+                                                            scale: 1,
+                                                            rotate: i === 0 ? -8 : i === 2 ? 8 : 0,
+                                                            y: 0
+                                                        }}
+                                                        transition={{ 
+                                                            duration: 0.6, 
+                                                            delay: 0.1 * i,
+                                                            type: "spring",
+                                                            stiffness: 200
+                                                        }}
+                                                        whileHover={{
+                                                            scale: 1.1,
+                                                            y: -10,
+                                                            rotate: 0,
+                                                            transition: {
+                                                                type: "spring",
+                                                                stiffness: 400,
+                                                                damping: 10
+                                                            }
+                                                        }}
+                                                        whileTap={{
+                                                            scale: 0.95,
+                                                            transition: { duration: 0.1 }
+                                                        }}
+                                                    >
+                                                        <img
+                                                            src={img}
+                                                            alt={`Upload ${i + 1}`}
+                                                            className="w-16 h-20 object-cover rounded-xl shadow-lg border-2 border-white"
+                                                        />
+                                                    </motion.div>
+                                                ))}
+                                            </div>
+                                            
+                                            {/* Animated Upload Loader */}
+                                            <motion.div 
+                                                className={`absolute -top-3 -right-3 w-8 h-8 rounded-full bg-gradient-to-br ${colors.gradient} flex items-center justify-center shadow-lg`}
+                                                animate={{
+                                                    scale: [1, 1.2, 1],
+                                                    rotate: [0, 180, 360]
+                                                }}
+                                                transition={{
+                                                    duration: 2,
+                                                    repeat: Infinity,
+                                                    ease: "easeInOut"
+                                                }}
+                                            >
+                                                <Upload size={14} className="text-white" />
+                                            </motion.div>
+                                            
+                                            {/* Upload Progress Dots */}
+                                            <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                                                {[0, 1, 2].map((dot) => (
+                                                    <motion.div
+                                                        key={dot}
+                                                        className={`w-2 h-2 rounded-full bg-${colors.accent}`}
+                                                        animate={{
+                                                            scale: [0.8, 1.2, 0.8],
+                                                            opacity: [0.5, 1, 0.5]
+                                                        }}
+                                                        transition={{
+                                                            duration: 1.5,
+                                                            repeat: Infinity,
+                                                            delay: dot * 0.2
+                                                        }}
+                                                    />
+                                                ))}
+                                            </div>
                                         </div>
                                     )}
 
+                                    {/* Step 2: Typewriter Prompt */}
                                     {index === 1 && (
-                                        <div className="bg-gradient-to-br min-h-40 w-4/5 from-slate-50/85 to-indigo-50/85 backdrop-blur-xl p-5 rounded-xl mt-4 z-40 shadow-lg border border-white/80 relative">
-                                            <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-indigo-100 border border-indigo-200"></div>
-                                            <div className="absolute -bottom-2 -left-2 w-4 h-4 rounded-full bg-purple-100 border border-purple-200"></div>
-
-                                            <div className="flex flex-col gap-2">
-                                                <div className="flex justify-between items-center border-b border-indigo-200/70 pb-2">
-                                                    <h2 className="text-black/80 font-semibold flex items-center gap-2">
-                                                        <Sparkles
-                                                            size={16}
-                                                            className="text-indigo-500"
-                                                        />
-                                                        Prompt
-                                                    </h2>
-                                                    <div className="space-x-1.5 hidden sm:flex">
-                                                        <div className="w-2.5 h-2.5 rounded-full bg-indigo-400"></div>
-                                                        <div className="w-2.5 h-2.5 rounded-full bg-purple-400"></div>
-                                                        <div className="w-2.5 h-2.5 rounded-full bg-purple-400"></div>
+                                        <div className="w-full">
+                                            <motion.div 
+                                                className={`bg-gradient-to-br ${colors.light} rounded-2xl p-6 border border-gray-100`}
+                                                whileHover={{
+                                                    scale: 1.02,
+                                                    transition: { duration: 0.2 }
+                                                }}
+                                            >
+                                                <div className="flex items-center gap-2 mb-4">
+                                                    <motion.div
+                                                        animate={{ rotate: [0, 360] }}
+                                                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                                                    >
+                                                        <Sparkles size={16} className={`text-${colors.accent}`} />
+                                                    </motion.div>
+                                                    <span className="text-sm font-semibold text-gray-700">Your Prompt</span>
+                                                </div>
+                                                
+                                                <div className="text-gray-800 text-sm leading-relaxed font-medium min-h-[3rem] flex items-center">
+                                                    <span>"{typewriterText}"</span>
+                                                    <AnimatePresence>
+                                                        {(!isTypingComplete || showCursor) && (
+                                                            <motion.span
+                                                                className={`inline-block w-0.5 h-4 bg-${colors.accent} ml-1`}
+                                                                initial={{ opacity: 0 }}
+                                                                animate={{ opacity: showCursor ? 1 : 0 }}
+                                                                transition={{ duration: 0.1 }}
+                                                            />
+                                                        )}
+                                                    </AnimatePresence>
+                                                </div>
+                                                
+                                                <div className="flex justify-end mt-4">
+                                                    <div className="flex space-x-1">
+                                                        {[0, 1, 2].map((dot) => (
+                                                            <motion.div
+                                                                key={dot}
+                                                                className={`w-2 h-2 rounded-full bg-${colors.accent}/60`}
+                                                                animate={{
+                                                                    scale: [1, 1.3, 1],
+                                                                    opacity: [0.3, 1, 0.3]
+                                                                }}
+                                                                transition={{
+                                                                    duration: 1.5,
+                                                                    repeat: Infinity,
+                                                                    delay: dot * 0.3
+                                                                }}
+                                                            />
+                                                        ))}
                                                     </div>
                                                 </div>
-
-                                                <div className="relative pt-3">
-                                                    <p className="text-black/90 text-base leading-relaxed">
-                                                        {steps[index].prompt}
-                                                    </p>
-                                                </div>
-                                            </div>
+                                            </motion.div>
                                         </div>
                                     )}
 
+                                    {/* Step 3: Result with Magic Effects */}
                                     {index === 2 && (
-                                        <div className="mt-4 relative group">
-                                            <div className="absolute -inset-4 bg-purple-50/20 rounded-xl backdrop-blur-sm -z-10 transition-all duration-300"></div>
-                                            <div className="absolute w-full h-full -rotate-6 rounded-lg border-2 border-dashed border-purple-200/50 -z-10"></div>
-
-                                            <div className="absolute h-max w-max text-xs top-2 right-2 bg-gradient-to-r from-purple-400 to-purple-400 text-white px-3 py-1 rounded-full font-medium shadow-md border border-white/50">
-                                                AI Generated
-                                            </div>
-                                            <img
-                                                src={step.resultImage}
-                                                alt="AI Generated result"
-                                                className="h-40 w-40 md:w-60 md:h-60 rounded-lg object-cover shadow-lg shadow-neutral-600/40 transition-all duration-300   border-2 border-white"
-                                            />
-
-                                            <div className="absolute top-1/2 -right-6 w-6 h-6 rounded-full border border-dashed border-purple-300/80 transition-all duration-500"></div>
+                                        <div className="relative">
+                                            <motion.div
+                                                className="relative cursor-pointer"
+                                                initial={{ opacity: 0, scale: 0.9 }}
+                                                animate={{ opacity: 1, scale: 1 }}
+                                                transition={{ duration: 0.6, delay: 0.3 }}
+                                                whileHover={{
+                                                    scale: 1.05,
+                                                    rotateY: 5,
+                                                    transition: {
+                                                        type: "spring",
+                                                        stiffness: 300,
+                                                        damping: 20
+                                                    }
+                                                }}
+                                            >
+                                                <img
+                                                    src={step.resultImage}
+                                                    alt="AI Generated result"
+                                                    className="w-32 h-40 object-cover rounded-2xl shadow-xl border-2 border-white"
+                                                />
+                                                
+                                                {/* AI Badge with Pulse */}
+                                                <motion.div 
+                                                    className={`absolute -top-2 -right-2 bg-gradient-to-r ${colors.gradient} text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg`}
+                                                    animate={{
+                                                        scale: [1, 1.1, 1],
+                                                    }}
+                                                    transition={{
+                                                        duration: 2,
+                                                        repeat: Infinity,
+                                                        ease: "easeInOut"
+                                                    }}
+                                                >
+                                                    AI ✨
+                                                </motion.div>
+                                                
+                                                {/* Floating Sparkles */}
+                                                <motion.div 
+                                                    className="absolute -top-1 -left-1 w-3 h-3 bg-yellow-400 rounded-full"
+                                                    animate={{
+                                                        scale: [0.8, 1.2, 0.8],
+                                                        opacity: [0.6, 1, 0.6],
+                                                        x: [0, 5, 0],
+                                                        y: [0, -5, 0]
+                                                    }}
+                                                    transition={{
+                                                        duration: 2,
+                                                        repeat: Infinity,
+                                                        ease: "easeInOut"
+                                                    }}
+                                                />
+                                                <motion.div 
+                                                    className="absolute -bottom-2 -right-1 w-2 h-2 bg-purple-400 rounded-full"
+                                                    animate={{
+                                                        scale: [0.6, 1, 0.6],
+                                                        opacity: [0.4, 0.8, 0.4],
+                                                        x: [0, -3, 0],
+                                                        y: [0, 3, 0]
+                                                    }}
+                                                    transition={{
+                                                        duration: 1.8,
+                                                        repeat: Infinity,
+                                                        ease: "easeInOut",
+                                                        delay: 0.5
+                                                    }}
+                                                />
+                                                <motion.div 
+                                                    className="absolute top-1/2 -left-2 w-1.5 h-1.5 bg-blue-400 rounded-full"
+                                                    animate={{
+                                                        scale: [0.5, 1, 0.5],
+                                                        opacity: [0.3, 0.7, 0.3],
+                                                        x: [0, -2, 0],
+                                                    }}
+                                                    transition={{
+                                                        duration: 2.2,
+                                                        repeat: Infinity,
+                                                        ease: "easeInOut",
+                                                        delay: 1
+                                                    }}
+                                                />
+                                            </motion.div>
                                         </div>
                                     )}
                                 </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+
+                               
+
+                                {/* Hover Arrow */}
+                                <motion.div 
+                                    className="absolute top-8 right-8"
+                                    initial={{ opacity: 0, x: 10 }}
+                                    whileHover={{ opacity: 1, x: 0 }}
+                                    transition={{ duration: 0.2 }}
+                                >
+                                    <ArrowRight size={20} className="text-gray-400" />
+                                </motion.div>
+                            </motion.div>
+                        </motion.div>
+                    )
+                })}
             </div>
+
+            {/* Call to Action */}
+            <motion.div 
+                className="text-center mt-16"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+            >
+                <button className="group relative px-6 py-4 bg-gray-900 text-sm lg:text-base text-white font-semibold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1">
+                    <span className="relative z-10">Start Creating</span>
+                  </button>
+            </motion.div>
         </div>
     )
 }
