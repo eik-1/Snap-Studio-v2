@@ -1,4 +1,3 @@
-
 import Footer from "@/Components/LandingPage/Footer"
 import HeadshotSection from "@/Components/LandingPage/HeadshotSection"
 import CustomImageSection from "@/Components/LandingPage/CustomImageSection"
@@ -8,61 +7,63 @@ import PricingSection from "@/Components/Pricing"
 import Window from "@/Components/Window"
 import FAQSection from "@/Components/LandingPage/FAQSection"
 import { Helmet } from "react-helmet-async"
+import {home} from "@/assets/image"
+import CompareSection from "@/Components/LandingPage/CompareSection"
+import ImageComparisonSlider from "@/Components/LandingPage/InputOutputCompare"
 
 export default function LandingPage() {
     return (
         <>
-        <Helmet>
-        <title>SnapStudio - AI Headshot & Photo Generator</title>
-      <meta name="description" content="Generate AI-powered headshots, Images and clothing models instantly." />
-      <meta name="keywords" content="AI headshot generator, AI photo editor, AI image generator AI marketing poster, AI clothing model" />
-  
-        </Helmet>
-        <div className="relative  mx-auto">
-            <Hero />
-            <div className="max-w-5xl flex justify-center max-h-[32rem] mx-auto md:mt-32 mt-24">
-            <Window>
-                <video
-                    alt="app running"
-                    className="h-full w-full object-fill"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
+            <Helmet>
+                <title>SnapStudio - AI Headshot & Photo Generator</title>
+                <meta
+                    name="description"
+                    content="Generate AI-powered headshots, Images and clothing models instantly."
+                />
+                <meta
+                    name="keywords"
+                    content="AI headshot generator, AI photo editor, AI image generator AI marketing poster, AI clothing model"
+                />
+            </Helmet>
+            <div className="relative  mx-auto">
+                <Hero />
+                <div className="max-w-5xl flex justify-center max-h-[48rem] mx-auto md:mt-12 relative rounded-3xl border">
+                    <div className="z-10 absolute h-32 w-40 md:h-60 md:w-96 left-1/2 -translate-x-1/2 bg-gradient-to-r from-sky-300 to-purple-300 p-4 blur-[80px]"></div>
+                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 h-40 w-screen  bg-gradient-to-t from-white via-white/90 to-transparent z-40"></div>
                     
-                >
-                    <source src={`https://res.cloudinary.com/doac8yyie/video/upload/f_auto:video,q_auto/qwws1afgwc3pb6xdv5mp`} type="video/mp4" />
-                    Your browser does not support the video tag.
-                </video>
-            </Window>
+                   
+                    
+                    <Window>
+                      {/*  <video
+                            alt="app running"
+                            className="h-full w-full object-fill"
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                        >
+                            <source
+                                src={`https://res.cloudinary.com/doac8yyie/video/upload/f_auto:video,q_auto/qwws1afgwc3pb6xdv5mp`}
+                                type="video/mp4"
+                            />
+                            Your browser does not support the video tag.
+                        </video>*/}
+                        <img src={home} alt="df" className="h-full w-full object-cover border" />
+                    </Window>
+                </div>
+
+             <CompareSection/>
+
+                <ImageFlow />
+                <div className="mt-24" id="features">
+                    <CustomImageSection />
+                    <HeadshotSection />
+                </div>
+
+                <PricingSection />
+                <FAQSection />
+                <Footer />
             </div>
-           
-            <h1 className="relative z-[30] text-4xl  text-center mt-24 md:mt-36 mb-24 font-bold p-2"
-            id="howItWorks"
-            >
-            <span className=" bg-gradient-to-r from-black to-black/75 bg-clip-text text-transparent" >
-            Upload, Train, and Create – Effortless Visual 
-            <span
-                className="bg-gradient-to-r from-purple-600 to-indigo-600 text-transparent bg-clip-text"
-            >
-            &nbsp;Magic
-            </span>
-            </span>
-        
-            
-        
-           
-            </h1>
-            <ImageFlow />
-            <div className="mt-24" id="features">
-            <CustomImageSection />
-            <HeadshotSection />
-            </div>
-           
-            <PricingSection />
-            <FAQSection />
-            <Footer />
-        </div>
         </>
     )
 }
