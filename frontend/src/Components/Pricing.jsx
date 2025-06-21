@@ -87,7 +87,7 @@ export default function PricingSection() {
     return (
         <div className="container mx-auto px-4 py-16 mt-24" id="pricing">
             <div className="text-center mb-12 relative">
-                <div className="inline-flex items-center gap-1 bg-gradient-to-r from-amber-100 to-yellow-100 text-amber-700 rounded-full px-4 py-2 text-sm font-medium mb-6 shadow-sm">
+                <div className="inline-flex items-center gap-1 bg-sky-50 text-sky-700 rounded-full px-4 py-2 text-sm font-medium mb-6 shadow-sm">
                     <Sparkles className="h-4 w-4" />
                     <span>Launch discount — 25% OFF</span>
                     <Sparkles className="h-4 w-4" />
@@ -105,7 +105,7 @@ export default function PricingSection() {
                 <div className="flex items-center justify-center space-x-4 bg-gray-50 p-3 rounded-full w-max mx-auto shadow-sm">
                     <label
                         htmlFor="pricing-switch"
-                        className={`text-sm font-medium ${!isAnnual ? "text-purple-700" : "text-gray-500"}`}
+                        className={`text-sm font-medium ${!isAnnual ? "text-gray-900" : "text-gray-500"}`}
                     >
                         Monthly
                     </label>
@@ -114,12 +114,12 @@ export default function PricingSection() {
                             id="pricing-switch"
                             checked={isAnnual}
                             onCheckedChange={setIsAnnual}
-                            className={`${isAnnual ? "bg-purple-600" : "bg-purple-400"} transition-colors duration-200`}
+                        
                         />
                     </div>
                     <label
                         htmlFor="pricing-switch"
-                        className={`text-sm font-medium ${isAnnual ? "text-purple-700" : "text-gray-500"}`}
+                        className={`text-sm font-medium ${isAnnual ? "text-gray-900" : "text-gray-500"}`}
                     >
                         Annual
                     </label>
@@ -141,14 +141,14 @@ export default function PricingSection() {
                         return (
                             <Card
                                 key={plan.title}
-                                className={`flex flex-col rounded-2xl transition-all duration-300 hover:shadow-lg ${
+                                className={`flex flex-col rounded-2xl transition-all duration-300 shadow-lg ${
                                     plan.highlight
-                                        ? "border-purple-300 border-2 bg-gradient-to-b from-white to-purple-50"
+                                        ? "border-white border-8 bg-gray-50 "
                                         : "hover:border-gray-300"
                                 }`}
                             >
                                 {plan.highlight ? (
-                                    <div className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-center py-2 text-sm rounded-t-xl font-medium tracking-wide">
+                                    <div className="bg-gray-900 text-white text-center py-2 text-sm rounded-t-xl font-medium tracking-wide">
                                         MOST POPULAR
                                     </div>
                                 ) : (
@@ -156,7 +156,7 @@ export default function PricingSection() {
                                 )}
                                 <CardHeader>
                                     <CardTitle
-                                        className={`text-2xl ${plan.highlight ? "text-purple-700" : "text-gray-800"}`}
+                                        className={`text-2xl ${plan.highlight ? "text-green-500" : "text-orange-500"}`}
                                     >
                                         {plan.title}
                                     </CardTitle>
@@ -195,10 +195,10 @@ export default function PricingSection() {
                                                 className="flex items-start gap-3"
                                             >
                                                 <span
-                                                    className={`flex-shrink-0 h-5 w-5 rounded-full ${plan.highlight ? "bg-purple-100" : "bg-gray-100"} flex items-center justify-center mt-0.5`}
+                                                    className={`flex-shrink-0 h-5 w-5 rounded-full bg-sky-50 flex items-center justify-center mt-0.5`}
                                                 >
                                                     <Check
-                                                        className={`h-3 w-3 ${plan.highlight ? "text-purple-600" : "text-gray-600"}`}
+                                                        className={`h-3 w-3  text-sky-600`}
                                                     />
                                                 </span>
                                                 <span className="text-gray-700">
@@ -219,8 +219,8 @@ export default function PricingSection() {
                                             }
                                             className={`w-full py-3 rounded-xl text-center font-medium transition-all duration-200 ${
                                                 plan.highlight
-                                                    ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:shadow-md hover:shadow-purple-200"
-                                                    : "bg-white border border-purple-300 text-purple-700 hover:bg-purple-50"
+                                                    ? "bg-gray-900 text-white hover:shadow-md hover:scale-105 "
+                                                    : "bg-white border border-gray-300 text-gray-900 hover:bg-gray-50 hover:shadow-sm hover:scale-105  "
                                             }`}
                                             rel="noreferrer"
                                         >
@@ -231,10 +231,10 @@ export default function PricingSection() {
                                     ) : (
                                         <button
                                             onClick={() => navigate("/login")}
-                                            className={`w-full py-3 rounded-xl text-center font-medium transition-all duration-200 ${
+                                           className={`w-full py-3 rounded-xl text-center font-medium transition-all duration-200 ${
                                                 plan.highlight
-                                                    ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:shadow-md hover:shadow-purple-200"
-                                                    : "bg-white border border-purple-300 text-purple-700 hover:bg-purple-50"
+                                                    ? "bg-gray-900 text-white hover:shadow-md hover:scale-105 "
+                                                    : "bg-white border border-gray-300 text-gray-900 hover:bg-gray-50 hover:shadow-sm hover:scale-105  "
                                             }`}
                                         >
                                             {plan.highlight
