@@ -34,6 +34,8 @@ import nyc1 from "./other-images/nyc1.png"
 import paris from "./other-images/paris.jpg"
 import skateboard from "./other-images/skateboard.jpg"
 
+import Home from "./home.png"
+
 export {
     Black,
     CityLights,
@@ -50,6 +52,7 @@ export {
     david5,
     david6,
     david7,
+    Home,
 
     bow,
     img1,
