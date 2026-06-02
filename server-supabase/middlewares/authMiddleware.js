@@ -1,11 +1,18 @@
 import dotenv from "dotenv";
-import jwt from "jsonwebtoken";
+import { createRemoteJWKSet, jwtVerify } from "jose";
 
 import { client } from "../configs/posthog.js";
 import ApiResponse from "../utils/ApiResponse.js";
 
 dotenv.config();
-const SUPABASE_JWT_SECRET = process.env.SUPABASE_JWT_SECRET;
+
+// Supabase signs access tokens with asymmetric keys (ES256). Verify each token
+// against the project's published JWKS — jose fetches the key set once and
+// caches/refreshes it (handling the `kid` lookup and key rotation) automatically.
+const SUPABASE_URL = process.env.SUPABASE_URL?.replace(/\/$/, "");
+const JWKS = createRemoteJWKSet(
+  new URL(`${SUPABASE_URL}/auth/v1/.well-known/jwks.json`)
+);
 
 export default async function isUserAuthenticated(req, res, next) {
   const authHeader = req.header("Authorization");
@@ -27,11 +34,10 @@ export default async function isUserAuthenticated(req, res, next) {
   }
 
   try {
-    const decode = jwt.verify(token, SUPABASE_JWT_SECRET);
-    if (!decode) {
-      throw new Error("Invalid token");
-    }
-    req.userId = decode.sub || undefined;
+    const { payload } = await jwtVerify(token, JWKS, {
+      issuer: `${SUPABASE_URL}/auth/v1`,
+    });
+    req.userId = payload.sub || undefined;
     next();
   } catch (err) {
     client.captureException(err);
