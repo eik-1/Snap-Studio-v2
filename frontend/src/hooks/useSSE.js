@@ -3,7 +3,7 @@ import { useEffect } from "react"
 export default function useSSE(onMessage, userId) {
     useEffect(() => {
         const eventSource = new EventSource(
-            `http://localhost:3000/sse/events/${userId}`,
+            `${import.meta.env.VITE_API_URL}/sse/events/${userId}`,
         )
 
         eventSource.onMessage = (event) => {

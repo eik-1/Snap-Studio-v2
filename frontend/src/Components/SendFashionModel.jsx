@@ -32,7 +32,7 @@ const SendFashionModel = () => {
         formData.append("userEmail", user.email)
         formData.append("numberOfImages", 2)
 
-        await axios.post("http://localhost:3000/fal/fashion", formData, {
+        await axios.post(`${import.meta.env.VITE_API_URL}/fal/fashion`, formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },

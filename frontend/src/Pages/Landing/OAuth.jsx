@@ -19,11 +19,12 @@ function OAuth() {
                 throw new Error(userError.message)
             }
             
-            const firstName = user.user_metadata.full_name.split(" ")[0]
-            let lastName = user.user_metadata.full_name.split(" ")[1] || ""
+            const fullName =
+                user.user_metadata.full_name || user.user_metadata.name || ""
+            const [firstName = "", lastName = ""] = fullName.split(" ")
             const userData = {
                 email: user.email,
-                name: user.user_metadata.full_name,
+                name: fullName,
                 first_name: firstName,
                 last_name: lastName,
                 $id: user.id,
@@ -32,7 +33,12 @@ function OAuth() {
             setUser(userData)
             toast({ description: "Logged in successfully" })
         }
-        handleOAuth().then(() => navigate("/app"))
+        handleOAuth()
+            .then(() => navigate("/app"))
+            .catch((err) => {
+                toast({ description: err.message || "Login failed" })
+                navigate("/login")
+            })
     }, [navigate, setUser])
 
     return (
